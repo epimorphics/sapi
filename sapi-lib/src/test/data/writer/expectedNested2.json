@@ -1,0 +1,23 @@
+[
+{ 
+  "@id" : "http://localhost/top" ,
+  "label" : [ "top2", "top1" ] ,
+  "first" : { 
+    "@id" : "http://localhost/child1" ,
+    "first_label" : [ { 
+      "@value" : "child 1" ,
+      "@language" : "cy"
+    }
+    , { 
+      "@value" : "child 1" ,
+      "@language" : "en"
+    }
+     ]
+  }
+   ,
+  "second" : { 
+    "@id" : "http://localhost/child2" ,
+    "second_label" : "child 2"
+  }
+}
+]

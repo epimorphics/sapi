@@ -1,0 +1,29 @@
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+
+@prefix  ex:  <http://localhost/>
+
+ex:top
+    rdf:type ex:Root;
+    rdfs:label "top1" ;
+    rdfs:label "top2" ;
+    ex:first   ex:child1;
+    ex:second ex:child2;
+    .
+       
+ex:child1
+    rdfs:label "child 1"@en;
+    rdfs:label "child 1"@cy;
+    .
+    
+ex:child2
+    rdfs:label "child 2";
+    .
+    
+
+    
+    

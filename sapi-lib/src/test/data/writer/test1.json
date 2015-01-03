@@ -1,0 +1,43 @@
+{ 
+  "@id" : "http://localhost/resource" ,
+  "boolean" : true ,
+  "date" : "2014-12-10" ,
+  "dateTime" : "2014-12-10T09:30:00" ,
+  "double" : 23.5 ,
+  "float" : 23.5 ,
+  "int" : 42 ,
+  "lang1" : {
+      "@language" : "en" ,
+      "@value" : "foo"
+    } ,
+  "lang2" : [ 
+      { 
+        "@language" : "cy" ,
+        "@value" : "foobar"
+      } ,
+      { 
+        "@language" : "en" ,
+        "@value" : "foo"
+      }
+    ] ,
+  "nest1" : {
+      "a" : "a" ,
+      "b" : "b"
+    } ,
+  "nest2" : [ 
+      { 
+        "a" : "a2" ,
+        "b" : "b2"
+      } ,
+      { 
+        "a" : "a1" ,
+        "b" : "b1"
+      }
+    ] ,
+  "ref" : {
+      "@id" : "http://localhost/resource2" ,
+      "label" : "resource 2"
+    } ,
+  "string" : "a string" ,
+  "type" : "http://localhost/Class"
+}

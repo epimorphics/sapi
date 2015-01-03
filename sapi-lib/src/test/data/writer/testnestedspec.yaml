@@ -1,0 +1,16 @@
+# Example SelectMapping with nesting
+prefixes : 
+  rdf  : "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  rdfs : "http://www.w3.org/2000/01/rdf-schema#"
+  ex   : "http://localhost/"
+baseQuery : "?id a ex:Root ."
+props :
+  - "rdfs:label"
+  - prop   : "ex:first"
+    nested :
+      - { name : "first_label", prop : "rdfs:label" }
+      - { name : "first_child", prop : "ex:child", optional : true }
+  - prop   : "ex:second"
+    nested :
+      - { name : "second_label", prop : "rdfs:label" }
+      - { name : "second_child", prop : "ex:child", optional : true }

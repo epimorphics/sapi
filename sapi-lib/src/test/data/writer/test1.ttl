@@ -1,0 +1,27 @@
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+
+@prefix  ex:  <http://localhost/>
+
+ex:resource
+    a ex:Class;
+    ex:string    "a string";
+    ex:double    23.5;
+    ex:int       42;
+    ex:float     "23.5"^^xsd:double;
+    ex:boolean   true;
+    ex:dateTime  "2014-12-10T09:30:00"^^xsd:dateTime;
+    ex:date      "2014-12-10"^^xsd:date;
+    ex:nest1     [ex:a "a"; ex:b "b"];
+    ex:nest2     [ex:a "a1"; ex:b "b1"],  [ex:a "a2"; ex:b "b2"];
+    ex:lang1      "foo"@en;
+    ex:lang2      "foo"@en, "foobar"@cy;
+    ex:ref       ex:resource2;
+    .
+    
+ex:resource2  rdfs:label "resource 2" .
+    

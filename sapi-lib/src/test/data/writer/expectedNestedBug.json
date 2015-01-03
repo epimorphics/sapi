@@ -1,0 +1,27 @@
+[ { 
+  "@id" : "http://localhost/a4" ,
+  "label" : "a4" ,
+  "warning" : { 
+    "@id" : "http://localhost/w2" ,
+    "description" : "Warning 2" ,
+    "severity" : 2
+  }
+}
+, { 
+  "@id" : "http://localhost/a3" ,
+  "label" : "a3"
+}
+, { 
+  "@id" : "http://localhost/a2" ,
+  "label" : "a2" ,
+  "warning" : { 
+    "@id" : "http://localhost/w1" ,
+    "description" : "Warning 1" ,
+    "severity" : 1
+  }
+}
+, { 
+  "@id" : "http://localhost/a1" ,
+  "label" : "a1"
+}
+ ]

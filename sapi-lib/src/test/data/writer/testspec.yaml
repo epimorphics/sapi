@@ -1,0 +1,10 @@
+# Example SelectMapping using in tests
+prefixes : 
+  rdf : "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  rdfs : "http://www.w3.org/2000/01/rdf-schema#"
+baseQuery : "?id a rdfs:Class ."
+props :
+  - "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+  - { prop : "http://www.w3.org/2000/01/rdf-schema#label", optional : true }
+  - { prop : "rdfs:comment", optional : true }
+  - { prop : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", name : mytype }
