@@ -1,0 +1,199 @@
+@prefix dc:    <http://purl.org/dc/elements/1.1/> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix void:  <http://rdfs.org/ns/void#> .
+@prefix qb:    <http://purl.org/linked-data/cube#> .
+@prefix org:   <http://www.w3.org/ns/org#> .
+@prefix version: <http://purl.org/linked-data/version#> .
+@prefix unit:  <http://qudt.org/1.1/vocab/unit> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time:  <http://www.w3.org/2006/time#> .
+@prefix reg:   <http://purl.org/linked-data/registry#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix api:   <http://purl.org/linked-data/api/vocab#> .
+@prefix rt:    <http://environment.data.gov.uk/flood-monitoring/def/core/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+
+<http://environment.data.gov.uk/flood-monitoring/id/stations/E1204>
+        a                    rt:Station ;
+        rdfs:label           "WEEDON FSR" ;
+        rt:gridReference     "SP60985938" ;
+        rt:stationReference  "E1204" ;
+        rt:wiskiID           "L32069" ;
+        skos:notation        "E1204" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/stations/E1029>
+        a                    rt:Station ;
+        rdfs:label           "BURGH SLUICE DOORS" ;
+        rt:stationReference  "E1029" ;
+        rt:wiskiID           "L30044" ;
+        skos:notation        "E1029" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/measures/E1029/level-i-15_min-m>
+        a                    rt:Measure , rt:WaterLevel ;
+        rdfs:label           "BURGH SLUICE DOORS - level-i-15_min-m" ;
+        rt:parameterName     "Water Level" ;
+        rt:period            15 ;
+        rt:qualifier         "Stage" ;
+        rt:station           <http://environment.data.gov.uk/flood-monitoring/id/stations/E1029> ;
+        rt:stationReference  "E1029" ;
+        rt:unit              unit:Meter ;
+        rt:unitName          "m" ;
+        rt:valueType         rt:instantaneous ;
+        rt:wiskiID           "L30044" ;
+        skos:notation        "E1029/level-i-15_min-m" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/measures/E1534test/level-i-1_h-m>
+        a                    rt:Measure , rt:WaterLevel ;
+        rdfs:label           "TESTING - level-i-1_h-m" ;
+        rt:parameterName     "Water Level" ;
+        rt:period            60 ;
+        rt:qualifier         "Stage" ;
+        rt:station           <http://environment.data.gov.uk/flood-monitoring/id/stations/E1534test> ;
+        rt:stationReference  "E1534test" ;
+        rt:unit              unit:Meter ;
+        rt:unitName          "m" ;
+        rt:wiskiID           "29004" ;
+        skos:notation        "E1534test/level-i-1_h-m" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/measures/E1534/level-i-15_min-m>
+        a                    rt:WaterLevel , rt:Measure ;
+        rdfs:label           "BISHOPBRIDGE R ANCHOLME GS - level-i-15_min-m" ;
+        rt:parameterName     "Water Level" ;
+        rt:period            15 ;
+        rt:qualifier         "Stage" ;
+        rt:station           <http://environment.data.gov.uk/flood-monitoring/id/stations/E1534> ;
+        rt:stationReference  "E1534" ;
+        rt:unit              unit:Meter ;
+        rt:unitName          "m" ;
+        rt:valueType         rt:instantaneous ;
+        rt:wiskiID           "29004" ;
+        skos:notation        "E1534/level-i-15_min-m" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/stations/E1367>
+        a                    rt:Station ;
+        rdfs:label           "NUNN MILLS SLUICE OLD" ;
+        rt:stationReference  "E1367" ;
+        skos:notation        "E1367" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/measures/E1204/level-i-15_min-mAOD>
+        a                    rt:WaterLevel , rt:Measure ;
+        rdfs:label           "WEEDON FSR - level-i-15_min-mAOD" ;
+        rt:datumType         rt:datumAOD ;
+        rt:parameterName     "Water Level" ;
+        rt:period            15 ;
+        rt:qualifier         "Stage" ;
+        rt:station           <http://environment.data.gov.uk/flood-monitoring/id/stations/E1204> ;
+        rt:stationReference  "E1204" ;
+        rt:unit              unit:Meter ;
+        rt:unitName          "mAOD" ;
+        rt:valueType         rt:instantaneous ;
+        rt:wiskiID           "L32069" ;
+        skos:notation        "E1204/level-i-15_min-mAOD" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/measures/E1293/flow-i-15_min-m3_s>
+        a                    rt:Measure , rt:Flow ;
+        rdfs:label           "SOUTHBRIDGE GS - flow-i-15_min-m3_s" ;
+        rt:parameterName     "Flow" ;
+        rt:period            15 ;
+        rt:qualifier         "Stage" ;
+        rt:station           <http://environment.data.gov.uk/flood-monitoring/id/stations/E1293> ;
+        rt:stationReference  "E1293" ;
+        rt:unit              unit:CubicMeterPerSecond ;
+        rt:unitName          "m3/s" ;
+        rt:valueType         rt:instantaneous ;
+        rt:wiskiID           "U32001" ;
+        skos:notation        "E1293/flow-i-15_min-m3_s" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/stations/E1382>
+        a                    rt:Station ;
+        rdfs:label           "LOWER RINGSTEAD SLUICE" ;
+        rt:stationReference  "E1382" ;
+        skos:notation        "E1382" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/stations/E21188>
+        a                    rt:Station ;
+        rdfs:label           "LEIGHTON BUZZARD GS" ;
+        rt:stationReference  "E21188" ;
+        skos:notation        "E21188" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/measures/E1367/level-i-15_min-mAOD>
+        a                    rt:Measure , rt:WaterLevel ;
+        rdfs:label           "NUNN MILLS SLUICE OLD - level-i-15_min-mAOD" ;
+        rt:datumType         rt:datumAOD ;
+        rt:parameterName     "Water Level" ;
+        rt:period            15 ;
+        rt:qualifier         "Stage" ;
+        rt:station           <http://environment.data.gov.uk/flood-monitoring/id/stations/E1367> ;
+        rt:stationReference  "E1367" ;
+        rt:unit              unit:Meter ;
+        rt:unitName          "mAOD" ;
+        rt:valueType         rt:instantaneous ;
+        skos:notation        "E1367/level-i-15_min-mAOD" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/stations/E1534test>
+        a                    rt:Station ;
+        rdfs:label           "TESTING" ;
+        rt:stationReference  "E1534test" ;
+        rt:wiskiID           "29004" ;
+        skos:notation        "E1534test" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/stations/E1534>
+        a                    rt:Station ;
+        rdfs:label           "BISHOPBRIDGE R ANCHOLME GS" ;
+        rt:stationReference  "E1534" ;
+        rt:wiskiID           "29004" ;
+        skos:notation        "E1534" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/measures/E1382/level-i-15_min-mAOD>
+        a                    rt:WaterLevel , rt:Measure ;
+        rdfs:label           "LOWER RINGSTEAD SLUICE - level-i-15_min-mAOD" ;
+        rt:datumType         rt:datumAOD ;
+        rt:parameterName     "Water Level" ;
+        rt:period            15 ;
+        rt:qualifier         "Stage" ;
+        rt:station           <http://environment.data.gov.uk/flood-monitoring/id/stations/E1382> ;
+        rt:stationReference  "E1382" ;
+        rt:unit              unit:Meter ;
+        rt:unitName          "mAOD" ;
+        rt:valueType         rt:instantaneous ;
+        skos:notation        "E1382/level-i-15_min-mAOD" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/measures/E21188/flow-i-15_min-m3_s>
+        a                    rt:Flow , rt:Measure ;
+        rdfs:label           "LEIGHTON BUZZARD GS - flow-i-15_min-m3_s" ;
+        rt:parameterName     "Flow" ;
+        rt:period            15 ;
+        rt:qualifier         "Stage" ;
+        rt:station           <http://environment.data.gov.uk/flood-monitoring/id/stations/E21188> ;
+        rt:stationReference  "E21188" ;
+        rt:unit              unit:CubicMeterPerSecond ;
+        rt:unitName          "m3/s" ;
+        rt:valueType         rt:instantaneous ;
+        skos:notation        "E21188/flow-i-15_min-m3_s" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/stations/E1293>
+        a                    rt:Station ;
+        rdfs:label           "SOUTHBRIDGE GS" ;
+        rt:stationReference  "E1293" ;
+        rt:wiskiID           "U32001" ;
+        skos:notation        "E1293" .
+
+<http://environment.data.gov.uk/flood-monitoring/id/measures/E2846/level-i-15_min-m>
+        a                    rt:WaterLevel , rt:Measure ;
+        rdfs:label           "BISHOPBRIDGE R RASE GS - level-i-15_min-m" ;
+        rt:RLOIid            "6239" ;
+        rt:parameterName     "Water Level" ;
+        rt:period            15 ;
+        rt:qualifier         "Stage" ;
+        rt:station           <http://environment.data.gov.uk/flood-monitoring/id/stations/E2846> ;
+        rt:stationReference  "E2846" ;
+        rt:unit              unit:Meter ;
+        rt:unitName          "m" ;
+        rt:valueType         rt:instantaneous ;
+        rt:wiskiID           "29005" ;
+        skos:notation        "E2846/level-i-15_min-m" .

@@ -1,0 +1,66 @@
+/******************************************************************
+ * File:        LogRequestFilter.java
+ * Created by:  Dave Reynolds
+ * Created on:  14 Dec 2014
+ * 
+ * (c) Copyright 2014, Epimorphics Limited
+ *
+ *****************************************************************/
+
+package com.epimorphics.simpleAPI.webapi;
+
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicLong;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.epimorphics.util.NameUtils;
+
+/**
+ * A Filter that can be added to filter chain to log all incoming requests and
+ * the corresponding response (with response code and execution time).
+ */
+public class LogRequestFilter implements Filter {
+    public static final String TRANSACTION_ATTRIBUTE = "transaction";
+    public static final String START_TIME_ATTRIBUTE  = "startTime";
+    
+    static final Logger log = LoggerFactory.getLogger( LogRequestFilter.class );
+    
+    protected static AtomicLong transactionCount = new AtomicLong(0);
+
+  
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest)request;
+        HttpServletResponse httpResponse = (HttpServletResponse)response;
+        String path = httpRequest.getRequestURI();
+        String query = httpRequest.getQueryString();
+        long transaction = transactionCount.incrementAndGet();
+        long start = System.currentTimeMillis();
+        
+        log.info( String.format("Request  [%d] : %s", transaction, path) + (query == null ? "" : ("?" + query)) );
+        chain.doFilter(request, response);        
+        log.info( String.format("Response [%d] : %d (%s)", transaction, httpResponse.getStatus(),
+                NameUtils.formatDuration(System.currentTimeMillis() - start) ) );
+    }
+
+    @Override
+    public void destroy() {
+    }
+
+}
