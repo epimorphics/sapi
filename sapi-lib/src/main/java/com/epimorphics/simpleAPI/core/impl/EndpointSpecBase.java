@@ -9,12 +9,15 @@
 
 package com.epimorphics.simpleAPI.core.impl;
 
+import java.util.List;
+
 import org.apache.jena.atlas.json.JsonObject;
 
 import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.EndpointSpec;
 import com.epimorphics.simpleAPI.core.EndpointSpecFactory;
+import com.epimorphics.simpleAPI.core.JSONMapEntry;
 import com.epimorphics.simpleAPI.core.NodeWriterPolicy;
 import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.hp.hpl.jena.rdf.model.Property;
@@ -28,10 +31,16 @@ import com.hp.hpl.jena.rdf.model.Resource;
 public abstract class EndpointSpecBase implements EndpointSpec, NodeWriterPolicy {
     protected API api;
     protected JsonObject config;
+    protected List<JSONMapEntry> mapping; // Optional
+    protected String query;   // Optional, query may be constructed from mapping specification
 
     public EndpointSpecBase(API api, JsonObject config) {
         this.api = api;
         this.config = config;
+    }
+    
+    public void setQueryTemplate(String query) {
+        this.query = query;
     }
     
     @Override
@@ -55,6 +64,10 @@ public abstract class EndpointSpecBase implements EndpointSpec, NodeWriterPolicy
         return JsonUtil.getStringValue(config, EndpointSpecFactory.NAME);
     }
 
+    public void setMapping(List<JSONMapEntry> mapping) {
+        this.mapping = mapping;
+    }
+    
     // ---- Global default writer policy ------------------------------------
     
     @Override

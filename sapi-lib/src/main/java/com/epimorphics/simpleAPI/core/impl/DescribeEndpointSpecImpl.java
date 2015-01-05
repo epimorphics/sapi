@@ -21,14 +21,9 @@ import com.epimorphics.simpleAPI.writers.KeyValueSet;
 import com.hp.hpl.jena.rdf.model.Resource;
 
 public class DescribeEndpointSpecImpl extends EndpointSpecBase implements DescribeEndpointSpec {
-    protected String query = "DESCRIBE ?id";
 
     public DescribeEndpointSpecImpl(API api, JsonObject config) {
         super(api, config);
-    }
-    
-    public void setQueryTemplate(String query) {
-        this.query = query;
     }
 
     @Override
