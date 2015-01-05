@@ -1,0 +1,61 @@
+{ 
+  "@context" : "http://environment.data.gov.uk/flood-monitoring/doc/context-TBD.jsonld" ,
+  "meta" : { 
+    "publisher" : "Environment Agency" ,
+    "licence" : "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ,
+    "documentation" : "http://environment.data.gov.uk/flood-monitoring/doc/api-documentation.html" ,
+    "version" : "0.1" ,
+    "comment" : "WARNING: Pre-alpha test service, data may not be up to date"
+  }
+   ,
+  "item" : { 
+    "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/012WACTL12" ,
+    "county" : "Lancashire" ,
+    "currentWarning" : { 
+      "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floods/90058" ,
+      "description" : "Low lying coastline at Blackpool" ,
+      "eaAreaName" : "North" ,
+      "eaRegionName" : "North West" ,
+      "floodArea" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/012WACTL12" ,
+      "floodAreaID" : "012WACTL12" ,
+      "isTidal" : true ,
+      "severity" : "Warning no longer in force" ,
+      "severityLevel" : 4 ,
+      "timeMessageChanged" : "2014-10-21T13:40:00" ,
+      "timeRaised" : "2014-10-21T13:40:00" ,
+      "timeSeverityChanged" : "2014-10-21T13:40:00" ,
+      "type" : "http://environment.data.gov.uk/flood-monitoring/def/core/FloodAlertOrWarning"
+    }
+     ,
+    "description" : { 
+      "@value" : "Promenades and adjacent roads (Princess Parade, A584, New South Promenade) and car parks, piers and the swimming pool/leisure centre." ,
+      "@language" : "en"
+    }
+     ,
+    "eaAreaName" : "North" ,
+    "eaRegionName" : [ { 
+      "@value" : "GG Lloegr" ,
+      "@language" : "cy"
+    }
+    , { 
+      "@value" : "North West Region" ,
+      "@language" : "en"
+    }
+     ] ,
+    "fwdCode" : "012WACTL12" ,
+    "label" : { 
+      "@value" : "Low lying coastline at Blackpool" ,
+      "@language" : "en"
+    }
+     ,
+    "notation" : "012WACTL12" ,
+    "polygon" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/012WACTL12/polygon" ,
+    "quickDialNumber" : "02242314" ,
+    "riverOrSea" : { 
+      "@value" : "Irish Sea" ,
+      "@language" : "en"
+    }
+     ,
+    "type" : [ "http://environment.data.gov.uk/flood-monitoring/def/core/FloodArea", "http://environment.data.gov.uk/flood-monitoring/def/core/FloodAlertArea" ]
+  }
+}
