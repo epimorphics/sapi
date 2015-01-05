@@ -21,7 +21,7 @@ import org.apache.jena.atlas.json.JsonObject;
  * <p>
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-public interface EndpointSpec extends NodeWriterPolicy {
+public interface EndpointSpec {
 
     /**
      * Return the parent API associated with this endpoint 
@@ -45,4 +45,8 @@ public interface EndpointSpec extends NodeWriterPolicy {
      */
     public String getQuery( RequestParameters request );
     
+    /**
+     * Return the JSON mapping specification which controls serializations from this endpoint
+     */
+    public JSONMap getMap();
 }

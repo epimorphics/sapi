@@ -69,24 +69,21 @@ public class KeyValueSet {
             }
         }
     }
-
-    /**
-     * Sort the keys into lexical order instead of arrival order
-     */
-    public void sort() {
-        Collections.sort(values);
-    }
     
     /**
-     * Return ordered list of key values 
+     * Return ordered list of keys 
      */
-    public List<KeyValues> listSortedKeyValues() {
-        sort();
-        return values;
+    public List<String> listSortedKeys() {
+        List<String> keys = new ArrayList<String>( values.size() );
+        for (KeyValues kv : values) {
+            keys.add( kv.getKey() );
+        }
+        Collections.sort(keys);
+        return keys;
     }    
     
     /**
-     * Return list of key values 
+     * Return (un-sorted) list of all the key values 
      */
     public List<KeyValues> listKeyValues() {
         return values;
