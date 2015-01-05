@@ -24,7 +24,8 @@ import com.epimorphics.appbase.data.SparqlSource;
 import com.epimorphics.appbase.templates.VelocityRender;
 import com.epimorphics.json.JSONWritable;
 import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.writers.ResourceJsonWriter;
+import com.epimorphics.simpleAPI.core.DescribeEndpointSpec;
+import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
@@ -68,34 +69,22 @@ public class EndpointsBase {
         String path = uriInfo.getPath();
         return getAPI().getBaseURI() + path;
     }
+    
+    public RequestParameters getRequest() {
+        // TODO add query and path parameters
+        return new RequestParameters( getRequestedURI() );
+    }
 
-    public JSONWritable describeItemJson(String query, String itemname) {
+    public JSONWritable describeItemJson(String specname) {
+        return describeItemJson( getAPI().getDescribeSpec(specname) );
+    }
+
+    public JSONWritable describeItemJson(DescribeEndpointSpec spec) {
+        RequestParameters rp = getRequest();
         SparqlSource source = getSource();
-        Model model = ModelFactory.createModelForGraph( source.describe(query) );
-        return new ResourceJsonWriter(getAPI(), itemname, model.getResource( getRequestedURI() ));        
+        Model model = ModelFactory.createModelForGraph( source.describe( spec.getQuery(rp) ) );
+        return spec.getWriter( model.getResource( getRequestedURI() ) );
     }
-
-    public JSONWritable describeItemJson() {
-        return describeItemJson("DESCRIBE <" + getRequestedURI() + ">", "item");
-    }
-    
-    /*
-    public JSONWritable listItems(SelectMapping mapping) {
-        return new MappedResultSetJsonWriter( getAPI(), mapping, getSource().select( mapping.asQuery() ) );        
-    }
-    
-    public JSONWritable listItems(SelectMapping mapping, String qualifier) {
-        return new MappedResultSetJsonWriter( getAPI(), mapping, getSource().select( mapping.asQuery() + qualifier ) );        
-    }
-    
-    public JSONWritable listFilteredItems(SelectMapping mapping, String filter) {
-        return new MappedResultSetJsonWriter( getAPI(), mapping, getSource().select( mapping.asQuery(filter) ) );        
-    }
-    
-    public JSONWritable listFilteredItems(SelectMapping mapping, String filter, String qualifier) {
-        return new MappedResultSetJsonWriter( getAPI(), mapping, getSource().select( mapping.asQuery(filter) + qualifier ) );        
-    }
-    */
     
     public StreamingOutput render(String template, Object...args) {
         return getVelocity().render(template, uriInfo.getPath(), context, uriInfo.getQueryParameters(), args);

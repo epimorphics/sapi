@@ -1,0 +1,26 @@
+{ 
+  "@context" : "http://environment.data.gov.uk/flood-monitoring/doc/context-TBD.jsonld" ,
+  "meta" : { 
+    "publisher" : "Environment Agency" ,
+    "licence" : "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ,
+    "documentation" : "http://environment.data.gov.uk/flood-monitoring/doc/api-documentation.html" ,
+    "version" : "0.1" ,
+    "comment" : "WARNING: Pre-alpha test service, data may not be up to date"
+  }
+   ,
+  "item" : { 
+    "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floods/90058" ,
+    "description" : "Low lying coastline at Blackpool" ,
+    "eaAreaName" : "North" ,
+    "eaRegionName" : "North West" ,
+    "floodArea" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/012WACTL12" ,
+    "floodAreaID" : "012WACTL12" ,
+    "isTidal" : true ,
+    "severity" : "Warning no longer in force" ,
+    "severityLevel" : 4 ,
+    "timeMessageChanged" : "2014-10-21T13:40:00" ,
+    "timeRaised" : "2014-10-21T13:40:00" ,
+    "timeSeverityChanged" : "2014-10-21T13:40:00" ,
+    "type" : "http://environment.data.gov.uk/flood-monitoring/def/core/FloodAlertOrWarning"
+  }
+}

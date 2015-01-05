@@ -39,10 +39,17 @@ public class TestAppAreas extends TomcatTestBase {
     public void testDummy() throws IOException {
         String testArea = "012WACTL12";
         ClientResponse response = getResponse(BASE_URL + "id/floodAreas/" + testArea, "application/json");
+        checkJson(response, "src/test/data/TestApp/response-" + testArea + ".json");
+        
+        response = getResponse(BASE_URL + "id/floods/90058", "application/json");
+        checkJson(response, "src/test/data/TestApp/response-alert.json");
+    }
+    
+    private void checkJson(ClientResponse response, String expected) throws IOException {
         assertEquals(200, response.getStatus());
         
         JsonObject json = JSON.parse( response.getEntityInputStream() );
-        JsonObject expected = JSON.parse( FileUtils.readWholeFileAsUTF8("src/test/data/TestApp/response-" + testArea + ".json") );
-        assertTrue( JsonComparator.equal(expected, json) );
+        JsonObject expectedJson = JSON.parse( FileUtils.readWholeFileAsUTF8(expected) );
+        assertTrue( JsonComparator.equal(expectedJson, json) );
     }
 }

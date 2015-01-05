@@ -9,6 +9,7 @@
 
 package com.epimorphics.simpleAPI.core;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -50,6 +51,10 @@ public class API extends ComponentBase {
     
     protected Map<String, String> shortnameToURI = new HashMap<String, String>();
     protected Map<String, String> uriToShortname = new HashMap<String, String>();
+
+    protected Map<String, EndpointSpec> specs = new HashMap<String, EndpointSpec>();
+    
+    protected DescribeEndpointSpec defaultDescribe;
     
     /**
      * Return a global default API configuration called "api" if it exists.
@@ -59,9 +64,6 @@ public class API extends ComponentBase {
         return AppConfig.getApp().getComponentAs("api", API.class);
     }
 
-
-    // TODO - APIConfig load and monitor
-    
     // ---- Fallback shortname mapping support --------------------------------------------
     
     /**
@@ -120,10 +122,52 @@ public class API extends ComponentBase {
 
     // ---- Access to configurations ------------------------------------
     
-    public APIConfig getDefaultConfig() {
-        return new APIConfig(this);
+    public DescribeEndpointSpec getDefaultDescribe() {
+        if (defaultDescribe == null) {
+            defaultDescribe = EndpointSpecFactory.makeDescribeSpec(this, "DESCRIBE ?id");
+        }
+        return defaultDescribe;
+    }
+    
+    /**
+     * Set a directory of endpoint specifications to load. These are loaded once at start up
+     * and not dynamically monitored. TODO
+     */
+    public void setEndpointSpecDir(String dir) {
+        File specdir = asFile(dir);
+        if (specdir != null && specdir.isDirectory()) {
+            for (String f : specdir.list()) {
+                File file = new File(specdir, f);
+                EndpointSpec spec = EndpointSpecFactory.read(this, file.getPath());
+                specs.put(spec.getName(), spec);
+            }
+        } else {
+            throw new EpiException("Can't find the endpoint specification directory - " + dir);
+        }
     }
 
+    public EndpointSpec getSpec(String name) {
+        return specs.get(name);
+    }
+
+    public DescribeEndpointSpec getDescribeSpec(String name) {
+        EndpointSpec spec = getSpec(name);
+        if (spec instanceof DescribeEndpointSpec) {
+            return (DescribeEndpointSpec) spec;
+        } else {
+            throw new EpiException("Specification missing or not of right type: " + name);
+        }
+    }
+
+    public SelectEndpointSpec getSelectSpec(String name) {
+        EndpointSpec spec = getSpec(name);
+        if (spec instanceof SelectEndpointSpec) {
+            return (SelectEndpointSpec) spec;
+        } else {
+            throw new EpiException("Specification missing or not of right type: " + name);
+        }
+    }
+    
     // ---- Settings/getters --------------------------------------------
     
     /**

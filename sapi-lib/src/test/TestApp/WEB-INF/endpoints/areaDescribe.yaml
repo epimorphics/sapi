@@ -1,0 +1,5 @@
+type  : item
+query : >
+  DESCRIBE ?id ?warning WHERE
+    { OPTIONAL { ?id <http://environment.data.gov.uk/flood-monitoring/def/core/currentWarning> ?warning } }
+ 
