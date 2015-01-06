@@ -26,6 +26,8 @@ import com.epimorphics.json.JSONWritable;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.DescribeEndpointSpec;
 import com.epimorphics.simpleAPI.core.RequestParameters;
+import com.epimorphics.simpleAPI.core.SelectEndpointSpec;
+import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
@@ -75,15 +77,45 @@ public class EndpointsBase {
         return new RequestParameters( getRequestedURI() );
     }
 
+    /**
+     * Describe the item matching the fetched URI using the default mapping specification
+     */
+    public JSONWritable describeItemJson() {
+        return describeItemJson( getAPI().getDefaultDescribe() );
+    }
+
+    /**
+     * Describe the item matching the fetched URI using the given mapping specification
+     */
     public JSONWritable describeItemJson(String specname) {
         return describeItemJson( getAPI().getDescribeSpec(specname) );
     }
 
+    /**
+     * Describe the item matching the fetched URI using the given mapping specification
+     */
     public JSONWritable describeItemJson(DescribeEndpointSpec spec) {
         RequestParameters rp = getRequest();
         SparqlSource source = getSource();
         Model model = ModelFactory.createModelForGraph( source.describe( spec.getQuery(rp) ) );
         return spec.getWriter( model.getResource( getRequestedURI() ) );
+    }
+    
+    /**
+     * Return a list of items based on a supplied query and named mapping endpoint specification
+     */
+    public JSONWritable listItems(SelectEndpointSpec spec, String query) {
+        ResultSet results = getSource().select(query);
+        return spec.getWriter(results);
+    }
+    
+    /**
+     * Return a list of items based on a named query/mapping endpoint specification
+     */
+    public JSONWritable listItems(String specname) {
+        SelectEndpointSpec spec = getAPI().getSelectSpec(specname);
+        String query = spec.getQuery(getRequest());
+        return listItems(spec, query);
     }
     
     public StreamingOutput render(String template, Object...args) {

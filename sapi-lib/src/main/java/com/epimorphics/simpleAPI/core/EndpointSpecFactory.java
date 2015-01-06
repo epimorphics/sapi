@@ -93,11 +93,14 @@ public class EndpointSpecFactory {
                 jo.put(NAME, defaultName);
             }
             EndpointSpecBase spec = null;
-            if (TYPE_ITEM.equals( JsonUtil.getStringValue(jo, TYPE, TYPE_ITEM) )) {
+            String type =  JsonUtil.getStringValue(jo, TYPE, TYPE_ITEM);
+            if (TYPE_ITEM.equals(type)) {
                 spec = new DescribeEndpointSpecImpl(api, jo);
-            } else if (TYPE_ITEM.equals( JsonUtil.getStringValue(jo, TYPE, TYPE_LIST) )) {
+            } else if (TYPE_LIST.equals(type)) {
                 spec = new SelectEndpointSpecImpl(api, jo);
                 // TODO basequery, 
+            } else {
+                throw new EpiException("Did not recognize type of endpoint configuration " + type + " in " + filename);
             }
             // TODO prefixes
             if (jo.hasKey(QUERY)) {

@@ -61,7 +61,21 @@ public class RequestParameters {
     }
     
     public String bindQuery(String query) {
-        String q = bindQuery(query, "id", ResourceFactory.createResource(uri) );
+        return bindQueryID( bindQueryParams(query) );
+    }
+
+    /**
+     * Bind the ?id variable in the query to the requested URI
+     */
+    public String bindQueryID(String query) {
+        return bindQuery(query, "id", ResourceFactory.createResource(uri) );
+    }
+
+    /**
+     * Bind all variables in the query that match the request bindings
+     */
+    public String bindQueryParams(String query) {
+        String q = query;
         for (Map.Entry<String, RDFNode> entry : bindings.entrySet()) {
             q = bindQuery(q, entry.getKey(), entry.getValue());
         }

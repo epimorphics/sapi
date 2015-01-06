@@ -1,7 +1,7 @@
 /******************************************************************
- * File:        DefaultDescribeEndpoint.java
+ * File:        AlertFixedQueryTestEndpoint.java
  * Created by:  Dave Reynolds
- * Created on:  5 Jan 2015
+ * Created on:  6 Jan 2015
  * 
  * (c) Copyright 2015, Epimorphics Limited
  *
@@ -17,14 +17,13 @@ import javax.ws.rs.core.MediaType;
 import com.epimorphics.json.JSONWritable;
 import com.epimorphics.simpleAPI.webapi.EndpointsBase;
 
-@Path("id")
-public class DefaultDescribeEndpoint extends EndpointsBase {
-    
-    @Path("/{id : .+}")
+@Path("fixedQueryTest")
+public class AlertFixedQueryTestEndpoint extends EndpointsBase {
+
     @Produces({MediaType.APPLICATION_JSON})
     @GET
-    public JSONWritable geDefault() {
-        return describeItemJson( );
+    public JSONWritable getAlertTest( ) {
+        return listItems("alertTestExplicitQuery");
     }
     
 }

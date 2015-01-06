@@ -43,6 +43,10 @@ public class TestAppAreas extends TomcatTestBase {
         
         response = getResponse(BASE_URL + "id/floods/90058", "application/json");
         checkJson(response, "src/test/data/TestApp/response-alert.json");
+        
+        response = getResponse(BASE_URL + "fixedQueryTest", "application/json");
+        assertEquals(200, response.getStatus());
+        System.out.println( response.getEntity(String.class) );
     }
     
     private void checkJson(ClientResponse response, String expected) throws IOException {

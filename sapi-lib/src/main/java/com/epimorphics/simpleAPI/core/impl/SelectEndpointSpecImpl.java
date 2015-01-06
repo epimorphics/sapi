@@ -31,7 +31,7 @@ public class SelectEndpointSpecImpl extends EndpointSpecBase implements SelectEn
         if (query == null) {
             // TODO construct implicit query from JSON mapping
         }
-        return request.bindQuery(query);
+        return request.bindQueryParams(query);
     }
 
     @Override
