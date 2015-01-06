@@ -24,6 +24,7 @@ public class DescribeEndpointSpecImpl extends EndpointSpecBase implements Descri
 
     public DescribeEndpointSpecImpl(API api, JsonObject config) {
         super(api, config);
+        map = new JSONPlainMap(api);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class DescribeEndpointSpecImpl extends EndpointSpecBase implements Descri
         }
         
         public Writer(Resource root) {
-            this.values = KeyValueSet.fromResource(DescribeEndpointSpecImpl.this, root);
+            this.values = KeyValueSet.fromResource(map, root);
         }
         
         @Override
@@ -52,7 +53,7 @@ public class DescribeEndpointSpecImpl extends EndpointSpecBase implements Descri
             out.startObject();
             api.writeMetadata(out);
             out.key( getItemName() );
-            JsonWriterUtil.writeKeyValues(DescribeEndpointSpecImpl.this, values, out);
+            JsonWriterUtil.writeKeyValues(map, values, out);
             out.finishObject();
         }
 

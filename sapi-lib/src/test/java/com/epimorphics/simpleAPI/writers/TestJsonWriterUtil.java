@@ -31,12 +31,12 @@ public class TestJsonWriterUtil {
         EndpointSpec config = new API().getDefaultDescribe();
         
         Model source = RDFDataMgr.loadModel("src/test/data/writer/test1.ttl");
-        KeyValueSet values = KeyValueSet.fromResource(config, source.createResource("http://localhost/resource"));
+        KeyValueSet values = KeyValueSet.fromResource(config.getMap(), source.createResource("http://localhost/resource"));
         
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         JSFullWriter out = new JSFullWriter(bos);
         out.startOutput();
-        JsonWriterUtil.writeKeyValues(config, values, out);
+        JsonWriterUtil.writeKeyValues(config.getMap(), values, out);
         out.finishOutput();
         
         JsonObject jo = JSON.parse(bos.toString());

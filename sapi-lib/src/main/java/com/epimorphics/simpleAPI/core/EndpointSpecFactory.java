@@ -25,6 +25,8 @@ import org.yaml.snakeyaml.Yaml;
 import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.core.impl.DescribeEndpointSpecImpl;
 import com.epimorphics.simpleAPI.core.impl.EndpointSpecBase;
+import com.epimorphics.simpleAPI.core.impl.JSONExplicitMap;
+import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
 import com.epimorphics.simpleAPI.core.impl.SelectEndpointSpecImpl;
 import com.epimorphics.util.EpiException;
 import com.epimorphics.util.NameUtils;
@@ -102,7 +104,7 @@ public class EndpointSpecFactory {
                 spec.setQueryTemplate( JsonUtil.getStringValue(jo, QUERY) );
             }
             if (jo.hasKey(MAPPING)) {
-                spec.setMapping( parseMappingList(jo.get(MAPPING)) );
+                spec.setMapping( parseMappingList(api, jo.get(MAPPING)) );
             }
             return spec;
         } else {
@@ -110,7 +112,7 @@ public class EndpointSpecFactory {
         }
     }
     
-    private static List<JSONMapEntry> parseMappingList(JsonValue list) {
+    private static JSONExplicitMap parseMappingList(API api, JsonValue list) {
         List<JSONMapEntry> entries = new ArrayList<JSONMapEntry>();
         if (list.isArray()) {
             for (Iterator<JsonValue> pi = list.getAsArray().iterator(); pi.hasNext(); ) {
@@ -130,7 +132,7 @@ public class EndpointSpecFactory {
                         entry.setMultivalued( JsonUtil.getBooleanValue(propO, MULTIVALUED, false) );
                     }
                     if (propO.hasKey(NESTED)) {
-                        List<JSONMapEntry> nested = parseMappingList( propO.get(NESTED) );
+                        JSONExplicitMap nested = parseMappingList(api, propO.get(NESTED) );
                         entry.setNested(nested);
                     }
                 }
@@ -139,7 +141,9 @@ public class EndpointSpecFactory {
         } else {
             throw new EpiException("Illegal JSON mapping spec, value must be an array of mapping specifications");
         }
-        return entries;
+        JSONExplicitMap map = new JSONExplicitMap(api);
+        map.setMapping(entries);
+        return map;
     }
     
     /**

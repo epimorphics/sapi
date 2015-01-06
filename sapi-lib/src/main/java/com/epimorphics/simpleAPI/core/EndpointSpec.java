@@ -15,10 +15,12 @@ import org.apache.jena.atlas.json.JsonObject;
  * Encapsulates the specification for an API endpoint. The specification includes information on:
  * <ul>
  *   <li>the query to run (an explicit query template or an implicit query built from the JSON map</li>
- *   <li>JSON map guiding how the query result should be mapped to JSON (accessed via sub-interfaces)</li>
+ *   <li>JSON map guiding how the query result should be mapped to JSON</li>
  *   <li>metadata (in the form of a JSON Object) which might be used in documenting the API endpoint</li>
  * </ul>
- * <p>
+ * <p>Sub-interfaces provide a streaming writer for the endpoint based on the type (item/list) and
+ * the configured JSON mapping.</p>
+ * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public interface EndpointSpec {

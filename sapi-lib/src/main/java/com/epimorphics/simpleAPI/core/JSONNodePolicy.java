@@ -9,6 +9,7 @@
 
 package com.epimorphics.simpleAPI.core;
 
+
 /**
  * Capture policy for how some node in an RDF description should be rendered to JSON.
  * 

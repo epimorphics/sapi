@@ -75,9 +75,14 @@ public class JsonWriterUtil {
         if (value.isResource()) {
             Resource r = (Resource)value;
             JSONMap nestedMap = policy.getNestedMap();
-            if ( policy.isNested() && (nestedMap != null || r.listProperties().hasNext()) ) {
+            String id = r.getURI();
+            if ( policy.isNested() && (nestedMap != null || r.listProperties().hasNext()) && !seen.contains(id) ) {
                 if (isArrayElt)  writer.arrayElementProcess(); else writer.key(key);
-                writeKeyValues( nestedMap == null ? map : nestedMap, values, r.getURI(), writer, seen );
+                if (nestedMap == null) {
+                    writeKeyValues( map, KeyValueSet.fromResource(map, r), id, writer, seen );
+                } else {
+                    writeKeyValues( nestedMap, values, id, writer, seen );
+                }
             } else {
                 if (value.isURIResource()) {
                     String root = value.asResource().getURI();

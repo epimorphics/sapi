@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import com.epimorphics.simpleAPI.core.NodeWriterPolicy;
+import com.epimorphics.simpleAPI.core.JSONMap;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -97,11 +97,11 @@ public class KeyValueSet {
         return id;
     }
     
-    public static KeyValueSet fromResource(NodeWriterPolicy policy, Resource root) {
+    public static KeyValueSet fromResource(JSONMap map, Resource root) {
         KeyValueSet values = new KeyValueSet( root.getURI() );  // Null ID is perfectly legal here
         for (StmtIterator i = root.listProperties(); i.hasNext(); ) {
             Statement s = i.next();
-            values.put( policy.keyFor(s.getPredicate()), s.getObject() );
+            values.put( map.keyFor(s.getPredicate()), s.getObject() );
         }
         return values;
     }
