@@ -12,8 +12,10 @@ package com.epimorphics.simpleAPI.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
+
 import com.epimorphics.rdfutil.QueryUtil;
-import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
 
 /**
@@ -31,15 +33,28 @@ import com.hp.hpl.jena.rdf.model.ResourceFactory;
 public class RequestParameters {
 
     protected String uri;
-    protected Map<String, RDFNode> bindings = new HashMap<String, RDFNode>();
+    protected Map<String, Object> bindings = new HashMap<String, Object>();
     protected String filterClause;
     
     public RequestParameters(String uri) {
         this.uri = uri;
     }
     
-    public RequestParameters addParameter(String parameter, RDFNode value) {
+    public RequestParameters addParameter(String parameter, Object value) {
         bindings.put(parameter, value);
+        return this;
+    }
+    
+    public RequestParameters addParameters(UriInfo info) {
+        addParameters( info.getPathParameters() );
+        addParameters( info.getQueryParameters() );
+        return this;
+    }
+    
+    protected RequestParameters addParameters(MultivaluedMap<String, String> params) {
+        for (String key : params.keySet()) {
+            addParameter(key, params.getFirst(key));
+        }
         return this;
     }
     
@@ -52,7 +67,7 @@ public class RequestParameters {
         return uri;
     }
 
-    public Map<String, RDFNode> getBindings() {
+    public Map<String, Object> getBindings() {
         return bindings;
     }
 
@@ -76,13 +91,13 @@ public class RequestParameters {
      */
     public String bindQueryParams(String query) {
         String q = query;
-        for (Map.Entry<String, RDFNode> entry : bindings.entrySet()) {
+        for (Map.Entry<String, Object> entry : bindings.entrySet()) {
             q = bindQuery(q, entry.getKey(), entry.getValue());
         }
         return q;
     }
     
-    protected String bindQuery(String query, String var, RDFNode value) {
+    protected String bindQuery(String query, String var, Object value) {
         return query.replaceAll( "\\?" + var + "\\b", QueryUtil.asSPARQLValue( value ));
     }
     

@@ -1,0 +1,97 @@
+{ 
+  "@context" : "http://environment.data.gov.uk/flood-monitoring/doc/context-TBD.jsonld" ,
+  "meta" : { 
+    "publisher" : "Environment Agency" ,
+    "licence" : "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ,
+    "documentation" : "http://environment.data.gov.uk/flood-monitoring/doc/api-documentation.html" ,
+    "version" : "0.1" ,
+    "comment" : "WARNING: Pre-alpha test service, data may not be up to date"
+  }
+   ,
+  "item" : [ { 
+    "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floods/90081" ,
+    "severity" : "Flood Warning" ,
+    "severityLevel" : 2 ,
+    "message" : "We are expecting high levels due to a combination of a tidal surge and high winds. Locations affected are riverside and rural properties in West Caister, Runham, Acle and Stokesby. Roads likely to be affected are the A47, A1064 and Acle Bridge. We will continue to monitor levels closely and update this message as necessary." ,
+    "floodArea" : { 
+      "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/054FWTBT1A" ,
+      "notation" : "054FWTBT1A" ,
+      "county" : "Norfolk" ,
+      "riverOrSea" : { 
+        "@value" : "River Bure" ,
+        "@language" : "en"
+      }
+       ,
+      "polygon" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/054FWTBT1A/polygon"
+    }
+  }
+  , { 
+    "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floods/90082" ,
+    "severity" : "Flood Warning" ,
+    "severityLevel" : 2 ,
+    "message" : "We are expecting high tide levels due to a combination of a tidal surge and high winds.\n\nThe forecast high water is due at Great Yarmouth at 9:15pm on the 21st October 2014. \n\nLocations affected are riverside properties in Reedham, Cantley and Brundall. Roads affected include Ferry Road in Reedham, the A47 and the railway line between Reedham and Brundall.\n\nWe will continue to monitor levels closely and update this message as necessary." ,
+    "floodArea" : { 
+      "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/054FWTBT2B" ,
+      "notation" : "054FWTBT2B" ,
+      "county" : "Norfolk" ,
+      "riverOrSea" : { 
+        "@value" : "River Yare" ,
+        "@language" : "en"
+      }
+       ,
+      "polygon" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/054FWTBT2B/polygon"
+    }
+  }
+  , { 
+    "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floods/90096" ,
+    "severity" : "Flood Warning" ,
+    "severityLevel" : 2 ,
+    "message" : "We are expecting high tide levels due to a combination of a tidal surge and high winds. The forecast high water is due at Lowestoft at 08:30 am on 22nd October 2014. \nThe predicted astronomical tide level is 0.97 m AODN.\nThe forecast surge height is 1.32 m.\nThe forecast tide level is 2.29 m AODN.\nThe forecast wind direction is North West.\nThe forecast wind strength is force 7.\nmAODN is a standard measure used across the UK for height above average sea level.  It is different to Chart Datum.\nFlooding is expected for The Southwold Harbour area, Ferry road, the bottoms of Queens Road and Constitution Hill, North Road, the bottom of Pier Avenue and Mights Road in Southwold. Bridge Road and Hillside Road in Reydon. \nThis warning is in force until 10:30 am on 22nd October 2014. We will continue to monitor levels closely and update this message as necessary." ,
+    "floodArea" : { 
+      "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/054FWCDV3C1" ,
+      "notation" : "054FWCDV3C1" ,
+      "county" : "Suffolk" ,
+      "riverOrSea" : { 
+        "@value" : "River Blyth, North Sea" ,
+        "@language" : "en"
+      }
+       ,
+      "polygon" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/054FWCDV3C1/polygon"
+    }
+  }
+  , { 
+    "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floods/90076" ,
+    "severity" : "Flood Warning" ,
+    "severityLevel" : 2 ,
+    "message" : "We are expecting high tide levels due to a combination of a tidal surge and high winds. \n\nThe forecast high water is due at Harwich at 11:30pm on 21st October 2014.\n\nThe predicted astronomical tide level is 1.89 m AODN.\n\nThe forecast surge height is 0.91 m.\nThe forecast tide level is 2.8 m AODN.\n\nThe forecast wind direction is West North West.\nThe forecast wind strength is force 7.\n\nmAODN is a standard measure used across the UK for height above average sea level.  It is different to Chart Datum.\n\nProperties are expected to flood at Bawdsey Quay and in front of the flood defences at Felixstowe Ferry.\n\nThis warning is in force until 1:30am on the 22nd October 2014. \n\nWe will continue to monitor levels closely and update this message as necessary." ,
+    "floodArea" : { 
+      "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/054FWCDV4A1" ,
+      "notation" : "054FWCDV4A1" ,
+      "county" : "Suffolk" ,
+      "riverOrSea" : { 
+        "@value" : "Tidal River Deben, North Sea" ,
+        "@language" : "en"
+      }
+       ,
+      "polygon" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/054FWCDV4A1/polygon"
+    }
+  }
+  , { 
+    "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floods/90071" ,
+    "severity" : "Flood Warning" ,
+    "severityLevel" : 2 ,
+    "message" : "We are expecting high tide levels due to a combination of a tidal surge and high winds. We are expecting to issue this warning again for Wednesday morning's tide. \n\nThe forecast high water is due at Cromer at 6:45pm on the 21st October 2014. \n\nThe predicted astronomical tide level is 1.84 m AODN.\n\nThe forecast surge height is 0.69 m.\nThe forecast tide level is 2.53 m AODN.\n\nThe forecast wind direction is West North West.\nThe forecast wind strength is force 9.\n\nmAODN is a standard measure used across the UK for height above average sea level.  It is different to Chart Datum.\n\nProperties are at risk on Sea View, Ann Stannard Way, Keswick Way, Walcott Road in Keswick. The Coast Road, St Helen's Road, Helena Road, Poplar Drive, Archibald Drive, Lynton Road, The Crescent and Ostend Place in Walcott. Seaview Crescent, Ostend Gap, Ostend Road and Horizon Views in Ostend.\n\nWe will continue to monitor levels closely and update this message as necessary." ,
+    "floodArea" : { 
+      "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/054FWCDV2B1" ,
+      "notation" : "054FWCDV2B1" ,
+      "county" : "Norfolk" ,
+      "riverOrSea" : { 
+        "@value" : "North Sea" ,
+        "@language" : "en"
+      }
+       ,
+      "polygon" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/054FWCDV2B1/polygon"
+    }
+  }
+   ]
+}

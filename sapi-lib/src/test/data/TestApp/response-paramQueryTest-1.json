@@ -1,0 +1,29 @@
+{ 
+  "@context" : "http://environment.data.gov.uk/flood-monitoring/doc/context-TBD.jsonld" ,
+  "meta" : { 
+    "publisher" : "Environment Agency" ,
+    "licence" : "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ,
+    "documentation" : "http://environment.data.gov.uk/flood-monitoring/doc/api-documentation.html" ,
+    "version" : "0.1" ,
+    "comment" : "WARNING: Pre-alpha test service, data may not be up to date"
+  }
+   ,
+  "item" : [ { 
+    "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floods/90084" ,
+    "severity" : "Severe Flood Warning" ,
+    "severityLevel" : 1 ,
+    "message" : "We are expecting high tide levels due to a combination of a tidal surge and high winds.\n\nThe forecast high water is due at Great Yarmouth at 9:15pm on the 21st October 2014. \n\nLocations affected are riverside properties at St Olaves, Somerleyton, Burgh St Peter, Oulton Broad and Beccles, including all  boat yards. Roads likely to be affected include Beccles Road at St Olaves, Geldeston Lock Lane, Gillingham Dam and Fen Lane in Beccles.\n\nWe will continue to monitor levels closely and update this message as necessary." ,
+    "floodArea" : { 
+      "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/054FWTBT3B" ,
+      "notation" : "054FWTBT3B" ,
+      "county" : "Norfolk" ,
+      "riverOrSea" : { 
+        "@value" : "River Waveney" ,
+        "@language" : "en"
+      }
+       ,
+      "polygon" : "http://environment.data.gov.uk/flood-monitoring/id/floodAreas/054FWTBT3B/polygon"
+    }
+  }
+   ]
+}

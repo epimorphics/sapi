@@ -19,7 +19,7 @@ query: >
             rt:severityLevel ?severityLevel ;
             rt:floodArea ?floodArea ;
         .
-        ?id rt:severityLevel 2 .
+        FILTER (?severityLevel  <= ?min-severity)
         OPTIONAL {?id rt:message ?message}
         ?floodArea
             rt:county ?county ;

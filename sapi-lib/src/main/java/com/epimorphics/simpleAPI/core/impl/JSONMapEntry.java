@@ -28,7 +28,7 @@ public class JSONMapEntry implements JSONNodePolicy {
     protected String property;
     
     public JSONMapEntry(String jsonname, String property) {
-        this.jsonname = jsonname;
+        this.jsonname = jsonname == null ? makeJsonName(property) : jsonname;
         this.property = property;
     }
     

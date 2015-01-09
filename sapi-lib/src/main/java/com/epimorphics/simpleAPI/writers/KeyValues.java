@@ -64,4 +64,9 @@ public class KeyValues implements Comparable<KeyValues>{
         return key.compareTo(o.key);
     }
     
+
+    @Override
+    public String toString() {
+        return key + "=" + values;
+    }
 }

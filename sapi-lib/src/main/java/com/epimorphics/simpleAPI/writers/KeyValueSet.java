@@ -105,4 +105,15 @@ public class KeyValueSet {
         }
         return values;
     }
+    
+    @Override
+    public String toString() {
+        StringBuffer buf = new StringBuffer();
+        buf.append("{@id:" + id);
+        for (KeyValues  v : values) {
+            buf.append(", " + v);
+        }
+        buf.append("}");
+        return buf.toString();
+    }
 }
