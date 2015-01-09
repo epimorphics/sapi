@@ -11,6 +11,7 @@ package com.epimorphics.simpleAPI.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import static org.junit.Assert.*;
 
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.vocabs.SKOS;
+import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.shared.PrefixMapping;
 
 /**
@@ -50,5 +52,32 @@ public class TestEndpointSpec {
         assertTrue( query.contains("PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>"));
         assertTrue( query.contains("DESCRIBE <http://localhost/> ?warning"));
         assertTrue( query.contains("OPTIONAL { <http://localhost/> rt:currentWarning ?warning }"));
+    }
+    
+    @Test
+    public void testQueryGeneration() {
+        EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/data/endpointSpecs/queryBuildTest.yaml");
+        String query = endpoint.getQuery( new RequestParameters("http://localhost/") );
+        
+        assertTrue( query.contains("PREFIX dct: <http://purl.org/dc/terms/>") );
+        assertTrue( query.contains("PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>") );
+        assertTrue( query.contains("PREFIX skos: <http://www.w3.org/2004/02/skos/core#>") );
+        assertTrue( query.contains("SELECT * WHERE {") );
+        assertTrue( query.contains("?id a rt:FloodAlertOrWarning .") );
+
+        assertTrue( query.contains("rt:severity ?severity ;") );
+        assertTrue( query.contains("rt:severityLevel ?severityLevel ;") );
+        assertTrue( query.contains("rt:floodArea ?floodArea ;") );
+        assertTrue( query.contains("rt:eaAreaName ?eaAreaName ;") );
+        assertTrue( query.contains("dct:description ?description") );
+        assertTrue( query.contains("OPTIONAL {?id rt:message ?message .}") );
+        assertTrue( query.contains("?floodArea") );
+        assertTrue( query.contains("skos:notation ?notation ;") );
+        assertTrue( query.contains("rt:county ?county ;") );
+        
+        boolean ok = true;
+        try { QueryFactory.create(query); } catch (Exception e) { ok = false; }
+        assertTrue( ok );
+
     }
 }

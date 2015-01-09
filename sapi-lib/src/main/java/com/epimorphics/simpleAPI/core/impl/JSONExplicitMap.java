@@ -96,7 +96,7 @@ public class JSONExplicitMap extends JSONPlainMap implements JSONMap {
         buf.append("    " + baseQuery + "\n");
         renderAsQuery(buf, "id");
         for (JSONMapEntry entry : mapping) {
-            if (entry.isNested() && entry.isOptional()) {
+            if (entry.isNested() && !entry.isOptional()) {
                 JSONExplicitMap nested = (JSONExplicitMap)entry.getNestedMap();
                 nested.renderAsQuery(buf, entry.getJsonName());
             }
