@@ -29,7 +29,7 @@ public abstract class EndpointSpecBase implements EndpointSpec {
     protected API api;
     protected JsonObject config;
     protected JSONMap map;
-    protected String baseQuery;   // Optional, query may be constructed from mapping specification
+    protected String rawQuery;   // Optional, query may be constructed from mapping specification
     protected PrefixMapping localPrefixes;
     protected PrefixMapping prefixes;
     
@@ -39,7 +39,7 @@ public abstract class EndpointSpecBase implements EndpointSpec {
     }
     
     public void setQueryTemplate(String query) {
-        this.baseQuery = query;
+        this.rawQuery = query;
     }
     
     @Override

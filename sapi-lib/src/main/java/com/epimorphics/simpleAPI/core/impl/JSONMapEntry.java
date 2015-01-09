@@ -42,7 +42,7 @@ public class JSONMapEntry implements JSONNodePolicy {
         return name.isEmpty() ?  NameUtils.splitAfterLast(property, ":") : name;
     }
     
-    public String getJsonname() {
+    public String getJsonName() {
         return jsonname;
     }
 
@@ -89,5 +89,12 @@ public class JSONMapEntry implements JSONNodePolicy {
     public boolean isOptional() {
         return optional;
     }
-
+    
+    public String asQueryRow() {
+        if (property.startsWith("http:") || property.startsWith("https:")) {
+            return "<" + property + "> ?" + jsonname;
+        } else {
+            return property + " ?" + jsonname;
+        }
+    }
 }

@@ -18,26 +18,36 @@ import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.core.SelectEndpointSpec;
 import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
 import com.epimorphics.simpleAPI.writers.KeyValueSetStream;
+import com.epimorphics.util.EpiException;
 import com.hp.hpl.jena.query.ResultSet;
 
 public class SelectEndpointSpecImpl extends EndpointSpecBase implements SelectEndpointSpec {
-    public String query;
+    protected String baseQuery;
+    protected String query;
     
     public SelectEndpointSpecImpl(API api, JsonObject config) {
         super(api, config);
     }
 
+    public void setBaseQuery(String query) {
+        this.baseQuery = query;
+    }
+    
     @Override
     public String getQuery(RequestParameters request) {
         if (query == null) {
-            if (baseQuery == null) {
-            // TODO construct implicit query from JSON mapping
+            if (rawQuery == null) {
+                if (map instanceof JSONExplicitMap) {
+                    rawQuery = ((JSONExplicitMap)map).asQuery(baseQuery);
+                } else {
+                    throw new EpiException("Cannot query - need either an explicit mapping or an explicit query");
+                }
             }
-            query = expandPrefixes( baseQuery );
+            query = expandPrefixes( rawQuery );
         }
         return request.bindQueryParams(query);
     }
-
+    
     @Override
     public JSONWritable getWriter(KeyValueSetStream results) {
         return new Writer(results);

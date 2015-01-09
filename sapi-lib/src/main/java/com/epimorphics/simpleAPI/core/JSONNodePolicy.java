@@ -36,5 +36,4 @@ public interface JSONNodePolicy {
      * Returns null is the parent map should be used or nesting is not allowed. 
      */
     public JSONMap getNestedMap();
-    
 }

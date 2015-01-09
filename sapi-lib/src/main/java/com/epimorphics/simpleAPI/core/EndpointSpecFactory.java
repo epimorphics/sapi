@@ -27,6 +27,7 @@ import com.epimorphics.simpleAPI.core.impl.DescribeEndpointSpecImpl;
 import com.epimorphics.simpleAPI.core.impl.EndpointSpecBase;
 import com.epimorphics.simpleAPI.core.impl.JSONExplicitMap;
 import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
+import com.epimorphics.simpleAPI.core.impl.JSONPlainMap;
 import com.epimorphics.simpleAPI.core.impl.SelectEndpointSpecImpl;
 import com.epimorphics.util.EpiException;
 import com.epimorphics.util.NameUtils;
@@ -45,6 +46,7 @@ public class EndpointSpecFactory {
     public static final String NAME      = "name";
 
     public static final String PREFIXES  = "prefixes";
+    public static final String BASE_QUERY= "baseQuery";
     public static final String MAPPING   = "mapping";
     public static final String PROPERTY  = "prop";
     public static final String OPTIONAL  = "optional";
@@ -99,7 +101,9 @@ public class EndpointSpecFactory {
                 spec = new DescribeEndpointSpecImpl(api, jo);
             } else if (TYPE_LIST.equals(type)) {
                 spec = new SelectEndpointSpecImpl(api, jo);
-                // TODO basequery, 
+                if (jo.hasKey(BASE_QUERY)) {
+                    ((SelectEndpointSpecImpl)spec).setBaseQuery( JsonUtil.getStringValue(jo, BASE_QUERY));
+                }
             } else {
                 throw new EpiException("Did not recognize type of endpoint configuration " + type + " in " + filename);
             }
@@ -114,6 +118,8 @@ public class EndpointSpecFactory {
             }
             if (jo.hasKey(MAPPING)) {
                 spec.setMapping( parseMappingList(api, jo.get(MAPPING)) );
+            } else {
+                spec.setMapping( new JSONPlainMap(api) );
             }
             return spec;
         } else {

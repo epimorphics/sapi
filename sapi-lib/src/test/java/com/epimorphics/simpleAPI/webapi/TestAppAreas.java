@@ -50,7 +50,10 @@ public class TestAppAreas extends TomcatTestBase {
         response = getResponse(BASE_URL + "paramFixedQueryTest?min-severity=1", "application/json");
         checkJson(response, "src/test/data/TestApp/response-paramQueryTest-1.json");
         
-//        assertEquals(200, response.getStatus());
+        response = getResponse(BASE_URL + "fixedQueryTestNoMap", "application/json");
+        checkJson(response, "src/test/data/TestApp/response-fixedQueryTestNoMap.json");
+
+        //        assertEquals(200, response.getStatus());
 //        System.out.println( response.getEntity(String.class) );
     }
     
