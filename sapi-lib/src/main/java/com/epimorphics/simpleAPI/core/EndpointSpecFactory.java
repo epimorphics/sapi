@@ -44,6 +44,7 @@ public class EndpointSpecFactory {
     public static final String ITEM_NAME = "itemName";
     public static final String NAME      = "name";
 
+    public static final String PREFIXES  = "prefixes";
     public static final String MAPPING   = "mapping";
     public static final String PROPERTY  = "prop";
     public static final String OPTIONAL  = "optional";
@@ -102,7 +103,12 @@ public class EndpointSpecFactory {
             } else {
                 throw new EpiException("Did not recognize type of endpoint configuration " + type + " in " + filename);
             }
-            // TODO prefixes
+            if (jo.hasKey(PREFIXES)) {
+                JsonObject prefixes = jo.get(PREFIXES).getAsObject();
+                for (String key : prefixes.keys()) {
+                    spec.addLocalPrefix(key, JsonUtil.getStringValue(prefixes, key));
+                }
+            }
             if (jo.hasKey(QUERY)) {
                 spec.setQueryTemplate( JsonUtil.getStringValue(jo, QUERY) );
             }

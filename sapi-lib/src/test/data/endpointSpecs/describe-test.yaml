@@ -1,0 +1,8 @@
+type  : item
+prefixes : 
+  rt :   "http://environment.data.gov.uk/flood-monitoring/def/core/"
+
+query : >
+  DESCRIBE ?id ?warning WHERE
+    { OPTIONAL { ?id rt:currentWarning ?warning } }
+ 

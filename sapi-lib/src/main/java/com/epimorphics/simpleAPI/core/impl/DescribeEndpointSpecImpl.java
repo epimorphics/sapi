@@ -21,7 +21,8 @@ import com.epimorphics.simpleAPI.writers.KeyValueSet;
 import com.hp.hpl.jena.rdf.model.Resource;
 
 public class DescribeEndpointSpecImpl extends EndpointSpecBase implements DescribeEndpointSpec {
-
+    protected String query;
+    
     public DescribeEndpointSpecImpl(API api, JsonObject config) {
         super(api, config);
         map = new JSONPlainMap(api);
@@ -29,7 +30,10 @@ public class DescribeEndpointSpecImpl extends EndpointSpecBase implements Descri
 
     @Override
     public String getQuery(RequestParameters request) {
-        return request.bindQuery(query);
+        if (query == null) {
+            query = expandPrefixes( baseQuery );
+        }
+        return request.bindQuery( query );
     }
 
     @Override

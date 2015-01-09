@@ -21,7 +21,8 @@ import com.epimorphics.simpleAPI.writers.KeyValueSetStream;
 import com.hp.hpl.jena.query.ResultSet;
 
 public class SelectEndpointSpecImpl extends EndpointSpecBase implements SelectEndpointSpec {
-
+    public String query;
+    
     public SelectEndpointSpecImpl(API api, JsonObject config) {
         super(api, config);
     }
@@ -29,7 +30,10 @@ public class SelectEndpointSpecImpl extends EndpointSpecBase implements SelectEn
     @Override
     public String getQuery(RequestParameters request) {
         if (query == null) {
+            if (baseQuery == null) {
             // TODO construct implicit query from JSON mapping
+            }
+            query = expandPrefixes( baseQuery );
         }
         return request.bindQueryParams(query);
     }

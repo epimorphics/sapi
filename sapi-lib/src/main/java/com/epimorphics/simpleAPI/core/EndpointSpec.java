@@ -11,6 +11,8 @@ package com.epimorphics.simpleAPI.core;
 
 import org.apache.jena.atlas.json.JsonObject;
 
+import com.hp.hpl.jena.shared.PrefixMapping;
+
 /**
  * Encapsulates the specification for an API endpoint. The specification includes information on:
  * <ul>
@@ -40,6 +42,11 @@ public interface EndpointSpec {
      * Return metadata on the query (which can include all the original configuration properties).
      */
     public JsonObject getMetadata();
+    
+    /**
+     * Return the prefix bindings defined for this Endpoint (including the App-wide prefixes)
+     */
+    public PrefixMapping getPrefixes();
     
     /**
      * Return the query after instantiating it according to the supplied

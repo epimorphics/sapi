@@ -17,6 +17,8 @@ import com.epimorphics.simpleAPI.core.EndpointSpec;
 import com.epimorphics.simpleAPI.core.EndpointSpecFactory;
 import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.RequestParameters;
+import com.epimorphics.util.PrefixUtils;
+import com.hp.hpl.jena.shared.PrefixMapping;
 
 /**
  * Base implementation for EndpointSpecs.
@@ -27,15 +29,17 @@ public abstract class EndpointSpecBase implements EndpointSpec {
     protected API api;
     protected JsonObject config;
     protected JSONMap map;
-    protected String query;   // Optional, query may be constructed from mapping specification
-
+    protected String baseQuery;   // Optional, query may be constructed from mapping specification
+    protected PrefixMapping localPrefixes;
+    protected PrefixMapping prefixes;
+    
     public EndpointSpecBase(API api, JsonObject config) {
         this.api = api;
         this.config = config;
     }
     
     public void setQueryTemplate(String query) {
-        this.query = query;
+        this.baseQuery = query;
     }
     
     @Override
@@ -54,8 +58,34 @@ public abstract class EndpointSpecBase implements EndpointSpec {
     }
     
     @Override
+    public PrefixMapping getPrefixes() {
+        if (prefixes == null) {
+            if (api != null && api.getApp() != null) {
+                prefixes = api.getApp().getPrefixes();
+            }
+            if (prefixes == null) {
+                prefixes = localPrefixes;
+            } else if (localPrefixes != null) {
+                prefixes = PrefixUtils.merge(prefixes, localPrefixes);
+            }
+        }
+        return prefixes;
+    }
+    
+    public void addLocalPrefix(String prefix, String uri) {
+        if (localPrefixes == null) {
+            localPrefixes = PrefixMapping.Factory.create();
+        }
+        localPrefixes.setNsPrefix(prefix, uri);
+    }
+    
+    @Override
     public abstract String getQuery(RequestParameters request);
 
+    protected String expandPrefixes(String query) {
+        return PrefixUtils.expandQuery(query, getPrefixes());
+    }
+    
     public String getItemName() {
         return JsonUtil.getStringValue(config, EndpointSpecFactory.ITEM_NAME, "item");
     }
