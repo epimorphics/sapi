@@ -9,14 +9,14 @@
 
 package com.epimorphics.simpleAPI.core;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.vocabs.SKOS;
