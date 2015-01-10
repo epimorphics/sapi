@@ -159,10 +159,10 @@ public class API extends ComponentBase {
         }
     }
 
-    public SelectEndpointSpec getSelectSpec(String name) {
+    public ListEndpointSpec getSelectSpec(String name) {
         EndpointSpec spec = getSpec(name);
-        if (spec instanceof SelectEndpointSpec) {
-            return (SelectEndpointSpec) spec;
+        if (spec instanceof ListEndpointSpec) {
+            return (ListEndpointSpec) spec;
         } else {
             throw new EpiException("Specification missing or not of right type: " + name);
         }

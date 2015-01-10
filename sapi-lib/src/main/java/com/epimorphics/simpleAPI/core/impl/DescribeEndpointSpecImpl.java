@@ -33,7 +33,7 @@ public class DescribeEndpointSpecImpl extends EndpointSpecBase implements Descri
         if (query == null) {
             query = expandPrefixes( rawQuery );
         }
-        return request.bindQuery( query );
+        return request.bindQueryAndID( query );
     }
 
     @Override

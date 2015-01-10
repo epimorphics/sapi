@@ -29,7 +29,7 @@ import com.epimorphics.json.JSONWritable;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.DescribeEndpointSpec;
 import com.epimorphics.simpleAPI.core.RequestParameters;
-import com.epimorphics.simpleAPI.core.SelectEndpointSpec;
+import com.epimorphics.simpleAPI.core.ListEndpointSpec;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -54,33 +54,41 @@ public class EndpointsBase {
     protected @Context UriInfo uriInfo;
     protected @Context HttpServletRequest request;
     
+    /**
+     * Return the global default API instance.
+     */
     public API getAPI() {
         if (api == null) {
             api = AppConfig.getApp().getA(API.class);
         }
         return api;
     }
-    
+
+    /**
+     * Return the SPARQL source which this API instance queries
+     */
     public SparqlSource getSource() {
         return getAPI().getSource();
     }
     
-    public VelocityRender getVelocity() {
-        if (velocity == null) {
-            velocity =  AppConfig.getApp().getA(VelocityRender.class);
-        }
-        return velocity;
-    }
-    
+    /**
+     * Return the request URI mapped to the baseURI for this API
+     */
     public String getRequestedURI() {
         String path = uriInfo.getPath();
         return getAPI().getBaseURI() + path;
     }
     
+    /**
+     * Return request summary with just the request base URI
+     */
     public RequestParameters getRequest() {
         return new RequestParameters( getRequestedURI() );
     }
-    
+
+    /**
+     * Return request summary with the base URI and all parameter included
+     */
     public RequestParameters getRequestWithParms() {
         return new RequestParameters( getRequestedURI() ).addParameters(uriInfo);
     }
@@ -112,7 +120,7 @@ public class EndpointsBase {
     /**
      * Return a list of items based on a supplied query and named mapping endpoint specification
      */
-    public JSONWritable listItems(SelectEndpointSpec spec, String query) {
+    public JSONWritable listItems(ListEndpointSpec spec, String query) {
         log.debug( "List query = " + query);
         ResultSet results = getSource().select(query);
         return spec.getWriter(results);
@@ -123,7 +131,7 @@ public class EndpointsBase {
      * passing in a pre-built set of request parameters
      */
     public JSONWritable listItems(String specname, RequestParameters params) {
-        SelectEndpointSpec spec = getAPI().getSelectSpec(specname);
+        ListEndpointSpec spec = getAPI().getSelectSpec(specname);
         String query = spec.getQuery(params);
         return listItems(spec, query);
     }
@@ -135,10 +143,29 @@ public class EndpointsBase {
         return listItems(specname, getRequest());
     }
     
+
+    /**
+     * Return the configured velocity renderer
+     */
+    public VelocityRender getVelocity() {
+        if (velocity == null) {
+            velocity =  AppConfig.getApp().getA(VelocityRender.class);
+        }
+        return velocity;
+    }
+    
+    /**
+     * Return streaming render of a velocity template.
+     * @param template name fof the template
+     * @param args alternating sequence of parameter name/parameter value pairs to pass to the renderer
+     */
     public StreamingOutput render(String template, Object...args) {
         return getVelocity().render(template, uriInfo.getPath(), context, uriInfo.getQueryParameters(), args);
     }
 
+    /**
+     * Return a setOther redirect to the given target URL
+     */
     public Response redirectTo(String path) {
         URI uri;
         try {

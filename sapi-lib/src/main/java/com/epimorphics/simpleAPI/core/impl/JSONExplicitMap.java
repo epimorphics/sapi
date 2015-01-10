@@ -101,8 +101,9 @@ public class JSONExplicitMap extends JSONPlainMap implements JSONMap {
                 nested.renderAsQuery(buf, entry.getJsonName());
             }
         }
-        // TODO hook for filters
+        buf.append("    #$FILTER$\n");
         buf.append("}\n");
+        buf.append("    #$MODIFIER$\n");
         return buf.toString();        
     }
     

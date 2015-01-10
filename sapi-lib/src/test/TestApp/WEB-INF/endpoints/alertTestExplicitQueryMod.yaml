@@ -13,15 +13,17 @@ query: >
             rt:severityLevel ?severityLevel ;
             rt:floodArea ?floodArea ;
         .
-        ?id rt:severityLevel 2 .
         OPTIONAL {?id rt:message ?message}
+        #$FILTER$
         ?floodArea
             rt:county ?county ;
             skos:notation ?notation ;
             rt:riverOrSea ?riverOrSea ;
             rt:polygon ?polygon ;
-            . 
-       } ORDER BY ?id
+            .
+       }
+       ORDER BY ?id
+       #$MODIFIER$
 
 mapping :
   - "rt:severity"

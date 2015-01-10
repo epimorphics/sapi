@@ -28,7 +28,7 @@ import com.epimorphics.simpleAPI.core.impl.EndpointSpecBase;
 import com.epimorphics.simpleAPI.core.impl.JSONExplicitMap;
 import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
 import com.epimorphics.simpleAPI.core.impl.JSONPlainMap;
-import com.epimorphics.simpleAPI.core.impl.SelectEndpointSpecImpl;
+import com.epimorphics.simpleAPI.core.impl.ListEndpointSpecImpl;
 import com.epimorphics.util.EpiException;
 import com.epimorphics.util.NameUtils;
 
@@ -44,14 +44,17 @@ public class EndpointSpecFactory {
     public static final String QUERY     = "query";
     public static final String ITEM_NAME = "itemName";
     public static final String NAME      = "name";
-
     public static final String PREFIXES  = "prefixes";
     public static final String BASE_QUERY= "baseQuery";
     public static final String MAPPING   = "mapping";
+    public static final String BIND_VARS = "bindVars";
+    
     public static final String PROPERTY  = "prop";
     public static final String OPTIONAL  = "optional";
     public static final String MULTIVALUED = "multi";
     public static final String NESTED    = "nested";
+    public static final String FILTERABLE= "filterable";
+    public static final String PROP_TYPE = "type";
     
     /**
      * Load a json/yaml endpoint configuration from a jar resource
@@ -100,9 +103,22 @@ public class EndpointSpecFactory {
             if (TYPE_ITEM.equals(type)) {
                 spec = new DescribeEndpointSpecImpl(api, jo);
             } else if (TYPE_LIST.equals(type)) {
-                spec = new SelectEndpointSpecImpl(api, jo);
+                spec = new ListEndpointSpecImpl(api, jo);
                 if (jo.hasKey(BASE_QUERY)) {
-                    ((SelectEndpointSpecImpl)spec).setBaseQuery( JsonUtil.getStringValue(jo, BASE_QUERY));
+                    ((ListEndpointSpecImpl)spec).setBaseQuery( JsonUtil.getStringValue(jo, BASE_QUERY));
+                }
+                if (jo.hasKey(BIND_VARS)) {
+                    if (!jo.get(BIND_VARS).isArray()) {
+                        throw new EpiException("bindVars should be an array of strings");
+                    }
+                    for (Iterator<JsonValue> i = jo.get(BIND_VARS).getAsArray().iterator(); i.hasNext();) {
+                        JsonValue v = i.next();
+                        if (v.isString()) {
+                            ((ListEndpointSpecImpl)spec).addBindingParam(v.getAsString().value());
+                        } else {
+                            throw new EpiException("bindVars should be an array of strings");
+                        }
+                    }
                 }
             } else {
                 throw new EpiException("Did not recognize type of endpoint configuration " + type + " in " + filename);

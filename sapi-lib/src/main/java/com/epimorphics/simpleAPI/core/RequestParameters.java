@@ -13,9 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.rdfutil.QueryUtil;
+import com.epimorphics.util.EpiException;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
 
 /**
@@ -24,17 +27,26 @@ import com.hp.hpl.jena.rdf.model.ResourceFactory;
  * <p>The request parameters comprise:
  * <ul>
  *   <li>the target URI (after mapping from request URI to the API base URI)</li>
- *   <li>any query/path parameters mapping to RDF Nodes</li>
- *   <li>any externally injected query filter clauses</li>
+ *   <li>any query/path parameters</li>
+ *   <li>any externally injected query filter and modifier clauses</li>
+ *   <li>limit/offset from parameters or externally set</li>
  * </ul>
  * </p>
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class RequestParameters {
+    public static final String FILTER_MARKER = "#$FILTER$";
+    public static final String MODIFIER_MARKER = "#$MODIFIER$";
+    
+    public static final String LIMIT_PARAM  = "_limit";
+    public static final String OFFSET_PARAM = "_offset";
 
     protected String uri;
     protected Map<String, Object> bindings = new HashMap<String, Object>();
-    protected String filterClause;
+    protected String filterClause = "";
+    protected String modifier = "";
+    protected Integer limit;
+    protected Integer offset;
     
     public RequestParameters(String uri) {
         this.uri = uri;
@@ -42,7 +54,29 @@ public class RequestParameters {
     
     public RequestParameters addParameter(String parameter, Object value) {
         bindings.put(parameter, value);
+        if (parameter.equals(LIMIT_PARAM)) {
+            limit = safeMin(limit, safeAsInt((String)value));
+        }
+        if (parameter.equals(OFFSET_PARAM)) {
+            offset = safeAsInt((String)value);
+        }
         return this;
+    }
+    
+    private Integer safeAsInt(String value) {
+        try {
+            return Integer.parseInt((String)value);
+        } catch (NumberFormatException e) {
+            throw new WebApiException(Status.BAD_REQUEST, "Illegal parameter format");
+        }
+    }
+    
+    private Integer safeMin(Integer current, Integer value) {
+        if (current == null) {
+            return value;
+        } else {
+            return Math.min(current.intValue(), value.intValue());
+        }
     }
     
     public RequestParameters addParameters(UriInfo info) {
@@ -59,8 +93,17 @@ public class RequestParameters {
     }
     
     public RequestParameters addFilter(String filterClause) {
-        this.filterClause = filterClause;
+        this.filterClause += " " + filterClause;
         return this;
+    }
+    
+    public RequestParameters addModifier(String modifier) {
+        this.modifier += " " + modifier;
+        return this;
+    }
+    
+    public void setLimit(int lmt) {
+        limit = safeMin(limit, lmt);
     }
 
     public String getUri() {
@@ -70,36 +113,77 @@ public class RequestParameters {
     public Map<String, Object> getBindings() {
         return bindings;
     }
+    
+    public Object getBinding(String key) {
+        return bindings.get(key);
+    }
 
     public String getFilterClause() {
         return filterClause;
     }
     
+    /**
+     * Bind the query by injecting any offset/limits settings, explicit filters and other modifiers, and the parameter values.
+     * @param query
+     * @return
+     */
     public String bindQuery(String query) {
-        return bindQueryID( bindQueryParams(query) );
+        String q = query;
+        if (limit != null) {
+            modifier += " LIMIT " + limit;
+        }
+        if (offset != null) {
+            modifier += " OFFSET " + offset;
+        }
+        q = bindMarker(q, FILTER_MARKER, filterClause);
+        q = bindMarker(q, MODIFIER_MARKER, modifier);
+        return q;
+    }
+    
+    public String bindQueryAndID(String query) {
+        return bindQueryID( bindQuery(query) );
     }
 
     /**
      * Bind the ?id variable in the query to the requested URI
      */
     public String bindQueryID(String query) {
-        return bindQuery(query, "id", ResourceFactory.createResource(uri) );
+        return bindQueryParam(query, "id", ResourceFactory.createResource(uri) );
     }
 
-    /**
-     * Bind all variables in the query that match the request bindings
-     */
-    public String bindQueryParams(String query) {
-        String q = query;
-        for (Map.Entry<String, Object> entry : bindings.entrySet()) {
-            q = bindQuery(q, entry.getKey(), entry.getValue());
-        }
-        return q;
+    public String bindQueryParam(String query, String param) {
+        return bindQueryParam(query, param, getBinding(param));
     }
     
-    protected String bindQuery(String query, String var, Object value) {
+    protected String bindQueryParam(String query, String var, Object value) {
         return query.replaceAll( "\\?" + var + "\\b", QueryUtil.asSPARQLValue( value ));
     }
+
+    protected String bindMarker(String query, String marker, String value) {
+        if (value != null && !value.isEmpty()) {
+            if (query.contains(marker)) {
+                return query.replace(marker, value);
+            } else {
+                throw new EpiException("No " + marker + " marker in query, can't inject. Query was: " + query);
+            }
+        }
+        return query;
+    }
     
+    public Integer getSafeIntParam(String param) {
+        Object value = bindings.get(param);
+        if (value != null) {
+            if (value instanceof Integer) {
+                return (Integer)value;
+            } else if (value instanceof String) {
+                try {
+                    return Integer.parseInt((String)value);
+                } catch (NumberFormatException e) {
+                    throw new WebApiException(Status.BAD_REQUEST, "Illegal parameter format");
+                }
+            }
+        }
+        return null;
+    }
 }
 

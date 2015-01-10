@@ -23,6 +23,9 @@ query: >
             .
        }
 
+bindVars :
+ - "min-severity"
+ 
 mapping :
   - "rt:severity"
   - "rt:severityLevel"

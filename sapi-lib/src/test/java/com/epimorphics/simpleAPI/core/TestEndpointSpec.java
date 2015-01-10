@@ -78,6 +78,5 @@ public class TestEndpointSpec {
         boolean ok = true;
         try { QueryFactory.create(query); } catch (Exception e) { ok = false; }
         assertTrue( ok );
-
     }
 }

@@ -9,23 +9,27 @@
 
 package com.epimorphics.simpleAPI.core.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.jena.atlas.json.JsonObject;
 
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.json.JSONWritable;
 import com.epimorphics.simpleAPI.core.API;
+import com.epimorphics.simpleAPI.core.ListEndpointSpec;
 import com.epimorphics.simpleAPI.core.RequestParameters;
-import com.epimorphics.simpleAPI.core.SelectEndpointSpec;
 import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
 import com.epimorphics.simpleAPI.writers.KeyValueSetStream;
 import com.epimorphics.util.EpiException;
 import com.hp.hpl.jena.query.ResultSet;
 
-public class SelectEndpointSpecImpl extends EndpointSpecBase implements SelectEndpointSpec {
+public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpointSpec {
     protected String baseQuery;
     protected String query;
+    protected List<String> bindingVars = new ArrayList<>();
     
-    public SelectEndpointSpecImpl(API api, JsonObject config) {
+    public ListEndpointSpecImpl(API api, JsonObject config) {
         super(api, config);
     }
 
@@ -40,14 +44,23 @@ public class SelectEndpointSpecImpl extends EndpointSpecBase implements SelectEn
                 if (map instanceof JSONExplicitMap) {
                     rawQuery = ((JSONExplicitMap)map).asQuery(baseQuery);
                 } else {
-                    throw new EpiException("Cannot query - need either an explicit mapping or an explicit query");
+                    throw new EpiException("Cannot query - need either a mapping or an explicit query");
                 }
             }
             query = expandPrefixes( rawQuery );
         }
-        return request.bindQueryParams(query);
+        String q = bindVars(request, query);
+        return request.bindQuery(q);
     }
     
+    protected String bindVars(RequestParameters request, String query) {
+        String q = query;
+        for (String param : bindingVars) {
+            q = request.bindQueryParam(query, param);
+        }
+        return q;
+    }
+
     @Override
     public JSONWritable getWriter(KeyValueSetStream results) {
         return new Writer(results);
@@ -56,6 +69,15 @@ public class SelectEndpointSpecImpl extends EndpointSpecBase implements SelectEn
     @Override
     public JSONWritable getWriter(ResultSet results) {
         return new Writer(results);
+    }
+    
+    public void addBindingParam(String param) {
+        bindingVars.add(param);
+    }
+
+    @Override
+    public List<String> listBindingParams() {
+        return bindingVars;
     }
     
     public class Writer implements JSONWritable {
@@ -82,7 +104,6 @@ public class SelectEndpointSpecImpl extends EndpointSpecBase implements SelectEn
             out.finishArray();
             out.finishObject();
         }
-
-    }    
+    }
 
 }
