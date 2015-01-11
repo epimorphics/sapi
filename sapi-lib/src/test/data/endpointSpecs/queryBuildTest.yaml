@@ -7,14 +7,17 @@ prefixes :
 baseQuery: |
     ?id a rt:FloodAlertOrWarning .
     
+limit : 10
+    
 mapping :
-  - { prop : "rt:severity", type: ""}
-  - { prop : "rt:severityLevel", type: "xsd:int" }
+  - { prop : "rt:severity", filterable: true, type: ""}
+  - { prop : "rt:severityLevel", filterable: true, type: "xsd:int" }
   - { prop : "rt:message", optional : true }
   - prop : "rt:floodArea"
     nested :
       - "skos:notation"
       - "rt:county"
+    filterable : true
     type : rdfs:Resource
   - "rt:eaAreaName"
   - "dct:description"

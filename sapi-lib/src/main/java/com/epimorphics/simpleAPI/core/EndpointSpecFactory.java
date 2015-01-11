@@ -48,6 +48,7 @@ public class EndpointSpecFactory {
     public static final String BASE_QUERY= "baseQuery";
     public static final String MAPPING   = "mapping";
     public static final String BIND_VARS = "bindVars";
+    public static final String LIMIT     = "limit";
     
     public static final String PROPERTY  = "prop";
     public static final String OPTIONAL  = "optional";
@@ -120,6 +121,9 @@ public class EndpointSpecFactory {
                         }
                     }
                 }
+                if (jo.hasKey(LIMIT)) {
+                    ((ListEndpointSpecImpl)spec).setHardLimit( JsonUtil.getIntValue(jo, LIMIT, Integer.MAX_VALUE) );
+                }
             } else {
                 throw new EpiException("Did not recognize type of endpoint configuration " + type + " in " + filename);
             }
@@ -167,7 +171,7 @@ public class EndpointSpecFactory {
                         entry.setNested(nested);
                     }
                     if (propO.hasKey(FILTERABLE)) {
-                        entry.setFilterable( JsonUtil.getBooleanValue(propO, OPTIONAL, true) );
+                        entry.setFilterable( JsonUtil.getBooleanValue(propO, FILTERABLE, true) );
                     }
                     if (propO.hasKey(PROP_TYPE)) {
                         String ty = JsonUtil.getStringValue(propO, PROP_TYPE);

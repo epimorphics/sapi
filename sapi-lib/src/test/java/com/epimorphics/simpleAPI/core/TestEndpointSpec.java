@@ -87,7 +87,7 @@ public class TestEndpointSpec {
         RequestParameters request = new RequestParameters("http://localhost/");
         request.addParameter("severityLevel", "2");
         String query = endpoint.getQuery( request );
-        assertTrue( query.contains(" FILTER( ?severityLevel = \"2\"^^<http://www.w3.org/2001/XMLSchema#integer> )") );
+        assertTrue( query.contains(" FILTER( ?severityLevel = \"2\"^^<http://www.w3.org/2001/XMLSchema#int> )") );
         
         request = new RequestParameters("http://localhost/");
         request.addParameter("severity", "Alert");
@@ -99,6 +99,26 @@ public class TestEndpointSpec {
         query = endpoint.getQuery( request );
         assertTrue( query.contains("FILTER( ?floodArea = <http://example.com/test> )") );
         
-//        System.out.println(query);
+    }
+    
+    @Test
+    public void testLimit() {
+        checkLimit("8", "3", null, "LIMIT 8 OFFSET 3");
+        checkLimit("8", "3", 5, "LIMIT 5 OFFSET 3");
+        checkLimit("20", "3", null, "LIMIT 10 OFFSET 3");
+    }
+    
+    private void checkLimit(String limit, String offset, Integer maxLimit, String expect) {
+        EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/data/endpointSpecs/queryBuildTest.yaml");
+        
+        RequestParameters request = new RequestParameters("http://localhost/");
+        if (maxLimit != null) {
+            request.setLimit(maxLimit);
+        }
+        request.addParameter("_limit", limit);
+        request.addParameter("_offset", offset);
+        String query = endpoint.getQuery( request );
+        
+        assertTrue( query.contains(expect) );
     }
 }
