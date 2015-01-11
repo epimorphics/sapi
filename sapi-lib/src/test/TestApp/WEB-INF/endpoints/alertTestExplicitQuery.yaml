@@ -6,7 +6,7 @@ prefixes :
 
 # baseQuery : "?id a rt:FloodAlertOrWarning ."
 
-query: >
+query: |
     SELECT * WHERE {
         ?id a rt:FloodAlertOrWarning ;
             rt:severity ?severity ;
