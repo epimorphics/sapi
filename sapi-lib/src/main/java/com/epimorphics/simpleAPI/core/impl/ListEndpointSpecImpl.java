@@ -101,13 +101,13 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     }
 
     @Override
-    public JSONWritable getWriter(KeyValueSetStream results) {
-        return new Writer(results);
+    public JSONWritable getWriter(KeyValueSetStream results, RequestParameters request) {
+        return new Writer(results, request);
     }
 
     @Override
-    public JSONWritable getWriter(ResultSet results) {
-        return new Writer(results);
+    public JSONWritable getWriter(ResultSet results, RequestParameters request) {
+        return new Writer(results, request);
     }
     
     public void addBindingParam(String param) {
@@ -121,19 +121,29 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     
     public class Writer implements JSONWritable {
         KeyValueSetStream values;
+        RequestParameters request;
         
-        public Writer(KeyValueSetStream values) {
+        public Writer(KeyValueSetStream values, RequestParameters request) {
             this.values = values;
+            this.request = request;
         }
         
-        public Writer(ResultSet results) {
+        public Writer(ResultSet results, RequestParameters request) {
             this.values = new KeyValueSetStream(results);
+            this.request = request;
         }
         
         @Override
         public void writeTo(JSFullWriter out) {
             out.startObject();
-            api.writeMetadata(out);
+            api.startMetadata(out);
+            if (request.getLimit() != null) {
+                out.pair("limit", request.getLimit());
+            }
+            if (request.getOffset() != null) {
+                out.pair("offset", request.getOffset());
+            }
+            api.finishMetadata(out);
             out.key( getItemName() );
             out.startArray();
             while (values.hasNext()) {

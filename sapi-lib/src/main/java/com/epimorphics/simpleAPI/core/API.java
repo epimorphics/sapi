@@ -107,7 +107,7 @@ public class API extends ComponentBase {
     
     // ---- Metadata support --------------------------------------------
     
-    public void writeMetadata(JSFullWriter out) {
+    public void startMetadata(JSFullWriter out) {
         condOut(out, "@context", contextURL);
         out.key("meta");
         out.startObject();
@@ -116,10 +116,17 @@ public class API extends ComponentBase {
         condOut(out, "documentation", documentation);
         condOut(out, "version", version);
         condOut(out, "comment", comment);
-        
+    }    
+
+    public void writeMetadata(JSFullWriter out) {
+        startMetadata(out);
+        finishMetadata(out);
+    }
+    
+    public void finishMetadata(JSFullWriter out) {
         out.finishObject();
     }
-
+    
     // ---- Access to configurations ------------------------------------
     
     public DescribeEndpointSpec getDefaultDescribe() {

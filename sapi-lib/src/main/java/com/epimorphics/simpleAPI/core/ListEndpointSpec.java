@@ -21,14 +21,14 @@ public interface ListEndpointSpec extends EndpointSpec {
      * Return a streaming writer which serializes the results of a coalesced select query
      * using any mapping information supplied by the endpoint 
      */
-    public JSONWritable getWriter(KeyValueSetStream results);
+    public JSONWritable getWriter(KeyValueSetStream results, RequestParameters request);
 
     /**
      * Return a streaming writer which serializes the results of a select query
      * using any mapping information supplied by the endpoint. Creates a wrapping
      * KeyValueSetStream to perform any coalescing of adjacent rows.
      */
-    public JSONWritable getWriter(ResultSet results);
+    public JSONWritable getWriter(ResultSet results, RequestParameters request);
     
     /**
      * Return a list of parameter names which should be used to ground variables

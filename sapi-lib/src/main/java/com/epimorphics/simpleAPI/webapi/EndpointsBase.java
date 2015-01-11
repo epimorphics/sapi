@@ -120,10 +120,10 @@ public class EndpointsBase {
     /**
      * Return a list of items based on a supplied query and named mapping endpoint specification
      */
-    public JSONWritable listItems(ListEndpointSpec spec, String query) {
+    public JSONWritable listItems(ListEndpointSpec spec, String query, RequestParameters params) {
         log.debug( "List query = " + query);
         ResultSet results = getSource().select(query);
-        return spec.getWriter(results);
+        return spec.getWriter(results, params);
     }
     
     /**
@@ -133,7 +133,7 @@ public class EndpointsBase {
     public JSONWritable listItems(String specname, RequestParameters params) {
         ListEndpointSpec spec = getAPI().getSelectSpec(specname);
         String query = spec.getQuery(params);
-        return listItems(spec, query);
+        return listItems(spec, query, params);
     }
     
     /**

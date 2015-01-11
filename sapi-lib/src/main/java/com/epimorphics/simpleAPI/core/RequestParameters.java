@@ -106,6 +106,14 @@ public class RequestParameters {
         limit = safeMin(limit, lmt);
     }
 
+    public Integer getLimit() {
+        return limit;
+    }
+    
+    public Integer getOffset() {
+        return offset;
+    }
+    
     public String getUri() {
         return uri;
     }
