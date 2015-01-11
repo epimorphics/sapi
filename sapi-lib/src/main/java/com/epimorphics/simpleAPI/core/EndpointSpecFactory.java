@@ -166,6 +166,13 @@ public class EndpointSpecFactory {
                         JSONExplicitMap nested = parseMappingList(api, propO.get(NESTED) );
                         entry.setNested(nested);
                     }
+                    if (propO.hasKey(FILTERABLE)) {
+                        entry.setFilterable( JsonUtil.getBooleanValue(propO, OPTIONAL, true) );
+                    }
+                    if (propO.hasKey(PROP_TYPE)) {
+                        String ty = JsonUtil.getStringValue(propO, PROP_TYPE);
+                        entry.setType( ty );  // Unexpanded prefix, have to delay expansion until runtime structure is built
+                    }
                 }
                 entries.add(entry);
             }

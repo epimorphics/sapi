@@ -8,13 +8,14 @@ baseQuery: |
     ?id a rt:FloodAlertOrWarning .
     
 mapping :
-  - "rt:severity"
-  - "rt:severityLevel"
+  - { prop : "rt:severity", type: ""}
+  - { prop : "rt:severityLevel", type: "xsd:int" }
   - { prop : "rt:message", optional : true }
   - prop : "rt:floodArea"
     nested :
       - "skos:notation"
       - "rt:county"
+    type : rdfs:Resource
   - "rt:eaAreaName"
   - "dct:description"
 

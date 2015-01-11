@@ -37,28 +37,43 @@ public class TestAppAreas extends TomcatTestBase {
 
     @Test
     public void testDummy() throws IOException {
+        // Check explicit describe
         String testArea = "012WACTL12";
         ClientResponse response = getResponse(BASE_URL + "id/floodAreas/" + testArea, "application/json");
         checkJson(response, "src/test/data/TestApp/response-" + testArea + ".json");
         
+        // Default describe
         response = getResponse(BASE_URL + "id/floods/90058", "application/json");
         checkJson(response, "src/test/data/TestApp/response-alert.json");
         
+        // Explicit query from spec, with a map to JSON
         response = getResponse(BASE_URL + "fixedQueryTest", "application/json");
         checkJson(response, "src/test/data/TestApp/response-fixedQueryTest.json");
         
+        // Binding a variable in a query (explicit bindVars)
         response = getResponse(BASE_URL + "paramFixedQueryTest?min-severity=1", "application/json");
         checkJson(response, "src/test/data/TestApp/response-paramQueryTest-1.json");
         
+        // Explicit query, no map to JSON rely on defaults 
         response = getResponse(BASE_URL + "fixedQueryTestNoMap", "application/json");
         checkJson(response, "src/test/data/TestApp/response-fixedQueryTestNoMap.json");
 
+        // Implicit query generated from JSON map
         response = getResponse(BASE_URL + "implicitQueryTest", "application/json");
         checkJson(response, "src/test/data/TestApp/response-fixedQueryTest.json");
 
+        // Injecting filter into implicit query in the endpoint code
         response = getResponse(BASE_URL + "fixedQueryModTest?min-severity=1", "application/json");
         checkJson(response, "src/test/data/TestApp/response-paramQueryTest-1.json");
 
+        // Injecting filter from filterable parameter
+        response = getResponse(BASE_URL + "fixedQueryModTest?severityLevel=1", "application/json");
+        checkJson(response, "src/test/data/TestApp/response-paramQueryTest-1.json");
+
+        response = getResponse(BASE_URL + "fixedQueryModTest?severityLevel=illegal", "application/json");
+        assertEquals(400, response.getStatus());
+        
+        // Injecting basic limit/offsets
         response = getResponse(BASE_URL + "fixedQueryModTest?min-severity=2&_offset=1&_limit=2", "application/json");
         checkJson(response, "src/test/data/TestApp/response-min2offset1limit2.json");
 

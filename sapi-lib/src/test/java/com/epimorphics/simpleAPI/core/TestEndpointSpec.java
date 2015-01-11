@@ -79,4 +79,26 @@ public class TestEndpointSpec {
         try { QueryFactory.create(query); } catch (Exception e) { ok = false; }
         assertTrue( ok );
     }
+    
+    @Test
+    public void testFilterInject() {
+        EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/data/endpointSpecs/queryBuildTest.yaml");
+        
+        RequestParameters request = new RequestParameters("http://localhost/");
+        request.addParameter("severityLevel", "2");
+        String query = endpoint.getQuery( request );
+        assertTrue( query.contains(" FILTER( ?severityLevel = \"2\"^^<http://www.w3.org/2001/XMLSchema#integer> )") );
+        
+        request = new RequestParameters("http://localhost/");
+        request.addParameter("severity", "Alert");
+        query = endpoint.getQuery( request );
+        assertTrue( query.contains(" FILTER( ?severity = \"Alert\" )") );
+        
+        request = new RequestParameters("http://localhost/");
+        request.addParameter("floodArea", "http://example.com/test");
+        query = endpoint.getQuery( request );
+        assertTrue( query.contains("FILTER( ?floodArea = <http://example.com/test> )") );
+        
+//        System.out.println(query);
+    }
 }

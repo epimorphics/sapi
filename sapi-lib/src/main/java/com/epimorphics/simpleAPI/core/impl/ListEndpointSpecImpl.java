@@ -12,10 +12,15 @@ package com.epimorphics.simpleAPI.core.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.Response.Status;
+
 import org.apache.jena.atlas.json.JsonObject;
 
+import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.json.JSONWritable;
+import com.epimorphics.rdfutil.QueryUtil;
+import com.epimorphics.rdfutil.TypeUtil;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ListEndpointSpec;
 import com.epimorphics.simpleAPI.core.RequestParameters;
@@ -50,7 +55,33 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
             query = expandPrefixes( rawQuery );
         }
         String q = bindVars(request, query);
+        injectFilters(request);
         return request.bindQuery(q);
+    }
+    
+    protected void injectFilters(RequestParameters request) {
+        if (map instanceof JSONExplicitMap) {
+            for (JSONMapEntry entry : ((JSONExplicitMap)map).mapping) {
+                if (entry.isFilterable()) {
+                    String var = entry.getJsonName();
+                    Object value = request.getBinding(var);
+                    if (value != null) {
+                        if (value instanceof String) {
+                            try {
+                                String typeURI = entry.getType();
+                                if (typeURI != null) {
+                                    typeURI = getPrefixes().expandPrefix(typeURI);
+                                }
+                                value = TypeUtil.asTypedValue((String)value, typeURI);
+                            } catch (Exception e) {
+                                throw new WebApiException(Status.BAD_REQUEST, "Illegal value for parameter " + var);
+                            }
+                        }
+                        request.addFilter( String.format("FILTER( ?%s = %s )", var, QueryUtil.asSPARQLValue(value)) );
+                    }
+                }
+            }
+        }
     }
     
     protected String bindVars(RequestParameters request, String query) {

@@ -27,7 +27,7 @@ query: >
 
 mapping :
   - "rt:severity"
-  - "rt:severityLevel"
+  - { prop : "rt:severityLevel", filterable: true, type: "xsd:int" }
   - { prop : "rt:message", optional : true }
   - { prop : "rt:messageWelsh", optional : true }
   - prop : "rt:floodArea"

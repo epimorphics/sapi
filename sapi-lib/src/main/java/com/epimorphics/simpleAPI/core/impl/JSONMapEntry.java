@@ -23,7 +23,12 @@ public class JSONMapEntry implements JSONNodePolicy {
     protected boolean multivalued = false;
     protected boolean optional = false;
     protected boolean showLangTag = true;
+    protected boolean filterable = false;   // Make filterable the default?
+    
+    protected String typeURI;
+    
     protected JSONMap nested = null;
+    
     protected String jsonname;
     protected String property;
     
@@ -66,6 +71,22 @@ public class JSONMapEntry implements JSONNodePolicy {
         this.nested = nested;
     }
 
+    public boolean isFilterable() {
+        return filterable;
+    }
+
+    public void setFilterable(boolean filterable) {
+        this.filterable = filterable;
+    }
+    
+    public void setType(String typeURI) {
+        this.typeURI = typeURI;
+    }
+    
+    public String getType() {
+        return typeURI;
+    }
+    
     @Override
     public boolean isMultivalued() {
         return multivalued;
