@@ -8,7 +8,7 @@
     "comment" : "WARNING: Pre-alpha test service, data may not be up to date"
   }
    ,
-  "item" : [ { 
+  "items" : [ { 
     "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floods/90081" ,
     "message" : "We are expecting high levels due to a combination of a tidal surge and high winds. Locations affected are riverside and rural properties in West Caister, Runham, Acle and Stokesby. Roads likely to be affected are the A47, A1064 and Acle Bridge. We will continue to monitor levels closely and update this message as necessary." ,
     "severity" : "Flood Warning" ,

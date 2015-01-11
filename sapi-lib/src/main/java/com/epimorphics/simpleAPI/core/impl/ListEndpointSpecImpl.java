@@ -136,14 +136,13 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
         @Override
         public void writeTo(JSFullWriter out) {
             out.startObject();
-            api.startMetadata(out);
+            api.writeMetadata(out);
             if (request.getLimit() != null) {
                 out.pair("limit", request.getLimit());
             }
             if (request.getOffset() != null) {
                 out.pair("offset", request.getOffset());
             }
-            api.finishMetadata(out);
             out.key( getItemName() );
             out.startArray();
             while (values.hasNext()) {

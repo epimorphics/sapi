@@ -8,7 +8,7 @@
     "comment" : "WARNING: Pre-alpha test service, data may not be up to date"
   }
    ,
-  "item" : [ { 
+  "items" : [ { 
     "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floods/90081" ,
     "severity" : "Flood Warning" ,
     "severityLevel" : 2 ,

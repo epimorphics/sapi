@@ -75,10 +75,10 @@ public class TestAppAreas extends TomcatTestBase {
         
         // Injecting basic limit/offsets
         response = getResponse(BASE_URL + "fixedQueryModTest?min-severity=2&_offset=1&_limit=2", "application/json");
-//        checkJson(response, "src/test/data/TestApp/response-min2offset1limit2.json");
+        checkJson(response, "src/test/data/TestApp/response-min2offset1limit2.json");
 
-        assertEquals(200, response.getStatus());
-        System.out.println( response.getEntity(String.class) );
+//        assertEquals(200, response.getStatus());
+//        System.out.println( response.getEntity(String.class) );
     }
     
     private void checkJson(ClientResponse response, String expected) throws IOException {

@@ -87,7 +87,7 @@ public abstract class EndpointSpecBase implements EndpointSpec {
     }
     
     public String getItemName() {
-        return JsonUtil.getStringValue(config, EndpointSpecFactory.ITEM_NAME, "item");
+        return JsonUtil.getStringValue(config, EndpointSpecFactory.ITEM_NAME, "items");
     }
 
     public String getName() {
