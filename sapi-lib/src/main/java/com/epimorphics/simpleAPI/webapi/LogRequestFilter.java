@@ -28,11 +28,14 @@ import com.epimorphics.util.NameUtils;
 
 /**
  * A Filter that can be added to filter chain to log all incoming requests and
- * the corresponding response (with response code and execution time).
+ * the corresponding response (with response code and execution time). Assigns a 
+ * simple request number to each request and includes that in the response headers
+ * for diagnosis. Not robust against restarts but easier to work with than UUIDs.
  */
 public class LogRequestFilter implements Filter {
     public static final String TRANSACTION_ATTRIBUTE = "transaction";
     public static final String START_TIME_ATTRIBUTE  = "startTime";
+    public static final String REQUEST_ID_HEADER  = "x-response-id";
     
     static final Logger log = LoggerFactory.getLogger( LogRequestFilter.class );
     
@@ -54,6 +57,7 @@ public class LogRequestFilter implements Filter {
         long start = System.currentTimeMillis();
         
         log.info( String.format("Request  [%d] : %s", transaction, path) + (query == null ? "" : ("?" + query)) );
+        httpResponse.addHeader(REQUEST_ID_HEADER, Long.toString(transaction));
         chain.doFilter(request, response);        
         log.info( String.format("Response [%d] : %d (%s)", transaction, httpResponse.getStatus(),
                 NameUtils.formatDuration(System.currentTimeMillis() - start) ) );
