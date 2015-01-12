@@ -74,4 +74,9 @@ public class JSONDefaultDescription implements JSONNodeDescription {
         return null;
     }
 
+    @Override
+    public boolean isParent() {
+        return false;
+    }
+
 }

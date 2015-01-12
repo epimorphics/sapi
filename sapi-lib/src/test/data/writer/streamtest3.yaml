@@ -1,0 +1,31 @@
+type : list
+
+query: |
+  SELECT * WHERE {
+    ?id a <http://localhost/Target> .
+    ?id
+        rdf:type ?type ;
+        rdfs:label ?label ;
+        rdf:value ?value ;
+    .
+    ?value
+        rdfs:label ?nlabel ;
+        rdf:value ?nvalue ;
+    .
+    ?nvalue
+        rdfs:label ?nnlabel ;
+    .
+  } ORDER BY ?id
+
+mapping:
+   - "rdf:type"
+   - "rdfs:label"
+   - prop: "rdf:value"
+     nested:
+       - {prop: "rdfs:label", name: "nlabel"}
+       - prop: "rdf:value"
+         name: "nvalue"
+         nested:
+           - {prop: "rdfs:label", name: "nnlabel"}
+             
+

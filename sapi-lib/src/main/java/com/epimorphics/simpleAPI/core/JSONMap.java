@@ -50,9 +50,16 @@ public class JSONMap {
     
     protected void init() {
         if (entries == null) {
-            entries = new HashMap<String, JSONMapEntry>( mapping.size() );
-            for (JSONMapEntry entry : mapping) {
-                entries.put( entry.getJsonName(), entry );
+            entries = new HashMap<String, JSONMapEntry>( );
+            initFromMap(this);
+        }
+    }
+    
+    protected void initFromMap(JSONMap jmap) {
+        for (JSONMapEntry entry : jmap.getMapping()) {
+            entries.put( entry.getJsonName(), entry );
+            if (entry.isParent()) {
+                initFromMap(entry.getNestedMap());
             }
         }
     }
@@ -86,7 +93,7 @@ public class JSONMap {
         buf.append("    " + baseQuery + "\n");
         renderAsQuery(buf, "id");
         for (JSONMapEntry entry : mapping) {
-            if (entry.getNestedMap() != null && !entry.isOptional()) {
+            if (entry.isParent() && !entry.isOptional()) {
                 JSONMap nested = entry.getNestedMap();
                 nested.renderAsQuery(buf, entry.getJsonName());
             }
@@ -111,7 +118,7 @@ public class JSONMap {
         if (started) buf.append("    .\n");
         for (JSONMapEntry map : mapping) {
             if (map.isOptional()) {
-                if (map.getNestedMap() != null) {
+                if (map.isParent()) {
                     buf.append("    OPTIONAL {?" + var + " " + map.asQueryRow() + " .\n" );
                     JSONMap nested = map.getNestedMap();
                     nested.renderAsQuery(buf, map.getJsonName());

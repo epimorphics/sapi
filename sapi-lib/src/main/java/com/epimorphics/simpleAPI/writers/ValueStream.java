@@ -11,6 +11,7 @@ package com.epimorphics.simpleAPI.writers;
 
 import java.util.Iterator;
 
+import com.epimorphics.simpleAPI.core.JSONMap;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -27,9 +28,15 @@ public class ValueStream implements Iterable<ValueSet>, Iterator<ValueSet> {
     protected ResultSet results;
     protected QuerySolution nextRow;
     protected Resource nextID;
-        
-    public ValueStream(ResultSet results) {
+    protected JSONMap map;
+    
+    public ValueStream(ResultSet results, JSONMap map) {
         this.results = results;
+        this.map = map;
+    }
+    
+    public ValueStream(ResultSet results) {
+    this.results = results;
     }
 
     @Override
@@ -49,10 +56,10 @@ public class ValueStream implements Iterable<ValueSet>, Iterator<ValueSet> {
                 nextRow = results.next();
                 nextID = nextRow.getResource("id");
             }
-            ValueSet values = new ValueSet(nextID.getURI());
+            ValueSet values = new ValueSet(nextID);
             Resource target = nextID;
             while (nextID != null && nextID.equals(target)) {
-                values.addRow(nextRow);
+                values.addRow(nextRow, map);
                 if (results.hasNext()) {
                     nextRow = results.next();
                     nextID = nextRow.getResource("id");

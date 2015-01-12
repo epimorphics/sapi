@@ -41,6 +41,11 @@ public interface JSONNodeDescription {
     public JSONNodeDescription getParent();
     
     /**
+     * Returns true if the node is a parent of some nested tree structure
+     */
+    public boolean isParent();
+    
+    /**
      * Return a nested map definition, or null if this node has no children
      */
     public JSONMap getNestedMap();

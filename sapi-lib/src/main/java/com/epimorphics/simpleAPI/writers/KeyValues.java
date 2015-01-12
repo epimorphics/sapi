@@ -12,6 +12,8 @@ package com.epimorphics.simpleAPI.writers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hp.hpl.jena.rdf.model.RDFNode;
+
 /**
  * Represents the value(s) of a key in an output stream. The key normally corresponds
  * to the JSON name in an output JSON structure and the variable name in any supplying SPARQL 
@@ -57,6 +59,34 @@ public class KeyValues implements Comparable<KeyValues>{
         if ( ! values.contains(value) ) {
             values.add(value);
         }
+    }
+    
+    /**
+     * If this contains a ValueSet with the given ID then return it,
+     * otherwise return null;
+     */
+    public ValueSet findValueSet(RDFNode id) {
+        for (Object value : values) {
+            if (value instanceof ValueSet) {
+                ValueSet vs = (ValueSet)value;
+                if ( vs.getId().equals(id) ) {
+                    return vs;
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Find or create a ValueSet entry for the given ID
+     */
+    public ValueSet makeValueSet(RDFNode id) {
+        ValueSet vs = findValueSet(id);
+        if (vs == null) {
+            vs = new ValueSet(id);
+            values.add(vs);
+        }
+        return vs;
     }
 
     @Override

@@ -69,6 +69,11 @@ public class JSONMapEntry extends JSONDefaultDescription implements JSONNodeDesc
 
     @Override
     public boolean isChild() {
+        return parent != null;
+    }
+
+    @Override
+    public boolean isParent() {
         return nested != null;
     }
 

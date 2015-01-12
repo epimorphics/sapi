@@ -17,7 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.epimorphics.simpleAPI.core.JSONOldMap;
+import com.epimorphics.simpleAPI.core.JSONMap;
+import com.epimorphics.simpleAPI.core.JSONNodeDescription;
+import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -32,12 +34,12 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  */
 public class ValueSet {
     protected Map<String, KeyValues> values = new HashMap<String, KeyValues>();
-    protected String id = null;
+    protected RDFNode id = null;
     
     public ValueSet() {
     }
     
-    public ValueSet(String id) {
+    public ValueSet(RDFNode id) {
         this.id = id;
     }
     
@@ -59,8 +61,6 @@ public class ValueSet {
      * Add a query result row to the results, skipping "?id" which is assumed
      * to represent the resource.
      */
-    @@
-    // Mapped version
     public void addRow(QuerySolution row) {
         for (Iterator<String> vi = row.varNames(); vi.hasNext();) {
             String var = vi.next();
@@ -70,6 +70,60 @@ public class ValueSet {
         }
     }
     
+    /**
+     * Add a query result row to the results, skipping "?id" which is assumed
+     * to represent the resource. Uses the map to create nested values when
+     * nodes are declared as nested.
+     */
+    public void addRow(QuerySolution row, JSONMap map) {
+        if (map == null) {
+            addRow(row);
+        } else {
+            for (Iterator<String> vi = row.varNames(); vi.hasNext();) {
+                String var = vi.next();
+                RDFNode value = row.get(var);
+                if (value != null) {
+                    if (!var.equals("id")) {
+                        JSONNodeDescription node = map.getEntry(var);
+                        if (node.isChild()) {
+                            // Skip children, they will get built when we meet the parents
+                        } else if (node.isParent()) {
+                            startNested(this, row, map, (JSONMapEntry)node, var, value);
+                        } else {
+                            put(var, row.get(var));
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    protected void startNested(ValueSet valueset, QuerySolution row, JSONMap map, JSONMapEntry entry, String key, RDFNode value) {
+        KeyValues kv = valueset.getKeyValues(key);
+        ValueSet vs = null;
+        if (kv == null) {
+            vs = new ValueSet(value);
+            valueset.put(key, vs);
+        } else {
+            vs = kv.makeValueSet(value);
+        }
+        addNested(vs, row, entry.getNestedMap());
+    }
+
+    protected void addNested(ValueSet parent, QuerySolution row, JSONMap map) {
+        for (JSONMapEntry entry : map.getMapping()) {
+            String key = entry.getJsonName();
+            RDFNode value = row.get(key);
+            if (value != null) {
+                if (entry.isParent()) {
+                    startNested(parent, row, map, entry, key, value);
+                } else {
+                    parent.put(key, value);
+                }
+            }
+        }
+    }
+
     /**
      * Return ordered list of keys 
      */
@@ -89,22 +143,34 @@ public class ValueSet {
         return values.values();
     }    
     
-    public void setId(String id) {
+    public void setId(RDFNode id) {
         this.id = id;
     }
     
-    public String getId() {
+    public RDFNode getId() {
         return id;
     }
     
-    public static ValueSet fromResource(JSONOldMap map, Resource root) {
-        // TODO implement
-        // Handle nesting
-        @@ 
-        ValueSet values = new ValueSet( root.getURI() );  // Null ID is perfectly legal here
+    public String getStringID() {
+        if (id.isResource()) {
+            return id.asResource().getURI();
+        } else {
+            return null;
+        }
+    }
+    
+    public static ValueSet fromResource(JSONMap map, Resource root) {
+        ValueSet values = new ValueSet( root );
         for (StmtIterator i = root.listProperties(); i.hasNext(); ) {
             Statement s = i.next();
-            values.put( map.keyFor(s.getPredicate()), s.getObject() );
+            String key = map.keyFor(s.getPredicate());
+            RDFNode value = s.getObject();
+            if (value.isResource() && value.asResource().listProperties().hasNext()) {
+                ValueSet nested = fromResource(map, value.asResource());
+                values.put(key, nested);
+            } else {
+                values.put( key, value );
+            }
         }
         return values;
     }
@@ -113,7 +179,7 @@ public class ValueSet {
     public String toString() {
         StringBuffer buf = new StringBuffer();
         buf.append("{@id:" + id);
-        for (KeyValues  v : values) {
+        for (KeyValues  v : values.values()) {
             buf.append(", " + v);
         }
         buf.append("}");
