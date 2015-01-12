@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.epimorphics.json.JSFullWriter;
+import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.JSONOldMap;
 import com.epimorphics.simpleAPI.core.JSONNodePolicy;
 import com.hp.hpl.jena.rdf.model.Literal;
@@ -25,11 +26,11 @@ import com.hp.hpl.jena.rdf.model.Resource;
  */
 public class JsonWriterUtil {
 
-    public static void writeKeyValues(JSONOldMap map, ValueSet values, JSFullWriter out) {
-        writeKeyValues(map, values, values.getId(), out, new HashSet<String>()); 
+    public static void writeKeyValues(JSONMap map, ValueSet values, JSFullWriter out) {
+        writeKeyValues(map, values, values.getStringID(), out, new HashSet<String>()); 
     }
     
-    protected static void writeKeyValues(JSONOldMap map, ValueSet values, String id, JSFullWriter out, Set<String> seen) {
+    protected static void writeKeyValues(JSONMap map, ValueSet values, String id, JSFullWriter out, Set<String> seen) {
         out.startObject();
         if (id != null) {
             out.pair("@id", id);
