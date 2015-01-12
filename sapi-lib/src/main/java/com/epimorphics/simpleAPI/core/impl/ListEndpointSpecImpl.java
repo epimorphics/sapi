@@ -22,6 +22,7 @@ import com.epimorphics.json.JSONWritable;
 import com.epimorphics.rdfutil.QueryUtil;
 import com.epimorphics.rdfutil.TypeUtil;
 import com.epimorphics.simpleAPI.core.API;
+import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.ListEndpointSpec;
 import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
@@ -69,27 +70,37 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     
     protected void injectFilters(RequestParameters request) {
         if (map instanceof JSONExplicitMap) {
-            for (JSONMapEntry entry : ((JSONExplicitMap)map).mapping) {
-                if (entry.isFilterable()) {
-                    String var = entry.getJsonName();
-                    Object value = request.getBinding(var);
-                    if (value != null) {
-                        if (value instanceof String) {
-                            try {
-                                String typeURI = entry.getType();
-                                if (typeURI != null) {
-                                    typeURI = getPrefixes().expandPrefix(typeURI);
-                                }
-                                value = TypeUtil.asTypedValue((String)value, typeURI);
-                            } catch (Exception e) {
-                                throw new WebApiException(Status.BAD_REQUEST, "Illegal value for parameter " + var);
+            injectFilters(request, (JSONExplicitMap)map);
+        }
+    }
+    
+    protected void injectFilters(RequestParameters request, JSONExplicitMap jmap) {
+        for (JSONMapEntry entry : jmap.mapping) {
+            if (entry.isFilterable()) {
+                String var = entry.getJsonName();
+                Object value = request.getBinding(var);
+                if (value != null) {
+                    if (value instanceof String) {
+                        try {
+                            String typeURI = entry.getType();
+                            if (typeURI != null) {
+                                typeURI = getPrefixes().expandPrefix(typeURI);
                             }
+                            value = TypeUtil.asTypedValue((String)value, typeURI);
+                        } catch (Exception e) {
+                            throw new WebApiException(Status.BAD_REQUEST, "Illegal value for parameter " + var);
                         }
-                        request.addFilter( String.format("FILTER( ?%s = %s )", var, QueryUtil.asSPARQLValue(value)) );
                     }
+                    request.addFilter( String.format("FILTER( ?%s = %s )", var, QueryUtil.asSPARQLValue(value)) );
                 }
             }
-        }
+            if (entry.isNested()) {
+                JSONMap nest = entry.getNestedMap();
+                if (nest instanceof JSONExplicitMap) {
+                    injectFilters(request, (JSONExplicitMap)nest);
+                }
+            }
+        }        
     }
     
     protected String bindVars(RequestParameters request, String query) {

@@ -16,7 +16,7 @@ mapping :
   - prop : "rt:floodArea"
     nested :
       - "skos:notation"
-      - "rt:county"
+      - {prop: "rt:county", filterable: true, type: "" }
     filterable : true
     type : rdfs:Resource
   - "rt:eaAreaName"

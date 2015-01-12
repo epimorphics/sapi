@@ -33,7 +33,7 @@ mapping :
   - prop : "rt:floodArea"
     nested :
       - "skos:notation"
-      - "rt:county"
+      - {prop: "rt:county", filterable: true, type: "" }
       - "rt:riverOrSea"
       - "rt:polygon"
   - "rt:eaAreaName"

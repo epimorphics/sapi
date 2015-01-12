@@ -99,6 +99,11 @@ public class TestEndpointSpec {
         query = endpoint.getQuery( request );
         assertTrue( query.contains("FILTER( ?floodArea = <http://example.com/test> )") );
         
+        request = new RequestParameters("http://localhost/");
+        request.addParameter("county", "Kent");
+        query = endpoint.getQuery( request );
+        assertTrue( query.contains(" FILTER( ?county = \"Kent\" )") );
+        
     }
     
     @Test
