@@ -15,6 +15,8 @@ import java.util.List;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.jena.atlas.json.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.json.JSFullWriter;
@@ -23,14 +25,18 @@ import com.epimorphics.rdfutil.QueryUtil;
 import com.epimorphics.rdfutil.TypeUtil;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.JSONMap;
+import com.epimorphics.simpleAPI.core.JSONNodeDescription;
+import com.epimorphics.simpleAPI.core.JSONOldMap;
 import com.epimorphics.simpleAPI.core.ListEndpointSpec;
 import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
-import com.epimorphics.simpleAPI.writers.KeyValueSetStream;
+import com.epimorphics.simpleAPI.writers.ValueStream;
 import com.epimorphics.util.EpiException;
 import com.hp.hpl.jena.query.ResultSet;
 
 public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpointSpec {
+    static final Logger log = LoggerFactory.getLogger( ListEndpointSpecImpl.class );
+            
     protected String baseQuery;
     protected String query;
     protected List<String> bindingVars = new ArrayList<>();
@@ -52,11 +58,7 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     public String getQuery(RequestParameters request) {
         if (query == null) {
             if (rawQuery == null) {
-                if (map instanceof JSONExplicitMap) {
-                    rawQuery = ((JSONExplicitMap)map).asQuery(baseQuery);
-                } else {
-                    throw new EpiException("Cannot query - need either a mapping or an explicit query");
-                }
+                rawQuery = map.asQuery(baseQuery);
             }
             query = expandPrefixes( rawQuery );
         }
@@ -69,38 +71,31 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     }
     
     protected void injectFilters(RequestParameters request) {
-        if (map instanceof JSONExplicitMap) {
-            injectFilters(request, (JSONExplicitMap)map);
-        }
-    }
-    
-    protected void injectFilters(RequestParameters request, JSONExplicitMap jmap) {
-        for (JSONMapEntry entry : jmap.mapping) {
-            if (entry.isFilterable()) {
-                String var = entry.getJsonName();
-                Object value = request.getBinding(var);
-                if (value != null) {
-                    if (value instanceof String) {
-                        try {
-                            String typeURI = entry.getType();
-                            if (typeURI != null) {
-                                typeURI = getPrefixes().expandPrefix(typeURI);
+        for (String param : request.getBindings().keySet()) {
+            if (!param.startsWith("_")) {
+                JSONNodeDescription entry = map.getEntry(param);
+                if (entry.isFilterable()) {
+                    Object value = request.getBinding(param);
+                    if (value != null) {
+                        if (value instanceof String) {
+                            try {
+                                String typeURI = entry.getType();
+                                if (typeURI != null) {
+                                    typeURI = getPrefixes().expandPrefix(typeURI);
+                                }
+                                value = TypeUtil.asTypedValue((String)value, typeURI);
+                            } catch (Exception e) {
+                                throw new WebApiException(Status.BAD_REQUEST, "Illegal value for parameter " + param);
                             }
-                            value = TypeUtil.asTypedValue((String)value, typeURI);
-                        } catch (Exception e) {
-                            throw new WebApiException(Status.BAD_REQUEST, "Illegal value for parameter " + var);
                         }
+                        request.addFilter( String.format("FILTER( ?%s = %s )", param, QueryUtil.asSPARQLValue(value)) );
                     }
-                    request.addFilter( String.format("FILTER( ?%s = %s )", var, QueryUtil.asSPARQLValue(value)) );
+                } else {
+                    log.warn("Unrecognized query parameter: " + param);
+                    // TODO return the request?
                 }
             }
-            if (entry.isNested()) {
-                JSONMap nest = entry.getNestedMap();
-                if (nest instanceof JSONExplicitMap) {
-                    injectFilters(request, (JSONExplicitMap)nest);
-                }
-            }
-        }        
+        }
     }
     
     protected String bindVars(RequestParameters request, String query) {
@@ -112,7 +107,7 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     }
 
     @Override
-    public JSONWritable getWriter(KeyValueSetStream results, RequestParameters request) {
+    public JSONWritable getWriter(ValueStream results, RequestParameters request) {
         return new Writer(results, request);
     }
 
@@ -131,16 +126,16 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     }
     
     public class Writer implements JSONWritable {
-        KeyValueSetStream values;
+        ValueStream values;
         RequestParameters request;
         
-        public Writer(KeyValueSetStream values, RequestParameters request) {
+        public Writer(ValueStream values, RequestParameters request) {
             this.values = values;
             this.request = request;
         }
         
         public Writer(ResultSet results, RequestParameters request) {
-            this.values = new KeyValueSetStream(results);
+            this.values = new ValueStream(results);
             this.request = request;
         }
         

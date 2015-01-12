@@ -31,7 +31,7 @@ public class TestJsonWriterUtil {
         EndpointSpec config = new API().getDefaultDescribe();
         
         Model source = RDFDataMgr.loadModel("src/test/data/writer/test1.ttl");
-        KeyValueSet values = KeyValueSet.fromResource(config.getMap(), source.createResource("http://localhost/resource"));
+        ValueSet values = ValueSet.fromResource(config.getMap(), source.createResource("http://localhost/resource"));
         
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         JSFullWriter out = new JSFullWriter(bos);

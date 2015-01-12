@@ -10,11 +10,14 @@
 package com.epimorphics.simpleAPI.writers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import com.epimorphics.simpleAPI.core.JSONMap;
+import com.epimorphics.simpleAPI.core.JSONOldMap;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -22,36 +25,31 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 /**
- * An orderable list of key/values sets. Can represent an RDF
+ * An orderable list of key/values sets and associate ID (e.g. URI). Can represent an RDF
  * resource for serialisation whether from a Describe or a coalesced result set.
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-public class KeyValueSet {
-    protected List<KeyValues> values = new ArrayList<KeyValues>();
+public class ValueSet {
+    protected Map<String, KeyValues> values = new HashMap<String, KeyValues>();
     protected String id = null;
     
-    public KeyValueSet() {
+    public ValueSet() {
     }
     
-    public KeyValueSet(String id) {
+    public ValueSet(String id) {
         this.id = id;
     }
     
     public KeyValues getKeyValues(String key) {
-        for (KeyValues kv : values) {
-            if (kv.getKey().equals(key)) {
-                return kv;
-            }
-        }
-        return null;
+        return values.get(key);
     }
     
-    public void put(String key, RDFNode value) {
+    public void put(String key, Object value) {
         KeyValues kv = getKeyValues(key);
         if (kv == null) {
             kv = new KeyValues(key, value);
-            values.add(kv);
+            values.put(key, kv);
         } else {
             kv.add(value);
         }
@@ -61,6 +59,8 @@ public class KeyValueSet {
      * Add a query result row to the results, skipping "?id" which is assumed
      * to represent the resource.
      */
+    @@
+    // Mapped version
     public void addRow(QuerySolution row) {
         for (Iterator<String> vi = row.varNames(); vi.hasNext();) {
             String var = vi.next();
@@ -75,18 +75,18 @@ public class KeyValueSet {
      */
     public List<String> listSortedKeys() {
         List<String> keys = new ArrayList<String>( values.size() );
-        for (KeyValues kv : values) {
-            keys.add( kv.getKey() );
+        for (String key : values.keySet()) {
+            keys.add( key );
         }
         Collections.sort(keys);
         return keys;
     }    
     
     /**
-     * Return (un-sorted) list of all the key values 
+     * Return (un-sorted) collection of all the key values 
      */
-    public List<KeyValues> listKeyValues() {
-        return values;
+    public Collection<KeyValues> listKeyValues() {
+        return values.values();
     }    
     
     public void setId(String id) {
@@ -97,8 +97,11 @@ public class KeyValueSet {
         return id;
     }
     
-    public static KeyValueSet fromResource(JSONMap map, Resource root) {
-        KeyValueSet values = new KeyValueSet( root.getURI() );  // Null ID is perfectly legal here
+    public static ValueSet fromResource(JSONOldMap map, Resource root) {
+        // TODO implement
+        // Handle nesting
+        @@ 
+        ValueSet values = new ValueSet( root.getURI() );  // Null ID is perfectly legal here
         for (StmtIterator i = root.listProperties(); i.hasNext(); ) {
             Statement s = i.next();
             values.put( map.keyFor(s.getPredicate()), s.getObject() );

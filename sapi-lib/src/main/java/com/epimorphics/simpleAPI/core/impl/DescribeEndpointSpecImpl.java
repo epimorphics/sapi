@@ -15,9 +15,10 @@ import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.json.JSONWritable;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.DescribeEndpointSpec;
+import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
-import com.epimorphics.simpleAPI.writers.KeyValueSet;
+import com.epimorphics.simpleAPI.writers.ValueSet;
 import com.hp.hpl.jena.rdf.model.Resource;
 
 public class DescribeEndpointSpecImpl extends EndpointSpecBase implements DescribeEndpointSpec {
@@ -25,7 +26,7 @@ public class DescribeEndpointSpecImpl extends EndpointSpecBase implements Descri
     
     public DescribeEndpointSpecImpl(API api, JsonObject config) {
         super(api, config);
-        map = new JSONPlainMap(api);
+        map = new JSONMap(api);
     }
 
     @Override
@@ -42,14 +43,14 @@ public class DescribeEndpointSpecImpl extends EndpointSpecBase implements Descri
     }
 
     public class Writer implements JSONWritable {
-        KeyValueSet values;
+        ValueSet values;
         
-        public Writer(KeyValueSet values) {
+        public Writer(ValueSet values) {
             this.values = values;
         }
         
         public Writer(Resource root) {
-            this.values = KeyValueSet.fromResource(map, root);
+            this.values = ValueSet.fromResource(map, root);
         }
         
         @Override

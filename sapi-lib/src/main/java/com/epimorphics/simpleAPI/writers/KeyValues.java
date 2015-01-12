@@ -12,23 +12,23 @@ package com.epimorphics.simpleAPI.writers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hp.hpl.jena.rdf.model.RDFNode;
-
 /**
- * Pair of a short name key (to which values will be written) and an array of values.
- * Used as part of ordering and grouping a ResultSet or set of Resource properties.
+ * Represents the value(s) of a key in an output stream. The key normally corresponds
+ * to the JSON name in an output JSON structure and the variable name in any supplying SPARQL 
+ * query solution row. Each value may be an RDFNode or a nested ValueSet (when the
+ * mapping includes nested values).
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class KeyValues implements Comparable<KeyValues>{
     protected String key;
-    protected List<RDFNode> values = new ArrayList<RDFNode>();
+    protected List<Object> values = new ArrayList<Object>();
     
     public KeyValues(String key) {
         this.key = key;
     }
     
-    public KeyValues(String key, RDFNode value) {
+    public KeyValues(String key, Object value) {
         this.key = key;
         values.add(value);
     }
@@ -37,15 +37,15 @@ public class KeyValues implements Comparable<KeyValues>{
         return key;
     }
     
-    public List<RDFNode> values() {
+    public List<Object> values() {
         return values;
     }
     
-    public List<RDFNode> getValues() {
+    public List<Object> getValues() {
         return values;
     }
     
-    public RDFNode getValue() {
+    public Object getValue() {
         if (values.isEmpty()) {
             return null;
         } else {
@@ -53,7 +53,7 @@ public class KeyValues implements Comparable<KeyValues>{
         }
     }
     
-    public void add(RDFNode value) {
+    public void add(Object value) {
         if ( ! values.contains(value) ) {
             values.add(value);
         }

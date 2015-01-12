@@ -34,10 +34,10 @@ public class TestStreamCoalesce {
         query = PrefixUtils.expandQuery(query, PrefixUtils.commonPrefixes());
         QueryExecution qexec = QueryExecutionFactory.create(query, data);
         try {
-            KeyValueSetStream stream = new KeyValueSetStream(qexec.execSelect());
+            ValueStream stream = new ValueStream(qexec.execSelect());
             assertTrue(stream.hasNext());
             
-            KeyValueSet result = stream.next();
+            ValueSet result = stream.next();
             checkSingleString(result, "label", "resource 1");
             checkSingleString(result, "comment", "optional");
             checkStrings(result, "value", "1");
@@ -58,11 +58,11 @@ public class TestStreamCoalesce {
         
     }
     
-    private void checkSingleString(KeyValueSet result, String key, String expected) {
+    private void checkSingleString(ValueSet result, String key, String expected) {
         assertEquals( expected, result.getKeyValues(key).getValue().asLiteral().getLexicalForm() );
     }
     
-    private void checkStrings(KeyValueSet result, String key, String...expected) {
+    private void checkStrings(ValueSet result, String key, String...expected) {
         RDFNode[] expectedNodes = new RDFNode[expected.length];
         for (int i = 0; i < expected.length; i++) {
             expectedNodes[i] = createPlainLiteral(expected[i]);

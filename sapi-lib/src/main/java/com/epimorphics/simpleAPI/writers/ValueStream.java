@@ -23,17 +23,17 @@ import com.hp.hpl.jena.rdf.model.Resource;
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-public class KeyValueSetStream implements Iterable<KeyValueSet>, Iterator<KeyValueSet> {
+public class ValueStream implements Iterable<ValueSet>, Iterator<ValueSet> {
     protected ResultSet results;
     protected QuerySolution nextRow;
     protected Resource nextID;
         
-    public KeyValueSetStream(ResultSet results) {
+    public ValueStream(ResultSet results) {
         this.results = results;
     }
 
     @Override
-    public Iterator<KeyValueSet> iterator() {
+    public Iterator<ValueSet> iterator() {
         return this;
     }
 
@@ -43,13 +43,13 @@ public class KeyValueSetStream implements Iterable<KeyValueSet>, Iterator<KeyVal
     }
 
     @Override
-    public KeyValueSet next() {
+    public ValueSet next() {
         if (hasNext()) {
             if (nextRow == null) {
                 nextRow = results.next();
                 nextID = nextRow.getResource("id");
             }
-            KeyValueSet values = new KeyValueSet(nextID.getURI());
+            ValueSet values = new ValueSet(nextID.getURI());
             Resource target = nextID;
             while (nextID != null && nextID.equals(target)) {
                 values.addRow(nextRow);

@@ -140,7 +140,7 @@ public class EndpointsBase {
      * Return a list of items based on a named query/mapping endpoint specification
      */
     public JSONWritable listItems(String specname) {
-        return listItems(specname, getRequest());
+        return listItems(specname, getRequestWithParms());
     }
     
 

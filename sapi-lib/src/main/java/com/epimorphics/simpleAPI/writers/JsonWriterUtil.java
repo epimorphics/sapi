@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.epimorphics.json.JSFullWriter;
-import com.epimorphics.simpleAPI.core.JSONMap;
+import com.epimorphics.simpleAPI.core.JSONOldMap;
 import com.epimorphics.simpleAPI.core.JSONNodePolicy;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.RDFNode;
@@ -25,11 +25,11 @@ import com.hp.hpl.jena.rdf.model.Resource;
  */
 public class JsonWriterUtil {
 
-    public static void writeKeyValues(JSONMap map, KeyValueSet values, JSFullWriter out) {
+    public static void writeKeyValues(JSONOldMap map, ValueSet values, JSFullWriter out) {
         writeKeyValues(map, values, values.getId(), out, new HashSet<String>()); 
     }
     
-    protected static void writeKeyValues(JSONMap map, KeyValueSet values, String id, JSFullWriter out, Set<String> seen) {
+    protected static void writeKeyValues(JSONOldMap map, ValueSet values, String id, JSFullWriter out, Set<String> seen) {
         out.startObject();
         if (id != null) {
             out.pair("@id", id);
@@ -63,23 +63,23 @@ public class JsonWriterUtil {
     }
 
     protected static void writeNode(
-            JSONMap map, 
+            JSONOldMap map, 
             JSONNodePolicy policy, 
             String key, 
             RDFNode value, 
-            KeyValueSet values, 
+            ValueSet values, 
             JSFullWriter writer, 
             Set<String> seen, 
             boolean isArrayElt) {
    
         if (value.isResource()) {
             Resource r = (Resource)value;
-            JSONMap nestedMap = policy.getNestedMap();
+            JSONOldMap nestedMap = policy.getNestedMap();
             String id = r.getURI();
             if ( policy.isNested() && (nestedMap != null || r.listProperties().hasNext()) && !seen.contains(id) ) {
                 if (isArrayElt)  writer.arrayElementProcess(); else writer.key(key);
                 if (nestedMap == null) {
-                    writeKeyValues( map, KeyValueSet.fromResource(map, r), id, writer, seen );
+                    writeKeyValues( map, ValueSet.fromResource(map, r), id, writer, seen );
                 } else {
                     writeKeyValues( nestedMap, values, id, writer, seen );
                 }

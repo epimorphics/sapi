@@ -12,7 +12,7 @@ package com.epimorphics.simpleAPI.core.impl;
 import java.util.List;
 
 import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.core.JSONMap;
+import com.epimorphics.simpleAPI.core.JSONOldMap;
 import com.epimorphics.simpleAPI.core.JSONNodePolicy;
 import com.hp.hpl.jena.rdf.model.Property;
 
@@ -23,11 +23,11 @@ import com.hp.hpl.jena.rdf.model.Property;
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-public class JSONPlainMap implements JSONMap {
+public class JSONOldPlainMap implements JSONOldMap {
     protected API api;
     protected DefaultPolicy defaultPolicy = new DefaultPolicy();
     
-    public JSONPlainMap(API api) {
+    public JSONOldPlainMap(API api) {
         this.api = api;
     }
     
@@ -83,7 +83,7 @@ public class JSONPlainMap implements JSONMap {
         }
 
         @Override
-        public JSONMap getNestedMap() {
+        public JSONOldMap getNestedMap() {
             return null;
         }
         

@@ -35,5 +35,5 @@ public interface JSONNodePolicy {
      * Returns a optional map to use for rendering the nested value.
      * Returns null is the parent map should be used or nesting is not allowed. 
      */
-    public JSONMap getNestedMap();
+    public JSONOldMap getNestedMap();
 }

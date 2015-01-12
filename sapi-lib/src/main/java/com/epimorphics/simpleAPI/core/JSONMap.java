@@ -1,7 +1,7 @@
 /******************************************************************
  * File:        JSONMap.java
  * Created by:  Dave Reynolds
- * Created on:  5 Jan 2015
+ * Created on:  12 Jan 2015
  * 
  * (c) Copyright 2015, Epimorphics Limited
  *
@@ -9,30 +9,119 @@
 
 package com.epimorphics.simpleAPI.core;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.epimorphics.simpleAPI.core.impl.JSONDefaultDescription;
+import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
 import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.shared.PrefixMapping;
 
 /**
- * Represents a mapping between RDF values and a JSON representation.
+ * Represents a mapping from SELECT variable values to a structured JSON representation.
+ * 
+ * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-public interface JSONMap {
-
-    /**
-     * Return the JSON writer policy to use for the given json key
-     */
-    public JSONNodePolicy policyFor(String key);
+public class JSONMap {
+    protected API api;
+    protected JSONNodeDescription defaultDescription = new JSONDefaultDescription();
+    protected List<JSONMapEntry> mapping = new ArrayList<>();
+    protected Map<String, JSONMapEntry> entries;
     
-    /**
-     * Return the JSON key to use when rendering the given RDF property.
-     * Only relevant when serializing descriptions as opposed to SELECT result sets.
-     */
-    public String keyFor(Property property);
+    public JSONMap(API api) {
+        this.api = api;
+    }
 
-    /**
-     * Return a list of top level JSON keys to render (if present in the data).
-     * Used when serializing SELECT results sets to guide the recursive nesting.
-     * Can return null if all values are to be rendered.
-     */
-    public List<String> listKeys(); 
+    public List<JSONMapEntry> getMapping() {
+        return mapping;
+    }
+
+    public void setMapping(List<JSONMapEntry> mapping) {
+        this.mapping = mapping;
+        entries = null;
+    }
+    
+    public void addMapping(JSONMapEntry entry) {
+        mapping.add( entry );
+        entries = null;
+    }
+    
+    protected void init() {
+        if (entries == null) {
+            entries = new HashMap<String, JSONMapEntry>( mapping.size() );
+            for (JSONMapEntry entry : mapping) {
+                entries.put( entry.getJsonName(), entry );
+            }
+        }
+    }
+    
+    public JSONNodeDescription getEntry(String key) {
+        init();
+        if (entries != null) {
+            JSONNodeDescription desc = entries.get(key);
+            if (desc != null) {
+                return desc;
+            }
+        }
+        return defaultDescription;
+    }
+    
+    public String keyFor(Property property) {
+        // TODO cache expanding property URIs? Not clear this is really needed anyway, so defer.
+        PrefixMapping pm = api.getApp().getPrefixes();
+        for (JSONMapEntry entry : mapping) {
+            String puri = pm.expandPrefix(entry.getProperty());
+            if (puri.equals(property.getURI())) {
+                return entry.getJsonName();
+            }
+        }
+        return api.shortnameFor(property);
+    }
+    
+    public String asQuery(String baseQuery) {
+        StringBuffer buf = new StringBuffer();
+        buf.append("SELECT * WHERE {\n");
+        buf.append("    " + baseQuery + "\n");
+        renderAsQuery(buf, "id");
+        for (JSONMapEntry entry : mapping) {
+            if (entry.getNestedMap() != null && !entry.isOptional()) {
+                JSONMap nested = entry.getNestedMap();
+                nested.renderAsQuery(buf, entry.getJsonName());
+            }
+        }
+        buf.append("    #$FILTER$\n");
+        buf.append("}\n");
+        buf.append("    #$MODIFIER$\n");
+        return buf.toString();        
+    }
+    
+    protected void renderAsQuery(StringBuffer buf, String var) {
+        boolean started = false;
+        for (JSONMapEntry map : mapping) {
+            if (!map.isOptional()) {
+                if (!started){
+                    started = true;
+                    buf.append("    ?" + var + "\n");                    
+                }
+                buf.append("        " + map.asQueryRow() + " ;\n");
+            }
+        }
+        if (started) buf.append("    .\n");
+        for (JSONMapEntry map : mapping) {
+            if (map.isOptional()) {
+                if (map.getNestedMap() != null) {
+                    buf.append("    OPTIONAL {?" + var + " " + map.asQueryRow() + " .\n" );
+                    JSONMap nested = map.getNestedMap();
+                    nested.renderAsQuery(buf, map.getJsonName());
+                    buf.append("    }\n" );
+                    
+                } else {
+                    buf.append("    OPTIONAL {?" + var + " " + map.asQueryRow() + " .}\n" );
+                }
+            }
+        }
+    }
+    
 }

@@ -1,7 +1,7 @@
 /******************************************************************
- * File:        JSONMapEntry.java
+ * File:        JSONExplicitDescription.java
  * Created by:  Dave Reynolds
- * Created on:  6 Jan 2015
+ * Created on:  12 Jan 2015
  * 
  * (c) Copyright 2015, Epimorphics Limited
  *
@@ -11,26 +11,22 @@ package com.epimorphics.simpleAPI.core.impl;
 
 import com.epimorphics.rdfutil.RDFUtil;
 import com.epimorphics.simpleAPI.core.JSONMap;
-import com.epimorphics.simpleAPI.core.JSONNodePolicy;
+import com.epimorphics.simpleAPI.core.JSONNodeDescription;
 import com.epimorphics.util.NameUtils;
 
 /**
- * Specifies the handling of a single property within an explicit json map.
+ * Implementation of JSONNodeDescription for use by explicitly
+ * specified mappings.
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-public class JSONMapEntry implements JSONNodePolicy {
-    protected boolean multivalued = false;
-    protected boolean optional = false;
-    protected boolean showLangTag = true;
-    protected boolean filterable = false;   // Make filterable the default?
-    
-    protected String typeURI;
-    
-    protected JSONMap nested = null;
-    
+public class JSONMapEntry extends JSONDefaultDescription implements JSONNodeDescription {
     protected String jsonname;
     protected String property;
+    protected boolean optional = false;
+    protected String typeURI;
+    protected JSONMap nested = null;
+    protected JSONNodeDescription parent = null;
     
     public JSONMapEntry(String jsonname, String property) {
         this.jsonname = jsonname == null ? makeJsonName(property) : jsonname;
@@ -47,6 +43,22 @@ public class JSONMapEntry implements JSONNodePolicy {
         return name.isEmpty() ?  NameUtils.splitAfterLast(property, ":") : name;
     }
     
+    public void setNested(JSONMap nested) {
+        this.nested = nested;
+    }
+    
+    public void setParent(JSONNodeDescription parent) {
+        this.parent = parent;
+    }
+
+    public void setOptional(boolean optional) {
+        this.optional = optional;
+    }
+    
+    public void setType(String typeURI) {
+        this.typeURI = typeURI;
+    }
+    
     public String getJsonName() {
         return jsonname;
     }
@@ -55,62 +67,30 @@ public class JSONMapEntry implements JSONNodePolicy {
         return property;
     }
 
-    public void setMultivalued(boolean multi) {
-        this.multivalued = multi;
-    }
-
-    public void setOptional(boolean optional) {
-        this.optional = optional;
-    }
-
-    public void setShowLangTag(boolean showLangTag) {
-        this.showLangTag = showLangTag;
-    }
-
-    public void setNested(JSONMap nested) {
-        this.nested = nested;
-    }
-
-    public boolean isFilterable() {
-        return filterable;
-    }
-
-    public void setFilterable(boolean filterable) {
-        this.filterable = filterable;
-    }
-    
-    public void setType(String typeURI) {
-        this.typeURI = typeURI;
-    }
-    
-    public String getType() {
-        return typeURI;
-    }
-    
     @Override
-    public boolean isMultivalued() {
-        return multivalued;
-    }
-
-    @Override
-    public boolean showLangTag(String lang) {
-        return showLangTag;
-    }
-
-    @Override
-    public boolean isNested() {
+    public boolean isChild() {
         return nested != null;
+    }
+
+    @Override
+    public JSONNodeDescription getParent() {
+        return parent;
     }
 
     @Override
     public JSONMap getNestedMap() {
         return nested;
     }
+
+    @Override
+    public String getType() {
+        return typeURI;
+    }    
     
     public boolean isOptional() {
         return optional;
     }
-    
+        
     public String asQueryRow() {
         if (property.startsWith("http:") || property.startsWith("https:")) {
             return "<" + property + "> ?" + jsonname;

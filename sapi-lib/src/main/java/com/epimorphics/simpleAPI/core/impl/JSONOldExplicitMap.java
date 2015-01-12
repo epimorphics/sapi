@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.core.JSONMap;
+import com.epimorphics.simpleAPI.core.JSONOldMap;
 import com.epimorphics.simpleAPI.core.JSONNodePolicy;
 import com.hp.hpl.jena.rdf.model.Property;
 
@@ -25,26 +25,26 @@ import com.hp.hpl.jena.rdf.model.Property;
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-public class JSONExplicitMap extends JSONPlainMap implements JSONMap {
-    protected List<JSONMapEntry> mapping = new ArrayList<JSONMapEntry>();
+public class JSONOldExplicitMap extends JSONOldPlainMap implements JSONOldMap {
+    protected List<JSONOldMapEntry> mapping = new ArrayList<JSONOldMapEntry>();
     protected List<String> keys;
-    protected Map<String, JSONMapEntry> entries;
+    protected Map<String, JSONOldMapEntry> entries;
     
-    public JSONExplicitMap(API api) {
+    public JSONOldExplicitMap(API api) {
         super(api);
     }
 
-    public List<JSONMapEntry> getMapping() {
+    public List<JSONOldMapEntry> getMapping() {
         return mapping;
     }
 
-    public void setMapping(List<JSONMapEntry> mapping) {
+    public void setMapping(List<JSONOldMapEntry> mapping) {
         this.mapping = mapping;
         keys = null;
         entries = null;
     }
     
-    public void addMapping(JSONMapEntry entry) {
+    public void addMapping(JSONOldMapEntry entry) {
         mapping.add( entry );
         keys = null;
         entries = null;
@@ -53,8 +53,8 @@ public class JSONExplicitMap extends JSONPlainMap implements JSONMap {
     protected void init() {
         if (keys == null) {
             keys = new ArrayList<String>( mapping.size() );
-            entries = new HashMap<String, JSONMapEntry>( mapping.size() );
-            for (JSONMapEntry entry : mapping) {
+            entries = new HashMap<String, JSONOldMapEntry>( mapping.size() );
+            for (JSONOldMapEntry entry : mapping) {
                 keys.add( entry.getJsonName() );
                 entries.put( entry.getJsonName(), entry );
             }
@@ -75,7 +75,7 @@ public class JSONExplicitMap extends JSONPlainMap implements JSONMap {
     
     @Override
     public String keyFor(Property property) {
-        for (JSONMapEntry entry : mapping) {
+        for (JSONOldMapEntry entry : mapping) {
             // TODO this isn't really needed but won't work unless we expand the qnames in the map entries
             if (entry.getProperty().equals(property.getURI())) {
                 return entry.getJsonName();
@@ -95,9 +95,9 @@ public class JSONExplicitMap extends JSONPlainMap implements JSONMap {
         buf.append("SELECT * WHERE {\n");
         buf.append("    " + baseQuery + "\n");
         renderAsQuery(buf, "id");
-        for (JSONMapEntry entry : mapping) {
+        for (JSONOldMapEntry entry : mapping) {
             if (entry.isNested() && !entry.isOptional()) {
-                JSONExplicitMap nested = (JSONExplicitMap)entry.getNestedMap();
+                JSONOldExplicitMap nested = (JSONOldExplicitMap)entry.getNestedMap();
                 nested.renderAsQuery(buf, entry.getJsonName());
             }
         }
@@ -109,7 +109,7 @@ public class JSONExplicitMap extends JSONPlainMap implements JSONMap {
     
     protected void renderAsQuery(StringBuffer buf, String var) {
         boolean started = false;
-        for (JSONMapEntry map : mapping) {
+        for (JSONOldMapEntry map : mapping) {
             if (!map.isOptional()) {
                 if (!started){
                     started = true;
@@ -119,11 +119,11 @@ public class JSONExplicitMap extends JSONPlainMap implements JSONMap {
             }
         }
         if (started) buf.append("    .\n");
-        for (JSONMapEntry map : mapping) {
+        for (JSONOldMapEntry map : mapping) {
             if (map.isOptional()) {
                 if (map.isNested()) {
                     buf.append("    OPTIONAL {?" + var + " " + map.asQueryRow() + " .\n" );
-                    JSONExplicitMap nested = (JSONExplicitMap) map.getNestedMap();
+                    JSONOldExplicitMap nested = (JSONOldExplicitMap) map.getNestedMap();
                     nested.renderAsQuery(buf, map.getJsonName());
                     buf.append("    }\n" );
                     

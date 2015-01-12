@@ -25,9 +25,7 @@ import org.yaml.snakeyaml.Yaml;
 import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.core.impl.DescribeEndpointSpecImpl;
 import com.epimorphics.simpleAPI.core.impl.EndpointSpecBase;
-import com.epimorphics.simpleAPI.core.impl.JSONExplicitMap;
 import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
-import com.epimorphics.simpleAPI.core.impl.JSONPlainMap;
 import com.epimorphics.simpleAPI.core.impl.ListEndpointSpecImpl;
 import com.epimorphics.util.EpiException;
 import com.epimorphics.util.NameUtils;
@@ -137,9 +135,9 @@ public class EndpointSpecFactory {
                 spec.setQueryTemplate( JsonUtil.getStringValue(jo, QUERY) );
             }
             if (jo.hasKey(MAPPING)) {
-                spec.setMapping( parseMappingList(api, jo.get(MAPPING)) );
+                spec.setMapping( parseMappingList(api, null, jo.get(MAPPING)) );
             } else {
-                spec.setMapping( new JSONPlainMap(api) );
+                spec.setMapping( new JSONMap(api) );
             }
             return spec;
         } else {
@@ -147,7 +145,7 @@ public class EndpointSpecFactory {
         }
     }
     
-    private static JSONExplicitMap parseMappingList(API api, JsonValue list) {
+    private static JSONMap parseMappingList(API api, JSONMapEntry parent, JsonValue list) {
         List<JSONMapEntry> entries = new ArrayList<JSONMapEntry>();
         if (list.isArray()) {
             for (Iterator<JsonValue> pi = list.getAsArray().iterator(); pi.hasNext(); ) {
@@ -160,6 +158,7 @@ public class EndpointSpecFactory {
                     String p = JsonUtil.getStringValue(propO, PROPERTY);
                     String name = JsonUtil.getStringValue(propO, NAME);
                     entry = new JSONMapEntry(name, p);
+                    entry.setParent(parent);
                     if (propO.hasKey(OPTIONAL)) {
                         entry.setOptional( JsonUtil.getBooleanValue(propO, OPTIONAL, false) );
                     }
@@ -167,8 +166,8 @@ public class EndpointSpecFactory {
                         entry.setMultivalued( JsonUtil.getBooleanValue(propO, MULTIVALUED, false) );
                     }
                     if (propO.hasKey(NESTED)) {
-                        JSONExplicitMap nested = parseMappingList(api, propO.get(NESTED) );
-                        entry.setNested(nested);
+                        JSONMap nested = parseMappingList(api, entry, propO.get(NESTED) );
+                        entry.setNested(nested);                        
                     }
                     if (propO.hasKey(FILTERABLE)) {
                         entry.setFilterable( JsonUtil.getBooleanValue(propO, FILTERABLE, true) );
@@ -183,7 +182,7 @@ public class EndpointSpecFactory {
         } else {
             throw new EpiException("Illegal JSON mapping spec, value must be an array of mapping specifications");
         }
-        JSONExplicitMap map = new JSONExplicitMap(api);
+        JSONMap map = new JSONMap(api);
         map.setMapping(entries);
         return map;
     }
