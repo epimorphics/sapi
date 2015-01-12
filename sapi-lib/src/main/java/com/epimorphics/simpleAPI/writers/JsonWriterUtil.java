@@ -26,7 +26,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 public class JsonWriterUtil {
 
     public static void writeKeyValues(JSONOldMap map, ValueSet values, JSFullWriter out) {
-        writeKeyValues(map, values, values.getId(), out, new HashSet<String>()); 
+        writeKeyValues(map, values, values.getStringID(), out, new HashSet<String>()); 
     }
     
     protected static void writeKeyValues(JSONOldMap map, ValueSet values, String id, JSFullWriter out, Set<String> seen) {
