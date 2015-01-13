@@ -24,20 +24,20 @@ query: |
        } ORDER BY ?id
 
 mapping :
-  - "rt:severity"
-  - "rt:severityLevel"
-  - { prop : "rt:message", optional : true }
-  - { prop : "rt:messageWelsh", optional : true }
+#  - "rt:severity"
+#  - "rt:severityLevel"
+#  - { prop : "rt:message", optional : true }
+#  - { prop : "rt:messageWelsh", optional : true }
   - prop : "rt:floodArea"
     nested :
       - "skos:notation"
       - "rt:county"
       - "rt:riverOrSea"
       - "rt:polygon"
-  - "rt:eaAreaName"
-  - "rt:eaRegionName"
-  - "dct:description"
-  - "rt:isTidal"
-  - "rt:timeMessageChanged"
-  - "rt:timeRaised"
-  - "rt:timeSeverityChanged"
+#  - "rt:eaAreaName"
+#  - "rt:eaRegionName"
+#  - "dct:description"
+#  - "rt:isTidal"
+#  - "rt:timeMessageChanged"
+#  - "rt:timeRaised"
+#  - "rt:timeSeverityChanged"
