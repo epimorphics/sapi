@@ -1,0 +1,23 @@
+{ 
+  "@id" : "http://localhost/top" ,
+  "first" : [ 
+      { 
+        "@id" : "http://localhost/child1b" ,
+        "label" : "child 1b"
+      } ,
+      { 
+        "@id" : "http://localhost/child1" ,
+        "label" : "child 1"
+      }
+    ] ,
+  "label" : "top" ,
+  "second" : {
+      "@id" : "http://localhost/child2" ,
+      "child" : {
+          "@id" : "http://localhost/child3" ,
+          "label" : "child 3"
+        } ,
+      "label" : "child 2"
+    } ,
+  "type" : "http://localhost/Root"
+}

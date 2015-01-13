@@ -1,0 +1,25 @@
+{ 
+  "@id" : "http://localhost/resource1" ,
+  "comment" : "optional" ,
+  "label" : "resource 1" ,
+  "value" : "1"
+}
+---
+{ 
+  "@id" : "http://localhost/resource2" ,
+  "label" : "resource 2" ,
+  "value" : [ 
+      "12" ,
+      "2"
+    ]
+}
+---
+{ 
+  "@id" : "http://localhost/resource3" ,
+  "label" : "resource 3" ,
+  "value" : [ 
+      "13" ,
+      "23" ,
+      "3"
+    ]
+}

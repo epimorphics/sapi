@@ -9,25 +9,35 @@
 
 package com.epimorphics.simpleAPI.writers;
 
-import static com.hp.hpl.jena.rdf.model.ResourceFactory.createPlainLiteral;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jena.atlas.json.JSON;
+import org.apache.jena.atlas.json.JsonArray;
+import org.apache.jena.atlas.json.JsonNull;
+import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.atlas.json.JsonString;
+import org.apache.jena.atlas.json.JsonValue;
 import org.apache.jena.riot.RDFDataMgr;
 import org.junit.Before;
 import org.junit.Test;
+import org.yaml.snakeyaml.Yaml;
 
 import com.epimorphics.appbase.core.App;
+import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.EndpointSpec;
 import com.epimorphics.simpleAPI.core.EndpointSpecFactory;
 import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.RequestParameters;
+import com.epimorphics.simpleAPI.util.JsonComparator;
+import com.epimorphics.util.EpiException;
 import com.epimorphics.util.PrefixUtils;
-import com.epimorphics.util.TestUtil;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -48,208 +58,141 @@ public class TestValueSet {
      * Test basic case with no explicit map for conversion
      */
     @Test
-    public void testBasicStreamWrapper() {
-        Model data = RDFDataMgr.loadModel("src/test/data/writer/streamtest.ttl");
+    public void testBasicStreamWrapper() throws IOException {
         String query = "SELECT * WHERE {?id rdfs:label ?label; rdf:value ?value. OPTIONAL {?id rdfs:comment ?comment} } ORDER BY ?id";
-        query = PrefixUtils.expandQuery(query, PrefixUtils.commonPrefixes());
-        QueryExecution qexec = QueryExecutionFactory.create(query, data);
-        try {
-            ValueStream stream = new ValueStream(qexec.execSelect());
-            assertTrue(stream.hasNext());
-            
-            ValueSet result = stream.next();
-            checkSingleString(result, "label", "resource 1");
-            checkSingleString(result, "comment", "optional");
-            checkStrings(result, "value", "1");
-            
-            result = stream.next();
-            checkSingleString(result, "label", "resource 2");
-            assertNull( result.getKeyValues("comment") );
-            checkStrings(result, "value", "2", "12");
-            
-            result = stream.next();
-            checkSingleString(result, "label", "resource 3");
-            checkStrings(result, "value", "3", "13", "23");
-            
-            assertFalse(stream.hasNext());
-        } finally {
-            qexec.close();
-        }
+        runTest("src/test/data/writer/streamtest.ttl", query, null, "src/test/data/writer/expected-streamtest.yaml");
     }
     
     /**
-     * Simple nested map
+     * Mapping tests
      */
     @Test
-    public void testNested() {
-        Model data = RDFDataMgr.loadModel("src/test/data/writer/streamtest2.ttl");
+    public void testMapEndpoints() throws IOException {
+        // Simple nesting
         EndpointSpec ep = EndpointSpecFactory.read(api, "src/test/data/writer/streamtest2.yaml");
-        String query = ep.getQuery(new RequestParameters("http://dummy"));
-        QueryExecution qexec = QueryExecutionFactory.create(query, data);
-        try {
-            ValueStream stream = new ValueStream(qexec.execSelect(), ep.getMap());
-            assertTrue(stream.hasNext());
-            
-            ValueSet result = stream.next();
-            checkSingleString(result, "label", "resource 1");
-            assertNull( result.getKeyValues("nlabel") );
-            assertNull( result.getKeyValues("nvalue") );
-            KeyValues nest = result.getKeyValues("value");
-            assertNotNull(nest);
-            assertTrue( nest.getValue() instanceof ValueSet );
-            ValueSet nestvs = (ValueSet) nest.getValue();
-            assertEquals( "http://localhost/nest1",  nestvs.getStringID() );
-            checkSingleString(nestvs, "nlabel", "nest 1");
-            checkSingleString(nestvs, "nvalue", "1");
-            
-            result = stream.next();
-            checkSingleString(result, "label", "resource 2");
-            assertNull( result.getKeyValues("nlabel") );
-            assertNull( result.getKeyValues("nvalue") );
-            nest = result.getKeyValues("value");
-            assertNotNull(nest);
-            List<Object> values = nest.getValues();
-            assertEquals(2, values.size());
-            assertTrue(
-                (   valueIs(values.get(0), "http://localhost/nest2", "nest 2", "2") 
-                 && valueIs(values.get(1), "http://localhost/nest3", "nest 3", "3") )
-             || (   valueIs(values.get(1), "http://localhost/nest2", "nest 2", "2") 
-                 && valueIs(values.get(0), "http://localhost/nest3", "nest 3", "3") )
-            );
-            
-            assertFalse( stream.hasNext());
-        } finally {
-            qexec.close();
-        }
-    }
-    
-    /**
-     * Two deep nested map
-     */
-    @Test
-    public void testNested3() {
-        Model data = RDFDataMgr.loadModel("src/test/data/writer/streamtest3.ttl");
-        EndpointSpec ep = EndpointSpecFactory.read(api, "src/test/data/writer/streamtest3.yaml");
-        String query = ep.getQuery(new RequestParameters("http://dummy"));
-        QueryExecution qexec = QueryExecutionFactory.create(query, data);
-        try {
-            ValueStream stream = new ValueStream(qexec.execSelect(), ep.getMap());
-            assertTrue(stream.hasNext());
-            
-            ValueSet result = stream.next();
-            checkSingleString(result, "label", "resource 1");
-            assertNull( result.getKeyValues("nlabel") );
-            assertNull( result.getKeyValues("nnlabel") );
-            assertNull( result.getKeyValues("nvalue") );
-            KeyValues nest = result.getKeyValues("value");
-            assertNotNull(nest);
-            assertTrue( nest.getValue() instanceof ValueSet );
-            ValueSet nestvs = (ValueSet) nest.getValue();
-            assertEquals( "http://localhost/nest1",  nestvs.getStringID() );
-            checkSingleString(nestvs, "nlabel", "nest 1");
-            valueIs3(nestvs.getKeyValues("nvalue").getValue(), "http://localhost/nest1a", "nest 1a");
-            
-            result = stream.next();
-            checkSingleString(result, "label", "resource 2");
-            assertNull( result.getKeyValues("nlabel") );
-            assertNull( result.getKeyValues("nnlabel") );
-            assertNull( result.getKeyValues("nvalue") );
-            nest = result.getKeyValues("value");
-            assertNotNull(nest);
-            assertTrue( nest.getValue() instanceof ValueSet );
-            nestvs = (ValueSet) nest.getValue();
-            assertEquals( "http://localhost/nest2",  nestvs.getStringID() );
-            checkSingleString(nestvs, "nlabel", "nest 2");
-            valueIs3(nestvs.getKeyValues("nvalue").getValue(), "http://localhost/nest2a", "nest 2a");
+        runTest("src/test/data/writer/streamtest2.ttl", ep, "src/test/data/writer/expected-nested.yaml");
+        
+        // Two deep nested map
+        ep = EndpointSpecFactory.read(api, "src/test/data/writer/streamtest3.yaml");
+        runTest("src/test/data/writer/streamtest3.ttl", ep, "src/test/data/writer/expected-nested3.yaml");
 
-            assertFalse( stream.hasNext());
-        } finally {
-            qexec.close();
-        }
-    }
-    
-    /**
-     * Nested map using blank nodes. Works here because model is local, might not work for remote queries.
-     */
-    @Test
-    public void testNestedBlank() {
-        Model data = RDFDataMgr.loadModel("src/test/data/writer/streamtest2b.ttl");
-        EndpointSpec ep = EndpointSpecFactory.read(api, "src/test/data/writer/streamtest2.yaml");
-        String query = ep.getQuery(new RequestParameters("http://dummy"));
-        QueryExecution qexec = QueryExecutionFactory.create(query, data);
-        try {
-            ValueStream stream = new ValueStream(qexec.execSelect(), ep.getMap());
-            assertTrue(stream.hasNext());
-            
-            ValueSet result = stream.next();
-            checkSingleString(result, "label", "resource 1");
-            ValueSet nest = (ValueSet)result.getKeyValues("value").getValue();
-            checkSingleString(nest, "nlabel", "nest 1");
-            
-            result = stream.next();
-            checkSingleString(result, "label", "resource 2");
-            List<Object> nested = result.getKeyValues("value").values();
-            assertEquals(2, nested.size());
-            ValueSet nested1 = (ValueSet) nested.get(0);
-            ValueSet nested2 = (ValueSet) nested.get(1);
-            assertTrue( getLex(nested1, "nlabel").equals("nest 2") || getLex(nested2, "nlabel").equals("nest 2") ); 
-            assertTrue( getLex(nested1, "nlabel").equals("nest 3") || getLex(nested2, "nlabel").equals("nest 3") ); 
-            
-            result = stream.next();
-            checkSingleString(result, "label", "resource 3");
-            assertNull( result.getKeyValues("value") );
-            
-            assertFalse( stream.hasNext());
-        } finally {
-            qexec.close();
-        }
+        // Nested map using blank nodes. Works here because model is local, might not work for remote queries.
+        ep = EndpointSpecFactory.read(api, "src/test/data/writer/streamtest2.yaml");
+        runTest("src/test/data/writer/streamtest2b.ttl", ep, "src/test/data/writer/expected-nestedBlank.yaml");
     }
 
     @Test
     public void testValueSetFromResource() {
-        Model data = RDFDataMgr.loadModel("src/test/data/writer/streamtest2b.ttl");
-        Resource root = data.getResource("http://localhost/resource2");
+        // Simple nesting base with blank nodes
+        runResourceTest(
+                "src/test/data/writer/streamtest2b.ttl", "http://localhost/resource2", 
+                "src/test/data/writer/expected-fromResource1.json");
+        
+        // Deeper nesting cases but still trees
+        runResourceTest(
+                "src/test/data/writer/testNested1.ttl", "http://localhost/top", 
+                "src/test/data/writer/expectedResource-nested1.json"); 
+        runResourceTest(
+                "src/test/data/writer/testNested3.ttl", "http://localhost/top",  
+                "src/test/data/writer/expectedResource-nested3.json"); 
+        
+        // Circular cases
+        runResourceTest(
+                "src/test/data/writer/testNested4.ttl", "http://localhost/top",
+                "src/test/data/writer/expectedResource-nested4.json"); 
+    }
+    
+    protected void runResourceTest(String dataFile, String rootURI, String expected) {
+        Model data = RDFDataMgr.loadModel(dataFile);
+        Resource root = data.getResource(rootURI);
         ValueSet result = ValueSet.fromResource(new JSONMap(api), root);
-        assertEquals("http://localhost/resource2", result.getStringID());
-        checkSingleString(result, "label", "resource 2");
-        List<Object> nested = result.getKeyValues("value").values();
-        assertEquals(2, nested.size());
-        ValueSet nested1 = (ValueSet) nested.get(0);
-        ValueSet nested2 = (ValueSet) nested.get(1);
-        assertTrue( getLex(nested1, "label").equals("nest 2") || getLex(nested2, "label").equals("nest 2") ); 
-        assertTrue( getLex(nested1, "label").equals("nest 3") || getLex(nested2, "label").equals("nest 3") ); 
-    }
-    
-    private boolean valueIs(Object value, String id, String nlabel, String nvalue) {
-        assertTrue(value instanceof ValueSet);
-        ValueSet vs = (ValueSet) value;
-        if ( ! vs.getStringID().equals(id) ) return false;
-        if ( ! nlabel.equals(getLex(vs, "nlabel")) ) return false;
-        if ( ! nvalue.equals(getLex(vs, "nvalue")) ) return false;
-        return true;
-    }
-    
-    private boolean valueIs3(Object value, String id, String label) {
-        assertTrue(value instanceof ValueSet);
-        ValueSet vs = (ValueSet) value;
-        if ( ! vs.getStringID().equals(id) ) return false;
-        if ( ! label.equals(getLex(vs, "nnlabel")) ) return false;
-        return true;
-    }
-    
-    private String getLex(ValueSet result, String key) {
-        return ((RDFNode)result.getKeyValues(key).getValue()).asLiteral().getLexicalForm();
-    }
-    
-    private void checkSingleString(ValueSet result, String key, String expected) {
-        assertEquals( expected,  getLex(result, key));
-    }
-    
-    private void checkStrings(ValueSet result, String key, String...expected) {
-        RDFNode[] expectedNodes = new RDFNode[expected.length];
-        for (int i = 0; i < expected.length; i++) {
-            expectedNodes[i] = createPlainLiteral(expected[i]);
+        if (expected == null) {
+            System.out.println( asJson(result).toString() );
+        } else {
+            assertTrue( matches(result, expected) );
         }
-        TestUtil.testArray(result.getKeyValues(key).getValues(), expectedNodes);
+    }
+    
+    protected void runTest(String dataFile, EndpointSpec ep, String expectedStream) throws IOException {
+        String query = ep.getQuery( new RequestParameters("http://dummy.com/") );
+        runTest(dataFile, query, ep.getMap(), expectedStream);
+    }
+    
+    protected void runTest(String dataFile, String query, JSONMap map, String expectedStream) throws IOException {
+        Model data = RDFDataMgr.loadModel(dataFile);
+        query = PrefixUtils.expandQuery(query, PrefixUtils.commonPrefixes());
+        QueryExecution qexec = QueryExecutionFactory.create(query, data);
+        try {
+            ValueStream stream = new ValueStream(qexec.execSelect(), map);
+            assertTrue( matches(stream, expectedStream) );
+        } finally {
+            qexec.close();
+        }
+    }
+    
+    // Check result stream against yaml file, one "document" per result
+    protected boolean matches(ValueStream stream, String expectedFilename) throws IOException {
+        List<JsonObject> expected = new ArrayList<JsonObject>();
+        for (Object doc : new Yaml().loadAll( new FileInputStream(expectedFilename) )) {
+            expected.add( JsonUtil.asJson(doc).getAsObject() );
+        }
+        for (JsonObject ex : expected) {
+            if (!stream.hasNext()) return false;
+            if (! JsonComparator.equal(ex, asJson(stream.next())) ) return false;
+        }
+        if (stream.hasNext()) return false;
+        return true;
+    }
+    
+    // Check single result against json file
+    protected boolean matches(ValueSet result, String expectedFilename) {
+        JsonObject expected = JSON.read(expectedFilename);
+        JsonObject actual = asJson(result);
+        return JsonComparator.equal(expected, actual);
+    }
+    
+    /**
+     * Convert valueset to a approximate JSON representation for test purposes
+     */
+    protected JsonObject asJson(ValueSet vs) {
+        JsonObject result = new JsonObject();
+        for (KeyValues kv : vs.listKeyValues()) {
+            result.put(kv.getKey(), asJson(kv));
+        }
+        if (vs.getStringID() != null) {
+            result.put("@id", vs.getStringID());
+        }
+        return result;
+    }
+    
+    protected JsonValue asJson(KeyValues kv) {
+        if (kv.getValues().isEmpty()) {
+            return JsonNull.instance; 
+        } else if (kv.getValues().size() == 1) {
+            return asJsonValue(kv.getValue());
+        } else {
+            JsonArray results = new JsonArray();
+            for (Object value : kv.getValues()) {
+                results.add( asJsonValue(value) );
+            }
+            return results;
+        }
+    }
+    
+    protected JsonValue asJsonValue(Object value) {
+        if (value instanceof ValueSet) {
+            return asJson((ValueSet)value);
+        } else if (value instanceof RDFNode) {
+            RDFNode n = (RDFNode)value;
+            if (n.isLiteral()) {
+                return new JsonString( n.asLiteral().getLexicalForm() );
+            } else if (n.isURIResource()) {
+                return new JsonString( n.asResource().getURI() );
+            } else {
+                return new JsonString( "[]" );
+            }
+        } else {
+            throw new EpiException("Illegal ValueSet structure");
+        }
     }
 }

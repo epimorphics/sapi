@@ -1,0 +1,22 @@
+{ 
+  "@id" : "http://localhost/resource1" ,
+  "label" : "resource 1" ,
+  "type" : "http://localhost/Target" ,
+  "value" : {"nlabel" : "nest 1" }
+}
+---
+{ 
+  "@id" : "http://localhost/resource2" ,
+  "label" : "resource 2" ,
+  "type" : "http://localhost/Target" ,
+  "value" : [ 
+      { "nlabel" : "nest 2" } ,
+      { "nlabel" : "nest 3" }
+    ]
+}
+---
+{ 
+  "@id" : "http://localhost/resource3" ,
+  "label" : "resource 3" ,
+  "type" : "http://localhost/Target"
+}

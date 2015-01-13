@@ -1,0 +1,9 @@
+{ 
+  "@id" : "http://localhost/resource2" ,
+  "label" : "resource 2" ,
+  "type" : "http://localhost/Target" ,
+  "value" : [ 
+      { "label" : "nest 3" } ,
+      { "label" : "nest 2" }
+    ]
+}

@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.JSONNodeDescription;
@@ -160,14 +162,24 @@ public class ValueSet {
     }
     
     public static ValueSet fromResource(JSONMap map, Resource root) {
+        return fromResource(map, root, new HashSet<Resource>());
+    }
+    
+    protected static ValueSet fromResource(JSONMap map, Resource root, Set<Resource> seen) {
+        seen.add(root);
         ValueSet values = new ValueSet( root );
         for (StmtIterator i = root.listProperties(); i.hasNext(); ) {
             Statement s = i.next();
             String key = map.keyFor(s.getPredicate());
             RDFNode value = s.getObject();
-            if (value.isResource() && value.asResource().listProperties().hasNext()) {
-                ValueSet nested = fromResource(map, value.asResource());
-                values.put(key, nested);
+            if (value.isResource()) {
+                Resource r = value.asResource();
+                if (r.listProperties().hasNext() && !seen.contains(r)) {
+                    ValueSet nested = fromResource(map, value.asResource(), seen);
+                    values.put(key, nested);
+                } else {
+                    values.put( key, value );
+                }
             } else {
                 values.put( key, value );
             }

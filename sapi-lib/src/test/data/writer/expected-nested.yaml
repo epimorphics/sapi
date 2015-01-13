@@ -1,0 +1,28 @@
+{ 
+  "@id" : "http://localhost/resource1" ,
+  "label" : "resource 1" ,
+  "type" : "http://localhost/Target" ,
+  "value" : {
+      "@id" : "http://localhost/nest1" ,
+      "nlabel" : "nest 1" ,
+      "nvalue" : "1"
+    }
+}
+---
+{ 
+  "@id" : "http://localhost/resource2" ,
+  "label" : "resource 2" ,
+  "type" : "http://localhost/Target" ,
+  "value" : [ 
+      { 
+        "@id" : "http://localhost/nest2" ,
+        "nlabel" : "nest 2" ,
+        "nvalue" : "2"
+      } ,
+      { 
+        "@id" : "http://localhost/nest3" ,
+        "nlabel" : "nest 3" ,
+        "nvalue" : "3"
+      }
+    ]
+}

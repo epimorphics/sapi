@@ -80,6 +80,77 @@ public class TestEndpointSpec {
         assertTrue( ok );
     }
     
+
+    static final String[] expected = new String[]{
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n",
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n",
+        "SELECT * WHERE {\n",
+        "?id a rdfs:Class .\n",
+        "?id\n",
+        "<http://www.w3.org/1999/02/22-rdf-syntax-ns#value> ?value ;\n",
+        "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?mytype ;\n",
+        "OPTIONAL {?id <http://www.w3.org/2000/01/rdf-schema#label> ?label .}\n",
+        "OPTIONAL {?id rdfs:comment ?comment .}\n",
+        "}\n"};
+
+    static final String[] expectedNested = new String[] {
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
+        "PREFIX ex: <http://localhost/>",
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
+        "SELECT * WHERE {",
+        "?id a ex:Root .",
+        "?id",
+        "rdfs:label ?label ;",
+        "ex:first ?first ;",
+        "ex:second ?second ;",
+        "?first",
+        "rdfs:label ?first_label ;",
+        "OPTIONAL {?first ex:child ?first_child .}",
+        "?second",
+        "rdfs:label ?second_label ;",
+        "OPTIONAL {?second ex:child ?second_child .}"
+    };
+    
+    static final String[] expectedNBug = new String[] {
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
+        "PREFIX ex: <http://localhost/>",
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
+        "SELECT * WHERE {",
+        "?id a ex:Root .",
+        "?id",
+        "rdfs:label ?label ;",
+        "OPTIONAL {?id ex:warning ?warning .",
+        "?warning",
+        "ex:description ?description ;",
+        "ex:severity ?severity ;"
+    };
+    
+    
+    @Test
+    public void testParse() {
+        EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/data/writer/testspec.yaml");
+        checkTestQuery(endpoint, expected);
+    }
+    
+    @Test
+    public void testNestedParse() {
+        EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/data/writer/testnestedspec.yaml");
+        checkTestQuery(endpoint, expectedNested);
+    }
+    
+    @Test
+    public void testNestedBug() {
+        EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/data/writer/testNestedBug.yaml");
+        checkTestQuery(endpoint, expectedNBug);
+    }
+    
+    private void checkTestQuery(EndpointSpec endpoint, String[] expect) {
+        String query = endpoint.getQuery( new RequestParameters("http://localhost/") );
+        for (String e : expect) {
+            assertTrue( query.contains(e) );
+        }
+    }
+     
     @Test
     public void testFilterInject() {
         EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/data/endpointSpecs/queryBuildTest.yaml");
