@@ -10,7 +10,7 @@ baseQuery: |
 limit : 10
     
 mapping :
-  - { prop : "rt:severity", filterable: true, type: ""}
+  - { prop : "rt:severity", filterable: true, type: "rdf:PlainLiteral"}
   - { prop : "rt:severityLevel", filterable: true, type: "xsd:int" }
   - { prop : "rt:message", optional : true }
   - prop : "rt:floodArea"
