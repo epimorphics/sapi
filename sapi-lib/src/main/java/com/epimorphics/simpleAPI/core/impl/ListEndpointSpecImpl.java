@@ -18,6 +18,7 @@ import org.apache.jena.atlas.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.epimorphics.appbase.data.ClosableResultSet;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.json.JSONWritable;
@@ -104,11 +105,6 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     }
 
     @Override
-    public JSONWritable getWriter(ValueStream results, RequestParameters request) {
-        return new Writer(results, request);
-    }
-
-    @Override
     public JSONWritable getWriter(ResultSet results, RequestParameters request) {
         return new Writer(results, request);
     }
@@ -125,35 +121,42 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     public class Writer implements JSONWritable {
         ValueStream values;
         RequestParameters request;
-        
-        public Writer(ValueStream values, RequestParameters request) {
-            this.values = values;
-            this.request = request;
-        }
+        ResultSet results;
         
         public Writer(ResultSet results, RequestParameters request) {
             this.values = new ValueStream(results, map);
             this.request = request;
+            this.results = results;
         }
         
         @Override
         public void writeTo(JSFullWriter out) {
-            out.startObject();
-            api.writeMetadata(out);
-            if (request.getLimit() != null) {
-                out.pair("limit", request.getLimit());
+            try {
+                out.startObject();
+                api.writeMetadata(out);
+                if (request.getLimit() != null) {
+                    out.pair("limit", request.getLimit());
+                }
+                if (request.getOffset() != null) {
+                    out.pair("offset", request.getOffset());
+                }
+                out.key( getItemName() );
+                out.startArray();
+                while (values.hasNext()) {
+                    out.arrayElementProcess();
+                    JsonWriterUtil.writeValueSet(map, values.next(), out);
+                }
+                out.finishArray();
+                out.finishObject();
+            } finally {
+                if (results instanceof ClosableResultSet) {
+                    try {
+                        ((ClosableResultSet)results).close();
+                    } catch (Exception e) {
+                        // ignore, probably already closed
+                    }
+                }
             }
-            if (request.getOffset() != null) {
-                out.pair("offset", request.getOffset());
-            }
-            out.key( getItemName() );
-            out.startArray();
-            while (values.hasNext()) {
-                out.arrayElementProcess();
-                JsonWriterUtil.writeValueSet(map, values.next(), out);
-            }
-            out.finishArray();
-            out.finishObject();
         }
     }
 

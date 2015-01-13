@@ -12,21 +12,14 @@ package com.epimorphics.simpleAPI.core;
 import java.util.List;
 
 import com.epimorphics.json.JSONWritable;
-import com.epimorphics.simpleAPI.writers.ValueStream;
 import com.hp.hpl.jena.query.ResultSet;
 
 public interface ListEndpointSpec extends EndpointSpec {
 
     /**
-     * Return a streaming writer which serializes the results of a coalesced select query
-     * using any mapping information supplied by the endpoint 
-     */
-    public JSONWritable getWriter(ValueStream results, RequestParameters request);
-
-    /**
      * Return a streaming writer which serializes the results of a select query
      * using any mapping information supplied by the endpoint. Creates a wrapping
-     * KeyValueSetStream to perform any coalescing of adjacent rows.
+     * ValueStream to perform any coalescing of adjacent rows.
      */
     public JSONWritable getWriter(ResultSet results, RequestParameters request);
     

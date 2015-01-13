@@ -122,7 +122,7 @@ public class EndpointsBase {
      */
     public JSONWritable listItems(ListEndpointSpec spec, String query, RequestParameters params) {
         log.debug( "List query = " + query);
-        ResultSet results = getSource().select(query);
+        ResultSet results = getSource().streamableSelect(query);
         return spec.getWriter(results, params);
     }
     
