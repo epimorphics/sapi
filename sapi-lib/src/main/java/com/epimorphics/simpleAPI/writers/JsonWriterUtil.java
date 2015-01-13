@@ -9,111 +9,91 @@
 
 package com.epimorphics.simpleAPI.writers;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.core.JSONMap;
-import com.epimorphics.simpleAPI.core.JSONOldMap;
-import com.epimorphics.simpleAPI.core.JSONNodePolicy;
+import com.epimorphics.simpleAPI.core.JSONNodeDescription;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
 
 /**
  * Utility for writing RDF descriptions or result sets to JSON. 
  */
 public class JsonWriterUtil {
 
-    public static void writeKeyValues(JSONMap map, ValueSet values, JSFullWriter out) {
-        writeKeyValues(map, values, values.getStringID(), out, new HashSet<String>()); 
-    }
-    
-    protected static void writeKeyValues(JSONMap map, ValueSet values, String id, JSFullWriter out, Set<String> seen) {
+    public static void writeValueSet(JSONMap map, ValueSet values, JSFullWriter out) {
         out.startObject();
+        String id = values.getStringID();
         if (id != null) {
             out.pair("@id", id);
-            seen.add( id );
         }
-        
-        List<String> keys = map.listKeys();
-        if (keys == null) {
-            keys = values.listSortedKeys();
+        for (KeyValues kv : values.listKeyValues()) {
+            writeKeyValues(map, kv, out);
         }
-        for (String key : keys) {
-            KeyValues vals = values.getKeyValues(key);
-            JSONNodePolicy policy = map.policyFor(key);
-            if (vals != null) {
-                List<RDFNode> nodevals = vals.getValues();
-                if (nodevals.isEmpty()) {
-                    continue;
-                } else if (nodevals.size() > 1 || policy.isMultivalued()) {
-                    out.key(key);
-                    out.startArray();
-                    for (RDFNode n : nodevals) {
-                        writeNode(map, policy, key, n, values, out, seen, true);
-                    }
-                    out.finishArray();
-                } else {
-                    writeNode(map, policy, key, nodevals.get(0), values, out, seen, false);
-                }
-            }
-        }
-        out.finishObject();        
+        out.finishObject();
     }
-
-    protected static void writeNode(
-            JSONOldMap map, 
-            JSONNodePolicy policy, 
-            String key, 
-            RDFNode value, 
-            ValueSet values, 
-            JSFullWriter writer, 
-            Set<String> seen, 
-            boolean isArrayElt) {
-   
-        if (value.isResource()) {
-            Resource r = (Resource)value;
-            JSONOldMap nestedMap = policy.getNestedMap();
-            String id = r.getURI();
-            if ( policy.isNested() && (nestedMap != null || r.listProperties().hasNext()) && !seen.contains(id) ) {
-                if (isArrayElt)  writer.arrayElementProcess(); else writer.key(key);
-                if (nestedMap == null) {
-                    writeKeyValues( map, ValueSet.fromResource(map, r), id, writer, seen );
-                } else {
-                    writeKeyValues( nestedMap, values, id, writer, seen );
-                }
-            } else {
-                if (value.isURIResource()) {
-                    String root = value.asResource().getURI();
-                    if (isArrayElt) writer.arrayElement(root); else writer.pair(key, root);
-                }
-                // No output in anon case if we have no nesting
+    
+    protected static void writeKeyValues(JSONMap map, KeyValues vals, JSFullWriter out) {
+        String key = vals.getKey();
+        JSONNodeDescription policy = map.getEntry(key);
+        List<Object> nodevals = vals.getValues();
+        if (nodevals.isEmpty()) {
+            return;
+        } else if (nodevals.size() > 1 || policy.isMultivalued()) {
+            out.key(key);
+            out.startArray();
+            for (Object n : nodevals) {
+                writeNode(map, policy, key, n, out, true);
             }
-            
+            out.finishArray();
         } else {
-            Literal l = value.asLiteral();
-            String lex = l.getLexicalForm();
-            if (l.getDatatype() == null) {
-                String lang = l.getLanguage();
-                if (lang == null || lang.isEmpty() || !policy.showLangTag(lang)) {
-                    if (isArrayElt) writer.arrayElement(lex); else writer.pair(key, lex);
+            writeNode(map, policy, key, nodevals.get(0), out, false);            
+        }
+    }
+    
+    protected static void writeNode(JSONMap map, JSONNodeDescription policy, String key, Object value, JSFullWriter writer, boolean isArrayElt) {
+        if (value instanceof ValueSet) {
+            if (isArrayElt)  writer.arrayElementProcess(); else writer.key(key);
+            writeValueSet(map, (ValueSet)value, writer);
+        } else if (value instanceof RDFNode) {
+            RDFNode n = (RDFNode)value;
+            if (n.isURIResource()) {
+                String uri = n.asResource().getURI();
+                if (isArrayElt) {
+                    writer.arrayElement( uri ); 
                 } else {
-                    if (isArrayElt)  writer.arrayElementProcess(); else writer.key(key);
-                    writer.startObject();
-                    writer.pair("@value", lex);
-                    writer.pair("@language", lang);
-                    writer.finishObject();
+                    writer.pair(key, uri);
                 }
+//                if (isArrayElt)  writer.arrayElementProcess(); else writer.key(key);
+//                writer.startObject();
+//                if (n.isURIResource()) {
+//                    writer.pair("@id", n.asResource().getURI());
+//                }
+//                writer.finishObject();
             } else {
-                Object jv = l.getValue();
-                if (jv instanceof Number) {
-                    if (isArrayElt) writer.arrayElement( (Number)jv ); else writer.pair(key, (Number)jv);
-                } else if (jv instanceof Boolean) {
-                    if (isArrayElt) writer.arrayElement( (Boolean)jv ); else writer.pair(key, (Boolean)jv);
+                Literal l = n.asLiteral();
+                String lex = l.getLexicalForm();
+                if (l.getDatatype() == null) {
+                    String lang = l.getLanguage();
+                    if (lang == null || lang.isEmpty() || !policy.showLangTag(lang)) {
+                        if (isArrayElt) writer.arrayElement(lex); else writer.pair(key, lex);
+                    } else {
+                        if (isArrayElt)  writer.arrayElementProcess(); else writer.key(key);
+                        writer.startObject();
+                        writer.pair("@value", lex);
+                        writer.pair("@language", lang);
+                        writer.finishObject();
+                    }
                 } else {
-                    if (isArrayElt) writer.arrayElement( lex ); else writer.pair(key, lex);
+                    Object jv = l.getValue();
+                    if (jv instanceof Number) {
+                        if (isArrayElt) writer.arrayElement( (Number)jv ); else writer.pair(key, (Number)jv);
+                    } else if (jv instanceof Boolean) {
+                        if (isArrayElt) writer.arrayElement( (Boolean)jv ); else writer.pair(key, (Boolean)jv);
+                    } else {
+                        if (isArrayElt) writer.arrayElement( lex ); else writer.pair(key, lex);
+                    }
                 }
             }
         }        

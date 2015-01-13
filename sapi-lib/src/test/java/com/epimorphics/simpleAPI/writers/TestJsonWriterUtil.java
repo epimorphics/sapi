@@ -36,7 +36,7 @@ public class TestJsonWriterUtil {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         JSFullWriter out = new JSFullWriter(bos);
         out.startOutput();
-        JsonWriterUtil.writeKeyValues(config.getMap(), values, out);
+        JsonWriterUtil.writeValueSet(config.getMap(), values, out);
         out.finishOutput();
         
         JsonObject jo = JSON.parse(bos.toString());

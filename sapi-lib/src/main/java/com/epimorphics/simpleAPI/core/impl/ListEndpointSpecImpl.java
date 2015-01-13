@@ -24,14 +24,11 @@ import com.epimorphics.json.JSONWritable;
 import com.epimorphics.rdfutil.QueryUtil;
 import com.epimorphics.rdfutil.TypeUtil;
 import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.JSONNodeDescription;
-import com.epimorphics.simpleAPI.core.JSONOldMap;
 import com.epimorphics.simpleAPI.core.ListEndpointSpec;
 import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
 import com.epimorphics.simpleAPI.writers.ValueStream;
-import com.epimorphics.util.EpiException;
 import com.hp.hpl.jena.query.ResultSet;
 
 public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpointSpec {
@@ -135,7 +132,7 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
         }
         
         public Writer(ResultSet results, RequestParameters request) {
-            this.values = new ValueStream(results);
+            this.values = new ValueStream(results, map);
             this.request = request;
         }
         
@@ -153,7 +150,7 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
             out.startArray();
             while (values.hasNext()) {
                 out.arrayElementProcess();
-                JsonWriterUtil.writeKeyValues(map, values.next(), out);
+                JsonWriterUtil.writeValueSet(map, values.next(), out);
             }
             out.finishArray();
             out.finishObject();

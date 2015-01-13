@@ -158,7 +158,6 @@ public class EndpointSpecFactory {
                     String p = JsonUtil.getStringValue(propO, PROPERTY);
                     String name = JsonUtil.getStringValue(propO, NAME);
                     entry = new JSONMapEntry(name, p);
-                    entry.setParent(parent);
                     if (propO.hasKey(OPTIONAL)) {
                         entry.setOptional( JsonUtil.getBooleanValue(propO, OPTIONAL, false) );
                     }
@@ -177,6 +176,7 @@ public class EndpointSpecFactory {
                         entry.setType( ty );  // Unexpanded prefix, have to delay expansion until runtime structure is built
                     }
                 }
+                entry.setParent(parent);
                 entries.add(entry);
             }
         } else {

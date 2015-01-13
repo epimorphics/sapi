@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.epimorphics.appbase.core.App;
+import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
 import com.epimorphics.vocabs.SKOS;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.shared.PrefixMapping;
@@ -83,7 +84,6 @@ public class TestEndpointSpec {
 
     static final String[] expected = new String[]{
         "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n",
-        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n",
         "SELECT * WHERE {\n",
         "?id a rdfs:Class .\n",
         "?id\n",
@@ -96,7 +96,6 @@ public class TestEndpointSpec {
     static final String[] expectedNested = new String[] {
         "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
         "PREFIX ex: <http://localhost/>",
-        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
         "SELECT * WHERE {",
         "?id a ex:Root .",
         "?id",
@@ -114,7 +113,6 @@ public class TestEndpointSpec {
     static final String[] expectedNBug = new String[] {
         "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
         "PREFIX ex: <http://localhost/>",
-        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
         "SELECT * WHERE {",
         "?id a ex:Root .",
         "?id",
@@ -196,5 +194,15 @@ public class TestEndpointSpec {
         String query = endpoint.getQuery( request );
         
         assertTrue( query.contains(expect) );
+    }
+    
+    @Test
+    public void testParseBug() {
+        EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/TestApp/WEB-INF/endpoints/alertTestExplicitQuery.yaml");
+        
+        JSONMap map = endpoint.getMap();
+        JSONNodeDescription polygonmap = map.getEntry("polygon");
+        assertTrue( polygonmap instanceof JSONMapEntry);
+        assertTrue( polygonmap.isChild() );
     }
 }

@@ -77,11 +77,13 @@ public class JSONMap {
     
     public String keyFor(Property property) {
         // TODO cache expanding property URIs? Not clear this is really needed anyway, so defer.
-        PrefixMapping pm = api.getApp().getPrefixes();
-        for (JSONMapEntry entry : mapping) {
-            String puri = pm.expandPrefix(entry.getProperty());
-            if (puri.equals(property.getURI())) {
-                return entry.getJsonName();
+        if (api.getApp() != null && api.getApp().getPrefixes() != null) {
+            PrefixMapping pm = api.getApp().getPrefixes();
+            for (JSONMapEntry entry : mapping) {
+                String puri = pm.expandPrefix(entry.getProperty());
+                if (puri.equals(property.getURI())) {
+                    return entry.getJsonName();
+                }
             }
         }
         return api.shortnameFor(property);

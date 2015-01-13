@@ -36,7 +36,7 @@ public class TestAppAreas extends TomcatTestBase {
     }
 
     @Test
-    public void testDummy() throws IOException {
+    public void testEndToEnd() throws IOException {
         // Check explicit describe
         String testArea = "012WACTL12";
         ClientResponse response = getResponse(BASE_URL + "id/floodAreas/" + testArea, "application/json");

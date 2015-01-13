@@ -58,7 +58,7 @@ public class DescribeEndpointSpecImpl extends EndpointSpecBase implements Descri
             out.startObject();
             api.writeMetadata(out);
             out.key( getItemName() );
-            JsonWriterUtil.writeKeyValues(map, values, out);
+            JsonWriterUtil.writeValueSet(map, values, out);
             out.finishObject();
         }
 

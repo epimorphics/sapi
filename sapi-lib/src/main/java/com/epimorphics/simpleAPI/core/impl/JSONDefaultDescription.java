@@ -22,7 +22,7 @@ import com.epimorphics.simpleAPI.core.JSONNodeDescription;
 public class JSONDefaultDescription implements JSONNodeDescription {
     protected boolean showLang = true;
     protected boolean multivalued = false;
-    protected boolean filterable = true;
+    protected boolean filterable = false;
     
     public JSONDefaultDescription() {
     }

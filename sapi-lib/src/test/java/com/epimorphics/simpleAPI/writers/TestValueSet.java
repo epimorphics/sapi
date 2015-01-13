@@ -154,7 +154,7 @@ public class TestValueSet {
     /**
      * Convert valueset to a approximate JSON representation for test purposes
      */
-    protected JsonObject asJson(ValueSet vs) {
+    public static JsonObject asJson(ValueSet vs) {
         JsonObject result = new JsonObject();
         for (KeyValues kv : vs.listKeyValues()) {
             result.put(kv.getKey(), asJson(kv));
@@ -165,7 +165,7 @@ public class TestValueSet {
         return result;
     }
     
-    protected JsonValue asJson(KeyValues kv) {
+    public static JsonValue asJson(KeyValues kv) {
         if (kv.getValues().isEmpty()) {
             return JsonNull.instance; 
         } else if (kv.getValues().size() == 1) {
@@ -179,7 +179,7 @@ public class TestValueSet {
         }
     }
     
-    protected JsonValue asJsonValue(Object value) {
+    protected static JsonValue asJsonValue(Object value) {
         if (value instanceof ValueSet) {
             return asJson((ValueSet)value);
         } else if (value instanceof RDFNode) {
