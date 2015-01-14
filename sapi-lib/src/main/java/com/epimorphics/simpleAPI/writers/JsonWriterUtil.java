@@ -28,7 +28,9 @@ public class JsonWriterUtil {
         if (id != null) {
             out.pair("@id", id);
         }
-        for (KeyValues kv : values.listKeyValues()) {
+//        for (KeyValues kv : values.listKeyValues()) {
+        for (String key : values.listSortedKeys()) {
+            KeyValues kv = values.getKeyValues(key);
             writeKeyValues(map, kv, out);
         }
         out.finishObject();
