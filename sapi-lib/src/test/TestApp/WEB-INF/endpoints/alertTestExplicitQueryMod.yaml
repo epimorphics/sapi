@@ -8,6 +8,7 @@ prefixes :
 
 query: |
     SELECT * WHERE {
+        #$INJECT$
         ?id a rt:FloodAlertOrWarning ;
             rt:severity ?severity ;
             rt:severityLevel ?severityLevel ;

@@ -20,6 +20,7 @@ import org.junit.Test;
 
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
+import com.epimorphics.simpleAPI.core.impl.ListEndpointSpecImpl;
 import com.epimorphics.vocabs.SKOS;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.shared.PrefixMapping;
@@ -156,22 +157,38 @@ public class TestEndpointSpec {
         RequestParameters request = new RequestParameters("http://localhost/");
         request.addParameter("severityLevel", "2");
         String query = endpoint.getQuery( request );
-        assertTrue( query.contains(" FILTER( ?severityLevel = \"2\"^^<http://www.w3.org/2001/XMLSchema#int> )") );
+        if (ListEndpointSpecImpl.USE_FILTER) {
+            assertTrue( query.contains(" FILTER( ?severityLevel = \"2\"^^<http://www.w3.org/2001/XMLSchema#int> )") );
+        } else {
+            assertTrue( query.contains(" VALUES ?severityLevel { \"2\"^^<http://www.w3.org/2001/XMLSchema#int> }") );
+        }
         
         request = new RequestParameters("http://localhost/");
         request.addParameter("severity", "Alert");
         query = endpoint.getQuery( request );
-        assertTrue( query.contains(" FILTER( ?severity = \"Alert\" )") );
+        if (ListEndpointSpecImpl.USE_FILTER) {
+            assertTrue( query.contains(" FILTER( ?severity = \"Alert\" )") );
+        } else {
+            assertTrue( query.contains("VALUES ?severity { \"Alert\" }") );
+        }
         
         request = new RequestParameters("http://localhost/");
         request.addParameter("floodArea", "http://example.com/test");
         query = endpoint.getQuery( request );
-        assertTrue( query.contains("FILTER( ?floodArea = <http://example.com/test> )") );
+        if (ListEndpointSpecImpl.USE_FILTER) {
+            assertTrue( query.contains("FILTER( ?floodArea = <http://example.com/test> )") );
+        } else {
+            assertTrue( query.contains("VALUES ?floodArea { <http://example.com/test> }") );
+        }
         
         request = new RequestParameters("http://localhost/");
         request.addParameter("county", "Kent");
         query = endpoint.getQuery( request );
-        assertTrue( query.contains(" FILTER( ?county = \"Kent\" )") );
+        if (ListEndpointSpecImpl.USE_FILTER) {
+            assertTrue( query.contains(" FILTER( ?county = \"Kent\" )") );
+        } else {
+            assertTrue( query.contains("VALUES ?county { \"Kent\" }") );
+        }
         
     }
     
