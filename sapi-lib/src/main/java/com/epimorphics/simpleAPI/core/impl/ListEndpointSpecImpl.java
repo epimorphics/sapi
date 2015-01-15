@@ -138,6 +138,7 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
         @Override
         public void writeTo(JSFullWriter out) {
             try {
+                long count = 0;
                 out.startObject();
                 api.writeMetadata(out);
                 if (request.getLimit() != null) {
@@ -151,9 +152,11 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
                 while (values.hasNext()) {
                     out.arrayElementProcess();
                     JsonWriterUtil.writeValueSet(map, values.next(), out);
+                    count++;
                 }
                 out.finishArray();
                 out.finishObject();
+                log.info("Returned " + count + " coalesced rows");
             } finally {
                 if (results instanceof ClosableResultSet) {
                     try {
