@@ -35,6 +35,7 @@ import com.hp.hpl.jena.rdf.model.ResourceFactory;
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class RequestParameters {
+    public static final String INJECT_MARKER = "#$INJECT$";
     public static final String FILTER_MARKER = "#$FILTER$";
     public static final String MODIFIER_MARKER = "#$MODIFIER$";
     
@@ -44,6 +45,7 @@ public class RequestParameters {
     protected String uri;
     protected Map<String, Object> bindings = new HashMap<String, Object>();
     protected String filterClause = "";
+    protected String injectClause = "";
     protected String modifier = "";
     protected Integer limit;
     protected Integer offset;
@@ -61,6 +63,10 @@ public class RequestParameters {
             offset = safeAsInt((String)value);
         }
         return this;
+    }
+    
+    public void removeParameter(String parameter) {
+        bindings.remove(parameter);
     }
     
     private Integer safeAsInt(String value) {
@@ -94,6 +100,11 @@ public class RequestParameters {
     
     public RequestParameters addFilter(String filterClause) {
         this.filterClause += " " + filterClause;
+        return this;
+    }
+    
+    public RequestParameters addInject(String injectClause) {
+        this.injectClause += " " + injectClause;
         return this;
     }
     
@@ -144,6 +155,7 @@ public class RequestParameters {
             modifier += " OFFSET " + offset;
         }
         q = bindMarker(q, FILTER_MARKER, filterClause);
+        q = bindMarker(q, INJECT_MARKER, injectClause);
         q = bindMarker(q, MODIFIER_MARKER, modifier);
         return q;
     }

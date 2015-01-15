@@ -92,6 +92,7 @@ public class JSONMap {
     public String asQuery(String baseQuery) {
         StringBuffer buf = new StringBuffer();
         buf.append("SELECT * WHERE {\n");
+        buf.append("    #$INJECT$\n");
         buf.append("    " + baseQuery + "\n");
         renderAsQuery(buf, "id");
         for (JSONMapEntry entry : mapping) {
