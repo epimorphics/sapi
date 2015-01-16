@@ -56,18 +56,29 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     
     @Override
     public String getQuery(RequestParameters request) {
-        if (query == null) {
-            if (rawQuery == null) {
-                rawQuery = map.asQuery(baseQuery);
-            }
-            query = expandPrefixes( rawQuery );
-        }
-        String q = bindVars(request, query);
+        String q = bindVars(request, getBaseQuery());
         injectFilters(request);
         if (hardLimit != null) {
             request.setLimit(hardLimit);
         }
-        return request.bindQuery(q);
+        q = request.bindQuery(q);
+        return expandPrefixes(q);
+    }
+    
+    @Override
+    public String getQuery() {
+        return expandPrefixes( getBaseQuery() );
+    }
+    
+    private String getBaseQuery() {
+        if (query == null) {
+            if (rawQuery == null) {
+                rawQuery = map.asQuery(baseQuery);
+            }
+//            query = expandPrefixes( rawQuery );
+            query = rawQuery;
+        }
+        return query;
     }
     
     protected void injectFilters(RequestParameters request) {

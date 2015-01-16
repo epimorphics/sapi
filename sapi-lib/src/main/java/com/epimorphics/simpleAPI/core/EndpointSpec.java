@@ -49,6 +49,11 @@ public interface EndpointSpec {
     public PrefixMapping getPrefixes();
     
     /**
+     * Return the query template with no instantiation.
+     */
+    public String getQuery( );
+    
+    /**
      * Return the query after instantiating it according to the supplied
      * request parameters.
      */

@@ -175,8 +175,8 @@ public class RequestParameters {
         return bindQueryParam(query, param, getBinding(param));
     }
     
-    protected String bindQueryParam(String query, String var, Object value) {
-        return query.replaceAll( "\\?" + var + "\\b", QueryUtil.asSPARQLValue( value ));
+    public static String bindQueryParam(String query, String var, Object value) {
+        return query.replaceAll( "\\?" + var + "\\b", QueryUtil.asSPARQLValue( value ).replace("\\", "\\\\"));
     }
 
     protected String bindMarker(String query, String marker, String value) {

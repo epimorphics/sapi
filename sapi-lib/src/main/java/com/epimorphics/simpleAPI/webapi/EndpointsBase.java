@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory;
 
 import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.data.SparqlSource;
+import com.epimorphics.appbase.data.WNode;
+import com.epimorphics.appbase.data.WSource;
 import com.epimorphics.appbase.templates.VelocityRender;
 import com.epimorphics.json.JSONWritable;
 import com.epimorphics.simpleAPI.core.API;
@@ -33,6 +35,7 @@ import com.epimorphics.simpleAPI.core.ListEndpointSpec;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.Resource;
 
 /**
  * Shared utilities useful in API implementation.
@@ -53,6 +56,8 @@ public class EndpointsBase {
     protected @Context ServletContext context;
     protected @Context UriInfo uriInfo;
     protected @Context HttpServletRequest request;
+
+    // ---- Generic access methods ---------------------------------
     
     /**
      * Return the global default API instance.
@@ -70,6 +75,8 @@ public class EndpointsBase {
     public SparqlSource getSource() {
         return getAPI().getSource();
     }
+
+    // ---- Access the request ---------------------------------
     
     /**
      * Return the request URI mapped to the baseURI for this API
@@ -93,11 +100,20 @@ public class EndpointsBase {
         return new RequestParameters( getRequestedURI() ).addParameters(uriInfo);
     }
 
+    // ---- Describing individual items ---------------------------------
+
     /**
      * Describe the item matching the fetched URI using the default mapping specification
      */
     public JSONWritable describeItemJson() {
         return describeItemJson( getAPI().getDefaultDescribe() );
+    }
+
+    /**
+     * Describe the already fetched Item as a JSON response
+     */
+    public JSONWritable describeItemJson(Resource resource) {
+        return getAPI().getDefaultDescribe().getWriter(resource);
     }
 
     /**
@@ -111,20 +127,42 @@ public class EndpointsBase {
      * Describe the item matching the fetched URI using the given mapping specification
      */
     public JSONWritable describeItemJson(DescribeEndpointSpec spec) {
-        RequestParameters rp = getRequest();
-        SparqlSource source = getSource();
-        Model model = ModelFactory.createModelForGraph( source.describe( spec.getQuery(rp) ) );
+        Model model = describeItem(spec);
         return spec.getWriter( model.getResource( getRequestedURI() ) );
     }
-    
+
     /**
-     * Return a list of items based on a supplied query and named mapping endpoint specification
+     * Describe the item matching the fetched URI using a default description
      */
-    public JSONWritable listItems(ListEndpointSpec spec, String query, RequestParameters params) {
-        log.debug( "List query = " + query);
-        ResultSet results = getSource().streamableSelect(query);
-        return spec.getWriter(results, params);
+    public Model describeItem() {
+        return describeItem( getAPI().getDefaultDescribe() );
     }
+
+    /**
+     * Describe the item matching the fetched URI using the given mapping specification
+     */
+    public Model describeItem(String specname) {
+        return describeItem( getAPI().getDescribeSpec(specname) );
+    }
+
+    /**
+     * Describe the item matching the fetched URI using the given mapping specification
+     */
+    public Model describeItem(DescribeEndpointSpec spec) {
+        RequestParameters rp = getRequest();
+        SparqlSource source = getSource();
+        return ModelFactory.createModelForGraph( source.describe( spec.getQuery(rp) ) );
+    }
+
+    /**
+     * Describe the item using the supplied query
+     */
+    public Model describeItemByQuery(String query) {
+        SparqlSource source = getSource();
+        return ModelFactory.createModelForGraph( source.describe( query ) );
+    }
+
+    // ---- Listing items ---------------------------------
     
     /**
      * Return a list of items based on a named query/mapping endpoint specification, 
@@ -132,8 +170,21 @@ public class EndpointsBase {
      */
     public JSONWritable listItems(String specname, RequestParameters params) {
         ListEndpointSpec spec = getAPI().getSelectSpec(specname);
-        String query = spec.getQuery(params);
-        return listItems(spec, query, params);
+        return listItems(spec, params, selectItems(spec, params));
+    }
+    
+    /**
+     * Return a JSON stream over the given set of results using the given mapping
+     */
+    public JSONWritable listItems(String specname, RequestParameters params, ResultSet results) {
+        return listItems(getAPI().getSelectSpec(specname), params, results);
+    }
+    
+    /**
+     * Return a JSON stream over the given set of results using the given mapping
+     */
+    public JSONWritable listItems(ListEndpointSpec spec, RequestParameters params, ResultSet results) {
+        return spec.getWriter(results, params);
     }
     
     /**
@@ -143,6 +194,29 @@ public class EndpointsBase {
         return listItems(specname, getRequestWithParms());
     }
     
+    /**
+     * Return the ResultSet from running a configured select query
+     */
+    public ResultSet selectItems(String specname, RequestParameters params) {
+        return selectItems( getAPI().getSelectSpec(specname), params );
+    }
+    
+    /**
+     * Return the ResultSet from running a configured select query
+     */
+    public ResultSet selectItems(ListEndpointSpec spec, RequestParameters params) {
+        return selectItems( spec.getQuery(params) );
+    }
+    
+    /**
+     * Return the ResultSet from running a supplied select query
+     */
+    public ResultSet selectItems(String query) {
+        log.debug( "List query = " + query);
+        return getSource().streamableSelect(query);
+    }
+    
+    // ---- Velocity support ---------------------------------
 
     /**
      * Return the configured velocity renderer
@@ -152,6 +226,18 @@ public class EndpointsBase {
             velocity =  AppConfig.getApp().getA(VelocityRender.class);
         }
         return velocity;
+    }
+
+    /**
+     * Return the SPARQL source, wrapped for using in velocity rendering
+     * @return
+     */
+    public WSource getWSource() {
+        return AppConfig.getApp().getA(WSource.class);
+    }
+    
+    public WNode wrap(Resource resource) {
+        return new WNode(getWSource(), resource);
     }
     
     /**
@@ -163,6 +249,8 @@ public class EndpointsBase {
         return getVelocity().render(template, uriInfo.getPath(), context, uriInfo.getQueryParameters(), args);
     }
 
+    // ---- Other responses ---------------------------------
+
     /**
      * Return a setOther redirect to the given target URL
      */
@@ -172,8 +260,6 @@ public class EndpointsBase {
             uri = new URI(path);
             return Response.seeOther(uri).build();
         } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
             return null;
         }
     }    
