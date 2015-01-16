@@ -158,18 +158,18 @@ public class TestEndpointSpec {
         request.addParameter("severityLevel", "2");
         String query = endpoint.getQuery( request );
         if (ListEndpointSpecImpl.USE_FILTER) {
-            assertTrue( query.contains(" FILTER( ?severityLevel = \"2\"^^<http://www.w3.org/2001/XMLSchema#int> )") );
+            assertTrue( query.contains(" FILTER( ?severityLevel = '2'^^<http://www.w3.org/2001/XMLSchema#int> )") );
         } else {
-            assertTrue( query.contains(" VALUES ?severityLevel { \"2\"^^<http://www.w3.org/2001/XMLSchema#int> }") );
+            assertTrue( query.contains(" VALUES ?severityLevel { '2'^^<http://www.w3.org/2001/XMLSchema#int> }") );
         }
         
         request = new RequestParameters("http://localhost/");
         request.addParameter("severity", "Alert");
         query = endpoint.getQuery( request );
         if (ListEndpointSpecImpl.USE_FILTER) {
-            assertTrue( query.contains(" FILTER( ?severity = \"Alert\" )") );
+            assertTrue( query.contains(" FILTER( ?severity = 'Alert' )") );
         } else {
-            assertTrue( query.contains("VALUES ?severity { \"Alert\" }") );
+            assertTrue( query.contains("VALUES ?severity { 'Alert' }") );
         }
         
         request = new RequestParameters("http://localhost/");
@@ -185,9 +185,9 @@ public class TestEndpointSpec {
         request.addParameter("county", "Kent");
         query = endpoint.getQuery( request );
         if (ListEndpointSpecImpl.USE_FILTER) {
-            assertTrue( query.contains(" FILTER( ?county = \"Kent\" )") );
+            assertTrue( query.contains(" FILTER( ?county = 'Kent' )") );
         } else {
-            assertTrue( query.contains("VALUES ?county { \"Kent\" }") );
+            assertTrue( query.contains("VALUES ?county { 'Kent' }") );
         }
         
     }
