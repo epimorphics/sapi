@@ -162,6 +162,15 @@ public class EndpointsBase {
         return ModelFactory.createModelForGraph( source.describe( query ) );
     }
 
+    /**
+     * Vanilla describe on the given URI
+     */
+    public Resource describeItemByURI(String uri) {
+        SparqlSource source = getSource();
+        Model model = ModelFactory.createModelForGraph( source.describe( "DESCRIBE <" + uri + ">" ) );
+        return model.getResource(uri);
+    }
+
     // ---- Listing items ---------------------------------
     
     /**

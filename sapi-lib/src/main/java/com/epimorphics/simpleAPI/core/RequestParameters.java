@@ -190,14 +190,14 @@ public class RequestParameters {
         return query;
     }
     
-    public Integer getSafeIntParam(String param) {
+    public Long getSafeIntParam(String param) {
         Object value = bindings.get(param);
         if (value != null) {
-            if (value instanceof Integer) {
-                return (Integer)value;
+            if (value instanceof Number) {
+                return ((Number)value).longValue();
             } else if (value instanceof String) {
                 try {
-                    return Integer.parseInt((String)value);
+                    return Long.parseLong((String)value);
                 } catch (NumberFormatException e) {
                     throw new WebApiException(Status.BAD_REQUEST, "Illegal parameter format");
                 }
@@ -205,5 +205,47 @@ public class RequestParameters {
         }
         return null;
     }
+
+    public String getSafeStringParam(String param) {
+        Object value = bindings.get(param);
+        if (value != null) {
+            return value.toString();
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * Inject a filter for geo bounding box using OSGB grid coordinates.
+     * Assumes the var items have sr:easting/sr:northing values.
+     * Assumes variables ?eee and ?nnn are free for reuse in the query.
+     * 
+     * @param easting easting of centre of box 
+     * @param northing northing of centre of box
+     * @param radius radius of box in m
+     */
+    public void injectENBox(String var, long easting, long northing, long radius) {
+        injectENBox(var, easting - radius, easting + radius, northing + radius, northing - radius);
+    }
+    
+    /**
+     * Inject a filter for geo bounding box using OSGB grid coordinates.
+     * Assumes the items have sr:easting/sr:northing values.
+     * Assumes variables ?eee and ?nnn are free for reuse in the query.
+     * 
+     * @param left easting of left hand boundary
+     * @param right easting of right hand boundary
+     * @param top northing of top boundary
+     * @param bottom northing of botton boundary
+     */
+    public void injectENBox(String var, long left, long right, long top, long bottom) {
+        addFilter( String.format(BOX_FILTER, var, left, right, top, bottom) );
+    }
+    
+    
+    protected final String BOX_FILTER  = 
+            "?%s <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/easting> ?eee; "
+            + "<http://data.ordnancesurvey.co.uk/ontology/spatialrelations/northing> ?nnn .\n"
+            + "FILTER (?eee >= %d && ?eee <= %d && ?nnn <= %d && ?nnn >= %d)";
 }
 
