@@ -36,6 +36,7 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.shared.PrefixMapping;
 
 /**
  * Shared utilities useful in API implementation.
@@ -45,6 +46,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 public class EndpointsBase {
     public static final String FULL_MEDIA_TYPE_TURTLE = "text/turtle; charset=UTF-8";
     public static final String MEDIA_TYPE_JSONLD = "application/ld+json";
+    public static final String MEDIA_TYPE_RDFXML = "application/rdf+xml";
     public static final String CONTENT_DISPOSITION_HEADER = "Content-Disposition";
     public static final String CONTENT_DISPOSITION_FMT = "attachment; filename=\"%s.%s\"";
     
@@ -151,7 +153,12 @@ public class EndpointsBase {
     public Model describeItem(DescribeEndpointSpec spec) {
         RequestParameters rp = getRequest();
         SparqlSource source = getSource();
-        return ModelFactory.createModelForGraph( source.describe( spec.getQuery(rp) ) );
+        Model model = ModelFactory.createModelForGraph( source.describe( spec.getQuery(rp) ) );
+        PrefixMapping prefixes = getAPI().getApp().getPrefixes();
+        if (prefixes != null) {
+            model.setNsPrefixes(prefixes);
+        }
+        return model;
     }
 
     /**
