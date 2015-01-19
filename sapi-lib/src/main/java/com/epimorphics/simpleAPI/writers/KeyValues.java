@@ -10,9 +10,13 @@
 package com.epimorphics.simpleAPI.writers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.Resource;
 
 /**
  * Represents the value(s) of a key in an output stream. The key normally corresponds
@@ -25,6 +29,7 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 public class KeyValues implements Comparable<KeyValues>{
     protected String key;
     protected List<Object> values = new ArrayList<Object>();
+    protected boolean sorted = false;
     
     public KeyValues(String key) {
         this.key = key;
@@ -47,6 +52,14 @@ public class KeyValues implements Comparable<KeyValues>{
         return values;
     }
     
+    public List<Object> getSortedValues() {
+        if (!sorted) {
+            Collections.sort(values, valueComparator);
+            sorted = true;
+        }
+        return values;
+    }
+    
     public Object getValue() {
         if (values.isEmpty()) {
             return null;
@@ -58,6 +71,7 @@ public class KeyValues implements Comparable<KeyValues>{
     public void add(Object value) {
         if ( ! values.contains(value) ) {
             values.add(value);
+            sorted = false;
         }
     }
     
@@ -98,5 +112,37 @@ public class KeyValues implements Comparable<KeyValues>{
     @Override
     public String toString() {
         return key + "=" + values;
+    }
+    
+    static final Comparator<Object> valueComparator = new ValueComparator();
+    
+    static class ValueComparator implements Comparator<Object> {
+
+        @Override
+        public int compare(Object o1, Object o2) {
+            return objectString(o1).compareTo( objectString(o2) );
+        }
+        
+        private String objectString(Object o) {
+            if (o instanceof RDFNode) {
+                return nodeString( (RDFNode)o );
+            } else if (o instanceof ValueSet) {
+                return nodeString( ((ValueSet)o).getId() );
+            } else {
+                // Should happen
+                return o.toString();
+            }
+        }
+        
+        private String nodeString(RDFNode id) {
+            if (id.isURIResource()) {
+                return ((Resource)id).getURI();
+            } else if (id.isAnon()) {
+                return ((Resource)id).getId().getLabelString();
+            } else {
+                return ((Literal)id).getLexicalForm();
+            }
+        }
+        
     }
 }

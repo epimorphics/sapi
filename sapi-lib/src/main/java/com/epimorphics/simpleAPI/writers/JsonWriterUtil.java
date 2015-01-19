@@ -43,6 +43,7 @@ public class JsonWriterUtil {
         if (nodevals.isEmpty()) {
             return;
         } else if (nodevals.size() > 1 || policy.isMultivalued()) {
+            nodevals = vals.getSortedValues();   // Make this controllable through a mapping option?
             out.key(key);
             out.startArray();
             for (Object n : nodevals) {
