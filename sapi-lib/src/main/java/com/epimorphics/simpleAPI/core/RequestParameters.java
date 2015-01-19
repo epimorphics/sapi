@@ -205,6 +205,22 @@ public class RequestParameters {
         }
         return null;
     }
+    
+    public Double getSafeDoubleParam(String param) {
+        Object value = bindings.get(param);
+        if (value != null) {
+            if (value instanceof Number) {
+                return ((Number)value).doubleValue();
+            } else if (value instanceof String) {
+                try {
+                    return Double.parseDouble((String)value);
+                } catch (NumberFormatException e) {
+                    throw new WebApiException(Status.BAD_REQUEST, "Illegal parameter format");
+                }
+            }
+        }
+        return null;
+    }
 
     public String getSafeStringParam(String param) {
         Object value = bindings.get(param);
