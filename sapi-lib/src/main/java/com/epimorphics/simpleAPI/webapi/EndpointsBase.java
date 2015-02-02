@@ -253,7 +253,7 @@ public class EndpointsBase {
     }
     
     public WNode wrap(Resource resource) {
-        return new WNode(getWSource(), resource);
+        return new WNode(getWSource(), resource, true);
     }
     
     /**
@@ -262,7 +262,12 @@ public class EndpointsBase {
      * @param args alternating sequence of parameter name/parameter value pairs to pass to the renderer
      */
     public StreamingOutput render(String template, Object...args) {
-        return getVelocity().render(template, uriInfo.getPath(), context, uriInfo.getQueryParameters(), args);
+        int len = args.length;
+        Object[] fullArgs = new Object[len + 2];
+        for (int i = 0; i < len; i++) fullArgs[i] = args[i];
+        fullArgs[len]   = "baseURI";
+        fullArgs[len+1] = uriInfo.getBaseUri().toString();
+        return getVelocity().render(template, uriInfo.getPath(), context, uriInfo.getQueryParameters(), fullArgs);
     }
 
     // ---- Other responses ---------------------------------
