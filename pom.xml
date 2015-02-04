@@ -175,7 +175,8 @@
 
   <modules>
 	<module>sapi-lib</module>
-	<module>sapi-app</module>
+    <module>sapi-app</module>
+    <module>sapi-doctool</module>
   </modules>
 
   <build>
