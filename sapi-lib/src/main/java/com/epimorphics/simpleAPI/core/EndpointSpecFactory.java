@@ -124,6 +124,9 @@ public class EndpointSpecFactory {
                 if (jo.hasKey(LIMIT)) {
                     ((ListEndpointSpecImpl)spec).setHardLimit( JsonUtil.getIntValue(jo, LIMIT, Integer.MAX_VALUE) );
                 }
+                if (jo.hasKey(SOFT_LIMIT)) {
+                    ((ListEndpointSpecImpl)spec).setSoftLimit( JsonUtil.getIntValue(jo, SOFT_LIMIT, Integer.MAX_VALUE) );
+                }
             } else {
                 throw new EpiException("Did not recognize type of endpoint configuration " + type + " in " + filename);
             }
