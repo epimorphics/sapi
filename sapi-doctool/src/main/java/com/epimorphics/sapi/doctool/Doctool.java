@@ -78,7 +78,7 @@ public class Doctool {
         out.write( "<div class=\"vocab-index\">\n" );
         out.write( "  <ul>\n" );
         for (Statement s : terms) {
-            out.write( String.format("    <li><a href=\"#%s\">%s</a></li>\n", asJsonName(s), asJsonName(s)) );
+            out.write( String.format("    <li><a href=\"#definition-%s\">%s</a></li>\n", asJsonName(s), asJsonName(s)) );
         }
         out.write( "  </ul>\n" );
         out.write( "</div>\n" );
@@ -86,7 +86,7 @@ public class Doctool {
         // Output the definitions
         out.write( "<div class=\"vocab\">\n" );
         for (Statement s : terms) {
-            out.write( String.format("    <div class='term' id='%s'>%s (%s)</div>\n", asJsonName(s), asJsonName(s), asRDFName(s)) );
+            out.write( String.format("    <div class='term' id='definition-%s'>%s (%s)</div>\n", asJsonName(s), asJsonName(s), asRDFName(s)) );
             out.write( String.format("    <div class='definition'>%s</div>\n", asComment(s)) );
         }
         out.write( "</div>\n" );
