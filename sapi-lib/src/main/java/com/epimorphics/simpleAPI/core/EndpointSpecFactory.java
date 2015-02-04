@@ -47,6 +47,7 @@ public class EndpointSpecFactory {
     public static final String MAPPING   = "mapping";
     public static final String BIND_VARS = "bindVars";
     public static final String LIMIT     = "limit";
+    public static final String SOFT_LIMIT = "softLimit";
     
     public static final String PROPERTY  = "prop";
     public static final String OPTIONAL  = "optional";
