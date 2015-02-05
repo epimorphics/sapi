@@ -132,6 +132,13 @@ public class Doctool {
         out.write( "    <tr><th>Field</th><th>Meaning</th><th>Type</th><th>Occurs</th></tr>\n" );
         out.write( "  </thead>\n" );
         out.write( "  <tbody>\n" );
+        List<JSONMapEntry> entries = mapping.getMapping();
+        Collections.sort(entries, new Comparator<JSONMapEntry>() {
+            @Override
+            public int compare(JSONMapEntry o1, JSONMapEntry o2) {
+                return o1.getJsonName().compareTo( o2.getJsonName() );
+            }
+        });
         for (JSONMapEntry entry : mapping.getMapping()) {
             String jsonname = entry.getJsonName();
             if (entry.isParent()) {
