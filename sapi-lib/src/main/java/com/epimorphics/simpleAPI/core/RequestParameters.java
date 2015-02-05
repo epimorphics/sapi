@@ -57,10 +57,10 @@ public class RequestParameters {
     public RequestParameters addParameter(String parameter, Object value) {
         bindings.put(parameter, value);
         if (parameter.equals(LIMIT_PARAM)) {
-            limit = safeMin(limit, safeAsInt((String)value));
+            limit = safeMin(limit, safeAsInt(value));
         }
         if (parameter.equals(OFFSET_PARAM)) {
-            offset = safeAsInt((String)value);
+            offset = safeAsInt(value);
         }
         return this;
     }
@@ -69,7 +69,10 @@ public class RequestParameters {
         bindings.remove(parameter);
     }
     
-    private Integer safeAsInt(String value) {
+    private Integer safeAsInt(Object value) {
+        if (value instanceof Number) {
+            return ((Number)value).intValue();
+        }
         try {
             return Integer.parseInt((String)value);
         } catch (NumberFormatException e) {
