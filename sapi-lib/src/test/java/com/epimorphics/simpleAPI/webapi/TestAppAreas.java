@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 import org.apache.jena.atlas.json.JSON;
+import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
 import org.junit.Test;
 
@@ -76,16 +77,32 @@ public class TestAppAreas extends TomcatTestBase {
         // Injecting basic limit/offsets
         response = getResponse(BASE_URL + "fixedQueryModTest?min-severity=2&_offset=1&_limit=2", "application/json");
         checkJson(response, "src/test/data/TestApp/response-min2offset1limit2.json");
+        
+        // Soft/hard limits
+        response = getResponse(BASE_URL + "alertTestLimit", "application/json");
+        checkResultSize(response, 2); 
+        response = getResponse(BASE_URL + "alertTestLimit?_limit=3", "application/json");
+        checkResultSize(response, 3); 
+        response = getResponse(BASE_URL + "alertTestLimit?_limit=999", "application/json");
+        checkResultSize(response, 4); 
 
 //        assertEquals(200, response.getStatus());
 //        System.out.println( response.getEntity(String.class) );
     }
-    
+
     private void checkJson(ClientResponse response, String expected) throws IOException {
         assertEquals(200, response.getStatus());
         
         JsonObject json = JSON.parse( response.getEntityInputStream() );
         JsonObject expectedJson = JSON.parse( FileUtils.readWholeFileAsUTF8(expected) );
         assertTrue( JsonComparator.equal(expectedJson, json) );
+    }
+    
+    private void checkResultSize(ClientResponse response, int expected) {
+        assertEquals(200, response.getStatus());
+        
+        JsonObject json = JSON.parse( response.getEntityInputStream() );
+        JsonArray items = json.get("items").getAsArray();
+        assertEquals(expected, items.size());
     }
 }

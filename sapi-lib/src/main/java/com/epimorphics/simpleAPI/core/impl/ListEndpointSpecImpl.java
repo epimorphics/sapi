@@ -63,11 +63,11 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     public String getQuery(RequestParameters request) {
         String q = bindVars(request, getBaseQuery());
         injectFilters(request);
-        if (hardLimit != null) {
-            request.setLimit(hardLimit);
-        }
         if (softLimit != null) {
             request.setSoftLimit(softLimit);
+        }
+        if (hardLimit != null) {
+            request.setLimit(hardLimit);
         }
         q = request.bindQuery(q);
         return expandPrefixes(q);
