@@ -25,6 +25,7 @@ public class JSONMapEntry extends JSONDefaultDescription implements JSONNodeDesc
     protected String property;
     protected boolean optional = false;
     protected String typeURI;
+    protected String comment;
     protected JSONMap nested = null;
     protected JSONNodeDescription parent = null;
     
@@ -65,6 +66,14 @@ public class JSONMapEntry extends JSONDefaultDescription implements JSONNodeDesc
 
     public String getProperty() {
         return property;
+    }
+    
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Override

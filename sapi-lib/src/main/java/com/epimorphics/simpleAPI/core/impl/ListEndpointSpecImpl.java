@@ -41,6 +41,7 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     protected String query;
     protected List<String> bindingVars = new ArrayList<>();
     protected Integer hardLimit;
+    protected Integer softLimit;
     
     public ListEndpointSpecImpl(API api, JsonObject config) {
         super(api, config);
@@ -54,10 +55,17 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
         this.hardLimit = limit;
     }
     
+    public void setSoftLimit(int limit) {
+        this.softLimit = limit;
+    }
+    
     @Override
     public String getQuery(RequestParameters request) {
         String q = bindVars(request, getBaseQuery());
         injectFilters(request);
+        if (softLimit != null) {
+            request.setSoftLimit(softLimit);
+        }
         if (hardLimit != null) {
             request.setLimit(hardLimit);
         }

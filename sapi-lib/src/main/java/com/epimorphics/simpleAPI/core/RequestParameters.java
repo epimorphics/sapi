@@ -119,6 +119,12 @@ public class RequestParameters {
     public void setLimit(int lmt) {
         limit = safeMin(limit, lmt);
     }
+    
+    public void setSoftLimit(int lmt) {
+        if (limit == null) {
+            limit = lmt;
+        }
+    }
 
     public Integer getLimit() {
         return limit;
