@@ -266,7 +266,12 @@ public class EndpointsBase {
         Object[] fullArgs = new Object[len + 2];
         for (int i = 0; i < len; i++) fullArgs[i] = args[i];
         fullArgs[len]   = "baseURI";
-        fullArgs[len+1] = uriInfo.getBaseUri().toString();
+        String baseURI = uriInfo.getBaseUri().toString();
+        if ( ! baseURI.contains("http://localhost") ) {
+            // Use configured base URI unless the request is a localhost (for which we assume this is a test situation)
+            baseURI = getAPI().getBaseURI();   
+        }
+        fullArgs[len+1] = baseURI;
         return getVelocity().render(template, uriInfo.getPath(), context, uriInfo.getQueryParameters(), fullArgs);
     }
 
