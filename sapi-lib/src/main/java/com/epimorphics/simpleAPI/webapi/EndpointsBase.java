@@ -138,7 +138,7 @@ public class EndpointsBase {
      * Describe the item matching the fetched URI using the default mapping specification
      */
     public Response describeItemJsonResponse() {
-        return respondWith( describeItem() );
+        return respondWith( describeItemJson() );
     }
 
     /**
@@ -152,7 +152,7 @@ public class EndpointsBase {
      * Describe the item matching the fetched URI using the given mapping specification
      */
     public Response describeItemJsonResponse(String specname) {
-        return respondWith( describeItem(specname) );
+        return respondWith( describeItemJson(specname) );
     }
 
     /**
