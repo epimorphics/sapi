@@ -48,6 +48,7 @@ public class API extends ComponentBase {
     protected String publisher;
     protected String contextURL;
     protected String comment;
+    protected int  maxAge = 60;
     
     protected Map<String, String> shortnameToURI = new HashMap<String, String>();
     protected Map<String, String> uriToShortname = new HashMap<String, String>();
@@ -248,8 +249,17 @@ public class API extends ComponentBase {
         this.comment = comment;
     }
 
-    // ---- Internals -----------------------------------------------
     
+    public long getMaxAge() {
+        return maxAge;
+    }
+
+    public void setMaxAge(long maxAge) {
+        this.maxAge = (int)maxAge;
+    }
+
+    // ---- Internals -----------------------------------------------
+
     private void condOut(JSFullWriter out, String key, String value) {
         if (value != null) {
             out.pair(key, value);

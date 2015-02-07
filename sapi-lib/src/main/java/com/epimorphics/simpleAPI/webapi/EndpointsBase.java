@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
@@ -30,8 +31,8 @@ import com.epimorphics.appbase.templates.VelocityRender;
 import com.epimorphics.json.JSONWritable;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.DescribeEndpointSpec;
-import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.core.ListEndpointSpec;
+import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -134,6 +135,34 @@ public class EndpointsBase {
     }
 
     /**
+     * Describe the item matching the fetched URI using the default mapping specification
+     */
+    public Response describeItemJsonResponse() {
+        return respondWith( describeItem() );
+    }
+
+    /**
+     * Describe the already fetched Item as a JSON response
+     */
+    public Response describeItemJsonResponse(Resource resource) {
+        return respondWith( describeItemJson(resource) );
+    }
+
+    /**
+     * Describe the item matching the fetched URI using the given mapping specification
+     */
+    public Response describeItemJsonResponse(String specname) {
+        return respondWith( describeItem(specname) );
+    }
+
+    /**
+     * Describe the item matching the fetched URI using the given mapping specification
+     */
+    public Response describeItemJsonResponse(DescribeEndpointSpec spec) {
+        return respondWith( describeItemJson(spec) );   // TODO take optional maxage from spec
+    }
+
+    /**
      * Describe the item matching the fetched URI using a default description
      */
     public Model describeItem() {
@@ -178,6 +207,35 @@ public class EndpointsBase {
         return model.getResource(uri);
     }
 
+    
+    /**
+     * Describe the item matching the fetched URI using a default description
+     */
+    public Response describeItemResponse() {
+        return respondWith( describeItem() );
+    }
+
+    /**
+     * Describe the item matching the fetched URI using the given mapping specification
+     */
+    public Response describeItemResponse(String specname) {
+        return respondWith( describeItem(specname) );
+    }
+
+    /**
+     * Describe the item matching the fetched URI using the given mapping specification
+     */
+    public Response describeItemResponse(DescribeEndpointSpec spec) {
+        return respondWith( describeItem(spec) );
+    }
+
+    /**
+     * Describe the item using the supplied query
+     */
+    public Response describeItemResponseByQuery(String query) {
+        return respondWith( describeItemByQuery(query) );
+    }
+    
     // ---- Listing items ---------------------------------
     
     /**
@@ -209,6 +267,35 @@ public class EndpointsBase {
     public JSONWritable listItems(String specname) {
         return listItems(specname, getRequestWithParms());
     }
+
+    /**
+     * Return a list of items based on a named query/mapping endpoint specification, 
+     * passing in a pre-built set of request parameters
+     */
+    public Response listItemsResponse(String specname, RequestParameters params) {
+        return respondWith( listItems(specname, params) );
+    }
+    
+    /**
+     * Return a JSON stream over the given set of results using the given mapping
+     */
+    public Response listItemsResponse(String specname, RequestParameters params, ResultSet results) {
+        return respondWith( listItems(specname, params, results) );
+    }
+    
+    /**
+     * Return a JSON stream over the given set of results using the given mapping
+     */
+    public Response listItemsResponse(ListEndpointSpec spec, RequestParameters params, ResultSet results) {
+        return respondWith( listItems(spec, params, results) );
+    }
+    
+    /**
+     * Return a list of items based on a named query/mapping endpoint specification
+     */
+    public Response listItemsResponse(String specname) {
+        return respondWith( listItems(specname) );
+    }    
     
     /**
      * Return the ResultSet from running a configured select query
@@ -230,6 +317,24 @@ public class EndpointsBase {
     public ResultSet selectItems(String query) {
         log.debug( "List query = " + query);
         return getSource().streamableSelect(query);
+    }
+    
+    // ---- Response with headers ---------------------------------
+    
+    /**
+     * Return the given entity with maxAge cache control header from the global default in the API config
+     */
+    public Response respondWith(Object entity) {
+        return respondWith(entity, (int)getAPI().getMaxAge());
+    }
+    
+    /**
+     * Return the given entity with maxAge cache control header
+     */
+    public Response respondWith(Object entity, int maxAge) {
+        CacheControl cc = new CacheControl();
+        cc.setMaxAge(maxAge);
+        return Response.ok(entity).cacheControl(cc).build();
     }
     
     // ---- Velocity support ---------------------------------
@@ -274,7 +379,17 @@ public class EndpointsBase {
         fullArgs[len+1] = baseURI;
         return getVelocity().render(template, uriInfo.getPath(), context, uriInfo.getQueryParameters(), fullArgs);
     }
-
+    
+    
+    /**
+     * Return streaming render of a velocity template.
+     * @param template name fof the template
+     * @param args alternating sequence of parameter name/parameter value pairs to pass to the renderer
+     */
+    public Response renderResponse(String template, Object...args) {
+        return respondWith( render(template, args) );
+    }
+    
     // ---- Other responses ---------------------------------
 
     /**
