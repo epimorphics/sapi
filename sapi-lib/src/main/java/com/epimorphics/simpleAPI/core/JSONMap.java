@@ -95,12 +95,12 @@ public class JSONMap {
         buf.append("    #$INJECT$\n");
         buf.append("    " + baseQuery + "\n");
         renderAsQuery(buf, "id");
-        for (JSONMapEntry entry : mapping) {
-            if (entry.isParent() && !entry.isOptional()) {
-                JSONMap nested = entry.getNestedMap();
-                nested.renderAsQuery(buf, entry.getJsonName());
-            }
-        }
+//        for (JSONMapEntry entry : mapping) {
+//            if (entry.isParent() && !entry.isOptional()) {
+//                JSONMap nested = entry.getNestedMap();
+//                nested.renderAsQuery(buf, entry.getJsonName());
+//            }
+//        }
         buf.append("    #$FILTER$\n");
         buf.append("}\n");
         buf.append("    #$MODIFIER$\n");
@@ -130,6 +130,9 @@ public class JSONMap {
                 } else {
                     buf.append("    OPTIONAL {?" + var + " " + map.asQueryRow() + " .}\n" );
                 }
+            } else if (map.isParent()) {
+                JSONMap nested = map.getNestedMap();
+                nested.renderAsQuery(buf, map.getJsonName());
             }
         }
     }

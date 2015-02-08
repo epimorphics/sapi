@@ -124,6 +124,25 @@ public class TestEndpointSpec {
         "ex:severity ?severity ;"
     };
     
+    static final String[] expectedQNNested = new String[] {
+        "PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>",
+        "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>",
+        "SELECT * WHERE {",
+        "#$INJECT$",
+        "?id a rt:FloodAlertOrWarning .",
+        "?id",
+        "rt:severity ?severity ;",
+        "rt:severityLevel ?severityLevel ;",
+        "rt:floodArea ?floodArea ;",
+        "rt:eaAreaName ?eaAreaName ;",
+        "dct:description ?description ;",
+        "OPTIONAL {?id rt:message ?message .}",
+        "?floodArea",
+        "skos:notation ?notation ;",
+        "rt:county ?county ;",
+        "?county",
+        "rdfs:label ?label ;"
+    };
     
     @Test
     public void testParse() {
@@ -141,6 +160,12 @@ public class TestEndpointSpec {
     public void testNestedBug() {
         EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/data/writer/testNestedBug.yaml");
         checkTestQuery(endpoint, expectedNBug);
+    }
+    
+    @Test
+    public void testNestedBug2() {
+        EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/data/endpointSpecs/queryBuildTestNested.yaml");
+        checkTestQuery(endpoint, expectedQNNested);
     }
     
     private void checkTestQuery(EndpointSpec endpoint, String[] expect) {
