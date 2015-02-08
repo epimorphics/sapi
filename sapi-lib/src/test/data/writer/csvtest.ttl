@@ -1,0 +1,9 @@
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix :      <http://localhost/> .
+
+:one  rdf:value 1; rdfs:label "foo" .
+:two  rdf:value 2; rdfs:label "bar", "baz" .

@@ -36,7 +36,7 @@ public class ValueStream implements Iterable<ValueSet>, Iterator<ValueSet> {
     }
     
     public ValueStream(ResultSet results) {
-    this.results = results;
+        this.results = results;
     }
 
     @Override
