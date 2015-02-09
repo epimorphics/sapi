@@ -28,9 +28,15 @@ import com.hp.hpl.jena.query.ResultSet;
  */
 public class CSVStreamingWriter implements StreamingOutput {
     protected ValueStream valueStream;
+    protected boolean includeID = true;
     
     public CSVStreamingWriter(ResultSet results) {
         valueStream = new ValueStream(results);
+    }
+    
+    public CSVStreamingWriter(ResultSet results, boolean includeID) {
+        valueStream = new ValueStream(results);
+        this.includeID = includeID;
     }
 
     @Override
@@ -38,6 +44,7 @@ public class CSVStreamingWriter implements StreamingOutput {
             WebApplicationException {
         try {
             CSVWriter writer = new CSVWriter(output);
+            writer.setIncludeID(includeID);
             writer.write(valueStream);
         } catch (EpiException e) {
             throw new WebApplicationException(e, Status.INTERNAL_SERVER_ERROR);

@@ -29,7 +29,7 @@ public interface ListEndpointSpec extends EndpointSpec {
      * Return a streaming writer which serializes the results of a select query to CSV format,
      * no mapping used, coalesces adjacent rows using a wrapping ValueStream.
      */
-    public StreamingOutput getCSVWriter(ResultSet results, RequestParameters request);
+    public StreamingOutput getCSVWriter(ResultSet results, RequestParameters request, boolean includeID);
     
     /**
      * Return a list of parameter names which should be used to ground variables

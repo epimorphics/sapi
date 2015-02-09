@@ -16,6 +16,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.epimorphics.util.EpiException;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 
@@ -24,6 +27,8 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
  * Assumes all valuesets have the same key set as the first and are not mapped to a nested structure.
  */
 public class CSVWriter {
+    static final Logger log = LoggerFactory.getLogger( CSVWriter.class );
+    
     protected static final String LINE_END = "\r\n" ;   // See https://tools.ietf.org/html/rfc4180
     protected static final String SEP = "," ;
     protected static final String VALUE_SEP = "|" ;
@@ -51,10 +56,16 @@ public class CSVWriter {
      * Write an entire value stream then close the output.
      */
     public void write(ValueStream stream) throws IOException {
-        for (ValueSet vs : stream) {
-            write(vs);
+        long count = 0;
+        try {
+            for (ValueSet vs : stream) {
+                write(vs);
+                count++;
+            }
+            log.info("Returned " + count + " coalesced rows");
+        } finally {
+            out.close();
         }
-        out.close();
     }
 
     /**

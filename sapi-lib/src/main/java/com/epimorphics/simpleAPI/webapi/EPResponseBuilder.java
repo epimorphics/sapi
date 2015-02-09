@@ -37,6 +37,7 @@ public abstract class EPResponseBuilder {
     protected UriInfo uriInfo;
     protected ServletContext context;
     protected String requestedURI;
+    protected boolean csvIncludeID = true; 
     
     public EPResponseBuilder(ServletContext context, UriInfo uriInfo) {
         this.context = context;
@@ -56,6 +57,16 @@ public abstract class EPResponseBuilder {
      */
     public EPResponseBuilder asCSV() {
         format = Format.csv;
+        return this;
+    }
+
+    /**
+     * Set the response to format as a CSV
+     * @param includeID set to false to suppress inclusion of @id information on the returned objects
+     */
+    public EPResponseBuilder asCSV(boolean includeID) {
+        format = Format.csv;
+        csvIncludeID = includeID;
         return this;
     }
 

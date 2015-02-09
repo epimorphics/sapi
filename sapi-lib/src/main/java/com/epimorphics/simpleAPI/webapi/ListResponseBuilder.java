@@ -78,7 +78,7 @@ public class ListResponseBuilder extends EPResponseBuilder {
         case json:
             return spec.getWriter(results, params);
         case csv:
-            return spec.getCSVWriter(results, params);
+            return spec.getCSVWriter(results, params, csvIncludeID);
         case rdf:
             // TODO implement
             throw new WebApplicationException(Status.NOT_ACCEPTABLE);

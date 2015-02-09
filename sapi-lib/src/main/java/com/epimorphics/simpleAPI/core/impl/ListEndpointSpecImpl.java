@@ -138,8 +138,8 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
 
     @Override
     public StreamingOutput getCSVWriter(ResultSet results,
-            RequestParameters request) {
-        return new CSVStreamingWriter(results);
+            RequestParameters request, boolean includeID) {
+        return new CSVStreamingWriter(results, includeID);
     }
     
     public void addBindingParam(String param) {
