@@ -71,6 +71,24 @@ public class DescribeResponseBuilder extends EPResponseBuilder {
         return this;
     }
     
+    /**
+     * Describe the given resource (which has already been fetched)
+     */
+    public DescribeResponseBuilder describe(Resource resource) {
+        this.resource = resource;
+        this.model = resource.getModel();
+        return this;
+    }
+    
+    /**
+     * Describe the given resource (which has already been fetched)
+     * using the given JSON mapping
+     */
+    public DescribeResponseBuilder describe(String specname, Resource resource) {
+        this.spec = getAPI().getDescribeSpec(specname);
+        return describe(resource);
+    }
+    
     @Override
     public Object getEntity() {
         if (model == null) {

@@ -32,6 +32,7 @@ import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.Resource;
 
 /**
  * Shared utilities useful in API implementation.
@@ -168,6 +169,15 @@ public class EndpointsBase {
         return ModelFactory.createModelForGraph( source.describe( query ) );
     }
 
+    /**
+     * Vanilla describe on the given URI
+     */
+    public Resource describeItemByURI(String uri) {
+        SparqlSource source = getSource();
+        Model model = ModelFactory.createModelForGraph( source.describe( "DESCRIBE <" + uri + ">" ) );
+        return model.getResource(uri);
+    }
+     
     /**
      * Return a setOther redirect to the given target URL
      */
