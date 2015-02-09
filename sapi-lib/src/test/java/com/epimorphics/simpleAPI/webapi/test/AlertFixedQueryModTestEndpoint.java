@@ -14,8 +14,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import com.epimorphics.json.JSONWritable;
 import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.webapi.EndpointsBase;
 
@@ -24,12 +24,12 @@ public class AlertFixedQueryModTestEndpoint extends EndpointsBase {
 
     @Produces({MediaType.APPLICATION_JSON})
     @GET
-    public JSONWritable getAlertTest(@QueryParam("min-severity") String severity ) {
+    public Response getAlertTest(@QueryParam("min-severity") String severity ) {
         RequestParameters request = getRequestWithParms();
         if (severity != null) {
             request.addFilter("FILTER(?severityLevel <= " + severity + ")");
         }
-        return listItems("alertTestExplicitQueryMod", request);
+        return startList("alertTestExplicitQueryMod", request).respond();
     }
     
 }

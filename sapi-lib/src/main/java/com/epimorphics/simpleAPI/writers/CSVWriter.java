@@ -24,7 +24,7 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
  * Assumes all valuesets have the same key set as the first and are not mapped to a nested structure.
  */
 public class CSVWriter {
-    protected static final String LINE_END = "\r\n" ;
+    protected static final String LINE_END = "\r\n" ;   // See https://tools.ietf.org/html/rfc4180
     protected static final String SEP = "," ;
     protected static final String VALUE_SEP = "|" ;
     protected static final String ID_COL = "@id" ;

@@ -1,0 +1,7 @@
+<html>
+  <body>
+    Arg = test arg
+    Resource = http://environment.data.gov.uk/flood-monitoring/id/floods/90058
+    Description = "Low lying coastline at Blackpool"
+  </body>
+</html>

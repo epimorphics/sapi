@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.JSONNodeDescription;
 import com.epimorphics.simpleAPI.core.ListEndpointSpec;
 import com.epimorphics.simpleAPI.core.RequestParameters;
+import com.epimorphics.simpleAPI.writers.CSVStreamingWriter;
 import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
 import com.epimorphics.simpleAPI.writers.ValueStream;
 import com.hp.hpl.jena.query.ResultSet;
@@ -132,6 +134,12 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     @Override
     public JSONWritable getWriter(ResultSet results, RequestParameters request) {
         return new Writer(results, request);
+    }
+
+    @Override
+    public StreamingOutput getCSVWriter(ResultSet results,
+            RequestParameters request) {
+        return new CSVStreamingWriter(results);
     }
     
     public void addBindingParam(String param) {

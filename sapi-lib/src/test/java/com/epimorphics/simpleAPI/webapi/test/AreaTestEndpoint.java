@@ -14,8 +14,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import com.epimorphics.json.JSONWritable;
 import com.epimorphics.simpleAPI.webapi.EndpointsBase;
 
 @Path("id/floodAreas")
@@ -24,8 +24,8 @@ public class AreaTestEndpoint extends EndpointsBase {
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     @GET
-    public JSONWritable getFloodArea(@PathParam("id") String id ) {
-        return describeItemJson("areaDescribe");
+    public Response getFloodArea(@PathParam("id") String id ) {
+        return startDescribe("areaDescribe").respond();
     }
     
 }

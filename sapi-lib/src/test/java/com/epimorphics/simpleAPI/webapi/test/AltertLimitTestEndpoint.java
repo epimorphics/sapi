@@ -13,8 +13,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import com.epimorphics.json.JSONWritable;
 import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.webapi.EndpointsBase;
 
@@ -23,8 +23,8 @@ public class AltertLimitTestEndpoint extends EndpointsBase {
 
     @Produces({MediaType.APPLICATION_JSON})
     @GET
-    public JSONWritable getAlertTest( ) {
+    public Response getAlertTest( ) {
         RequestParameters request = getRequestWithParms();
-        return listItems("alertTestImplicitQueryLimit", request);
+        return startList("alertTestImplicitQueryLimit", request).respond();
     }
 }

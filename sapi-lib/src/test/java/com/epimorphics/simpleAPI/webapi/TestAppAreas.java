@@ -16,10 +16,14 @@ import java.io.IOException;
 import org.apache.jena.atlas.json.JSON;
 import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.riot.RDFDataMgr;
 import org.junit.Test;
 
 import com.epimorphics.appbase.webapi.testing.TomcatTestBase;
 import com.epimorphics.simpleAPI.util.JsonComparator;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.util.FileUtils;
 import com.sun.jersey.api.client.ClientResponse;
 
@@ -47,6 +51,18 @@ public class TestAppAreas extends TomcatTestBase {
         response = getResponse(BASE_URL + "id/floods/90058", "application/json");
         checkJson(response, "src/test/data/TestApp/response-alert.json");
         
+        // Describe by URI
+        response = getResponse(BASE_URL + "byURITest?uri=http://environment.data.gov.uk/flood-monitoring/id/floods/90058", "application/json");
+        checkJson(response, "src/test/data/TestApp/response-alert.json");
+
+        // Describe, RDF
+        response = getResponse(BASE_URL + "id/floods/90058", "text/turtle");
+        checkRdf(response,  "src/test/data/TestApp/response-012WACTL12.ttl" );
+
+        // Describe, Html
+        response = getResponse(BASE_URL + "id/floods/90058", "text/html");
+        checkText(response,  "src/test/data/TestApp/response-012WACTL12.txt" );
+
         // Explicit query from spec, with a map to JSON
         response = getResponse(BASE_URL + "fixedQueryTest", "application/json");
         checkJson(response, "src/test/data/TestApp/response-fixedQueryTest.json");
@@ -85,7 +101,11 @@ public class TestAppAreas extends TomcatTestBase {
         checkResultSize(response, 3); 
         response = getResponse(BASE_URL + "alertTestLimit?_limit=999", "application/json");
         checkResultSize(response, 4); 
-
+        
+        // Implicit query, CSV serialization
+        response = getResponse(BASE_URL + "implicitQueryTest", "text/csv");
+        checkText(response, "src/test/data/TestApp/response-implicitQuery.csv");
+        
 //        assertEquals(200, response.getStatus());
 //        System.out.println( response.getEntity(String.class) );
     }
@@ -96,6 +116,31 @@ public class TestAppAreas extends TomcatTestBase {
         JsonObject json = JSON.parse( response.getEntityInputStream() );
         JsonObject expectedJson = JSON.parse( FileUtils.readWholeFileAsUTF8(expected) );
         assertTrue( JsonComparator.equal(expectedJson, json) );
+    }
+    
+    private void checkRdf(ClientResponse response, String expected) throws IOException {
+        assertEquals(200, response.getStatus());
+        
+        Model actual = ModelFactory.createDefaultModel();
+        actual.read(response.getEntityInputStream(), null, "Turtle");
+        if (expected == null) {
+            actual.write(System.out, "Turtle");
+        } else {
+            Model mexpected = RDFDataMgr.loadModel(expected);
+            assertTrue( mexpected.isIsomorphicWith(actual) );
+        }
+    }
+
+    private void checkText(ClientResponse response, String expected) throws IOException {
+        assertEquals(200, response.getStatus());
+        String entity = response.getEntity(String.class);
+        if (expected == null) {
+            System.out.println(entity);
+        } else {
+            String expectedString = FileManager.get().readWholeFileAsUTF8(expected);
+            entity = entity.replace("\r", "");   // Normalize csv
+            assertEquals(expectedString, entity);
+        }
     }
     
     private void checkResultSize(ClientResponse response, int expected) {

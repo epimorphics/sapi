@@ -13,8 +13,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import com.epimorphics.json.JSONWritable;
+import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.webapi.EndpointsBase;
 
 @Path("implicitQueryTest")
@@ -22,8 +23,16 @@ public class AlertImplicitTestEndpoint extends EndpointsBase {
 
     @Produces({MediaType.APPLICATION_JSON})
     @GET
-    public JSONWritable getAlertTest( ) {
-        return listItems("alertTestImplicitQuery", getRequestWithParms());
+    public Response getAlertTest( ) {
+        return startList("alertTestImplicitQuery", getRequestWithParms()).respond();
     }
     
+
+    @Produces({"text/csv"})
+    @GET
+    public Response getAlertTestCSV( ) {
+        RequestParameters request = getRequestWithParms();
+        request.addModifier("ORDER BY ?id");
+        return startList("alertTestImplicitQuery", request).asCSV().respond();
+    }
 }

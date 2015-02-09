@@ -13,8 +13,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import com.epimorphics.json.JSONWritable;
 import com.epimorphics.simpleAPI.webapi.EndpointsBase;
 
 @Path("id")
@@ -23,8 +23,22 @@ public class DefaultDescribeEndpoint extends EndpointsBase {
     @Path("/{id : .+}")
     @Produces({MediaType.APPLICATION_JSON})
     @GET
-    public JSONWritable geDefault() {
-        return describeItemJson( );
+    public Response geDefault() {
+        return startDescribe( ).respond();
+    }
+    
+    @Path("/{id : .+}")
+    @Produces({FULL_MEDIA_TYPE_TURTLE,MEDIA_TYPE_RDFXML})
+    @GET
+    public Response geDefaultRDF() {
+        return startDescribe().asRDF().respond();
+    }
+    
+    @Path("/{id : .+}")
+    @Produces({MediaType.TEXT_HTML})
+    @GET
+    public Response geDefaultHtml() {
+        return startDescribe().asHtml("testDescribe.vm", "arg", "test arg").respond();
     }
     
 }
