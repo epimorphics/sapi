@@ -94,6 +94,9 @@ public class DescribeResponseBuilder extends EPResponseBuilder {
         if (model == null) {
             describe();
         }
+        if (model.size() == 0) {
+            throw new WebApplicationException(Status.NOT_FOUND);
+        }
         switch (format) {
         case rdf:
             return model;
