@@ -81,17 +81,22 @@ public class CSVWriter {
                 buf.append( serializeNode(valueset.getId()) );
             } else {
                 KeyValues kv = valueset.getKeyValues(header);
-                List<Object> values = kv.getValues();
-                if (values.isEmpty()) {
+                if (kv == null) {
+                    // Optional value
                     buf.append( safeString("") );
                 } else {
-                    boolean multi = false;
-                    for (Object value : values) {
-                        if (multi) buf.append(VALUE_SEP); else multi = true;
-                        if (value instanceof RDFNode) {
-                            buf.append( serializeNode( (RDFNode)value ) );
-                        } else {
-                            throw new EpiException("Internal inconsistency in value set, expecting RDF values");
+                    List<Object> values = kv.getValues();
+                    if (values.isEmpty()) {
+                        buf.append( safeString("") );
+                    } else {
+                        boolean multi = false;
+                        for (Object value : values) {
+                            if (multi) buf.append(VALUE_SEP); else multi = true;
+                            if (value instanceof RDFNode) {
+                                buf.append( serializeNode( (RDFNode)value ) );
+                            } else {
+                                throw new EpiException("Internal inconsistency in value set, expecting RDF values");
+                            }
                         }
                     }
                 }

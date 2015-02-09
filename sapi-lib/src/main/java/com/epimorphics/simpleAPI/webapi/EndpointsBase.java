@@ -41,6 +41,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
  */
 public class EndpointsBase {
     public static final String FULL_MEDIA_TYPE_TURTLE = "text/turtle; charset=UTF-8";
+    public static final String MEDIA_TYPE_JSON_PRIORITY = "application/json;qs=2";
     public static final String FULL_MEDIA_TYPE_CSV = "text/csv; charset=UTF-8";
     public static final String MEDIA_TYPE_JSONLD = "application/ld+json";
     public static final String MEDIA_TYPE_RDFXML = "application/rdf+xml";
