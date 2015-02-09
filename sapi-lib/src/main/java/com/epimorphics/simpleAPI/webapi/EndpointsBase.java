@@ -14,8 +14,10 @@ import java.net.URISyntaxException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
@@ -178,4 +180,56 @@ public class EndpointsBase {
             return null;
         }
     }    
+    
+
+    /**
+     * Return streaming render of a velocity template.
+     * @param template name of the template
+     * @param args alternating sequence of parameter name/parameter value pairs to pass to the renderer
+     */
+    public StreamingOutput render(String template, Object...args) {
+        int len = args.length;
+        Object[] fullArgs = new Object[len + 2];
+        for (int i = 0; i < len; i++) fullArgs[i] = args[i];
+        fullArgs[len]   = "baseURI";
+        String baseURI = uriInfo.getBaseUri().toString();
+        if ( ! baseURI.contains("http://localhost") ) {
+            // Use configured base URI unless the request is a localhost (for which we assume this is a test situation)
+            baseURI = getAPI().getBaseURI();   
+        }
+        fullArgs[len+1] = baseURI;
+        return getVelocity().render(template, uriInfo.getPath(), context, uriInfo.getQueryParameters(), fullArgs);
+    }
+
+    /**
+     * Return streaming render of a velocity template.
+     * @param template name of the template
+     * @param args alternating sequence of parameter name/parameter value pairs to pass to the renderer
+     */
+    public Response renderResponse(String template, Object...args) {
+        return respondWith( render(template, args) );
+    }
+    
+    /**
+     * Return the given entity with maxAge cache control header from the global default in the API config
+     */
+    public Response respondWith(Object entity) {
+        return respondWith(entity, (int)getAPI().getMaxAge());
+    }
+    
+    /**
+     * Return the given entity with maxAge cache control header
+     * format the given query results according to the endpoint specification
+     */
+    public Response respondWith(Object entity, int maxAge) {
+        CacheControl cc = new CacheControl();
+        cc.setMaxAge(maxAge);
+        return Response.ok(entity).cacheControl(cc).build();    
+    }
+    
+    protected VelocityRender getVelocity() {
+        return AppConfig.getApp().getA(VelocityRender.class);
+    }    
+        
+    
 }
