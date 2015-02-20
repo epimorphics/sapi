@@ -23,6 +23,7 @@ public class JSONDefaultDescription implements JSONNodeDescription {
     protected boolean showLang = true;
     protected boolean multivalued = false;
     protected boolean filterable = false;
+    protected boolean optional = true;
     
     public JSONDefaultDescription() {
     }
@@ -77,6 +78,15 @@ public class JSONDefaultDescription implements JSONNodeDescription {
     @Override
     public boolean isParent() {
         return false;
+    }
+
+    @Override
+    public boolean isOptional() {
+        return optional;
+    }
+
+    public void setOptional(boolean optional) {
+        this.optional = optional;
     }
 
 }

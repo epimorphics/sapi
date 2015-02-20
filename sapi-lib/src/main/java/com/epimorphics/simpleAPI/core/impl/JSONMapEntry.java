@@ -100,7 +100,8 @@ public class JSONMapEntry extends JSONDefaultDescription implements JSONNodeDesc
     public String getType() {
         return typeURI;
     }    
-    
+
+    @Override
     public boolean isOptional() {
         return optional;
     }

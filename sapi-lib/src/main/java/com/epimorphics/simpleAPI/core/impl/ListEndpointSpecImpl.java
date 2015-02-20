@@ -37,7 +37,9 @@ import com.hp.hpl.jena.query.ResultSet;
 public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpointSpec {
     static final Logger log = LoggerFactory.getLogger( ListEndpointSpecImpl.class );
     
-    public static final boolean USE_FILTER = false;
+    // Using a filter instead of injecting VALUES constraints is generally better
+    // Handle exceptions in client code
+    public static final boolean USE_FILTER = true;
             
     protected String baseQuery;
     protected String query;
@@ -109,7 +111,7 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
                                 throw new WebApiException(Status.BAD_REQUEST, "Illegal value for parameter " + param);
                             }
                         }
-                        if (USE_FILTER) {
+                        if (USE_FILTER || entry.isOptional()) {
                             request.addFilter( String.format("FILTER( ?%s = %s )", param, QueryUtil.asSPARQLValue(value)) );
                         } else {
                             request.addInject( String.format("VALUES ?%s { %s }", param, QueryUtil.asSPARQLValue(value)) );

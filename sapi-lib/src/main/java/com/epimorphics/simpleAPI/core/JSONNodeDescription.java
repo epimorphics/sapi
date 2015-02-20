@@ -56,6 +56,11 @@ public interface JSONNodeDescription {
     public boolean isFilterable();
     
     /**
+     * Return true if the node is optional within the corresponding query
+     */
+    public boolean isOptional();
+
+    /**
      * Return the URI of the datatype for filter values for this node.
      * May be null (in which case the caller may need to infer a type).
      */
