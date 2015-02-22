@@ -5,11 +5,10 @@
     "licence" : "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ,
     "documentation" : "http://environment.data.gov.uk/flood-monitoring/doc/api-documentation.html" ,
     "version" : "0.1" ,
-    "comment" : "WARNING: Pre-alpha test service, data may not be up to date"
-  }
-  ,
+    "comment" : "WARNING: Pre-alpha test service, data may not be up to date"  ,
     "limit" : 2 ,
     "offset" : 1
+  }
    ,
   "items" : [ { 
     "@id" : "http://environment.data.gov.uk/flood-monitoring/id/floods/90076" ,

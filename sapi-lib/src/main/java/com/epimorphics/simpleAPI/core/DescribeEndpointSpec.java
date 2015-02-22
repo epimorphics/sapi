@@ -18,5 +18,5 @@ public interface DescribeEndpointSpec extends EndpointSpec {
      * Return a streaming writer which serializes a retrieved resource
      * using any mapping information supplied by the endpoint 
      */
-    public JSONWritable getWriter(Resource resource);
+    public JSONWritable getWriter(Resource resource, String requestURI);
 }

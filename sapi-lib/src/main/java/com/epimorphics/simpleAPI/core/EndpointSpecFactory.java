@@ -48,6 +48,7 @@ public class EndpointSpecFactory {
     public static final String BIND_VARS = "bindVars";
     public static final String LIMIT     = "limit";
     public static final String SOFT_LIMIT = "softLimit";
+    public static final String HAS_FORMAT = "hasFormat";
     
     public static final String PROPERTY  = "prop";
     public static final String OPTIONAL  = "optional";
@@ -56,6 +57,7 @@ public class EndpointSpecFactory {
     public static final String COMMENT    = "comment";
     public static final String FILTERABLE= "filterable";
     public static final String PROP_TYPE = "type";
+    
     
     /**
      * Load a json/yaml endpoint configuration from a jar resource

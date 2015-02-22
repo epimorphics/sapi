@@ -93,6 +93,7 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
         return query;
     }
     
+    @SuppressWarnings("unused")
     protected void injectFilters(RequestParameters request) {
         for (String param : request.getBindings().keySet()) {
             if (!param.startsWith("_")) {
@@ -134,8 +135,8 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     }
 
     @Override
-    public JSONWritable getWriter(ResultSet results, RequestParameters request) {
-        return new Writer(results, request);
+    public JSONWritable getWriter(ResultSet results, RequestParameters request, String requestURI) {
+        return new Writer(results, request, requestURI);
     }
 
     @Override
@@ -157,11 +158,13 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
         ValueStream values;
         RequestParameters request;
         ResultSet results;
+        String requestURI;
         
-        public Writer(ResultSet results, RequestParameters request) {
+        public Writer(ResultSet results, RequestParameters request, String requestURI) {
             this.values = new ValueStream(results, map);
             this.request = request;
             this.results = results;
+            this.requestURI = requestURI;
         }
         
         @Override
@@ -169,13 +172,7 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
             try {
                 long count = 0;
                 out.startObject();
-                api.writeMetadata(out);
-                if (request.getLimit() != null) {
-                    out.pair("limit", request.getLimit());
-                }
-                if (request.getOffset() != null) {
-                    out.pair("offset", request.getOffset());
-                }
+                writeMetadata(out);
                 out.key( getItemName() );
                 out.startArray();
                 while (values.hasNext()) {
@@ -195,6 +192,18 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
                     }
                 }
             }
+        }
+        
+        protected void writeMetadata(JSFullWriter out) {
+            api.startMetadata(out);
+            if (request.getLimit() != null) {
+                out.pair("limit", request.getLimit());
+            }
+            if (request.getOffset() != null) {
+                out.pair("offset", request.getOffset());
+            }
+            JsonWriterUtil.writeFormats(getMetadata(), requestURI, out);
+            api.finishMetadata(out);
         }
     }
 

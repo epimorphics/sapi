@@ -43,29 +43,38 @@ public class DescribeEndpointSpecImpl extends EndpointSpecBase implements Descri
     }
 
     @Override
-    public JSONWritable getWriter(Resource resource) {
-        return new Writer(resource);
+    public JSONWritable getWriter(Resource resource, String requestURI) {
+        return new Writer(resource, requestURI);
     }
 
     public class Writer implements JSONWritable {
         ValueSet values;
+        String requestURI;
         
-        public Writer(ValueSet values) {
+        public Writer(ValueSet values, String requestURI) {
             this.values = values;
+            this.requestURI = requestURI;
         }
         
-        public Writer(Resource root) {
+        public Writer(Resource root, String requestURI) {
             this.values = ValueSet.fromResource(map, root);
+            this.requestURI = requestURI;
         }
         
         @Override
         public void writeTo(JSFullWriter out) {
             out.startObject();
-            api.writeMetadata(out);
+            writeMetadata(out);
             out.key( getItemName() );
             JsonWriterUtil.writeValueSet(map, values, out);
             out.finishObject();
         }
-
+        
+        protected void writeMetadata(JSFullWriter out) {
+            api.startMetadata(out);
+            JsonWriterUtil.writeFormats(getMetadata(), requestURI, out);
+            api.finishMetadata(out);
+        }
+        
     }
 }

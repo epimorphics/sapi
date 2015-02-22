@@ -23,7 +23,7 @@ public interface ListEndpointSpec extends EndpointSpec {
      * using any mapping information supplied by the endpoint. Creates a wrapping
      * ValueStream to perform any coalescing of adjacent rows.
      */
-    public JSONWritable getWriter(ResultSet results, RequestParameters request);
+    public JSONWritable getWriter(ResultSet results, RequestParameters request, String requestURI);
 
     /**
      * Return a streaming writer which serializes the results of a select query to CSV format,

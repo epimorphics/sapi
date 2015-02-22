@@ -76,7 +76,7 @@ public class ListResponseBuilder extends EPResponseBuilder {
         }
         switch (format) {
         case json:
-            return spec.getWriter(results, params);
+            return spec.getWriter(results, params, uriInfo.getRequestUri().toString());
         case csv:
             return spec.getCSVWriter(results, params, csvIncludeID);
         case rdf:

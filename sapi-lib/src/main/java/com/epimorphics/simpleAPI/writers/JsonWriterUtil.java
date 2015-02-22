@@ -9,9 +9,17 @@
 
 package com.epimorphics.simpleAPI.writers;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.atlas.json.JsonValue;
 
 import com.epimorphics.json.JSFullWriter;
+import com.epimorphics.simpleAPI.core.EndpointSpecFactory;
 import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.JSONNodeDescription;
 import com.hp.hpl.jena.rdf.model.Literal;
@@ -102,5 +110,48 @@ public class JsonWriterUtil {
         }        
     }    
 
+    /** Output and array of alternative hasFormat values */
+    public static void writeFormats(JsonObject config, String request, JSFullWriter out) {
+        if (config.hasKey(EndpointSpecFactory.HAS_FORMAT)) {
+            writeFormat(config.get(EndpointSpecFactory.HAS_FORMAT), request, out);
+        }        
+    }
+    
+    private static void writeFormat(JsonValue format, String request, JSFullWriter out) {
+        List<String> formats = new ArrayList<>();
+        if (format.isString()) {
+            addFormat(formats, format.getAsString().value(), request, out);
+        } else if (format.isArray()) {
+            for (Iterator<JsonValue> i = format.getAsArray().iterator(); i.hasNext();) {
+                addFormat(formats,  i.next().getAsString().value(), request, out);
+            }
+        }
+        if ( ! formats.isEmpty() ) {
+            out.key("hasFormat");
+            out.startArray();
+            for (String f : formats) {
+                out.arrayElement(f);
+            }
+            out.finishArray();
+        }
+    }
+    
+    private static void addFormat(List<String> formats, String format,  String request, JSFullWriter out) {
+        if ("json".equals(format)) return;
+        
+        Matcher m = URIPAT.matcher(request);
+        if (m.matches()) {
+            formats.add( m.group(1) + "." + format + (m.group(3) == null ? "" : m.group(3)) );
+        } else {
+            formats.add( request + "." + format );
+        }
+    }
+    
+    protected static final Pattern URIPAT = Pattern.compile("([^?]*)(\\.[a-z]*)?(\\?.*)?");
+    
+    public static void main(String[] args) {
+        Matcher m = URIPAT.matcher("http://localhost:8080/api/id/stations?_limit=10&qualifier=Groundwater");
+        System.out.println( String.format("Matches %b 1=%s 2=%s 3=%s", m.matches(), m.group(1), m.group(2), m.group(3)) );
+    }
 }
 
