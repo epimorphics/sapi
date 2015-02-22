@@ -102,7 +102,7 @@ public class DescribeResponseBuilder extends EPResponseBuilder {
             return model;
         case json:
             if (spec == null) spec = getAPI().getDefaultDescribe();
-            return spec.getWriter(resource, uriInfo.getRequestUri().toString());
+            return spec.getWriter(resource, getRequestedURI());
         case html:
             return wrap( resource );
         case csv:

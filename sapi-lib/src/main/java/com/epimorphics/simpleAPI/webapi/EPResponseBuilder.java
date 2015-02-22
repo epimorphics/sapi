@@ -133,8 +133,13 @@ public abstract class EPResponseBuilder {
      */
     public String getRequestedURI() {
         if (requestedURI == null) {
+            String rawRequest = uriInfo.getRequestUri().toString();
             String path = uriInfo.getPath();
             requestedURI = getAPI().getBaseURI() + path;
+            if (rawRequest.contains("?")) {
+                String query = rawRequest.substring( rawRequest.indexOf('?') );
+                requestedURI += query;
+            }
         }
         return requestedURI;
     }
