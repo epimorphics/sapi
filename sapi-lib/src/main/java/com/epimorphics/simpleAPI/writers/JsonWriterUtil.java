@@ -99,7 +99,11 @@ public class JsonWriterUtil {
                 } else {
                     Object jv = l.getValue();
                     if (jv instanceof Number) {
-                        if (isArrayElt) writer.arrayElement( (Number)jv ); else writer.pair(key, (Number)jv);
+                        if (lex.equals("NaN") || lex.contains("INF")) {
+                            // legal in RDF and XSD but not legal in JSON, omit
+                        } else {
+                            if (isArrayElt) writer.arrayElement( (Number)jv ); else writer.pair(key, (Number)jv);
+                        }
                     } else if (jv instanceof Boolean) {
                         if (isArrayElt) writer.arrayElement( (Boolean)jv ); else writer.pair(key, (Boolean)jv);
                     } else {

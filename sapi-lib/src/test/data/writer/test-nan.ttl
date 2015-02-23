@@ -1,0 +1,19 @@
+<http://environment.data.gov.uk/flood-monitoring/data/readings/531118-level-stage-i-15_min-m/2015-02-22T06-15-00Z>
+        <http://environment.data.gov.uk/flood-monitoring/def/core/date>
+                "2015-02-22"^^<http://www.w3.org/2001/XMLSchema#date> ;
+        <http://environment.data.gov.uk/flood-monitoring/def/core/dateTime>
+                "2015-02-22T06:15:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+        <http://environment.data.gov.uk/flood-monitoring/def/core/measure>
+                <http://environment.data.gov.uk/flood-monitoring/id/measures/531118-level-stage-i-15_min-m> ;
+        <http://environment.data.gov.uk/flood-monitoring/def/core/value>
+                "NaN"^^<http://www.w3.org/2001/XMLSchema#double> .
+
+<http://environment.data.gov.uk/flood-monitoring/data/readings/531118-level-stage-i-15_min-m/2015-02-22T06-30-00Z>
+        <http://environment.data.gov.uk/flood-monitoring/def/core/date>
+                "2015-02-22"^^<http://www.w3.org/2001/XMLSchema#date> ;
+        <http://environment.data.gov.uk/flood-monitoring/def/core/dateTime>
+                "2015-02-22T06:30:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+        <http://environment.data.gov.uk/flood-monitoring/def/core/measure>
+                <http://environment.data.gov.uk/flood-monitoring/id/measures/531118-level-stage-i-15_min-m> ;
+        <http://environment.data.gov.uk/flood-monitoring/def/core/value>
+                "0.123"^^<http://www.w3.org/2001/XMLSchema#double> .
