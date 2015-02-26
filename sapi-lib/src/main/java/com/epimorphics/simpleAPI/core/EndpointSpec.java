@@ -9,6 +9,8 @@
 
 package com.epimorphics.simpleAPI.core;
 
+import java.util.List;
+
 import org.apache.jena.atlas.json.JsonObject;
 
 import com.hp.hpl.jena.shared.PrefixMapping;
@@ -63,4 +65,16 @@ public interface EndpointSpec {
      * Return the JSON mapping specification which controls serializations from this endpoint
      */
     public JSONMap getMap();
+    
+    /**
+     * Return the list of formats available for this endpoint (as strings given the filename extension for the format)
+     * May be empty in no formats are specified.
+     */
+    public List<String> getFormatNames();
+    
+    /**
+     * Return the list of formats available for this endpoint (as strings given the request URI with the
+     * format extension added
+     */
+    public List<String> getFormats(String request, String skipFormat);
 }

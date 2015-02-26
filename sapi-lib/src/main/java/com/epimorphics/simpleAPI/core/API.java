@@ -25,7 +25,13 @@ import com.epimorphics.json.JsonUtil;
 import com.epimorphics.rdfutil.RDFUtil;
 import com.epimorphics.util.EpiException;
 import com.epimorphics.util.NameUtils;
+import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import com.hp.hpl.jena.sparql.vocabulary.FOAF;
+import com.hp.hpl.jena.vocabulary.DCTerms;
+import com.hp.hpl.jena.vocabulary.OWL;
+import com.hp.hpl.jena.vocabulary.RDFS;
 
 /**
  * AppBase component to manage the configuration of simple API elements.
@@ -126,6 +132,29 @@ public class API extends ComponentBase {
     
     public void finishMetadata(JSFullWriter out) {
         out.finishObject();
+    }
+    
+    /**
+     * Inject a page description into a description model
+     * @param thing The resource being described whose associated Model is where the description should be injected
+     */
+    public Resource addRDFMetadata(Resource thing) {
+        Resource meta = thing.getModel().createResource()
+            .addProperty(FOAF.primaryTopic, thing);
+        condAddProperty(meta, DCTerms.publisher, publisher);
+        condAddProperty(meta, DCTerms.license, licence);
+        if (documentation != null) {
+            meta.addProperty(RDFS.seeAlso, ResourceFactory.createResource(documentation));
+        }
+        condAddProperty(meta, OWL.versionInfo, version);
+        condAddProperty(meta, RDFS.comment, comment);
+        return meta;
+    }
+    
+    private void condAddProperty(Resource meta, Property prop, String value) {
+        if (value != null) {
+            meta.addProperty(prop, value);
+        }
     }
     
     // ---- Access to configurations ------------------------------------

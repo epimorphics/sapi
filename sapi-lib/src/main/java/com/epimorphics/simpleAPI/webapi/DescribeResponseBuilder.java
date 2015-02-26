@@ -20,7 +20,9 @@ import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.shared.PrefixMapping;
+import com.hp.hpl.jena.vocabulary.DCTerms;
 
 public class DescribeResponseBuilder extends EPResponseBuilder {
     protected Model model;
@@ -99,6 +101,10 @@ public class DescribeResponseBuilder extends EPResponseBuilder {
         }
         switch (format) {
         case rdf:
+            Resource meta = getAPI().addRDFMetadata(resource);
+            for (String format : spec.getFormats(getRequestedURI(), "noskip")) {
+                meta.addProperty(DCTerms.hasFormat, ResourceFactory.createResource(format));
+            }
             return model;
         case json:
             if (spec == null) spec = getAPI().getDefaultDescribe();
@@ -112,6 +118,7 @@ public class DescribeResponseBuilder extends EPResponseBuilder {
             throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
     }
+    
     
     protected WNode wrap(Resource resource) {
         return new WNode(getWSource(), resource, true);

@@ -202,7 +202,7 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
             if (request.getOffset() != null) {
                 out.pair("offset", request.getOffset());
             }
-            JsonWriterUtil.writeFormats(getMetadata(), requestURI, out);
+            writeFormats(requestURI, out);
             api.finishMetadata(out);
         }
     }

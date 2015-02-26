@@ -72,7 +72,7 @@ public class DescribeEndpointSpecImpl extends EndpointSpecBase implements Descri
         
         protected void writeMetadata(JSFullWriter out) {
             api.startMetadata(out);
-            JsonWriterUtil.writeFormats(getMetadata(), requestURI, out);
+            writeFormats(requestURI, out);
             api.finishMetadata(out);
         }
         

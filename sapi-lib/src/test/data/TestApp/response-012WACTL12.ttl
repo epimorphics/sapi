@@ -35,3 +35,11 @@
         <http://environment.data.gov.uk/flood-monitoring/def/core/timeSeverityChanged>
                 "2014-10-21T13:40:00"^^xsd:dateTime ;
         dct:description  "Low lying coastline at Blackpool" .
+        
+[ rdfs:comment       "WARNING: Pre-alpha test service, data may not be up to date" ;
+  rdfs:seeAlso       <http://environment.data.gov.uk/flood-monitoring/doc/api-documentation.html> ;
+  dct:license        "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
+  dct:publisher      "Environment Agency" ;
+  owl:versionInfo    "0.1" ;
+  foaf:primaryTopic  <http://environment.data.gov.uk/flood-monitoring/id/floods/90058>
+] .        

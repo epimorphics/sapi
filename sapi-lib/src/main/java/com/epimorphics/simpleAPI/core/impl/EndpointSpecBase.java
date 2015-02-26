@@ -9,8 +9,16 @@
 
 package com.epimorphics.simpleAPI.core.impl;
 
-import org.apache.jena.atlas.json.JsonObject;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.atlas.json.JsonValue;
+
+import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.EndpointSpec;
@@ -98,4 +106,51 @@ public abstract class EndpointSpecBase implements EndpointSpec {
         this.map = map;
     }
        
+    @Override
+    public List<String> getFormatNames() {
+        List<String> formats = new ArrayList<String>();
+        if (config.hasKey(EndpointSpecFactory.HAS_FORMAT)) {
+            JsonValue format = config.get(EndpointSpecFactory.HAS_FORMAT);
+            if (format.isString()) {
+                formats.add(format.getAsString().value());
+            } else if (format.isArray()) {
+                for (Iterator<JsonValue> i = format.getAsArray().iterator(); i.hasNext();) {
+                    formats.add( i.next().getAsString().value() );
+                }
+            }
+        }
+        return formats;
+    }
+    
+    public List<String> getFormats(String request, String skipFormat) {
+        List<String> formats = new ArrayList<>();
+        for (String format : getFormatNames()) {
+            if (skipFormat.equals(format))
+                continue;
+            Matcher m = URIPAT.matcher(request);
+            if (m.matches()) {
+                formats.add(m.group(1) + "." + format
+                        + (m.group(3) == null ? "" : m.group(3)));
+            } else {
+                formats.add(request + "." + format);
+            }
+        }
+        return formats;
+    }
+    
+    /** Output and array of alternative hasFormat values */
+    public void writeFormats(String request, JSFullWriter out) {
+        List<String> formats = getFormats(request, "json");
+        if (!formats.isEmpty()) {
+            out.key("hasFormat");
+            out.startArray();
+            for (String f : formats) {
+                out.arrayElement(f);
+            }
+            out.finishArray();
+        }
+    }
+
+    protected static final Pattern URIPAT = Pattern
+            .compile("([^?]*)(\\.[a-z]*)?(\\?.*)?");    
 }
