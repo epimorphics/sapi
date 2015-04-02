@@ -37,7 +37,6 @@
       </snapshots>
     </repository>
   
-  <!-- 
     <repository>
       <releases>
         <enabled>true</enabled>
@@ -49,20 +48,6 @@
       <name>Epimorphics Public Repository</name>
       <url>http://repository.epimorphics.com</url>
     </repository>
-
-    <repository>
-      <id>repo-epi</id>
-      <name>Epimorphics repository</name>
-      <layout>default</layout>
-      <url>http://www.epimorphics.com/maven2</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
- -->
  
     <repository>  
      <id>epi-public-s3-snapshot</id>  
@@ -127,7 +112,7 @@
     <dependency>
       <groupId>com.epimorphics</groupId>
       <artifactId>appbase</artifactId>
-      <version>0.0.8-SNAPSHOT</version>
+      <version>0.1.1</version>
     </dependency>
     
     <dependency>
