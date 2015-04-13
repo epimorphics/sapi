@@ -185,8 +185,13 @@ public class RequestParameters {
     }
     
     public static String bindQueryParam(String query, String var, Object value) {
-        return query.replaceAll( "\\?" + var + "\\b", QueryUtil.asSPARQLValue( value ).replace("\\", "\\\\"));
+        String subs = QueryUtil.asSPARQLValue( value ).replace("\\", "\\\\");
+        // Two step substitute so don't use regex when substituting value (which might have regex special characters)
+        String bound = query.replaceAll("\\?" + var + "\\b", MARKER);
+        bound = bound.replace(MARKER, subs);
+        return bound;
     }
+    protected static final String MARKER="?ILLEGAL-VAR";
 
     protected String bindMarker(String query, String marker, String value) {
         if (value != null && !value.isEmpty()) {
