@@ -75,6 +75,10 @@ public class JSONMap {
         return defaultDescription;
     }
     
+    public JSONDefaultDescription getDefaultDescription() {
+        return (JSONDefaultDescription) defaultDescription;
+    }
+    
     public String keyFor(Property property) {
         // TODO cache expanding property URIs? Not clear this is really needed anyway, so defer.
         if (api.getApp() != null && api.getApp().getPrefixes() != null) {

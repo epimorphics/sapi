@@ -55,6 +55,7 @@ public class API extends ComponentBase {
     protected String contextURL;
     protected String comment;
     protected int  maxAge = 60;
+    protected boolean showLangTag = true;
     
     protected Map<String, String> shortnameToURI = new HashMap<String, String>();
     protected Map<String, String> uriToShortname = new HashMap<String, String>();
@@ -162,6 +163,7 @@ public class API extends ComponentBase {
     public DescribeEndpointSpec getDefaultDescribe() {
         if (defaultDescribe == null) {
             defaultDescribe = EndpointSpecFactory.makeDescribeSpec(this, "DESCRIBE ?id");
+            defaultDescribe.getMap().getDefaultDescription().setShowLang(showLangTag);
         }
         return defaultDescribe;
     }
@@ -189,6 +191,7 @@ public class API extends ComponentBase {
 
     public DescribeEndpointSpec getDescribeSpec(String name) {
         EndpointSpec spec = getSpec(name);
+        spec.getMap().getDefaultDescription().setShowLang(showLangTag);
         if (spec instanceof DescribeEndpointSpec) {
             return (DescribeEndpointSpec) spec;
         } else {
@@ -286,8 +289,17 @@ public class API extends ComponentBase {
     public void setMaxAge(long maxAge) {
         this.maxAge = (int)maxAge;
     }
+    
+    public boolean isShowLangTag() {
+        return showLangTag;
+    }
+
+    public void setShowLangTag(boolean showLang) {
+        this.showLangTag = showLang;
+    }    
 
     // ---- Internals -----------------------------------------------
+
 
     private void condOut(JSFullWriter out, String key, String value) {
         if (value != null) {
