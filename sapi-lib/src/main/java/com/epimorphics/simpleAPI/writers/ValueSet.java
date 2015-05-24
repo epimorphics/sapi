@@ -184,6 +184,7 @@ public class ValueSet {
                 values.put( key, value );
             }
         }
+        seen.remove(root);
         return values;
     }
     
