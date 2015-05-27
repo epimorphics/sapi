@@ -93,6 +93,16 @@ public abstract class EPResponseBuilder {
         this.templateArgs = args;
         return this;
     }
+
+    /**
+     * Set the arguments to be added to any velocity rendering of this response.
+     * Replaces any arguments already set. Only meaningful if asHtml has been or will be invoked.
+     * @param args alternating pairs of velocity context name and value to bind to
+     */
+    public EPResponseBuilder setTemplateArgs( Object... args) {
+        this.templateArgs = args;
+        return this;
+    }
     
     /** Return the entity body for the response */
     public abstract Object getEntity();
