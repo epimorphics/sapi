@@ -145,6 +145,10 @@ public class RequestParameters {
     public Object getBinding(String key) {
         return bindings.get(key);
     }
+    
+    public boolean hasBindingFor(String key) {
+        return bindings.containsKey(key);
+    }
 
     public String getFilterClause() {
         return filterClause;
