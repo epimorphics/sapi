@@ -129,7 +129,7 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
     protected String bindVars(RequestParameters request, String query) {
         String q = query;
         for (String param : bindingVars) {
-            q = request.bindQueryParam(query, param);
+            q = request.bindQueryParam(q, param);
         }
         return q;
     }
