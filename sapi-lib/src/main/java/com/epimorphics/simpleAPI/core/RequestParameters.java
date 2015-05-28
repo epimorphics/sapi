@@ -185,7 +185,12 @@ public class RequestParameters {
     }
 
     public String bindQueryParam(String query, String param) {
-        return bindQueryParam(query, param, getBinding(param));
+        Object value = getBinding(param);
+        if (value == null) {
+            return query;
+        } else {
+            return bindQueryParam(query, param, value);
+        }
     }
     
     public static String bindQueryParam(String query, String var, Object value) {
