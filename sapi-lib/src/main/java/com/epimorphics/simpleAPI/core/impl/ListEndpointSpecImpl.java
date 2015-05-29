@@ -119,7 +119,9 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
                         }
                     }
                 } else {
-                    log.warn("Unrecognized query parameter: " + param);
+                    if ( !bindingVars.contains(request) ) {
+                        log.warn("Unrecognized query parameter: " + param);
+                    }
                     // TODO return the request?
                 }
             }

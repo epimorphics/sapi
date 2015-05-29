@@ -154,7 +154,7 @@ public class ValueSet {
     }
     
     public String getStringID() {
-        if (id.isURIResource()) {
+        if (id != null && id.isURIResource()) {
             return id.asResource().getURI();
         } else {
             return null;
