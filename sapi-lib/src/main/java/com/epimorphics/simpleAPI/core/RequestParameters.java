@@ -146,8 +146,22 @@ public class RequestParameters {
         return bindings.get(key);
     }
     
-    public boolean hasBindingFor(String key) {
+    public boolean hasParameter(String key) {
         return bindings.containsKey(key);
+    }
+    
+    public boolean hasBindingFor(String key) {
+        if (hasParameter(key)) {
+            Object value = getBinding(key);
+            if (value != null) {
+                if (value instanceof String) {
+                    return ! ((String)value).isEmpty();
+                } else {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public String getFilterClause() {
