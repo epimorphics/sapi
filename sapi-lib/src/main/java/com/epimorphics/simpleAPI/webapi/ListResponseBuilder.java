@@ -9,6 +9,9 @@
 
 package com.epimorphics.simpleAPI.webapi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletContext;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
@@ -20,6 +23,8 @@ import org.slf4j.LoggerFactory;
 import com.epimorphics.appbase.data.impl.WResultSetWrapper;
 import com.epimorphics.simpleAPI.core.ListEndpointSpec;
 import com.epimorphics.simpleAPI.core.RequestParameters;
+import com.epimorphics.simpleAPI.writers.ValueSet;
+import com.epimorphics.simpleAPI.writers.ValueStream;
 import com.hp.hpl.jena.query.ResultSet;
 
 public class ListResponseBuilder extends EPResponseBuilder {
@@ -28,6 +33,7 @@ public class ListResponseBuilder extends EPResponseBuilder {
     protected ListEndpointSpec spec;
     protected RequestParameters params;
     protected ResultSet results;
+    protected boolean passAsResultSet = true;
 
     public ListResponseBuilder(ServletContext context, UriInfo uriInfo) {
         super(context, uriInfo);
@@ -67,6 +73,15 @@ public class ListResponseBuilder extends EPResponseBuilder {
         return this;
     }
     
+    /**
+     * Change the format of the list result passed to html rendering 
+     * to be a materialized list of ValueSets instead of a (wrapped) ResultSet
+     */
+    public ListResponseBuilder asValues() {
+        passAsResultSet = false;
+        return this;
+    }
+    
     @Override
     public Object getEntity() {
         if (results == null) {
@@ -83,7 +98,15 @@ public class ListResponseBuilder extends EPResponseBuilder {
             // TODO implement
             throw new WebApplicationException(Status.NOT_ACCEPTABLE);
         case html:
-            return new WResultSetWrapper(results, getWSource());
+            if (passAsResultSet) {
+                return new WResultSetWrapper(results, getWSource());
+            } else {
+                List<ValueSet> values = new ArrayList<>();
+                for (ValueSet value : new ValueStream(results)) {
+                    values.add(value);
+                }
+                return values;
+            }
         default:
             // can't happen
             throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
