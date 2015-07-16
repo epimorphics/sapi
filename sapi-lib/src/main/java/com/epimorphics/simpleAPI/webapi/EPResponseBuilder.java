@@ -37,11 +37,22 @@ public abstract class EPResponseBuilder {
     protected UriInfo uriInfo;
     protected ServletContext context;
     protected String requestedURI;
+    protected String baseRequestedURI;
     protected boolean csvIncludeID = true; 
     
     public EPResponseBuilder(ServletContext context, UriInfo uriInfo) {
         this.context = context;
         this.uriInfo = uriInfo;
+        
+        String rawRequest = uriInfo.getRequestUri().toString();
+        String path = uriInfo.getPath();
+        baseRequestedURI = getAPI().getBaseURI() + path;
+        requestedURI = baseRequestedURI;
+        if (rawRequest.contains("?")) {
+            String query = rawRequest.substring( rawRequest.indexOf('?') );
+            requestedURI += query;
+        }
+
     }
     
     /**
@@ -140,32 +151,32 @@ public abstract class EPResponseBuilder {
     
     /**
      * Return the request URI mapped to the baseURI for this API
+     * Includes query parameters
      */
     public String getRequestedURI() {
-        if (requestedURI == null) {
-            String rawRequest = uriInfo.getRequestUri().toString();
-            String path = uriInfo.getPath();
-            requestedURI = getAPI().getBaseURI() + path;
-            if (rawRequest.contains("?")) {
-                String query = rawRequest.substring( rawRequest.indexOf('?') );
-                requestedURI += query;
-            }
-        }
         return requestedURI;
+    }
+    
+    /**
+     * Return the request URI mapped to the baseURI for this API
+     * Excludes query parameters
+     */
+    public String getBaseRequestedURI() {
+        return baseRequestedURI;
     }
     
     /**
      * Return request summary with just the request base URI
      */
     public RequestParameters getRequest() {
-        return new RequestParameters( getRequestedURI() );
+        return new RequestParameters( getBaseRequestedURI() );
     }
 
     /**
      * Return request summary with the base URI and all parameter included
      */
     public RequestParameters getRequestWithParms() {
-        return new RequestParameters( getRequestedURI() ).addParameters(uriInfo);
+        return new RequestParameters( getBaseRequestedURI() ).addParameters(uriInfo);
     }
     
     /**
