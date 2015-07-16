@@ -26,6 +26,7 @@ import com.epimorphics.simpleAPI.core.RequestParameters;
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
+// TODO - this no a true builder pattern, remove side effects and return copies
 public abstract class EPResponseBuilder {
     public enum Format { json, csv, rdf, html };
     
