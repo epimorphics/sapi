@@ -126,7 +126,7 @@ public abstract class EPResponseBuilder {
         Object entity = getEntity();
         if (format == Format.html) {
             int len = templateArgs.length;
-            Object[] fullArgs = new Object[len + 6];
+            Object[] fullArgs = new Object[len + 4];
             int x = 0;
             
             fullArgs[x++] = "baseURI";
@@ -139,9 +139,6 @@ public abstract class EPResponseBuilder {
             
             fullArgs[x++] = getEntityVelocityName();
             fullArgs[x++] = entity;
-            
-            fullArgs[x++] = "xFullQuery";
-            fullArgs[x++] = uriInfo.getQueryParameters();
             
             for (int i = 0; i < len; i++) fullArgs[x++] = templateArgs[i];
             entity = getVelocity().render(htmlTemplate, uriInfo.getPath(), context, uriInfo.getQueryParameters(), fullArgs);
