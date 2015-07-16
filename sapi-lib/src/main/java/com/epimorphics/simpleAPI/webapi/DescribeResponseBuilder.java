@@ -69,7 +69,7 @@ public class DescribeResponseBuilder extends EPResponseBuilder {
         if (prefixes != null) {
             model.setNsPrefixes(prefixes);
         }
-        resource = model.getResource( getRequestedURI() );
+        resource = model.getResource( getBaseRequestedURI() );
         return this;
     }
     
