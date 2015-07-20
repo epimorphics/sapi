@@ -100,7 +100,7 @@ public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpoi
                 JSONNodeDescription entry = map.getEntry(param);
                 if (entry.isFilterable()) {
                     Object value = request.getBinding(param);
-                    if (value != null) {
+                    if (value != null && !value.equals("")) {
                         if (value instanceof String) {
                             try {
                                 String typeURI = entry.getType();
