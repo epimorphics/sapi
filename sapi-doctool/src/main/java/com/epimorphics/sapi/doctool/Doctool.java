@@ -26,6 +26,7 @@ import com.epimorphics.simpleAPI.core.EndpointSpecFactory;
 import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
 import com.epimorphics.util.NameUtils;
+import com.epimorphics.vocabs.SKOS;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -66,7 +67,10 @@ public class Doctool {
     
     public static void generateVocabIndex(Model vocabulary) throws IOException {
         FileWriter out = new FileWriter( VOCAB_INDEX_FILE );
-        List<Statement> terms = vocabulary.listStatements(null, RDFS.comment, (RDFNode)null).toList();
+        List<Statement> terms 
+            = vocabulary.listStatements(null, RDFS.comment, (RDFNode)null)
+            .andThen( vocabulary.listStatements(null, SKOS.definition, (RDFNode)null) )
+            .toList();
         Collections.sort(terms, new Comparator<Statement>() {
             @Override
             public int compare(Statement o1, Statement o2) {
@@ -147,7 +151,10 @@ public class Doctool {
             Resource prop = vocabulary.getResource( vocabulary.expandPrefix( entry.getProperty() ) );
             String meaning = entry.getComment();
             if (meaning == null) {
-                meaning = RDFUtil.getStringValue(prop, RDFS.comment, "No definition found");
+                meaning = RDFUtil.getStringValue(prop, RDFS.comment);
+            }
+            if (meaning == null) {
+                meaning = RDFUtil.getStringValue(prop, SKOS.definition, "No definition found");
             }
             String type = entry.getType();
             if (type == null) {
