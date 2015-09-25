@@ -25,7 +25,7 @@ import com.epimorphics.simpleAPI.core.ListEndpointSpec;
 import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.writers.ValueSet;
 import com.epimorphics.simpleAPI.writers.ValueStream;
-import com.hp.hpl.jena.query.ResultSet;
+import org.apache.jena.query.ResultSet;
 
 public class ListResponseBuilder extends EPResponseBuilder {
     static final Logger log = LoggerFactory.getLogger( ListResponseBuilder.class );

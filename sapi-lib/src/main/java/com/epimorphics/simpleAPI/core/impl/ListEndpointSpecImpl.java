@@ -32,7 +32,7 @@ import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.writers.CSVStreamingWriter;
 import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
 import com.epimorphics.simpleAPI.writers.ValueStream;
-import com.hp.hpl.jena.query.ResultSet;
+import org.apache.jena.query.ResultSet;
 
 public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpointSpec {
     static final Logger log = LoggerFactory.getLogger( ListEndpointSpecImpl.class );

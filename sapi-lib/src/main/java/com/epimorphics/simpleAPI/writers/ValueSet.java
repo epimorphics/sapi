@@ -22,11 +22,11 @@ import java.util.Set;
 import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.JSONNodeDescription;
 import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 
 /**
  * An orderable list of key/values sets and associate ID (e.g. URI). Can represent an RDF

@@ -10,7 +10,7 @@
 package com.epimorphics.simpleAPI.core;
 
 import com.epimorphics.json.JSONWritable;
-import com.hp.hpl.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Resource;
 
 public interface DescribeEndpointSpec extends EndpointSpec {
 

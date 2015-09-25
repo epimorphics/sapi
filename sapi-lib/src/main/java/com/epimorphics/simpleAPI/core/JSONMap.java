@@ -16,8 +16,8 @@ import java.util.Map;
 
 import com.epimorphics.simpleAPI.core.impl.JSONDefaultDescription;
 import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.shared.PrefixMapping;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.shared.PrefixMapping;
 
 /**
  * Represents a mapping from SELECT variable values to a structured JSON representation.

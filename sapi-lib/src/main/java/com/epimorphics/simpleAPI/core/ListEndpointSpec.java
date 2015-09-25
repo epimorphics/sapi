@@ -14,7 +14,7 @@ import java.util.List;
 import javax.ws.rs.core.StreamingOutput;
 
 import com.epimorphics.json.JSONWritable;
-import com.hp.hpl.jena.query.ResultSet;
+import org.apache.jena.query.ResultSet;
 
 public interface ListEndpointSpec extends EndpointSpec {
 

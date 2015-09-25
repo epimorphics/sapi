@@ -14,8 +14,9 @@ import java.util.List;
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.JSONNodeDescription;
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.vocabulary.RDF;
 
 /**
  * Utility for writing RDF descriptions or result sets to JSON.
@@ -85,7 +86,7 @@ public class JsonWriterUtil {
             } else {
                 Literal l = n.asLiteral();
                 String lex = l.getLexicalForm();
-                if (l.getDatatype() == null) {
+                if (l.getDatatype() == null || l.getDatatypeURI().equals(RDF.langString.getURI())) {
                     String lang = l.getLanguage();
                     if (lang == null || lang.isEmpty()
                             || !policy.showLangTag(lang)) {

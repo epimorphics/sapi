@@ -29,10 +29,10 @@ import com.epimorphics.appbase.templates.VelocityRender;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ListEndpointSpec;
 import com.epimorphics.simpleAPI.core.RequestParameters;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
 
 /**
  * Shared utilities useful in API implementation.

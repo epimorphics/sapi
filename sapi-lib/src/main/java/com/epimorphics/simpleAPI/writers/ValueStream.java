@@ -12,9 +12,9 @@ package com.epimorphics.simpleAPI.writers;
 import java.util.Iterator;
 
 import com.epimorphics.simpleAPI.core.JSONMap;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Resource;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Resource;
 
 /**
  * Wraps a SPARQL ResultSet and transforms it to a streamable series

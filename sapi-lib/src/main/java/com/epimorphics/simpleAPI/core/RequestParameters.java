@@ -19,7 +19,7 @@ import javax.ws.rs.core.UriInfo;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.rdfutil.QueryUtil;
 import com.epimorphics.util.EpiException;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import org.apache.jena.rdf.model.ResourceFactory;
 
 /**
  * <p>Encapsulates the request parameters. This can be used to bind a query template

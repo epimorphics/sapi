@@ -22,7 +22,7 @@ import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.EndpointSpec;
 import com.epimorphics.simpleAPI.util.JsonComparator;
-import com.hp.hpl.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Model;
 
 /**
  * Test handling of NaN in numeric values

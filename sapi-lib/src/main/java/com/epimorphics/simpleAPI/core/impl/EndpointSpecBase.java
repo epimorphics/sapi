@@ -26,7 +26,7 @@ import com.epimorphics.simpleAPI.core.EndpointSpecFactory;
 import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.util.PrefixUtils;
-import com.hp.hpl.jena.shared.PrefixMapping;
+import org.apache.jena.shared.PrefixMapping;
 
 /**
  * Base implementation for EndpointSpecs.

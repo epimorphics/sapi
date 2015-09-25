@@ -38,11 +38,11 @@ import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.util.JsonComparator;
 import com.epimorphics.util.EpiException;
 import com.epimorphics.util.PrefixUtils;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
 
 public class TestValueSet {
     App app;

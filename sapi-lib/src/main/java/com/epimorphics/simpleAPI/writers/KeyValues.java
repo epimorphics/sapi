@@ -14,9 +14,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
 
 /**
  * Represents the value(s) of a key in an output stream. The key normally corresponds

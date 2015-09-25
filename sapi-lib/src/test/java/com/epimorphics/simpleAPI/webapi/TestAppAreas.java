@@ -9,23 +9,26 @@
 
 package com.epimorphics.simpleAPI.webapi;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.InputStream;
+
+import javax.ws.rs.core.Response;
 
 import org.apache.jena.atlas.json.JSON;
 import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.util.FileManager;
+import org.apache.jena.util.FileUtils;
 import org.junit.Test;
 
 import com.epimorphics.appbase.webapi.testing.TomcatTestBase;
 import com.epimorphics.simpleAPI.util.JsonComparator;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.util.FileManager;
-import com.hp.hpl.jena.util.FileUtils;
-import com.sun.jersey.api.client.ClientResponse;
 
 /**
  * End-to-end API tests which fire up TestApp, loaded with flood area data, and
@@ -44,7 +47,7 @@ public class TestAppAreas extends TomcatTestBase {
     public void testEndToEnd() throws IOException {
         // Check explicit describe
         String testArea = "012WACTL12";
-        ClientResponse response = getResponse(BASE_URL + "id/floodAreas/" + testArea, "application/json");
+        Response response = getResponse(BASE_URL + "id/floodAreas/" + testArea, "application/json");
         checkJson(response, "src/test/data/TestApp/response-" + testArea + ".json");
         
         // Default describe
@@ -110,19 +113,19 @@ public class TestAppAreas extends TomcatTestBase {
 //        System.out.println( response.getEntity(String.class) );
     }
 
-    private void checkJson(ClientResponse response, String expected) throws IOException {
+    private void checkJson(Response response, String expected) throws IOException {
         assertEquals(200, response.getStatus());
         
-        JsonObject json = JSON.parse( response.getEntityInputStream() );
+        JsonObject json = JSON.parse( response.readEntity(InputStream.class) );
         JsonObject expectedJson = JSON.parse( FileUtils.readWholeFileAsUTF8(expected) );
         assertTrue( JsonComparator.equal(expectedJson, json) );
     }
     
-    private void checkRdf(ClientResponse response, String expected) throws IOException {
+    private void checkRdf(Response response, String expected) throws IOException {
         assertEquals(200, response.getStatus());
         
         Model actual = ModelFactory.createDefaultModel();
-        actual.read(response.getEntityInputStream(), null, "Turtle");
+        actual.read(response.readEntity(InputStream.class), null, "Turtle");
         if (expected == null) {
             actual.write(System.out, "Turtle");
         } else {
@@ -132,9 +135,9 @@ public class TestAppAreas extends TomcatTestBase {
         }
     }
 
-    private void checkText(ClientResponse response, String expected) throws IOException {
+    private void checkText(Response response, String expected) throws IOException {
         assertEquals(200, response.getStatus());
-        String entity = response.getEntity(String.class);
+        String entity = response.readEntity(String.class);
         if (expected == null) {
             System.out.println(entity);
         } else {
@@ -144,10 +147,10 @@ public class TestAppAreas extends TomcatTestBase {
         }
     }
     
-    private void checkResultSize(ClientResponse response, int expected) {
+    private void checkResultSize(Response response, int expected) {
         assertEquals(200, response.getStatus());
         
-        JsonObject json = JSON.parse( response.getEntityInputStream() );
+        JsonObject json = JSON.parse( response.readEntity(InputStream.class));
         JsonArray items = json.get("items").getAsArray();
         assertEquals(expected, items.size());
     }

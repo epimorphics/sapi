@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.apache.jena.atlas.json.JsonObject;
 
-import com.hp.hpl.jena.shared.PrefixMapping;
+import org.apache.jena.shared.PrefixMapping;
 
 /**
  * Encapsulates the specification for an API endpoint. The specification includes information on:

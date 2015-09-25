@@ -17,12 +17,12 @@ import javax.ws.rs.core.UriInfo;
 import com.epimorphics.appbase.data.WNode;
 import com.epimorphics.simpleAPI.core.DescribeEndpointSpec;
 import com.epimorphics.simpleAPI.core.RequestParameters;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.shared.PrefixMapping;
-import com.hp.hpl.jena.vocabulary.DCTerms;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.shared.PrefixMapping;
+import org.apache.jena.vocabulary.DCTerms;
 
 public class DescribeResponseBuilder extends EPResponseBuilder {
     protected Model model;

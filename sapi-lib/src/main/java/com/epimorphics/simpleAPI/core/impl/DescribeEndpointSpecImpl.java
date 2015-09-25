@@ -19,7 +19,7 @@ import com.epimorphics.simpleAPI.core.JSONMap;
 import com.epimorphics.simpleAPI.core.RequestParameters;
 import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
 import com.epimorphics.simpleAPI.writers.ValueSet;
-import com.hp.hpl.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Resource;
 
 public class DescribeEndpointSpecImpl extends EndpointSpecBase implements DescribeEndpointSpec {
     protected String query;

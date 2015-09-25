@@ -22,8 +22,8 @@ import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
 import com.epimorphics.simpleAPI.core.impl.ListEndpointSpecImpl;
 import com.epimorphics.vocabs.SKOS;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.shared.PrefixMapping;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.shared.PrefixMapping;
 
 /**
  * Test some of the shared implementation parts of endpoint specs
