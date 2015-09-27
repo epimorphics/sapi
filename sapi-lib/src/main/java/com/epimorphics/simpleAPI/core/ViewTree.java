@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        EndpointSpec.java
+ * File:        ViewTree.java
  * Created by:  Dave Reynolds
  * Created on:  27 Sep 2015
  * 
@@ -10,9 +10,10 @@
 package com.epimorphics.simpleAPI.core;
 
 /**
- * Encapsulates the specification of a single endpoint.
+ * Represents a hierarchical view over a set of RDF resources, to support mapping to JSON.
+ * The root of the tree is a ViewMap
  */
-public class EndpointSpec {
+public class ViewTree {
 
     // TODO
     

@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.attic.core;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,10 +23,10 @@ import org.apache.jena.atlas.json.JsonValue;
 import org.yaml.snakeyaml.Yaml;
 
 import com.epimorphics.json.JsonUtil;
-import com.epimorphics.simpleAPI.core.impl.DescribeEndpointSpecImpl;
-import com.epimorphics.simpleAPI.core.impl.EndpointSpecBase;
-import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
-import com.epimorphics.simpleAPI.core.impl.ListEndpointSpecImpl;
+import com.epimorphics.simpleAPI.attic.core.impl.DescribeEndpointSpecImpl;
+import com.epimorphics.simpleAPI.attic.core.impl.EndpointSpecBase;
+import com.epimorphics.simpleAPI.attic.core.impl.JSONMapEntry;
+import com.epimorphics.simpleAPI.attic.core.impl.ListEndpointSpecImpl;
 import com.epimorphics.util.EpiException;
 import com.epimorphics.util.NameUtils;
 

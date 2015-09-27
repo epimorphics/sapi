@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.webapi;
+package com.epimorphics.simpleAPI.attic.webapi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +21,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.epimorphics.appbase.data.impl.WResultSetWrapper;
-import com.epimorphics.simpleAPI.core.ListEndpointSpec;
-import com.epimorphics.simpleAPI.core.RequestParameters;
-import com.epimorphics.simpleAPI.writers.ValueSet;
-import com.epimorphics.simpleAPI.writers.ValueStream;
+import com.epimorphics.simpleAPI.attic.core.ListEndpointSpec;
+import com.epimorphics.simpleAPI.attic.core.RequestParameters;
+import com.epimorphics.simpleAPI.attic.writers.ValueSet;
+import com.epimorphics.simpleAPI.attic.writers.ValueStream;
+
 import org.apache.jena.query.ResultSet;
 
 public class ListResponseBuilder extends EPResponseBuilder {

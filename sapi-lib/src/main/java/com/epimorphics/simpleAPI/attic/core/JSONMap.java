@@ -7,17 +7,18 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.attic.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.epimorphics.simpleAPI.core.impl.JSONDefaultDescription;
-import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.shared.PrefixMapping;
+
+import com.epimorphics.simpleAPI.attic.core.impl.JSONDefaultDescription;
+import com.epimorphics.simpleAPI.attic.core.impl.JSONMapEntry;
 
 /**
  * Represents a mapping from SELECT variable values to a structured JSON representation.

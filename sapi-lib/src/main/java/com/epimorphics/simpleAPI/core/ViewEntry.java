@@ -1,5 +1,5 @@
 /******************************************************************
- * File:        EndpointSpec.java
+ * File:        ViewEntry.java
  * Created by:  Dave Reynolds
  * Created on:  27 Sep 2015
  * 
@@ -10,9 +10,9 @@
 package com.epimorphics.simpleAPI.core;
 
 /**
- * Encapsulates the specification of a single endpoint.
+ * Represents view information for a single property within the context of some ViewMap
  */
-public class EndpointSpec {
+public class ViewEntry {
 
     // TODO
     

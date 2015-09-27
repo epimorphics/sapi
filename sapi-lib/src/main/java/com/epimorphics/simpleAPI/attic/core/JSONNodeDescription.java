@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.attic.core;
 
 /**
  * Provides information on how a result value should be rendered,

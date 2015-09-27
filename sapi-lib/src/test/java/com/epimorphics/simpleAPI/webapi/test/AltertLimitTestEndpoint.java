@@ -15,8 +15,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.epimorphics.simpleAPI.core.RequestParameters;
-import com.epimorphics.simpleAPI.webapi.EndpointsBase;
+import com.epimorphics.simpleAPI.attic.core.RequestParameters;
+import com.epimorphics.simpleAPI.attic.webapi.EndpointsBase;
 
 @Path("alertTestLimit")
 public class AltertLimitTestEndpoint extends EndpointsBase {

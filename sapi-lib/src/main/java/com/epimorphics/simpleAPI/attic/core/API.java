@@ -1,14 +1,30 @@
 /******************************************************************
- * File:        API.java
+ * File:        Api.java
  * Created by:  Dave Reynolds
- * Created on:  27 Sep 2015
+ * Created on:  9 Dec 2014
  * 
- * (c) Copyright 2015, Epimorphics Limited
+ * (c) Copyright 2014, Epimorphics Limited
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.attic.core;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.atlas.json.JsonValue;
+
+import com.epimorphics.appbase.core.AppConfig;
+import com.epimorphics.appbase.core.ComponentBase;
+import com.epimorphics.appbase.data.SparqlSource;
+import com.epimorphics.json.JSFullWriter;
+import com.epimorphics.json.JsonUtil;
+import com.epimorphics.rdfutil.RDFUtil;
+import com.epimorphics.util.EpiException;
+import com.epimorphics.util.NameUtils;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
@@ -17,25 +33,19 @@ import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
 
-import com.epimorphics.appbase.core.AppConfig;
-import com.epimorphics.appbase.core.ComponentBase;
-import com.epimorphics.appbase.data.SparqlSource;
-import com.epimorphics.json.JSFullWriter;
-import com.epimorphics.util.NameUtils;
-
 /**
- * This is the primary configuration component for sapi. It provides:
+ * AppBase component to manage the configuration of simple API elements.
+ * Provides:
  * <ul>
  *   <li>Set of API specs which can be loaded once or dynamically monitored.</li>
  *   <li>Metadata which can be included in the json serialization (version, licence, documentation link etc).</li>
  *   <li>Base URI which can be used to convert incoming URI requests to RDF queries.</li>
- *   <li>An associated Sparql (or other) source which will be queried.</li>
- *   <li>An optional set of defauult shortname/URI mappings to use as a fall back when serializing an RDF instance.</li>
+ *   <li>An associated Sparql Source which will be queried.</li>
+ *   <li>An optional set of shortname/URI mappings to use as a fall back when serializing an RDF instance.</li>
  * </ul>
  */
 public class API extends ComponentBase {
-    protected SparqlSource source;    // TODO generalize to other sources
-    
+    protected SparqlSource source;
     protected String baseURI = "http://localhost/";
     
     protected String documentation;
@@ -47,14 +57,62 @@ public class API extends ComponentBase {
     protected int  maxAge = 60;
     protected boolean showLangTag = true;
     
+    protected Map<String, String> shortnameToURI = new HashMap<String, String>();
+    protected Map<String, String> uriToShortname = new HashMap<String, String>();
+
+    protected Map<String, EndpointSpec> specs = new HashMap<String, EndpointSpec>();
+    
+    protected DescribeEndpointSpec defaultDescribe;
+    
     /**
      * Return a global default API configuration called "api" if it exists.
-     * Useful for simple deployments where a single configuration suffices.
+     * Useful for simply deployments where a single configuration suffices.
      */
     public static API get() {
         return AppConfig.getApp().getComponentAs("api", API.class);
     }
 
+    // ---- Fallback shortname mapping support --------------------------------------------
+    
+    /**
+     * The name of a json/yaml file 
+     * @param mapfile
+     */
+    public void setShortnameMap(String mapfile) {
+        String src = expandFileLocation(mapfile);
+        try {
+            JsonObject map = JsonUtil.readObject(src);
+            for (Entry<String, JsonValue> entry : map.entrySet()) {
+                if (entry.getValue().isString()) {
+                    String uri = entry.getValue().getAsString().value();
+                    shortnameToURI.put(entry.getKey(), uri);
+                    uriToShortname.put(uri, entry.getKey());
+                }
+            }
+        } catch (Exception e) {
+            throw new EpiException("Failed to load shortname map file: " + mapfile, e);
+        }
+    }
+
+    /**
+     * Return the shortname for a URI
+     */
+    public String shortnameFor(String uri) {
+        String shortname = uriToShortname.get(uri);
+        if (shortname == null) {
+            shortname = RDFUtil.getLocalname(uri);
+        }
+        return shortname;
+    }
+
+    /**
+     * Return the shortname for a Resource
+     */
+    public String shortnameFor(Resource resource) {
+        return shortnameFor( resource.getURI() );
+    }
+    
+    
     // ---- Metadata support --------------------------------------------
     
     public void startMetadata(JSFullWriter out) {
@@ -102,26 +160,52 @@ public class API extends ComponentBase {
     
     // ---- Access to configurations ------------------------------------
     
+    public DescribeEndpointSpec getDefaultDescribe() {
+        if (defaultDescribe == null) {
+            defaultDescribe = EndpointSpecFactory.makeDescribeSpec(this, "DESCRIBE ?id");
+            defaultDescribe.getMap().getDefaultDescription().setShowLang(showLangTag);
+        }
+        return defaultDescribe;
+    }
+    
     /**
-     * Set a directory of endpoint specifications to load. 
+     * Set a directory of endpoint specifications to load. These are loaded once at start up
+     * and not dynamically monitored. TODO
      */
     public void setEndpointSpecDir(String dir) {
-        // TODO
+        File specdir = asFile(dir);
+        if (specdir != null && specdir.isDirectory()) {
+            for (String f : specdir.list()) {
+                File file = new File(specdir, f);
+                EndpointSpec spec = EndpointSpecFactory.read(this, file.getPath());
+                specs.put(spec.getName(), spec);
+            }
+        } else {
+            throw new EpiException("Can't find the endpoint specification directory - " + dir);
+        }
     }
 
     public EndpointSpec getSpec(String name) {
-        // TODO
-        return null;
+        return specs.get(name);
     }
 
+    public DescribeEndpointSpec getDescribeSpec(String name) {
+        EndpointSpec spec = getSpec(name);
+        spec.getMap().getDefaultDescription().setShowLang(showLangTag);
+        if (spec instanceof DescribeEndpointSpec) {
+            return (DescribeEndpointSpec) spec;
+        } else {
+            throw new EpiException("Specification missing or not of right type: " + name);
+        }
+    }
 
-    /**
-     * Return the default specification for how to render a given property.
-     * May be null if there is no matching default
-     */
-    public ViewEntry getDefaultFor(String uri) {
-        // TODO
-        return null;
+    public ListEndpointSpec getSelectSpec(String name) {
+        EndpointSpec spec = getSpec(name);
+        if (spec instanceof ListEndpointSpec) {
+            return (ListEndpointSpec) spec;
+        } else {
+            throw new EpiException("Specification missing or not of right type: " + name);
+        }
     }
     
     // ---- Settings/getters --------------------------------------------

@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.epimorphics.simpleAPI.webapi.EndpointsBase;
+import com.epimorphics.simpleAPI.attic.webapi.EndpointsBase;
 
 @Path("id/floodAreas")
 public class AreaTestEndpoint extends EndpointsBase {

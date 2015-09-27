@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.webapi;
+package com.epimorphics.simpleAPI.attic.webapi;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,9 +26,10 @@ import org.slf4j.LoggerFactory;
 import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.data.SparqlSource;
 import com.epimorphics.appbase.templates.VelocityRender;
-import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.core.ListEndpointSpec;
-import com.epimorphics.simpleAPI.core.RequestParameters;
+import com.epimorphics.simpleAPI.attic.core.API;
+import com.epimorphics.simpleAPI.attic.core.ListEndpointSpec;
+import com.epimorphics.simpleAPI.attic.core.RequestParameters;
+
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;

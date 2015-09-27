@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.attic.core;
 
 import com.epimorphics.json.JSONWritable;
 import org.apache.jena.rdf.model.Resource;

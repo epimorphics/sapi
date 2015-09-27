@@ -19,8 +19,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.epimorphics.appbase.core.App;
-import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
-import com.epimorphics.simpleAPI.core.impl.ListEndpointSpecImpl;
+import com.epimorphics.simpleAPI.attic.core.API;
+import com.epimorphics.simpleAPI.attic.core.EndpointSpec;
+import com.epimorphics.simpleAPI.attic.core.EndpointSpecFactory;
+import com.epimorphics.simpleAPI.attic.core.JSONMap;
+import com.epimorphics.simpleAPI.attic.core.JSONNodeDescription;
+import com.epimorphics.simpleAPI.attic.core.RequestParameters;
+import com.epimorphics.simpleAPI.attic.core.impl.JSONMapEntry;
+import com.epimorphics.simpleAPI.attic.core.impl.ListEndpointSpecImpl;
 import com.epimorphics.vocabs.SKOS;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.shared.PrefixMapping;

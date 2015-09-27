@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.webapi;
+package com.epimorphics.simpleAPI.attic.webapi;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.CacheControl;
@@ -18,8 +18,8 @@ import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.data.SparqlSource;
 import com.epimorphics.appbase.data.WSource;
 import com.epimorphics.appbase.templates.VelocityRender;
-import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.core.RequestParameters;
+import com.epimorphics.simpleAPI.attic.core.API;
+import com.epimorphics.simpleAPI.attic.core.RequestParameters;
 
 /**
  * Abstract base class for API response builders.

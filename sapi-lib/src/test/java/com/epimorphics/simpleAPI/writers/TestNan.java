@@ -19,8 +19,10 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.junit.Test;
 
 import com.epimorphics.json.JSFullWriter;
-import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.core.EndpointSpec;
+import com.epimorphics.simpleAPI.attic.core.API;
+import com.epimorphics.simpleAPI.attic.core.EndpointSpec;
+import com.epimorphics.simpleAPI.attic.writers.JsonWriterUtil;
+import com.epimorphics.simpleAPI.attic.writers.ValueSet;
 import com.epimorphics.simpleAPI.util.JsonComparator;
 import org.apache.jena.rdf.model.Model;
 

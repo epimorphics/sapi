@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.epimorphics.simpleAPI.webapi.EndpointsBase;
+import com.epimorphics.simpleAPI.attic.webapi.EndpointsBase;
 
 @Path("id")
 public class DefaultDescribeEndpoint extends EndpointsBase {

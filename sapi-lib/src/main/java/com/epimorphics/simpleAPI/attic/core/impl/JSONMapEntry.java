@@ -7,11 +7,11 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core.impl;
+package com.epimorphics.simpleAPI.attic.core.impl;
 
 import com.epimorphics.rdfutil.RDFUtil;
-import com.epimorphics.simpleAPI.core.JSONMap;
-import com.epimorphics.simpleAPI.core.JSONNodeDescription;
+import com.epimorphics.simpleAPI.attic.core.JSONMap;
+import com.epimorphics.simpleAPI.attic.core.JSONNodeDescription;
 import com.epimorphics.util.NameUtils;
 
 /**

@@ -7,13 +7,14 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.writers;
+package com.epimorphics.simpleAPI.attic.writers;
 
 import java.util.List;
 
 import com.epimorphics.json.JSFullWriter;
-import com.epimorphics.simpleAPI.core.JSONMap;
-import com.epimorphics.simpleAPI.core.JSONNodeDescription;
+import com.epimorphics.simpleAPI.attic.core.JSONMap;
+import com.epimorphics.simpleAPI.attic.core.JSONNodeDescription;
+
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.RDF;

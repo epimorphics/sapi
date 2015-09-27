@@ -16,6 +16,8 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import com.epimorphics.simpleAPI.attic.writers.CSVWriter;
+import com.epimorphics.simpleAPI.attic.writers.ValueStream;
 import com.epimorphics.util.PrefixUtils;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;

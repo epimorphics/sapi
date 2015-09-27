@@ -7,18 +7,19 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core.impl;
+package com.epimorphics.simpleAPI.attic.core.impl;
 
 import org.apache.jena.atlas.json.JsonObject;
 
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.json.JSONWritable;
-import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.core.DescribeEndpointSpec;
-import com.epimorphics.simpleAPI.core.JSONMap;
-import com.epimorphics.simpleAPI.core.RequestParameters;
-import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
-import com.epimorphics.simpleAPI.writers.ValueSet;
+import com.epimorphics.simpleAPI.attic.core.API;
+import com.epimorphics.simpleAPI.attic.core.DescribeEndpointSpec;
+import com.epimorphics.simpleAPI.attic.core.JSONMap;
+import com.epimorphics.simpleAPI.attic.core.RequestParameters;
+import com.epimorphics.simpleAPI.attic.writers.JsonWriterUtil;
+import com.epimorphics.simpleAPI.attic.writers.ValueSet;
+
 import org.apache.jena.rdf.model.Resource;
 
 public class DescribeEndpointSpecImpl extends EndpointSpecBase implements DescribeEndpointSpec {

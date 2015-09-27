@@ -7,10 +7,10 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core.impl;
+package com.epimorphics.simpleAPI.attic.core.impl;
 
-import com.epimorphics.simpleAPI.core.JSONMap;
-import com.epimorphics.simpleAPI.core.JSONNodeDescription;
+import com.epimorphics.simpleAPI.attic.core.JSONMap;
+import com.epimorphics.simpleAPI.attic.core.JSONNodeDescription;
 
 /**
  * Implementation of JSONNodeDescription suitable for use as a generic

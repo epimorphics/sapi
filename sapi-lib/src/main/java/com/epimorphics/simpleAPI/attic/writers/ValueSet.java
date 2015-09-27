@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.writers;
+package com.epimorphics.simpleAPI.attic.writers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,14 +19,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.epimorphics.simpleAPI.core.JSONMap;
-import com.epimorphics.simpleAPI.core.JSONNodeDescription;
-import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
+
+import com.epimorphics.simpleAPI.attic.core.JSONMap;
+import com.epimorphics.simpleAPI.attic.core.JSONNodeDescription;
+import com.epimorphics.simpleAPI.attic.core.impl.JSONMapEntry;
 
 /**
  * An orderable list of key/values sets and associate ID (e.g. URI). Can represent an RDF

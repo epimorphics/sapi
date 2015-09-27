@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core.impl;
+package com.epimorphics.simpleAPI.attic.core.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +25,14 @@ import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.json.JSONWritable;
 import com.epimorphics.rdfutil.QueryUtil;
 import com.epimorphics.rdfutil.TypeUtil;
-import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.core.JSONNodeDescription;
-import com.epimorphics.simpleAPI.core.ListEndpointSpec;
-import com.epimorphics.simpleAPI.core.RequestParameters;
-import com.epimorphics.simpleAPI.writers.CSVStreamingWriter;
-import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
-import com.epimorphics.simpleAPI.writers.ValueStream;
+import com.epimorphics.simpleAPI.attic.core.API;
+import com.epimorphics.simpleAPI.attic.core.JSONNodeDescription;
+import com.epimorphics.simpleAPI.attic.core.ListEndpointSpec;
+import com.epimorphics.simpleAPI.attic.core.RequestParameters;
+import com.epimorphics.simpleAPI.attic.writers.CSVStreamingWriter;
+import com.epimorphics.simpleAPI.attic.writers.JsonWriterUtil;
+import com.epimorphics.simpleAPI.attic.writers.ValueStream;
+
 import org.apache.jena.query.ResultSet;
 
 public class ListEndpointSpecImpl extends EndpointSpecBase implements ListEndpointSpec {

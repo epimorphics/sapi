@@ -7,14 +7,15 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.writers;
+package com.epimorphics.simpleAPI.attic.writers;
 
 import java.util.Iterator;
 
-import com.epimorphics.simpleAPI.core.JSONMap;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Resource;
+
+import com.epimorphics.simpleAPI.attic.core.JSONMap;
 
 /**
  * Wraps a SPARQL ResultSet and transforms it to a streamable series

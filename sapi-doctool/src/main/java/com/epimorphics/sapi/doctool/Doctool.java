@@ -21,10 +21,10 @@ import java.util.Map;
 import org.apache.jena.riot.RDFDataMgr;
 
 import com.epimorphics.rdfutil.RDFUtil;
-import com.epimorphics.simpleAPI.core.EndpointSpec;
-import com.epimorphics.simpleAPI.core.EndpointSpecFactory;
-import com.epimorphics.simpleAPI.core.JSONMap;
-import com.epimorphics.simpleAPI.core.impl.JSONMapEntry;
+import com.epimorphics.simpleAPI.attic.core.EndpointSpec;
+import com.epimorphics.simpleAPI.attic.core.EndpointSpecFactory;
+import com.epimorphics.simpleAPI.attic.core.JSONMap;
+import com.epimorphics.simpleAPI.attic.core.impl.JSONMapEntry;
 import com.epimorphics.util.NameUtils;
 import com.epimorphics.vocabs.SKOS;
 import org.apache.jena.rdf.model.Model;

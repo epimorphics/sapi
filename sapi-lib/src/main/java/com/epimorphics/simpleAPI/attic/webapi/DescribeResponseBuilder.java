@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.webapi;
+package com.epimorphics.simpleAPI.attic.webapi;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.WebApplicationException;
@@ -15,8 +15,9 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import com.epimorphics.appbase.data.WNode;
-import com.epimorphics.simpleAPI.core.DescribeEndpointSpec;
-import com.epimorphics.simpleAPI.core.RequestParameters;
+import com.epimorphics.simpleAPI.attic.core.DescribeEndpointSpec;
+import com.epimorphics.simpleAPI.attic.core.RequestParameters;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;

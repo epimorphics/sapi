@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core.impl;
+package com.epimorphics.simpleAPI.attic.core.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,11 +20,11 @@ import org.apache.jena.atlas.json.JsonValue;
 
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.json.JsonUtil;
-import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.core.EndpointSpec;
-import com.epimorphics.simpleAPI.core.EndpointSpecFactory;
-import com.epimorphics.simpleAPI.core.JSONMap;
-import com.epimorphics.simpleAPI.core.RequestParameters;
+import com.epimorphics.simpleAPI.attic.core.API;
+import com.epimorphics.simpleAPI.attic.core.EndpointSpec;
+import com.epimorphics.simpleAPI.attic.core.EndpointSpecFactory;
+import com.epimorphics.simpleAPI.attic.core.JSONMap;
+import com.epimorphics.simpleAPI.attic.core.RequestParameters;
 import com.epimorphics.util.PrefixUtils;
 import org.apache.jena.shared.PrefixMapping;
 
