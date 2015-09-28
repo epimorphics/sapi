@@ -17,10 +17,13 @@ import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
 
+import com.epimorphics.appbase.core.App;
 import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.core.ComponentBase;
+import com.epimorphics.appbase.core.Startup;
 import com.epimorphics.appbase.data.SparqlSource;
 import com.epimorphics.json.JSFullWriter;
+import com.epimorphics.simpleAPI.core.impl.ConfigItem;
 import com.epimorphics.util.NameUtils;
 
 /**
@@ -33,7 +36,7 @@ import com.epimorphics.util.NameUtils;
  *   <li>An optional set of defauult shortname/URI mappings to use as a fall back when serializing an RDF instance.</li>
  * </ul>
  */
-public class API extends ComponentBase {
+public class API extends ComponentBase implements Startup {
     protected SparqlSource source;    // TODO generalize to other sources
     
     protected String baseURI = "http://localhost/";
@@ -46,6 +49,7 @@ public class API extends ComponentBase {
     protected String comment;
     protected int  maxAge = 60;
     protected boolean showLangTag = true;
+    protected SpecMonitor monitor;
     
     /**
      * Return a global default API configuration called "api" if it exists.
@@ -101,19 +105,16 @@ public class API extends ComponentBase {
     }
     
     // ---- Access to configurations ------------------------------------
-    
-    /**
-     * Set a directory of endpoint specifications to load. 
-     */
-    public void setEndpointSpecDir(String dir) {
-        // TODO
-    }
 
     public EndpointSpec getSpec(String name) {
-        // TODO
+        if (monitor != null){
+            ConfigItem item = monitor.get(name);
+            if (item instanceof EndpointSpec) {
+                return (EndpointSpec) item;
+            }
+        }
         return null;
     }
-
 
     /**
      * Return the default specification for how to render a given property.
@@ -122,6 +123,25 @@ public class API extends ComponentBase {
     public ViewEntry getDefaultFor(String uri) {
         // TODO
         return null;
+    }
+    
+    // ---- Monitor configurations ------------------------------------
+    
+    /**
+     * Set a directory of endpoint specifications to load. 
+     */
+    public void setEndpointSpecDir(String dir) {
+        monitor = new SpecMonitor(this);
+        monitor.setDirectory(dir);
+        monitor.setUseWatcher(true);
+    }   
+    
+    @Override
+    public void startup(App app) {
+        super.startup(app);
+        if (monitor != null) {
+            monitor.startup(app);
+        }
     }
     
     // ---- Settings/getters --------------------------------------------

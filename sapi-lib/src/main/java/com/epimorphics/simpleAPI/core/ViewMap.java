@@ -13,8 +13,16 @@ package com.epimorphics.simpleAPI.core;
  * Represents a singled configured tree view over the data which can be directly mapped to JSON.
  */
 public class ViewMap {
-    // TODO
+    protected ViewTree tree;
     
-    // Actual tree is a ViewTree
-    // ViewMap is the root and adds convenience methods and lookup support
+    public ViewMap() {
+    }
+    
+    // TODO constructor to clone an existing tree/map?
+    
+    public ViewTree getTree() {
+        return tree;
+    }
+
+    // TODO indexes for looking up entry from across tree?
 }

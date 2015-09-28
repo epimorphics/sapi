@@ -9,11 +9,13 @@
 
 package com.epimorphics.simpleAPI.core;
 
+import com.epimorphics.appbase.monitor.ConfigInstance;
+
 /**
  * Encapsulates the specification of a single endpoint.
  */
-public class EndpointSpec {
+public interface EndpointSpec extends ConfigInstance {
 
-    // TODO
+    public String getName();
     
 }
