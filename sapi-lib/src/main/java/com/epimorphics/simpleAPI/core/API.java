@@ -21,7 +21,6 @@ import com.epimorphics.appbase.core.App;
 import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.core.ComponentBase;
 import com.epimorphics.appbase.core.Startup;
-import com.epimorphics.appbase.data.SparqlSource;
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.core.impl.ConfigItem;
 import com.epimorphics.util.NameUtils;
@@ -37,7 +36,7 @@ import com.epimorphics.util.NameUtils;
  * </ul>
  */
 public class API extends ComponentBase implements Startup {
-    protected SparqlSource source;    // TODO generalize to other sources
+    protected DataSource source;
     
     protected String baseURI = "http://localhost/";
     
@@ -48,7 +47,7 @@ public class API extends ComponentBase implements Startup {
     protected String contextURL;
     protected String comment;
     protected int  maxAge = 60;
-    protected boolean showLangTag = true;
+    protected static boolean showLangTag = true;
     protected SpecMonitor monitor;
     
     /**
@@ -147,9 +146,9 @@ public class API extends ComponentBase implements Startup {
     // ---- Settings/getters --------------------------------------------
     
     /**
-     * Set the sparql source which will be queried
+     * Set the source which will be queried
      */
-    public void setSource(SparqlSource source) {
+    public void setSource(DataSource source) {
         this.source = source;
     }
     
@@ -161,7 +160,7 @@ public class API extends ComponentBase implements Startup {
     }
 
 
-    public SparqlSource getSource() {
+    public DataSource getSource() {
         return source;
     }
 
@@ -226,12 +225,12 @@ public class API extends ComponentBase implements Startup {
         this.maxAge = (int)maxAge;
     }
     
-    public boolean isShowLangTag() {
+    public static boolean getShowLangTag() {
         return showLangTag;
     }
 
     public void setShowLangTag(boolean showLang) {
-        this.showLangTag = showLang;
+        showLangTag = showLang;
     }    
 
     // ---- Internals -----------------------------------------------

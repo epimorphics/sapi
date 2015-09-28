@@ -19,6 +19,9 @@ public class ViewEntry {
     protected String jsonname;
     protected String property;
     protected boolean optional = false;
+    protected boolean multivalued = false;
+    protected boolean filterable = true;
+    protected boolean showLang = API.getShowLangTag();
     protected String typeURI;
     protected String comment;
     protected ViewTree nested = null;
@@ -38,26 +41,54 @@ public class ViewEntry {
         return name.isEmpty() ?  NameUtils.splitAfterLast(property, ":") : name;
     }
     
-    public void setNested(ViewTree nested) {
-        this.nested = nested;
+    public String getProperty() {
+        return property;
+    }
+
+    public void setProperty(String property) {
+        this.property = property;
+    }
+
+    public boolean isOptional() {
+        return optional;
     }
 
     public void setOptional(boolean optional) {
         this.optional = optional;
     }
-    
-    public void setType(String typeURI) {
-        this.typeURI = typeURI;
-    }
-    
-    public String getJsonName() {
-        return jsonname;
+
+    public boolean isMultivalued() {
+        return multivalued;
     }
 
-    public String getProperty() {
-        return property;
+    public void setMultivalued(boolean multivalued) {
+        this.multivalued = multivalued;
     }
-    
+
+    public boolean isFilterable() {
+        return filterable;
+    }
+
+    public void setFilterable(boolean filterable) {
+        this.filterable = filterable;
+    }
+
+    public boolean isShowLang() {
+        return showLang;
+    }
+
+    public void setShowLang(boolean showLang) {
+        this.showLang = showLang;
+    }
+
+    public String getTypeURI() {
+        return typeURI;
+    }
+
+    public void setTypeURI(String typeURI) {
+        this.typeURI = typeURI;
+    }
+
     public String getComment() {
         return comment;
     }
@@ -74,14 +105,14 @@ public class ViewEntry {
         return nested;
     }
 
-    public String getType() {
-        return typeURI;
-    }    
-
-    public boolean isOptional() {
-        return optional;
+    public void setNested(ViewTree nested) {
+        this.nested = nested;
     }
-        
+    
+    public String getJsonName() {
+        return jsonname;
+    }
+
     public String asQueryRow() {
         if (property.startsWith("http:") || property.startsWith("https:")) {
             return "<" + property + "> ?" + jsonname;

@@ -9,7 +9,7 @@
 
 package com.epimorphics.simpleAPI.core;
 
-import static com.epimorphics.simpleAPI.core.ConfigConstants.NAME;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -72,16 +72,25 @@ public class ConfigSpecFactory {
     public static ConfigItem parse(API api, String filename, JsonValue json) {
         if (json.isObject()) {
             JsonObject jo = json.getAsObject();
-            if (!jo.hasKey(NAME)) {
-                String defaultName = NameUtils.removeExtension( new File(filename).getName() );
-                jo.put(NAME, defaultName);
+            String name = JsonUtil.getStringValue(jo, NAME, NameUtils.removeExtension( new File(filename).getName() ) );
+            String type = JsonUtil.getStringValue(jo, TYPE);
+            ConfigItem config  = null;
+            if ( TYPE_VIEW.equals(type) ) { 
+                if (jo.hasKey(MAPPING)) {
+                    config = ViewMap.parseFromJson(api, jo.get(MAPPING));
+                } else {
+                    throw new EpiException("Illegal view specification, no mapping declared: " + filename);                    
+                }
+            } else if ( TYPE_ITEM.equals(type) || TYPE_LIST.equals(type) ) {
+                // TODO implement, this is just a dummy
+                config = new ConfigItem();
+            } else {
+                throw new EpiException("Illegal config specification, no type declared: " + filename);
             }
-            // TODO implement
-            ConfigItem ep = new ConfigItem();
-            ep.setName(jo.get(NAME).getAsString().value());
-            return ep;
+            config.setName(name);
+            return config;
         } else {
-            throw new EpiException("Illegal EndpointSpec: expected a json object, in " + filename);
+            throw new EpiException("Illegal config specification: expected a json object, in " + filename);
         }
     }
 
