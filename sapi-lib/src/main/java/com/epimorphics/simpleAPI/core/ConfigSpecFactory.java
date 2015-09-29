@@ -22,6 +22,7 @@ import org.apache.jena.atlas.json.JsonValue;
 import org.yaml.snakeyaml.Yaml;
 
 import com.epimorphics.json.JsonUtil;
+import com.epimorphics.simpleAPI.endpoints.EndpointSpecFactory;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.util.EpiException;
 import com.epimorphics.util.NameUtils;
@@ -82,8 +83,7 @@ public class ConfigSpecFactory {
                     throw new EpiException("Illegal view specification, no mapping declared: " + filename);                    
                 }
             } else if ( TYPE_ITEM.equals(type) || TYPE_LIST.equals(type) ) {
-                // TODO implement, this is just a dummy
-                config = new ConfigItem();
+                config = EndpointSpecFactory.parse(api, filename, json);
             } else {
                 throw new EpiException("Illegal config specification, no type declared: " + filename);
             }

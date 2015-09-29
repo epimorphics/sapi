@@ -9,17 +9,19 @@
 
 package com.epimorphics.simpleAPI.core;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import com.epimorphics.appbase.core.App;
-import com.epimorphics.simpleAPI.core.API;
+import com.epimorphics.simpleAPI.endpoints.ListEndpointSpec;
+import com.epimorphics.simpleAPI.query.Query;
+import com.epimorphics.simpleAPI.query.impl.SparqlQuery;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 
@@ -34,12 +36,17 @@ public class TestSpecLoad {
         app.startup();
     }
 
-    @Ignore
     @Test
     public void testEndpointsExist() {
-        assertNotNull( api.getSpec("describeTest") );
         assertNotNull( api.getSpec("listTest") );
-        assertNull( api.getSpec("otherTest") );
+        ListEndpointSpec spec = (ListEndpointSpec) api.getSpec("listTest");
+        assertEquals(10, spec.getSoftLimit().longValue());
+        assertEquals(100, spec.getHardLimit().longValue());
+        Query query = spec.getQuery().finalize(spec);
+        String qStr = ((SparqlQuery)query).getQuery();        
+        assertTrue(  qStr.contains("?id a rt:FloodAlertOrWarning") );
+        assertTrue( qStr.contains("PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>") );
+        
     }
     
     @Test

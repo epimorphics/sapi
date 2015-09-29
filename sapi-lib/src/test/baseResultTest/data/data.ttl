@@ -1,0 +1,47 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix eg:   <http://localhost/example/> .
+
+eg:A1 a eg:root, skos:Concept;
+    rdfs:label "A1", "a1";
+    skos:notation "11";
+    skos:narrower eg:B1, eg:C1 .
+
+eg:B1 a skos:Concept;
+    rdfs:label "B1", "b1";
+    skos:notation "12" .
+
+eg:C1 a skos:Concept;
+    rdfs:label "C1", "C1";
+    skos:notation "13" .
+       
+eg:A2 a eg:root, skos:Concept;
+    rdfs:label "A2", "a2";
+    skos:notation "21";
+    skos:narrower eg:B2, eg:C2 .
+
+eg:B2 a skos:Concept;
+    rdfs:label "B2", "b2";
+    skos:notation "22" .
+
+eg:C2 a skos:Concept;
+    rdfs:label "C2", "C2";
+    skos:notation "23" .
+       
+eg:A3 a eg:root, skos:Concept;
+    rdfs:label "A3", "a3";
+    skos:notation "31";
+    skos:narrower eg:B3, eg:C3 .
+
+eg:B3 a skos:Concept;
+    rdfs:label "B3", "b3";
+    skos:notation "32" .
+
+eg:C3 a skos:Concept;
+    rdfs:label "C3", "C3";
+    skos:notation "33" .
+       

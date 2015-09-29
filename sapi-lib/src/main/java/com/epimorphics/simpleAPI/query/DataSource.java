@@ -9,6 +9,7 @@
 
 package com.epimorphics.simpleAPI.query;
 
+import com.epimorphics.simpleAPI.results.ResultStream;
 import com.epimorphics.simpleAPI.views.ViewMap;
 
 /**

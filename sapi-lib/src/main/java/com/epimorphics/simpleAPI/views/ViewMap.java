@@ -19,15 +19,20 @@ import com.epimorphics.simpleAPI.core.ConfigItem;
  */
 public class ViewMap extends ConfigItem {
     protected ViewTree tree;
+    protected API api;
     
-    public ViewMap() {
+    public ViewMap(API api) {
+        this.api = api;
     }
     
-    public ViewMap(ViewTree tree) {
+    public ViewMap(API api, ViewTree tree) {
         this.tree = tree;
+        this.api = api;
     }
     
-    // TODO need access to API?
+    public API getAPI() {
+        return api;
+    }
     
     // TODO constructor to clone an existing tree/map?
     
@@ -37,9 +42,9 @@ public class ViewMap extends ConfigItem {
 
     // TODO indexes for looking up entry from across tree?
     
-    public static ViewMap parseFromJson(API api, JsonValue list) {
+    public static ViewMap parseFromJson(API api, JsonValue list) {        
         // TODO allow indirection to named map
-        return new ViewMap( ViewTree.parseFromJson(api, list) );
+        return new ViewMap(api, ViewTree.parseFromJson(api, list) );
     }
 
 }

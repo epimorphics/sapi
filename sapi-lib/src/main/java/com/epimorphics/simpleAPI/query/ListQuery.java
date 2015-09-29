@@ -33,7 +33,7 @@ public interface ListQuery extends Query {
     /**
      * Add a sort directive to the query
      */
-    public void addSort(String shortname, boolean up);
+    public void addSort(String shortname, boolean down);
     
     /**
      * Set a paging window on the query results
