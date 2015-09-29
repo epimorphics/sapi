@@ -21,12 +21,12 @@ import org.apache.jena.rdf.model.RDFNode;
 public interface ListQuery extends Query {
 
     /**
-     * Add a filter constraint to the query
+     * Add an equality filter constraint to the query
      */
     public void addFilter(String shortname, RDFNode value);
 
     /**
-     * Add a filter constraint to the query
+     * Add a one-of filter constraint to the query
      */
     public void addFilter(String shortname, Collection<RDFNode> values);
     

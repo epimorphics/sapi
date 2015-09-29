@@ -115,6 +115,16 @@ public class API extends ComponentBase implements Startup {
         return null;
     }
 
+    public ViewMap getView(String name) {
+        if (monitor != null){
+            ConfigItem item = monitor.get(name);
+            if (item instanceof ViewMap) {
+                return (ViewMap) item;
+            }
+        }
+        return null;
+    }
+
     /**
      * Return the default specification for how to render a given property.
      * May be null if there is no matching default

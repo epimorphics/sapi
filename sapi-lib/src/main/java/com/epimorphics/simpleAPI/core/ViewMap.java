@@ -38,6 +38,7 @@ public class ViewMap extends ConfigItem {
     // TODO indexes for looking up entry from across tree?
     
     public static ViewMap parseFromJson(API api, JsonValue list) {
+        // TODO allow indirection to named map
         return new ViewMap( ViewTree.parseFromJson(api, list) );
     }
 
