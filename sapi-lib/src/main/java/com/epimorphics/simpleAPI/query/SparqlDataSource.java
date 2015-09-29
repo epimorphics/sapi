@@ -7,13 +7,10 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core.impl;
+package com.epimorphics.simpleAPI.query;
 
 import com.epimorphics.appbase.data.SparqlSource;
-import com.epimorphics.simpleAPI.core.DataSource;
-import com.epimorphics.simpleAPI.core.Query;
-import com.epimorphics.simpleAPI.core.ResultStream;
-import com.epimorphics.simpleAPI.core.ViewMap;
+import com.epimorphics.simpleAPI.views.ViewMap;
 
 /**
  * Implementation of DataSource that is just a thin wrapper 

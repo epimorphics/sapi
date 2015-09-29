@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.query;
 
 /**
  * Base abstraction for a query, might be a SPARQL or a noSQL query, might

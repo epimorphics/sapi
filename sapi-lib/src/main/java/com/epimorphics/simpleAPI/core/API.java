@@ -22,7 +22,10 @@ import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.core.ComponentBase;
 import com.epimorphics.appbase.core.Startup;
 import com.epimorphics.json.JSFullWriter;
-import com.epimorphics.simpleAPI.core.impl.ConfigItem;
+import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.query.DataSource;
+import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.util.NameUtils;
 
 /**

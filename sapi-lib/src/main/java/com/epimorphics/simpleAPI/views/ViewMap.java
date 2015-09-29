@@ -7,12 +7,12 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.views;
 
 import org.apache.jena.atlas.json.JsonValue;
 
 import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.core.impl.ConfigItem;
+import com.epimorphics.simpleAPI.core.ConfigItem;
 
 /**
  * Represents a singled configured tree view over the data which can be directly mapped to JSON.

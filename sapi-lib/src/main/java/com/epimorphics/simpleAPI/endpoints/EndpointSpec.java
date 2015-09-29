@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.endpoints;
 
 import com.epimorphics.appbase.monitor.ConfigInstance;
 

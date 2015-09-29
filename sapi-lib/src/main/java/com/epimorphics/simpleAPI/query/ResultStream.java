@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.query;
 
 /**
  * A stream of results from a query.

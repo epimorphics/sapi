@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.query;
 
 import java.util.Collection;
 

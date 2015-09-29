@@ -20,6 +20,8 @@ import static org.junit.Assert.*;
 
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
+import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.ViewMap;
 
 public class TestSpecLoad {
     App app;

@@ -22,7 +22,7 @@ import org.apache.jena.atlas.json.JsonValue;
 import org.yaml.snakeyaml.Yaml;
 
 import com.epimorphics.json.JsonUtil;
-import com.epimorphics.simpleAPI.core.impl.ConfigItem;
+import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.util.EpiException;
 import com.epimorphics.util.NameUtils;
 

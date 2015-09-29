@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.views;
 
 import static com.epimorphics.simpleAPI.core.ConfigConstants.COMMENT;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.FILTERABLE;

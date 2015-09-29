@@ -7,9 +7,10 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.views;
 
 import com.epimorphics.rdfutil.RDFUtil;
+import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.util.NameUtils;
 
 /**

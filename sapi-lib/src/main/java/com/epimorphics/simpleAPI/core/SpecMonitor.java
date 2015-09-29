@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.epimorphics.appbase.monitor.ConfigMonitor;
-import com.epimorphics.simpleAPI.core.impl.ConfigItem;
 
 public class SpecMonitor extends ConfigMonitor<ConfigItem> {
     protected API api;

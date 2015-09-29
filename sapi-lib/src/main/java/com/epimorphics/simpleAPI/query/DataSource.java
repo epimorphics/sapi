@@ -7,7 +7,9 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.query;
+
+import com.epimorphics.simpleAPI.views.ViewMap;
 
 /**
  * An abstraction for a data source that can be queried.
