@@ -31,17 +31,3 @@ eg:B2 a skos:Concept;
 eg:C2 a skos:Concept;
     rdfs:label "C2", "C2";
     skos:notation "23" .
-       
-eg:A3 a eg:root, skos:Concept;
-    rdfs:label "A3", "a3";
-    skos:notation "31";
-    skos:narrower eg:B3, eg:C3 .
-
-eg:B3 a skos:Concept;
-    rdfs:label "B3", "b3";
-    skos:notation "32" .
-
-eg:C3 a skos:Concept;
-    rdfs:label "C3", "C3";
-    skos:notation "33" .
-       

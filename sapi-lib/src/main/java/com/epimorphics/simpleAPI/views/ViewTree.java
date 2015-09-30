@@ -131,5 +131,18 @@ public class ViewTree implements Iterable<ViewEntry> {
         }
         return tree;
     }
+    
+    @Override
+    public String toString() {
+        return print(new StringBuffer(), "").toString();
+    }
+    
+    protected StringBuffer print(StringBuffer buf, String indent) {
+        for (ViewEntry child : children) {
+            child.print(buf, indent);
+            buf.append("\n");
+        }
+        return buf;
+    }
         
 }

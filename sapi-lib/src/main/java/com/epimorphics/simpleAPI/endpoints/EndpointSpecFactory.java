@@ -23,7 +23,8 @@ import org.apache.jena.atlas.json.JsonValue;
 
 import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.query.impl.SparqlListQuery;
+import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
+import com.epimorphics.simpleAPI.endpoints.impl.SparqlListEndpointSpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.util.EpiException;
 
@@ -34,18 +35,18 @@ import com.epimorphics.util.EpiException;
  */
 public class EndpointSpecFactory {
 
-    public static EndpointSpec parse(API api, String filename, JsonValue json) {
+    public static SparqlEndpointSpec parse(API api, String filename, JsonValue json) {
         if (json.isObject()) {
             JsonObject jo = json.getAsObject();
             String type =  JsonUtil.getStringValue(jo, TYPE, TYPE_ITEM);
-            EndpointSpec spec = new EndpointSpec(api);
+            SparqlEndpointSpec spec = new SparqlEndpointSpec(api);
             if (TYPE_ITEM.equals(type)) {
                 // TODO
             } else if (TYPE_LIST.equals(type)) {
-                ListEndpointSpec lspec = new ListEndpointSpec(api);
+                SparqlListEndpointSpec lspec = new SparqlListEndpointSpec(api);
                 spec = lspec;
                 if (jo.hasKey(QUERY)) {
-                    lspec.setQuery( new SparqlListQuery( JsonUtil.getStringValue(jo, QUERY) ) );
+                    lspec.setBaseQuery( JsonUtil.getStringValue(jo, QUERY) );
                 }
                 if (jo.hasKey(LIMIT)) {
                     lspec.setHardLimit( JsonUtil.getIntValue(jo, LIMIT, Integer.MAX_VALUE) );

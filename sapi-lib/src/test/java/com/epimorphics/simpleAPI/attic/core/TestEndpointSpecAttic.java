@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.core;
+package com.epimorphics.simpleAPI.attic.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

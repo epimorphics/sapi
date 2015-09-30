@@ -22,7 +22,7 @@ import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.core.ComponentBase;
 import com.epimorphics.appbase.core.Startup;
 import com.epimorphics.json.JSFullWriter;
-import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
@@ -108,11 +108,11 @@ public class API extends ComponentBase implements Startup {
     
     // ---- Access to configurations ------------------------------------
 
-    public EndpointSpec getSpec(String name) {
+    public SparqlEndpointSpec getSpec(String name) {
         if (monitor != null){
             ConfigItem item = monitor.get(name);
-            if (item instanceof EndpointSpec) {
-                return (EndpointSpec) item;
+            if (item instanceof SparqlEndpointSpec) {
+                return (SparqlEndpointSpec) item;
             }
         }
         return null;

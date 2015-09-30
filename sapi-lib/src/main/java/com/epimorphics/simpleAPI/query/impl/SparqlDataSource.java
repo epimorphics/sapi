@@ -35,11 +35,11 @@ public class SparqlDataSource implements DataSource {
     public ResultStream query(Query query, ViewMap view) {
         if (query instanceof SparqlQuery) {
             SparqlQuery sq = (SparqlQuery) query;
-            if (sq.isSelect()) {
-                return new ResultStreamSparqlSelect( source.streamableSelect( sq.getQuery() ), view );
-            } else {
+            if (sq.isItemQuery()) {
                 // TODO implement describes
                 return null;
+            } else {
+                return new ResultStreamSparqlSelect( source.streamableSelect( sq.getQuery() ), view );
             }
         } else {
             throw new EpiException("SPARQL source given non-SPARQL query");

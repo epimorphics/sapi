@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.webapi.test;
+package com.epimorphics.simpleAPI.attic.webapi.test;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

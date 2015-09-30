@@ -122,4 +122,24 @@ public class ViewEntry {
         }
     }
     
+    @Override
+    public String toString() {
+        return print(new StringBuffer(), "").toString();
+    }
+    
+    protected StringBuffer print(StringBuffer buf, String indent) {
+        buf.append(indent);
+        buf.append(jsonname);
+        buf.append("(" + property + ")");
+        if (filterable) buf.append(" filterable");
+        if (optional) buf.append(" optional");
+        if (multivalued) buf.append(" multi");
+        if (showLang) buf.append(" showLang");
+        if (comment != null) buf.append(" '" + comment + "'");
+        if (isNested()) {
+            nested.print(buf, indent + "  ");
+        }
+        return buf;
+    }
+    
 }

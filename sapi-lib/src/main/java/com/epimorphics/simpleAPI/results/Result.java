@@ -14,8 +14,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
@@ -30,7 +32,7 @@ import org.apache.jena.rdf.model.Resource;
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class Result {
-    protected Map<String, List<Object>> values = new HashMap<>();
+    protected Map<String, Set<Object>> values = new HashMap<>();
     protected RDFNode id = null;
     
     public Result() {
@@ -73,7 +75,7 @@ public class Result {
     }     
     
     
-    public List<Object> getValues(String key) {
+    public Collection<Object> getValues(String key) {
         return values.get(key);
     }
     
@@ -93,16 +95,16 @@ public class Result {
     }
     
     public List<Object> getSortedValues(String key) {
-        List<Object> v = values.get(key);
+        List<Object> v = new ArrayList<Object>( values.get(key) );
         Collections.sort(v, valueComparator);
         return v;
     }
    
     
     public void add(String key, Object value) {
-        List<Object> v = values.get(key);
+        Set<Object> v = values.get(key);
         if (v == null) {
-            v = new ArrayList<>();
+            v = new HashSet<>();
             values.put(key, v);
         }
         v.add(value);
@@ -111,8 +113,14 @@ public class Result {
     @Override
     public String toString() {
         StringBuffer buf = new StringBuffer();
-        buf.append("{@id:" + id);
+        buf.append("{@id:" + id + " ");
+        boolean started = false;
         for (String key : getKeys()) {
+            if (started) {
+                buf.append(", ");
+            } else {
+                started = true;
+            }
             buf.append(key + " = ");
             for (Object value : getValues(key) ) {
                 buf.append("" + value + " ");

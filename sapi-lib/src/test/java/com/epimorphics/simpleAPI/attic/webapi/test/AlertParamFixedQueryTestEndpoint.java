@@ -7,29 +7,23 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.webapi.test;
+package com.epimorphics.simpleAPI.attic.webapi.test;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.epimorphics.simpleAPI.attic.core.RequestParameters;
 import com.epimorphics.simpleAPI.attic.webapi.EndpointsBase;
 
-@Path("fixedQueryModTest")
-public class AlertFixedQueryModTestEndpoint extends EndpointsBase {
+@Path("paramFixedQueryTest")
+public class AlertParamFixedQueryTestEndpoint extends EndpointsBase {
 
     @Produces({MediaType.APPLICATION_JSON})
     @GET
-    public Response getAlertTest(@QueryParam("min-severity") String severity ) {
-        RequestParameters request = getRequestWithParms();
-        if (severity != null) {
-            request.addFilter("FILTER(?severityLevel <= " + severity + ")");
-        }
-        return startList("alertTestExplicitQueryMod", request).respond();
+    public Response getAlertTest( ) {
+        return startList("alertTestParamExplicitQuery", getRequestWithParms()).respond();
     }
     
 }

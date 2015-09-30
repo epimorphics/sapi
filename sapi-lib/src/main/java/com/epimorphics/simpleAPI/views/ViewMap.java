@@ -39,6 +39,15 @@ public class ViewMap extends ConfigItem {
     public ViewTree getTree() {
         return tree;
     }
+    
+    /**
+     * Return a SPARQL query string representing the bindings for this map
+     */
+    public String asQuery() {
+        StringBuffer query = new StringBuffer();
+        tree.renderAsQuery(query, "id");
+        return query.toString();
+    }
 
     // TODO indexes for looking up entry from across tree?
     
@@ -47,4 +56,8 @@ public class ViewMap extends ConfigItem {
         return new ViewMap(api, ViewTree.parseFromJson(api, list) );
     }
 
+    @Override
+    public String toString() {
+        return tree.toString();
+    }
 }

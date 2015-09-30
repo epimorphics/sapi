@@ -9,8 +9,6 @@
 
 package com.epimorphics.simpleAPI.query;
 
-import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
-
 /**
  * Base abstraction for a query, might be a SPARQL or a noSQL query, might
  * be an item (describe) or list (select) query. 
@@ -19,12 +17,13 @@ import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
  */
 public interface Query {
     
-    // TODO support for variable binding
+    /**
+     * Return true if the query describes a single item (resource) rather 
+     * returning a set of matching bindings
+     */
+    public boolean isItemQuery();
     
     /**
-     * Return a finalized query after all filter/modifiers have been added.
-     * May use information (e.g. prefix declarations) from the endpoint specification
+     * Returns a 
      */
-    public Query finalize(EndpointSpec spec);
-
 }
