@@ -20,7 +20,9 @@ import static com.epimorphics.simpleAPI.core.ConfigConstants.PROP_TYPE;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
@@ -34,7 +36,7 @@ import com.epimorphics.util.EpiException;
  * The root of the tree is a ViewMap
  */
 public class ViewTree implements Iterable<ViewEntry> {
-    protected List<ViewEntry> children = new ArrayList<ViewEntry>();
+    protected Map<String, ViewEntry> children = new LinkedHashMap<>();
     
     public ViewTree() {
     }
@@ -42,16 +44,20 @@ public class ViewTree implements Iterable<ViewEntry> {
     // TODO constructor to deep clone an existing tree?
     
     public void addChild(ViewEntry entry) {
-        children.add(entry);
+        children.put(entry.getJsonName(), entry);
     }
 
     @Override
     public Iterator<ViewEntry> iterator() {
-        return children.iterator();
+        return children.values().iterator();
     }
 
     public List<ViewEntry> getChildren() {
-        return children;
+        return new ArrayList<>(children.values());
+    }
+    
+    public ViewEntry getEntry(String shortname) {
+        return children.get(shortname);
     }
     
     /**
@@ -62,7 +68,7 @@ public class ViewTree implements Iterable<ViewEntry> {
      */
     protected void renderAsQuery(StringBuffer buf, String var, String path) {
         boolean started = false;
-        for (ViewEntry map : children) {
+        for (ViewEntry map : children.values()) {
             if (!map.isOptional()) {
                 if (!started){
                     started = true;
@@ -72,7 +78,7 @@ public class ViewTree implements Iterable<ViewEntry> {
             }
         }
         if (started) buf.append("    .\n");
-        for (ViewEntry map : children) {
+        for (ViewEntry map : children.values()) {
             String jname = map.getJsonName();
             String npath = path.isEmpty() ? jname : path + "_" + jname;
             if (map.isOptional()) {
@@ -141,7 +147,7 @@ public class ViewTree implements Iterable<ViewEntry> {
     }
     
     protected StringBuffer print(StringBuffer buf, String indent) {
-        for (ViewEntry child : children) {
+        for (ViewEntry child : this) {
             child.print(buf, indent);
             buf.append("\n");
         }

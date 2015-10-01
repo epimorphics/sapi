@@ -16,57 +16,58 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.RDF;
 
 import com.epimorphics.json.JSFullWriter;
-import com.epimorphics.simpleAPI.attic.core.JSONMap;
-import com.epimorphics.simpleAPI.attic.core.JSONNodeDescription;
-import com.epimorphics.simpleAPI.attic.writers.KeyValues;
-import com.epimorphics.simpleAPI.attic.writers.ValueSet;
+import com.epimorphics.simpleAPI.core.API;
+import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.results.Result;
+import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.ViewTree;
 
+/**
+ * Serialize a result as JSON. Assumes that the shape of the result matches the
+ * shape of the given viewTree. This is supposed to be true "by construction".
+ * 
+ * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
+ */
 public class JsonWriterUtil {
 
-    public static void writeValueSet(JSONMap map, ValueSet values,
-            JSFullWriter out) {
+    public static void writeResult(Result result, JSFullWriter out) {
+        EndpointSpec spec = result.getStream().getSpec();
+        writeResult(result, spec.getView().getTree(), spec.getAPI(), out);
+    }
+    
+    protected static void writeResult(Result result, ViewTree tree, API api, JSFullWriter out) {
         out.startObject();
-        String id = values.getStringID();
+        String id = result.getStringID();
         if (id != null) {
             out.pair("@id", id);
         }
-        // for (KeyValues kv : values.listKeyValues()) {
-        for (String key : values.listSortedKeys()) {
-            KeyValues kv = values.getKeyValues(key);
-            writeKeyValues(map, kv, out);
+        for (String key : result.getSortedKeys()) {
+            List<Object> values = result.getSortedValues(key);
+            ViewEntry policy = tree.getEntry(key);
+            if (values.size() > 1 || policy.isMultivalued()) {
+                // TODO handle case where we have a showOnlyLang setting and there's multiple different language values here
+                out.key(key);
+                out.startArray();
+                for (Object n : values) {
+                    writeNode(tree, policy, api, key, n, out, true);
+                }
+                out.finishArray();
+            } else if (!values.isEmpty()) {
+                writeNode(tree, policy, api, key, values.get(0), out, false);
+            }
         }
         out.finishObject();
     }
 
-    protected static void writeKeyValues(JSONMap map, KeyValues vals,
-            JSFullWriter out) {
-        String key = vals.getKey();
-        JSONNodeDescription policy = map.getEntry(key);
-        List<Object> nodevals = vals.getValues();
-        if (nodevals.isEmpty()) {
-            return;
-        } else if (nodevals.size() > 1 || policy.isMultivalued()) {
-            nodevals = vals.getSortedValues(); // Make this controllable through
-                                               // a mapping option?
-            out.key(key);
-            out.startArray();
-            for (Object n : nodevals) {
-                writeNode(map, policy, key, n, out, true);
-            }
-            out.finishArray();
-        } else {
-            writeNode(map, policy, key, nodevals.get(0), out, false);
-        }
-    }
 
-    protected static void writeNode(JSONMap map, JSONNodeDescription policy,
+    protected static void writeNode(ViewTree tree, ViewEntry policy, API api,
             String key, Object value, JSFullWriter writer, boolean isArrayElt) {
-        if (value instanceof ValueSet) {
+        if (value instanceof Result) {
             if (isArrayElt)
                 writer.arrayElementProcess();
             else
                 writer.key(key);
-            writeValueSet(map, (ValueSet) value, writer);
+            writeResult((Result)value, tree.getEntry(key).getNested(), api, writer);
         } else if (value instanceof RDFNode) {
             RDFNode n = (RDFNode) value;
             if (n.isURIResource()) {
@@ -88,8 +89,7 @@ public class JsonWriterUtil {
                 String lex = l.getLexicalForm();
                 if (l.getDatatype() == null || l.getDatatypeURI().equals(RDF.langString.getURI())) {
                     String lang = l.getLanguage();
-                    if (lang == null || lang.isEmpty()
-                            || !policy.showLangTag(lang)) {
+                    if (lang == null || lang.isEmpty() || !api.isShowLangTag()) {
                         if (isArrayElt)
                             writer.arrayElement(lex);
                         else

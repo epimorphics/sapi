@@ -24,6 +24,7 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlListEndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.query.Query;
+import com.epimorphics.simpleAPI.util.JsonComparator;
 
 public class TestResultBasics {
     App app;
@@ -45,6 +46,7 @@ public class TestResultBasics {
         assertNotNull(spec.getQueryBuilder());
         assertNotNull(spec.getView());
         
+        // Basic case, no nesting
         Query query = spec.getQueryBuilder().sort("notation", false).build();
         ResultStream stream = source.query(query, spec);
         for (int i = 1; i <= 2; i++){
@@ -53,6 +55,7 @@ public class TestResultBasics {
         }
         assertFalse( stream.hasNext() );
         
+        // Case with nesting
         spec = (SparqlListEndpointSpec) api.getSpec("listTest2");
         assertNotNull(spec);
         query = spec.getQueryBuilder().sort("notation", false).build();
@@ -64,6 +67,12 @@ public class TestResultBasics {
             String children = r.getSortedValues("narrower").stream().map(v -> v instanceof Result ? ((Result)v).getId().toString() : "Not nested").collect(Collectors.joining(","));
             assertEquals( "http://localhost/example/B%,http://localhost/example/C%".replace("%", Integer.toString(i)), children );
         }
+        assertFalse( stream.hasNext() );
+        
+        // Nested case, check JSON render
+        stream = source.query(query, spec);
+        assertTrue( JsonComparator.equal("src/test/baseResultTest/expected/r1.json", stream.next().asJson()) );
+        assertTrue( JsonComparator.equal("src/test/baseResultTest/expected/r2.json", stream.next().asJson()) );
         assertFalse( stream.hasNext() );
     }
     

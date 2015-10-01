@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.attic.webapi;
+package com.epimorphics.simpleAPI.webapi;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;

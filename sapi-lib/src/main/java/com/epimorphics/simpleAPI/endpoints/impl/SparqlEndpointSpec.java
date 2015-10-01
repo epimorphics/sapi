@@ -38,6 +38,7 @@ public class SparqlEndpointSpec extends ConfigItem implements EndpointSpec {
     /**
      * Return the API instance this endpoint is associated with
      */
+    @Override
     public API getAPI() {
         return api;
     }
@@ -85,6 +86,7 @@ public class SparqlEndpointSpec extends ConfigItem implements EndpointSpec {
     /**
      * Return the view, if any, which controls formating of query results
      */
+    @Override
     public ViewMap getView() {
         return view;
     }
@@ -93,6 +95,7 @@ public class SparqlEndpointSpec extends ConfigItem implements EndpointSpec {
      * Return the URL pattern for this endpoint, relative to the base of the API.
      * May be null if the endpoint is configured by code
      */
+    @Override
     public String getURL() {
         return url;
     }

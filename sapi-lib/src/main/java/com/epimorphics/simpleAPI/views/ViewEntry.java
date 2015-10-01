@@ -10,7 +10,6 @@
 package com.epimorphics.simpleAPI.views;
 
 import com.epimorphics.rdfutil.RDFUtil;
-import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.util.NameUtils;
 
 /**
@@ -23,7 +22,6 @@ public class ViewEntry {
     protected boolean optional = false;
     protected boolean multivalued = false;
     protected boolean filterable = true;
-    protected boolean showLang = API.getShowLangTag();
     protected String typeURI;
     protected String comment;
     protected ViewTree nested = null;
@@ -80,14 +78,6 @@ public class ViewEntry {
         this.filterable = filterable;
     }
 
-    public boolean isShowLang() {
-        return showLang;
-    }
-
-    public void setShowLang(boolean showLang) {
-        this.showLang = showLang;
-    }
-
     public String getTypeURI() {
         return typeURI;
     }
@@ -141,7 +131,6 @@ public class ViewEntry {
         if (filterable) buf.append(" filterable");
         if (optional) buf.append(" optional");
         if (multivalued) buf.append(" multi");
-        if (showLang) buf.append(" showLang");
         if (comment != null) buf.append(" '" + comment + "'");
         if (isNested()) {
             buf.append("\n");

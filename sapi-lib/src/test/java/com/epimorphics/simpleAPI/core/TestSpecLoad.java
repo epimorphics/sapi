@@ -9,7 +9,10 @@
 
 package com.epimorphics.simpleAPI.core;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.epimorphics.appbase.core.App;
-import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlListEndpointSpec;
 import com.epimorphics.simpleAPI.query.Query;
 import com.epimorphics.simpleAPI.query.impl.SparqlQuery;

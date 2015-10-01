@@ -70,7 +70,7 @@ public class ResultStreamSparqlSelect implements ResultStream {
                     nextRow = results.next();
                     nextID = nextRow.getResource("id");
                 }
-                Result result = new Result(nextID);
+                Result result = new Result(this, nextID);
                 Resource target = nextID;
                 while (nextID != null && nextID.equals(target)) {
                     addRow(result, nextRow);
@@ -108,7 +108,7 @@ public class ResultStreamSparqlSelect implements ResultStream {
     }
     
     private void addTree(Result result, ViewTree tree, QuerySolution row, String path) {
-        for (ViewEntry ve : tree.getChildren()) {
+        for (ViewEntry ve : tree) {
             String key = ve.getJsonName();
             String npath = path.isEmpty() ? key : path + "_" + key;
             RDFNode value = row.get( npath );
@@ -116,7 +116,7 @@ public class ResultStreamSparqlSelect implements ResultStream {
                 if (ve.isNested()) {
                     Result nested = result.getNested(key, value);
                     if (nested == null) {
-                        nested = new Result(value);
+                        nested = new Result(this, value);
                         result.add(key, nested);
                     }
                     addTree(nested, ve.getNested(), row, npath);

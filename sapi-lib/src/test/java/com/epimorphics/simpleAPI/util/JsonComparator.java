@@ -9,12 +9,17 @@
 
 package com.epimorphics.simpleAPI.util;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import org.apache.jena.atlas.json.JSON;
 import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
+
+import com.epimorphics.util.EpiException;
 
 /**
  * Support for comparing two JSON results with order independence in arrays.
@@ -22,6 +27,18 @@ import org.apache.jena.atlas.json.JsonValue;
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class JsonComparator {
+
+    public static boolean equal(String expectedFile, JsonValue actual) {
+        
+        try (
+            FileInputStream in = new FileInputStream(expectedFile);
+        ) {
+            return equal(JSON.parseAny(in), actual);
+        } catch (IOException e) {
+            throw new EpiException("Failed to load test file: " + expectedFile, e);
+        }
+        
+    }
 
     public static boolean equal(JsonValue expected, JsonValue actual) {
         if (expected.isObject()) {

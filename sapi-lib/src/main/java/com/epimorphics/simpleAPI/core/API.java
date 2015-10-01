@@ -50,8 +50,10 @@ public class API extends ComponentBase implements Startup {
     protected String contextURL;
     protected String comment;
     protected int  maxAge = 60;
-    protected static boolean showLangTag = true;
     protected SpecMonitor monitor;
+    
+    protected boolean showLang = false;
+    protected String showOnlyLang;
     
     /**
      * Return a global default API configuration called "api" if it exists.
@@ -130,10 +132,10 @@ public class API extends ComponentBase implements Startup {
 
     /**
      * Return the default specification for how to render a given property.
-     * May be null if there is no matching default
      */
-    public ViewEntry getDefaultFor(String uri) {
-        // TODO
+    public ViewEntry getDefaultViewFor(String uri) {
+        // TODO implement
+        // Should handle qname expansion - might need change in signature for that
         return null;
     }
     
@@ -237,14 +239,22 @@ public class API extends ComponentBase implements Startup {
     public void setMaxAge(long maxAge) {
         this.maxAge = (int)maxAge;
     }
-    
-    public static boolean getShowLangTag() {
-        return showLangTag;
-    }
 
     public void setShowLangTag(boolean showLang) {
-        showLangTag = showLang;
+        this.showLang = showLang;
     }    
+    
+    public boolean isShowLangTag() {
+        return showLang; 
+    }
+
+    public void setShowOnlyLang(String lang) {
+        this.showOnlyLang = lang;
+    }    
+    
+    public String getShowOnlyLang() {
+        return showOnlyLang; 
+    }
 
     // ---- Internals -----------------------------------------------
 

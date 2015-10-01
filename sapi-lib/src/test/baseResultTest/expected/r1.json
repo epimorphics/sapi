@@ -1,0 +1,18 @@
+{ 
+  "@id" : "http://localhost/example/A1" ,
+  "label" : [ 
+      "A1" ,
+      "a1"
+    ] ,
+  "narrower" : [ 
+      { 
+        "@id" : "http://localhost/example/B1" ,
+        "notation" : "12"
+      } ,
+      { 
+        "@id" : "http://localhost/example/C1" ,
+        "notation" : "13"
+      }
+    ] ,
+  "notation" : "11"
+}

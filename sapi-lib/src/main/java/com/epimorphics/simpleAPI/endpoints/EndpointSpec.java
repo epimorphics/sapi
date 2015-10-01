@@ -37,5 +37,4 @@ public interface EndpointSpec extends ConfigInstance {
      * May be null if the endpoint is configured by code
      */
     public String getURL() ;
-
 }

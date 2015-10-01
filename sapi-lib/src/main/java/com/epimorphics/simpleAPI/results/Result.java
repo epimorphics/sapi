@@ -9,6 +9,7 @@
 
 package com.epimorphics.simpleAPI.results;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,9 +20,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.jena.atlas.json.JSON;
+import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+
+import com.epimorphics.json.JSFullWriter;
+import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
 
 /**
  * Represents a simplified tree view over some RDF resource.
@@ -34,12 +40,19 @@ import org.apache.jena.rdf.model.Resource;
 public class Result {
     protected Map<String, Set<Object>> values = new HashMap<>();
     protected RDFNode id = null;
+    protected ResultStream stream;
     
-    public Result() {
+    public Result(ResultStream stream) {
+        this.stream = stream;
     }
     
-    public Result(RDFNode id) {
+    public Result(ResultStream stream, RDFNode id) {
+        this.stream = stream;
         this.id = id;
+    }
+    
+    public ResultStream getStream() {
+        return stream;
     }
     
     public void setId(RDFNode id) {
@@ -112,6 +125,29 @@ public class Result {
         }
         v.add(value);
     }
+
+    // --- JSON rendering --------------------------------------
+    
+    public void writeJson(JSFullWriter out) {
+        JsonWriterUtil.writeResult(this, out);
+    }
+    
+    /**
+     * Return result formatted as a JSON object.
+     * Warning this is current a slow implementation (serialize then re-parse) since
+     * it is only used for testing. If used in production then should re-implement 
+     */
+    public JsonObject asJson() {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        JSFullWriter out = new JSFullWriter(bos);
+        out.startOutput();
+        writeJson(out);
+        out.finishOutput();
+        
+        return JSON.parse(bos.toString());        
+    }
+    
+    // --- String rendering for debug --------------------------------------
     
     @Override
     public String toString() {
@@ -132,6 +168,8 @@ public class Result {
         buf.append("}");
         return buf.toString();
     }
+    
+    // --- Comparator for ordering values sets --------------------------------------
     
     static final Comparator<Object> valueComparator = new ValueComparator();
 

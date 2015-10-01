@@ -6,5 +6,5 @@ view      :
     - "skos:notation"
     - prop: "skos:narrower"
       nested:
-        - {prop: "skos:notation", name: "childNotation"}
+        - "skos:notation"
 
