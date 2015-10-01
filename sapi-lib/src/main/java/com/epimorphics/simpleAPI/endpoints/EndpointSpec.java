@@ -12,6 +12,7 @@ package com.epimorphics.simpleAPI.endpoints;
 import com.epimorphics.appbase.monitor.ConfigInstance;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.reqests.Request;
 import com.epimorphics.simpleAPI.views.ViewMap;
 
 public interface EndpointSpec extends ConfigInstance {
@@ -22,10 +23,15 @@ public interface EndpointSpec extends ConfigInstance {
     public API getAPI();
     
     /**
-     * Return a query builder for this endpoint
+     * Return a generic query builder for this endpoint
      */
     public QueryBuilder getQueryBuilder();
     
+    /**
+     * Return a query builder for this endpoint, as customized by
+     * the given request parameters
+     */
+    public QueryBuilder getQueryBuilder(Request request);
     
     /**
      * Return the view, if any, which controls formating of query results

@@ -16,6 +16,7 @@ import com.epimorphics.simpleAPI.core.ConfigItem;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
+import com.epimorphics.simpleAPI.reqests.Request;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.util.PrefixUtils;
 
@@ -81,6 +82,12 @@ public class SparqlEndpointSpec extends ConfigItem implements EndpointSpec {
             queryBuilder = SparqlQueryBuilder.fromBaseQuery(q, getPrefixes());
         }
         return queryBuilder;
+    }
+    
+    @Override
+    public QueryBuilder getQueryBuilder(Request request) {
+        // TODO implement
+        return null;
     }
     
     /**
