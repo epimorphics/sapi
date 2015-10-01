@@ -14,7 +14,8 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.util.NameUtils;
 
 /**
- * Represents view information for a single property within the context of some ViewMap
+ * Represents view information for a single property within the context of some ViewMap.
+ * Provides a short ("jsonname") for each property.
  */
 public class ViewEntry {
     protected String jsonname;
@@ -39,7 +40,12 @@ public class ViewEntry {
 
     static String makeJsonName(String property) {
         String name = RDFUtil.getLocalname(property);
-        return name.isEmpty() ?  NameUtils.splitAfterLast(property, ":") : name;
+        if (name.isEmpty()) {
+            // curie/qname format but at this stage no expansion to URI
+            name = NameUtils.splitAfterLast(property, ":");
+        }
+        // Normalize use of "_" which we use in property name construction
+        return name.replace("_", "__");
     }
     
     public String getProperty() {
@@ -114,11 +120,12 @@ public class ViewEntry {
         return jsonname;
     }
 
-    public String asQueryRow() {
+    public String asQueryRow(String parent) {
+        String varname = parent.isEmpty() ? jsonname : parent + "_" + jsonname;
         if (property.startsWith("http:") || property.startsWith("https:")) {
-            return "<" + property + "> ?" + jsonname;
+            return "<" + property + "> ?" + varname;
         } else {
-            return property + " ?" + jsonname;
+            return property + " ?" + varname;
         }
     }
     

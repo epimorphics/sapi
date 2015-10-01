@@ -45,7 +45,7 @@ public class ViewMap extends ConfigItem {
      */
     public String asQuery() {
         StringBuffer query = new StringBuffer();
-        tree.renderAsQuery(query, "id");
+        tree.renderAsQuery(query, "id", "");
         return query.toString();
     }
 

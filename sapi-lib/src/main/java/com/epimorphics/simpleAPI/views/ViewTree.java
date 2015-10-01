@@ -58,8 +58,9 @@ public class ViewTree implements Iterable<ViewEntry> {
      * Synthesize a SPARQL query for this subtree.
      * @param buf Buffer into which to append the query text
      * @param var the SPARQL variable representing the root of the tree
+     * @param path a prefix to prepend to the variable names to ensure distinct values down the tree
      */
-    protected void renderAsQuery(StringBuffer buf, String var) {
+    protected void renderAsQuery(StringBuffer buf, String var, String path) {
         boolean started = false;
         for (ViewEntry map : children) {
             if (!map.isOptional()) {
@@ -67,24 +68,26 @@ public class ViewTree implements Iterable<ViewEntry> {
                     started = true;
                     buf.append("    ?" + var + "\n");                    
                 }
-                buf.append("        " + map.asQueryRow() + " ;\n");
+                buf.append("        " + map.asQueryRow(path) + " ;\n");
             }
         }
         if (started) buf.append("    .\n");
         for (ViewEntry map : children) {
+            String jname = map.getJsonName();
+            String npath = path.isEmpty() ? jname : path + "_" + jname;
             if (map.isOptional()) {
                 if (map.isNested()) {
-                    buf.append("    OPTIONAL {?" + var + " " + map.asQueryRow() + " .\n" );
+                    buf.append("    OPTIONAL {?" + var + " " + map.asQueryRow(path) + " .\n" );
                     ViewTree nested = map.getNested();
-                    nested.renderAsQuery(buf, map.getJsonName());
+                    nested.renderAsQuery(buf, jname, npath);
                     buf.append("    }\n" );
                     
                 } else {
-                    buf.append("    OPTIONAL {?" + var + " " + map.asQueryRow() + " .}\n" );
+                    buf.append("    OPTIONAL {?" + var + " " + map.asQueryRow(path) + " .}\n" );
                 }
             } else if (map.isNested()) {
                 ViewTree nested = map.getNested();
-                nested.renderAsQuery(buf, map.getJsonName());
+                nested.renderAsQuery(buf, jname, npath);
             }
         }
     }

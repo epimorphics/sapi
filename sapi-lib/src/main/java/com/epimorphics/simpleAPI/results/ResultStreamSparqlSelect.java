@@ -103,14 +103,15 @@ public class ResultStreamSparqlSelect implements ResultStream {
                 }
             }
         } else {
-            addTree(result, getView().getTree(), row);
+            addTree(result, getView().getTree(), row, "");
         }
     }
     
-    private void addTree(Result result, ViewTree tree, QuerySolution row) {
+    private void addTree(Result result, ViewTree tree, QuerySolution row, String path) {
         for (ViewEntry ve : tree.getChildren()) {
             String key = ve.getJsonName();
-            RDFNode value = row.get(key);
+            String npath = path.isEmpty() ? key : path + "_" + key;
+            RDFNode value = row.get( npath );
             if (value != null) {
                 if (ve.isNested()) {
                     Result nested = result.getNested(key, value);
@@ -118,7 +119,7 @@ public class ResultStreamSparqlSelect implements ResultStream {
                         nested = new Result(value);
                         result.add(key, nested);
                     }
-                    addTree(nested, ve.getNested(), row);
+                    addTree(nested, ve.getNested(), row, npath);
                 } else {
                     result.add(key, value);
                 }
