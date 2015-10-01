@@ -1,0 +1,10 @@
+name      : listTest2
+type      : list
+query     : "?id a eg:root ."
+view      :
+    - "rdfs:label"
+    - "skos:notation"
+    - prop: "skos:narrower"
+      nested:
+        - {prop: "skos:notation", name: "childNotation"}
+

@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.writers;
+package com.epimorphics.simpleAPI.attic.writers;
 
 import static org.junit.Assert.assertTrue;
 

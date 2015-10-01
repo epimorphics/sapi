@@ -83,11 +83,14 @@ public class Result {
      * Return a nested value for this key corresponding to the given id, if it exists
      */
     public Result getNested(String key, RDFNode id) {
-        for (Object value : values.get(key)) {
-            if (value instanceof Result) {
-                Result result = (Result)value;
-                if (id.equals(result.getId())) {
-                    return result;
+        Set<Object> bindings = values.get(key);
+        if (bindings != null) {
+            for (Object value : bindings) {
+                if (value instanceof Result) {
+                    Result result = (Result)value;
+                    if (id.equals(result.getId())) {
+                        return result;
+                    }
                 }
             }
         }

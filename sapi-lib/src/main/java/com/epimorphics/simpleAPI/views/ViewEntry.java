@@ -137,6 +137,7 @@ public class ViewEntry {
         if (showLang) buf.append(" showLang");
         if (comment != null) buf.append(" '" + comment + "'");
         if (isNested()) {
+            buf.append("\n");
             nested.print(buf, indent + "  ");
         }
         return buf;

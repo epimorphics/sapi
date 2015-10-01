@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
 import org.junit.Before;
@@ -46,20 +47,34 @@ public class TestResultBasics {
         
         Query query = spec.getQueryBuilder().sort("notation", false).build();
         ResultStream stream = source.query(query, spec.getView());
-        assertTrue( stream.hasNext() );
-        checkEntryRoot( stream.next(), 1);
-        assertTrue( stream.hasNext() );
-        checkEntryRoot( stream.next(), 2);
+        for (int i = 1; i <= 2; i++){
+            assertTrue( stream.hasNext() );
+            checkEntryRoot( stream.next(), i);
+        }
+        assertFalse( stream.hasNext() );
+        
+        spec = (SparqlListEndpointSpec) api.getSpec("listTest2");
+        assertNotNull(spec);
+        query = spec.getQueryBuilder().sort("notation", false).build();
+        stream = source.query(query, spec.getView());
+        for (int i = 1; i <= 2; i++){
+            assertTrue( stream.hasNext() );
+            Result r = stream.next();
+            checkEntryRoot( r, i);
+            String children = r.getSortedValues("narrower").stream().map(v -> v instanceof Result ? ((Result)v).getId().toString() : "Not nested").collect(Collectors.joining(","));
+            assertEquals( "http://localhost/example/B%,http://localhost/example/C%".replace("%", Integer.toString(i)), children );
+        }
         assertFalse( stream.hasNext() );
     }
     
     private void checkEntryRoot(Result result, int index) {
         assertEquals( "http://localhost/example/A" + index, result.getId().asResource().getURI() );
         assertEquals( "" + index + 1, asLex( result.getValues("notation").iterator().next() ) );
-        // TODO test labels
+        String labels = result.getValues("label").stream().map(TestResultBasics::asLex).sorted().collect(Collectors.joining(","));
+        assertEquals("A" + index + ",a" + index, labels);
     }
     
-    private String asLex(Object value) {
+    private static String asLex(Object value) {
         assertTrue(value instanceof Literal);
         return ((Literal) value).getLexicalForm();
     }
