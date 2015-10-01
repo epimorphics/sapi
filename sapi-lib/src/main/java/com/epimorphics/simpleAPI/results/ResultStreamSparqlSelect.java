@@ -17,6 +17,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
 import com.epimorphics.appbase.data.ClosableResultSet;
+import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewTree;
@@ -33,22 +34,22 @@ import com.epimorphics.util.EpiException;
  */
 public class ResultStreamSparqlSelect implements ResultStream {
     protected ResultSet results;
-    protected ViewMap view;
+    protected EndpointSpec spec;
     protected QuerySolution nextRow;
     protected Resource nextID;
     
-    public ResultStreamSparqlSelect(ResultSet resultSet, ViewMap view) {
+    public ResultStreamSparqlSelect(ResultSet resultSet, EndpointSpec spec) {
         this.results = resultSet;
-        this.view = view;
+        this.spec = spec;
     }
     
-    public ResultStreamSparqlSelect(ResultSet resultSet) {
-        this(resultSet, null);
+    @Override
+    public EndpointSpec getSpec() {
+        return spec;
     }
 
-    @Override
     public ViewMap getView() {
-        return view;
+        return spec.getView();
     }
 
     @Override
@@ -94,7 +95,7 @@ public class ResultStreamSparqlSelect implements ResultStream {
     }
     
     private void addRow(Result result, QuerySolution row) {
-        if (view == null) {
+        if (getView() == null) {
             for (Iterator<String> vi = row.varNames(); vi.hasNext();) {
                 String var = vi.next();
                 if (!var.equals("id")) {
@@ -102,7 +103,7 @@ public class ResultStreamSparqlSelect implements ResultStream {
                 }
             }
         } else {
-            addTree(result, view.getTree(), row);
+            addTree(result, getView().getTree(), row);
         }
     }
     

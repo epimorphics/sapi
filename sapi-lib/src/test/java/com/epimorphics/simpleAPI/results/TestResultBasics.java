@@ -46,7 +46,7 @@ public class TestResultBasics {
         assertNotNull(spec.getView());
         
         Query query = spec.getQueryBuilder().sort("notation", false).build();
-        ResultStream stream = source.query(query, spec.getView());
+        ResultStream stream = source.query(query, spec);
         for (int i = 1; i <= 2; i++){
             assertTrue( stream.hasNext() );
             checkEntryRoot( stream.next(), i);
@@ -56,7 +56,7 @@ public class TestResultBasics {
         spec = (SparqlListEndpointSpec) api.getSpec("listTest2");
         assertNotNull(spec);
         query = spec.getQueryBuilder().sort("notation", false).build();
-        stream = source.query(query, spec.getView());
+        stream = source.query(query, spec);
         for (int i = 1; i <= 2; i++){
             assertTrue( stream.hasNext() );
             Result r = stream.next();
@@ -70,8 +70,8 @@ public class TestResultBasics {
     private void checkEntryRoot(Result result, int index) {
         assertEquals( "http://localhost/example/A" + index, result.getId().asResource().getURI() );
         assertEquals( "" + index + 1, asLex( result.getValues("notation").iterator().next() ) );
-        String labels = result.getValues("label").stream().map(TestResultBasics::asLex).sorted().collect(Collectors.joining(","));
-        assertEquals("A" + index + ",a" + index, labels);
+        String labels = result.getSortedValues("label").stream().map(TestResultBasics::asLex).collect(Collectors.joining(","));
+        assertEquals("A%,a%".replace("%", Integer.toString(index)), labels);
     }
     
     private static String asLex(Object value) {

@@ -11,16 +11,16 @@ package com.epimorphics.simpleAPI.results;
 
 import java.util.Iterator;
 
-import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 
 /**
  * Represents a stream of query results. Each result is a tree view over the underlying
- * data according to some associatd ViewMap.
+ * data according to some associated ViewMap.
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public interface ResultStream extends Iterable<Result>, Iterator<Result> {
 
-    public ViewMap getView();
+    public EndpointSpec getSpec();
     
 }

@@ -9,8 +9,8 @@
 
 package com.epimorphics.simpleAPI.query;
 
+import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.results.ResultStream;
-import com.epimorphics.simpleAPI.views.ViewMap;
 
 /**
  * An abstraction for a data source that can be queried.
@@ -20,6 +20,6 @@ import com.epimorphics.simpleAPI.views.ViewMap;
  */
 public interface DataSource {
 
-    public ResultStream query(Query query, ViewMap view);
+    public ResultStream query(Query query, EndpointSpec spec);
     
 }
