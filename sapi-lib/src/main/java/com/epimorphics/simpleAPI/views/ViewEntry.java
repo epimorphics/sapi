@@ -119,6 +119,19 @@ public class ViewEntry {
         }
     }
     
+    /**
+     * Return a view entry based on a path of short names, or null if it is not specified in the view
+     */
+    public ViewEntry findEntry(String...pathElements) {
+        if (pathElements.length == 0) {
+            return this;
+        } else if (isNested()) {
+            return getNested().findEntry(pathElements);
+        } else {
+            return null;
+        }
+    }
+    
     @Override
     public String toString() {
         return print(new StringBuffer(), "").toString();

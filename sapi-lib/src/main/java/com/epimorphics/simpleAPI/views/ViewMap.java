@@ -48,6 +48,25 @@ public class ViewMap extends ConfigItem {
         tree.renderAsQuery(query, "id", "");
         return query.toString();
     }
+    
+    /**
+     * Convert a property name to the corresponding variable name used in generated queries.
+     * If the property name is unambiguous then it will be located anywhere in the tree,
+     * otherwise use an explicit "p.q.r" notation. Any "_" characters in the names will be handled.
+     */
+    public String asVariableName(String name) {
+        // TODO handle "_" embedding
+        if (name.contains(".")) {
+            // Check the path is legal
+            if (tree.findEntry( name.split("\\.") ) != null) {
+                return name.replace(".", "_");
+            } else {
+                return null;
+            }
+        } else {
+            return tree.asVariableName(name);
+        }
+    }
 
     // TODO indexes for looking up entry from across tree?
     

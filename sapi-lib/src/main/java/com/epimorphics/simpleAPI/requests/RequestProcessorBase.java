@@ -16,4 +16,6 @@ package com.epimorphics.simpleAPI.requests;
  */
 public abstract class RequestProcessorBase implements RequestProcessor {
 
+    // TODO remove this unless some uses turn up!
+    
 }

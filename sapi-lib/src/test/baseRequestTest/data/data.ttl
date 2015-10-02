@@ -9,26 +9,31 @@
 eg:A1 a skos:Concept;
     rdfs:label "A1";
     skos:notation "1";
+    skos:narrower eg:B1;
     eg:group "A" .
 
 eg:A2 a skos:Concept;
     rdfs:label "A2";
     skos:notation "2";
+    skos:narrower eg:B2;
     eg:group "A" .
 
 eg:A3 a skos:Concept;
     rdfs:label "A3";
     skos:notation "3";
+    skos:narrower eg:B3;
     eg:group "A" .
 
 eg:A4 a skos:Concept;
     rdfs:label "A4";
     skos:notation "4";
+    skos:narrower eg:B4;
     eg:group "A" .
 
 eg:A5 a skos:Concept;
     rdfs:label "A5";
     skos:notation "5";
+    skos:narrower eg:B5;
     eg:group "A" .
 
 eg:B1 a skos:Concept;

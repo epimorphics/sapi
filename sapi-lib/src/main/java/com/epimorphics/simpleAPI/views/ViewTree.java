@@ -19,6 +19,7 @@ import static com.epimorphics.simpleAPI.core.ConfigConstants.PROPERTY;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.PROP_TYPE;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -80,7 +81,7 @@ public class ViewTree implements Iterable<ViewEntry> {
         if (started) buf.append("    .\n");
         for (ViewEntry map : children.values()) {
             String jname = map.getJsonName();
-            String npath = path.isEmpty() ? jname : path + "_" + jname;
+            String npath = addToPath(path, jname);
             if (map.isOptional()) {
                 if (map.isNested()) {
                     buf.append("    OPTIONAL {?" + var + " " + map.asQueryRow(path) + " .\n" );
@@ -153,5 +154,52 @@ public class ViewTree implements Iterable<ViewEntry> {
         }
         return buf;
     }
-        
+    
+    /**
+     * Locate an entry in the tree based just on a shortname which is assumed to be unambiguous across nested trees
+     * and return the corresponding structured variable name.
+     * <p>
+     * Search is breadth first so if the shortname is not ambiguous the root-ward one will be preferred.</p>
+     */
+    public String asVariableName(String name) {
+        return asVariableName(name, "");
+    }
+    
+    protected String asVariableName(String name, String prefix) {
+        for (ViewEntry child : this) {
+            if (child.getJsonName().equals(name)) {
+                return addToPath(prefix, name);
+            }
+        }
+        for (ViewEntry child : this) {
+            if (child.isNested()) {
+                String var = child.getNested().asVariableName(name, addToPath(prefix, child.getJsonName()));
+                if (var != null) {
+                    return var;
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Return a view entry based on a path of short names, or null if it is not specified in the view
+     */
+    public ViewEntry findEntry(String...pathElements) {
+        if (pathElements.length == 0) {
+            return null;
+        } else {
+            ViewEntry first = children.get( pathElements[0] );
+            String[] rest = Arrays.copyOfRange(pathElements, 1, pathElements.length);
+            if (first == null) {
+                return null;
+            } else {
+                return first.findEntry(rest);
+            }
+        }
+    }
+    
+    private String addToPath(String path, String name) {
+        return path.isEmpty() ? name : path + "_"  + name;
+    }
 }
