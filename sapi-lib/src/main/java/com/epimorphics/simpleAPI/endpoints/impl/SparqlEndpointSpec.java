@@ -12,36 +12,22 @@ package com.epimorphics.simpleAPI.endpoints.impl;
 import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.core.ConfigItem;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
-import com.epimorphics.simpleAPI.reqests.Request;
-import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.util.PrefixUtils;
 
 /**
  * Encapsulates the specification of a single endpoint.
  */
-public class SparqlEndpointSpec extends ConfigItem implements EndpointSpec {
-    protected API api;
+public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec {
     protected String baseQuery;
-    protected String url;
-    protected ViewMap view;
     protected PrefixMapping localPrefixes;
     protected PrefixMapping prefixes;
     protected QueryBuilder queryBuilder;
     
     public SparqlEndpointSpec(API api) {
-        this.api = api;
-    }
-        
-    /**
-     * Return the API instance this endpoint is associated with
-     */
-    @Override
-    public API getAPI() {
-        return api;
+        super(api);
     }
     
     /**
@@ -83,44 +69,9 @@ public class SparqlEndpointSpec extends ConfigItem implements EndpointSpec {
         }
         return queryBuilder;
     }
-    
-    @Override
-    public QueryBuilder getQueryBuilder(Request request) {
-        // TODO implement
-        return null;
-    }
-    
-    /**
-     * Return the view, if any, which controls formating of query results
-     */
-    @Override
-    public ViewMap getView() {
-        return view;
-    }
-    
-    /**
-     * Return the URL pattern for this endpoint, relative to the base of the API.
-     * May be null if the endpoint is configured by code
-     */
-    @Override
-    public String getURL() {
-        return url;
-    }
-
-    public void setApi(API api) {
-        this.api = api;
-    }
 
     public void setBaseQuery(String query) {
         this.baseQuery = query;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setView(ViewMap view) {
-        this.view = view;
     }
 
 }

@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.reqests;
+package com.epimorphics.simpleAPI.requests;
 
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;

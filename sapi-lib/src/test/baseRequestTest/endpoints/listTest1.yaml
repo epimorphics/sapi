@@ -1,0 +1,10 @@
+name      : listTest1
+type      : list
+query     : "?id a skos:Concept ."
+view      :
+    - "rdfs:label"
+    - "skos:notation"
+    - "eg:group"
+limit: 8
+softLimit: 4
+

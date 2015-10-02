@@ -12,7 +12,7 @@ package com.epimorphics.simpleAPI.endpoints;
 import com.epimorphics.appbase.monitor.ConfigInstance;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
-import com.epimorphics.simpleAPI.reqests.Request;
+import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.views.ViewMap;
 
 public interface EndpointSpec extends ConfigInstance {

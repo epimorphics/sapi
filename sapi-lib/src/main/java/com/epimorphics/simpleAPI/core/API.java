@@ -9,6 +9,9 @@
 
 package com.epimorphics.simpleAPI.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
@@ -24,6 +27,8 @@ import com.epimorphics.appbase.core.Startup;
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
+import com.epimorphics.simpleAPI.requests.LimitRequestProcessor;
+import com.epimorphics.simpleAPI.requests.RequestProcessor;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.util.NameUtils;
@@ -54,6 +59,14 @@ public class API extends ComponentBase implements Startup {
     
     protected boolean showLang = false;
     protected String showOnlyLang;
+    
+    protected List<RequestProcessor> requestProcessors = new ArrayList<>();
+    protected List<RequestProcessor> allRequestProcessors;
+    
+    // Configure built in standard request handlers here
+    protected static final RequestProcessor[] standardRequestProcessors = new RequestProcessor[] {
+            new LimitRequestProcessor()
+    };
     
     /**
      * Return a global default API configuration called "api" if it exists.
@@ -137,6 +150,27 @@ public class API extends ComponentBase implements Startup {
         // TODO implement
         // Should handle qname expansion - might need change in signature for that
         return null;
+    }
+    
+    // ---- Support for request processing handlers ------------------------------------
+    
+    public void setRequestProcessor(RequestProcessor processor) {
+        requestProcessors.add(processor);
+    }
+    
+    public void setRequestProcessors(List<RequestProcessor> processors) {
+        requestProcessors.addAll(processors);
+    }
+    
+    public List<RequestProcessor> getRequestProcessors() {
+        if (allRequestProcessors == null) {
+            allRequestProcessors = new ArrayList<>();
+            for (RequestProcessor proc : standardRequestProcessors) {
+                allRequestProcessors.add(proc);
+            }
+            allRequestProcessors.addAll( requestProcessors );
+        }
+        return allRequestProcessors;
     }
     
     // ---- Monitor configurations ------------------------------------
