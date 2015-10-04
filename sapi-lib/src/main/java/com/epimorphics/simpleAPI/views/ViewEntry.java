@@ -42,8 +42,7 @@ public class ViewEntry {
             // curie/qname format but at this stage no expansion to URI
             name = NameUtils.splitAfterLast(property, ":");
         }
-        // Normalize use of "_" which we use in property name construction
-        return name.replace("_", "__");
+        return name;
     }
     
     public String getProperty() {
@@ -122,11 +121,11 @@ public class ViewEntry {
     /**
      * Return a view entry based on a path of short names, or null if it is not specified in the view
      */
-    public ViewEntry findEntry(String...pathElements) {
-        if (pathElements.length == 0) {
+    public ViewEntry findEntry(ViewPath path) {
+        if (path.isEmpty()) {
             return this;
         } else if (isNested()) {
-            return getNested().findEntry(pathElements);
+            return getNested().findEntry(path);
         } else {
             return null;
         }

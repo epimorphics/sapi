@@ -58,6 +58,14 @@ public class TestRequestBasics {
         assertEquals("B1", getFirstLabel("listTest2", "_sort", "narrower.label"));
     }
     
+    @Test
+    public void testFilter() {
+        assertEquals("B1", getFirstLabel("listTest2", "group", "B", "_sort", "label"));
+        assertEquals("B1", getFirstLabel("listTest2", "narrower.group", "A", "_sort", "label"));
+        assertEquals("B2", getFirstLabel("listTest2", "group", "B", "notation", "2"));
+        assertEquals("B2", getFirstLabel("listTest2", "group", "B", "narrower.notation", "2"));
+    }
+    
     private Request makeRequest(String... args) {
         Request request = new Request();
         for (int i = 0; i < args.length;) {
@@ -71,7 +79,7 @@ public class TestRequestBasics {
     private ResultStream get(String endpointName, Request request) {
         EndpointSpec spec = api.getSpec(endpointName);
         Query query = spec.getQueryBuilder(request).build();
-//        System.out.println("Query = " + query);
+        System.out.println("Query = " + query);
         return source.query(query, spec);
     }
     

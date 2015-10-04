@@ -91,6 +91,9 @@ public class TestSpecLoad {
         assertEquals("foo_bar_test", view.asVariableName("test"));
         assertEquals("foo_baz_label", view.asVariableName("foo.baz.label"));
         assertEquals("label", view.asVariableName("label"));
+        assertEquals("foo_fu__bar", view.asVariableName("fu_bar"));
+        assertEquals("foo_fu__bar", view.asVariableName("foo.fu_bar"));
         
+        assertEquals("foo.fu_bar", view.getTree().pathTo("fu_bar").asDotted());
     }
 }

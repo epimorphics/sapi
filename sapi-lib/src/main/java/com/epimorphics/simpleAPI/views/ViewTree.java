@@ -19,7 +19,6 @@ import static com.epimorphics.simpleAPI.core.ConfigConstants.PROPERTY;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.PROP_TYPE;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -99,6 +98,14 @@ public class ViewTree implements Iterable<ViewEntry> {
         }
     }
     
+    private String addToPath(String path, String jname) {
+        if (path.isEmpty()) {
+            return jname.replace("_", "__");
+        } else {
+            return path + "_" + jname.replace("_", "__");
+        }
+    }
+
     public static ViewTree parseFromJson(API api, JsonValue list) {
         ViewTree tree = new ViewTree();
         if (list.isArray()) {
@@ -156,26 +163,36 @@ public class ViewTree implements Iterable<ViewEntry> {
     }
     
     /**
-     * Locate an entry in the tree based just on a shortname which is assumed to be unambiguous across nested trees
-     * and return the corresponding structured variable name.
-     * <p>
-     * Search is breadth first so if the shortname is not ambiguous the root-ward one will be preferred.</p>
+     * Locate an entry which matches a request name, this is either unique within the tree or 
+     * is assumed to be a "p.q.r" dotted notation for a path.
+     * Returns null if this is not a legal path
      */
-    public String asVariableName(String name) {
-        return asVariableName(name, "");
+    public ViewPath pathTo(String name) {
+        if (name.contains(".")) {
+            // Full dotted path
+            ViewPath path = new ViewPath(name.split("\\."));
+            if (findEntry(path) != null) {
+                return path;
+            } else {
+                return null;
+            }
+        } else {
+            // Breadth first search to locate a matching short name
+            return pathTo(name, new ViewPath());
+        }
     }
     
-    protected String asVariableName(String name, String prefix) {
+    protected ViewPath pathTo(String name, ViewPath path) {
         for (ViewEntry child : this) {
             if (child.getJsonName().equals(name)) {
-                return addToPath(prefix, name);
+                return path.add(name);
             }
         }
         for (ViewEntry child : this) {
             if (child.isNested()) {
-                String var = child.getNested().asVariableName(name, addToPath(prefix, child.getJsonName()));
-                if (var != null) {
-                    return var;
+                ViewPath fullPath = child.getNested().pathTo(name, path.add(child.getJsonName()));
+                if (fullPath != null) {
+                    return fullPath;
                 }
             }
         }
@@ -183,23 +200,20 @@ public class ViewTree implements Iterable<ViewEntry> {
     }
     
     /**
-     * Return a view entry based on a path of short names, or null if it is not specified in the view
+     * Return a view entry based on a path of short names, or null if it is not specified in the view.
      */
-    public ViewEntry findEntry(String...pathElements) {
-        if (pathElements.length == 0) {
+    public ViewEntry findEntry(ViewPath path) {
+        if (path.isEmpty()) {
             return null;
         } else {
-            ViewEntry first = children.get( pathElements[0] );
-            String[] rest = Arrays.copyOfRange(pathElements, 1, pathElements.length);
+            String elt = path.first();
+            ViewEntry first = children.get(elt);
             if (first == null) {
                 return null;
             } else {
-                return first.findEntry(rest);
+                return first.findEntry(path.rest());
             }
         }
     }
-    
-    private String addToPath(String path, String name) {
-        return path.isEmpty() ? name : path + "_"  + name;
-    }
+
 }

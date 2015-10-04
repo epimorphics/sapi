@@ -53,22 +53,51 @@ public class ViewMap extends ConfigItem {
      * Convert a property name to the corresponding variable name used in generated queries.
      * If the property name is unambiguous then it will be located anywhere in the tree,
      * otherwise use an explicit "p.q.r" notation. Any "_" characters in the names will be handled.
+     * @return the legal variable name or null if the name/path is not present within the view
      */
     public String asVariableName(String name) {
-        // TODO handle "_" embedding
-        if (name.contains(".")) {
-            // Check the path is legal
-            if (tree.findEntry( name.split("\\.") ) != null) {
-                return name.replace(".", "_");
-            } else {
-                return null;
-            }
+        ViewPath path = tree.pathTo(name);
+        if (path != null) {
+            return path.asVariableName();
         } else {
-            return tree.asVariableName(name);
+            return null;
         }
     }
-
-    // TODO indexes for looking up entry from across tree?
+    
+    /**
+     * Find the ViewEntry defining a property name within the view.
+     * If the property name is unambiguous then it will be located anywhere in the tree,
+     * otherwise use an explicit "p.q.r" notation. Any "_" characters in the names will be handled.
+     */
+    public ViewEntry findEntry(String name) {
+        ViewPath path = tree.pathTo(name);
+        if (path != null) {
+            return tree.findEntry(path);
+        } else {
+            return null;
+        }
+    }
+    
+    public ViewEntry findEntry(ViewPath path) {
+        return tree.findEntry(path);
+    }
+    
+    /**
+     * Locate an entry which matches a request name, this is either unique within the tree or 
+     * is assumed to be a "p.q.r" dotted notation for a path.
+     * Returns null if this is not a legal path
+     */
+    public ViewPath pathTo(String name) {
+        return tree.pathTo(name);
+    }
+    
+    /**
+     * Convert a "p.q.r" path to a variable name.
+     * Does not check whether this is legal within the view.
+     * @param api
+     * @param list
+     * @return
+     */
     
     public static ViewMap parseFromJson(API api, JsonValue list) {        
         // TODO allow indirection to named map

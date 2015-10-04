@@ -12,5 +12,6 @@ mapping :
         nested :
           - "rdfs:label"
           - "skos:notation"
+      - "rt:fu_bar"
   - "rdfs:label"
   

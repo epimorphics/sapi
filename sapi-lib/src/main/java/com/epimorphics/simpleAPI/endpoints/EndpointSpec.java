@@ -9,6 +9,8 @@
 
 package com.epimorphics.simpleAPI.endpoints;
 
+import org.apache.jena.shared.PrefixMapping;
+
 import com.epimorphics.appbase.monitor.ConfigInstance;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
@@ -43,4 +45,11 @@ public interface EndpointSpec extends ConfigInstance {
      * May be null if the endpoint is configured by code
      */
     public String getURL() ;
+    
+    
+    /**
+     * Return the prefix bindings defined for this Endpoint (including the App-wide prefixes)
+     */
+    public PrefixMapping getPrefixes();
+    
 }
