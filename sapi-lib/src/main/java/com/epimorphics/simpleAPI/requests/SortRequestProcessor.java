@@ -40,9 +40,10 @@ public class SortRequestProcessor extends RequestProcessorBase {
                 if (sortVar == null) {
                     throw new WebApiException(Status.BAD_REQUEST, "Did not recognize parameter to sort on: " + sort);
                 }
-                builder.sort( sortVar, down );
+                builder = builder.sort( sortVar, down );
             }
             request.remove(SORT);
+            return builder;
         }
         return builder;
     }

@@ -21,7 +21,7 @@ import com.epimorphics.util.PrefixUtils;
 
 /**
  * Implements query as a SPARQL string. This version uses low level string hacking.
- * Assumes the query has text markers for where injects can occur (does that way so
+ * Assumes the query has text markers for where injects can occur (done that way so
  * as to support nested queries where the injections are not obvious).
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
@@ -30,6 +30,7 @@ public class SparqlQueryBuilder implements QueryBuilder {
     public static final String INJECT_MARKER = "#$INJECT$";
     public static final String FILTER_MARKER = "#$FILTER$";
     public static final String MODIFIER_MARKER = "#$MODIFIER$";
+    public static final String SORT_MARKER = "#$SORT$";
     public static final String GENERIC_TEMPLATE =
             "SELECT * WHERE {\n"
             + "    #$INJECT$\n"
@@ -120,7 +121,12 @@ public class SparqlQueryBuilder implements QueryBuilder {
 
     @Override
     public QueryBuilder sort(String shortname, boolean down) {
-        return modifier( "ORDER BY " + String.format(down ? "DESC(?%s)" : "?%s", shortname) );
+        String sort = String.format(down ? "DESC(?%s)" : "?%s", shortname);
+        if (query.contains(SORT_MARKER)) {
+            return new SparqlQueryBuilder(query.replace(SORT_MARKER, sort + " " + SORT_MARKER), prefixes);
+        } else {
+            return modifier("ORDER BY " + sort + " " + SORT_MARKER + "\n");
+        }
     }
 
     @Override
@@ -136,6 +142,6 @@ public class SparqlQueryBuilder implements QueryBuilder {
 
     @Override
     public Query build() {
-        return new SparqlQuery( PrefixUtils.expandQuery(query, prefixes) );
+        return new SparqlQuery( PrefixUtils.expandQuery(query.replaceAll("#\\$[A-Z]*\\$", ""), prefixes) );
     }
 }

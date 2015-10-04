@@ -39,25 +39,30 @@ eg:A5 a skos:Concept;
 eg:B1 a skos:Concept;
     rdfs:label "B1";
     skos:notation "1";
+    skos:narrower eg:A1;    # Not realistic, just creating a test case
     eg:group "B" .
 
 eg:B2 a skos:Concept;
     rdfs:label "B2";
     skos:notation "2";
+    skos:narrower eg:A2;    # Not realistic, just creating a test case
     eg:group "B" .
 
 eg:B3 a skos:Concept;
     rdfs:label "B3";
     skos:notation "3";
+    skos:narrower eg:A3;    # Not realistic, just creating a test case
     eg:group "B" .
 
 eg:B4 a skos:Concept;
     rdfs:label "B4";
     skos:notation "4";
+    skos:narrower eg:A4;    # Not realistic, just creating a test case
     eg:group "B" .
 
 eg:B5 a skos:Concept;
     rdfs:label "B5";
     skos:notation "5";
+    skos:narrower eg:A5;    # Not realistic, just creating a test case
     eg:group "B" .
     

@@ -46,4 +46,9 @@ public class SparqlQuery implements Query {
         return isItem;
     }
     
+    @Override
+    public String toString() {
+        return query;
+    }
+    
 }

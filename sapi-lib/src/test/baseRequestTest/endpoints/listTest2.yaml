@@ -1,0 +1,14 @@
+name      : listTest2
+type      : list
+query     : "?id a skos:Concept ."
+view      :
+    - "rdfs:label"
+    - "skos:notation"
+    - "eg:group"
+    - prop : "skos:narrower"
+      nested :
+        - "rdfs:label"
+        - "skos:notation"
+        - "eg:group"
+
+

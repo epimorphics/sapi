@@ -29,6 +29,7 @@ import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.requests.LimitRequestProcessor;
 import com.epimorphics.simpleAPI.requests.RequestProcessor;
+import com.epimorphics.simpleAPI.requests.SortRequestProcessor;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.util.NameUtils;
@@ -65,7 +66,8 @@ public class API extends ComponentBase implements Startup {
     
     // Configure built in standard request handlers here
     protected static final RequestProcessor[] standardRequestProcessors = new RequestProcessor[] {
-            new LimitRequestProcessor()
+            new LimitRequestProcessor(), 
+            new SortRequestProcessor()
     };
     
     /**

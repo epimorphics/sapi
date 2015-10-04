@@ -9,18 +9,22 @@
 
 package com.epimorphics.simpleAPI.requests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.jena.rdf.model.Literal;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.query.Query;
+import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.ResultStream;
 
 public class TestRequestBasics {
@@ -45,6 +49,15 @@ public class TestRequestBasics {
         assertEquals(4, getAndCount("listTest1", "_limit", "5", "_offset", "6"));
     }
     
+    @Test 
+    public void testSort() {
+        assertEquals(10, getAndCount("listTest2"));
+        assertEquals("A1", getFirstLabel("listTest2", "_sort", "label"));
+        assertEquals("B5", getFirstLabel("listTest2", "_sort", "-label"));
+        assertEquals("A5", getFirstLabel("listTest2", "_sort", "group", "_sort", "-label"));
+        assertEquals("B1", getFirstLabel("listTest2", "_sort", "narrower.label"));
+    }
+    
     private Request makeRequest(String... args) {
         Request request = new Request();
         for (int i = 0; i < args.length;) {
@@ -58,6 +71,7 @@ public class TestRequestBasics {
     private ResultStream get(String endpointName, Request request) {
         EndpointSpec spec = api.getSpec(endpointName);
         Query query = spec.getQueryBuilder(request).build();
+//        System.out.println("Query = " + query);
         return source.query(query, spec);
     }
     
@@ -73,5 +87,13 @@ public class TestRequestBasics {
             count++;
         }
         return count;
+    }
+    
+    private String getFirstLabel(String endpointName, String... args) {
+        ResultStream stream = get(endpointName, makeRequest(args));
+        assertTrue( stream.iterator().hasNext() );
+        Result first = stream.iterator().next();
+        Literal label = (Literal) first.getValues("label").iterator().next();
+        return label.getLexicalForm();
     }
 }

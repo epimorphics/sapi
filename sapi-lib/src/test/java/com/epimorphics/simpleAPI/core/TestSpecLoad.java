@@ -80,4 +80,17 @@ public class TestSpecLoad {
         assertEquals(multi, entry.isMultivalued());
         assertEquals(filterable, entry.isFilterable());
     }
+    
+    @Test
+    public void testViewVarname() {
+        ViewMap view = api.getView("varnameTest");
+        assertNotNull(view);
+        
+        assertEquals("foo", view.asVariableName("foo"));
+        assertEquals("foo_bar", view.asVariableName("bar"));
+        assertEquals("foo_bar_test", view.asVariableName("test"));
+        assertEquals("foo_baz_label", view.asVariableName("foo.baz.label"));
+        assertEquals("label", view.asVariableName("label"));
+        
+    }
 }

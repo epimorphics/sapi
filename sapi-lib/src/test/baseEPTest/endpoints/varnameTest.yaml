@@ -1,0 +1,16 @@
+name: varnameTest
+type: view
+mapping :
+  - prop : "rt:foo"
+    nested :
+      - prop : "rt:bar"
+        nested :
+          - "rdfs:label"
+          - "skos:notation"
+          - "rt:test"
+      - prop : "rt:baz"
+        nested :
+          - "rdfs:label"
+          - "skos:notation"
+  - "rdfs:label"
+  
