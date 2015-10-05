@@ -42,7 +42,7 @@ public class SortRequestProcessor extends RequestProcessorBase {
                 }
                 builder = builder.sort( sortVar, down );
             }
-            request.remove(SORT);
+            request.consume(SORT);
             return builder;
         }
         return builder;

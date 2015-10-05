@@ -31,12 +31,14 @@ public class SparqlQueryBuilder implements QueryBuilder {
     public static final String FILTER_MARKER = "#$FILTER$";
     public static final String MODIFIER_MARKER = "#$MODIFIER$";
     public static final String SORT_MARKER = "#$SORT$";
+    public static final String SORT_X_MARKER = "#$SORTX$";
     public static final String GENERIC_TEMPLATE =
             "SELECT * WHERE {\n"
             + "    #$INJECT$\n"
             + "    #$FILTER$\n"
             + "}\n"
-            + "#$MODIFIER$";
+            + "#$SORT$\n"
+            + "#$MODIFIER$\n";
     
     protected String query;
     protected PrefixMapping prefixes;
@@ -122,10 +124,10 @@ public class SparqlQueryBuilder implements QueryBuilder {
     @Override
     public QueryBuilder sort(String shortname, boolean down) {
         String sort = String.format(down ? "DESC(?%s)" : "?%s", shortname);
-        if (query.contains(SORT_MARKER)) {
-            return new SparqlQueryBuilder(query.replace(SORT_MARKER, sort + " " + SORT_MARKER), prefixes);
+        if (query.contains(SORT_X_MARKER)) {
+            return new SparqlQueryBuilder(query.replace(SORT_X_MARKER, sort + " " + SORT_X_MARKER), prefixes);
         } else {
-            return modifier("ORDER BY " + sort + " " + SORT_MARKER + "\n");
+            return new SparqlQueryBuilder(query.replace(SORT_MARKER, "ORDER BY " + sort + " " + SORT_X_MARKER), prefixes);
         }
     }
 

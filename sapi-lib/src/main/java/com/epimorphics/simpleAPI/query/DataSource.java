@@ -10,6 +10,7 @@
 package com.epimorphics.simpleAPI.query;
 
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.results.ResultStream;
 
 /**
@@ -20,6 +21,6 @@ import com.epimorphics.simpleAPI.results.ResultStream;
  */
 public interface DataSource {
 
-    public ResultStream query(Query query, EndpointSpec spec);
+    public ResultStream query(Query query, EndpointSpec spec, Request request);
     
 }

@@ -48,7 +48,7 @@ public class TestResultBasics {
         
         // Basic case, no nesting
         Query query = spec.getQueryBuilder().sort("notation", false).build();
-        ResultStream stream = source.query(query, spec);
+        ResultStream stream = source.query(query, spec, null);
         for (int i = 1; i <= 2; i++){
             assertTrue( stream.hasNext() );
             checkEntryRoot( stream.next(), i);
@@ -59,7 +59,7 @@ public class TestResultBasics {
         spec = (SparqlListEndpointSpec) api.getSpec("listTest2");
         assertNotNull(spec);
         query = spec.getQueryBuilder().sort("notation", false).build();
-        stream = source.query(query, spec);
+        stream = source.query(query, spec, null);
         for (int i = 1; i <= 2; i++){
             assertTrue( stream.hasNext() );
             Result r = stream.next();
@@ -70,7 +70,7 @@ public class TestResultBasics {
         assertFalse( stream.hasNext() );
         
         // Nested case, check JSON render
-        stream = source.query(query, spec);
+        stream = source.query(query, spec, null);
         assertTrue( JsonComparator.equal("src/test/baseResultTest/expected/r1.json", stream.next().asJson()) );
         assertTrue( JsonComparator.equal("src/test/baseResultTest/expected/r2.json", stream.next().asJson()) );
         assertFalse( stream.hasNext() );

@@ -9,10 +9,13 @@
 
 package com.epimorphics.simpleAPI.requests;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response.Status;
@@ -34,6 +37,7 @@ import com.epimorphics.simpleAPI.core.API;
 public class Request {
     protected String requestedURI;
     protected MultivaluedMap<String, String> parameters = new MultivaluedStringMap();
+    protected Set<String> consumed = new HashSet<>();
     
     public Request() {
     }
@@ -103,11 +107,19 @@ public class Request {
     }
 
     /**
-     * Remove the values for a parameter. As parameters are processed they are normally
-     * removed from the request.
+     * Note that a parameter has been dealt with
      */
-    public void remove(String parameter) {
-        parameters.remove(parameter);
+    public void consume(String parameter) {
+        consumed.add(parameter);
+    }
+    
+    /**
+     * Return all parameters that have not be consumed
+     */
+    public List<String> getRemainingParameters() {
+        List<String> remainder = new ArrayList<>( parameters.keySet() );
+        remainder.remove( consumed );
+        return remainder;
     }
     
     public void setRequestedURI(String requestedURI) {

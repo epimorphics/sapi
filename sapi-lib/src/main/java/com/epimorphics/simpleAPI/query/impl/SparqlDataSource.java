@@ -13,6 +13,7 @@ import com.epimorphics.appbase.data.SparqlSource;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.query.Query;
+import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.results.ResultStream;
 import com.epimorphics.simpleAPI.results.ResultStreamSparqlSelect;
 import com.epimorphics.util.EpiException;
@@ -32,14 +33,14 @@ public class SparqlDataSource implements DataSource {
     }
 
     @Override
-    public ResultStream query(Query query, EndpointSpec spec) {
+    public ResultStream query(Query query, EndpointSpec spec, Request request) {
         if (query instanceof SparqlQuery) {
             SparqlQuery sq = (SparqlQuery) query;
             if (sq.isItemQuery()) {
                 // TODO implement describes
                 return null;
             } else {
-                return new ResultStreamSparqlSelect( source.streamableSelect( sq.getQuery() ), spec );
+                return new ResultStreamSparqlSelect( source.streamableSelect( sq.getQuery() ), spec, request );
             }
         } else {
             throw new EpiException("SPARQL source given non-SPARQL query");

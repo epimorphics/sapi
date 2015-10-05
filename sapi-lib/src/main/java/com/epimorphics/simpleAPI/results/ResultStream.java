@@ -12,6 +12,7 @@ package com.epimorphics.simpleAPI.results;
 import java.util.Iterator;
 
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.requests.Request;
 
 /**
  * Represents a stream of query results. Each result is a tree view over the underlying
@@ -23,4 +24,8 @@ public interface ResultStream extends Iterable<Result>, Iterator<Result> {
 
     public EndpointSpec getSpec();
     
+    public Request getRequest();
+    
+    public void close();
+     
 }

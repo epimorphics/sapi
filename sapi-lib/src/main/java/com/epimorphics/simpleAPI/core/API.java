@@ -11,6 +11,8 @@ package com.epimorphics.simpleAPI.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
@@ -68,9 +70,12 @@ public class API extends ComponentBase implements Startup {
     // Configure built in standard request handlers here
     protected static final RequestProcessor[] standardRequestProcessors = new RequestProcessor[] {
             new FilterRequestProcessor(),
-            new LimitRequestProcessor(), 
-            new SortRequestProcessor()
+            new SortRequestProcessor(),
+            new LimitRequestProcessor()
     };
+    
+    // TODO review the supported formats
+    public static final String[] supportedFormats = new String[]{"json", "csv", "rdf", "ttl"};
     
     /**
      * Return a global default API configuration called "api" if it exists.
@@ -92,6 +97,27 @@ public class API extends ComponentBase implements Startup {
         condOut(out, "version", version);
         condOut(out, "comment", comment);
     }    
+    
+    public void writeFormats(JSFullWriter out, String requestURI, String skipFormat) {
+        boolean started = false;
+        for (String format : supportedFormats) {
+            if (skipFormat.equals(format))
+                continue;
+            Matcher m = URIPAT.matcher(requestURI);
+            String base = m.matches() ? m.group(1) : requestURI;
+            String rest = (m.matches() && m.group(3) != null) ? m.group(3) : "";
+            String url = base + "." + format + rest;
+            if (!started) {
+                out.key("hasFormat");
+                out.startArray();
+                started = true;
+            }
+            out.arrayElement(url);
+        }
+        if (started) {
+            out.finishArray();
+        }
+    }
 
     public void writeMetadata(JSFullWriter out) {
         startMetadata(out);
@@ -301,4 +327,6 @@ public class API extends ComponentBase implements Startup {
             out.pair(key, value);
         }
     }
+    protected static final Pattern URIPAT = Pattern
+            .compile("([^?]*)(\\.[a-z]*)?(\\?.*)?");    
 }

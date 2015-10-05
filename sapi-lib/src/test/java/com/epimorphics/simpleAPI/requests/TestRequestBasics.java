@@ -80,7 +80,7 @@ public class TestRequestBasics {
         EndpointSpec spec = api.getSpec(endpointName);
         Query query = spec.getQueryBuilder(request).build();
         System.out.println("Query = " + query);
-        return source.query(query, spec);
+        return source.query(query, spec, request);
     }
     
     private int getAndCount(String endpointName, String... args) {

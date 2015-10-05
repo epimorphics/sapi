@@ -30,7 +30,7 @@ public class LimitRequestProcessor extends RequestProcessorBase {
                 long limit = Long.MAX_VALUE;
                 if (request.hasParameter(LIMIT)) {
                     limit = request.getAsLong(LIMIT);
-                    request.remove(LIMIT);
+                    request.consume(LIMIT);
                 } else if (lspec.getSoftLimit() != null) {
                     limit = lspec.getSoftLimit();
                 }
@@ -40,7 +40,7 @@ public class LimitRequestProcessor extends RequestProcessorBase {
                 long offset = 0;
                 if (request.hasParameter(OFFSET)) {
                     offset = request.getAsLong(OFFSET);
-                    request.remove(OFFSET);
+                    request.consume(OFFSET);
                 }
                 return builder.limit(limit, offset);
             } else {

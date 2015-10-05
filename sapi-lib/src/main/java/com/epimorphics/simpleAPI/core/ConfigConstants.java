@@ -41,4 +41,6 @@ public class ConfigConstants {
     public static final String FILTERABLE  = "filterable";
     public static final String PROP_TYPE   = "type";
     
+    public static final String RESULT_ITEMS = "items";
+    
 }

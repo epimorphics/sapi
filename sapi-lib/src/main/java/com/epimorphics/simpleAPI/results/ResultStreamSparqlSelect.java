@@ -18,6 +18,7 @@ import org.apache.jena.rdf.model.Resource;
 
 import com.epimorphics.appbase.data.ClosableResultSet;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewTree;
@@ -37,10 +38,17 @@ public class ResultStreamSparqlSelect implements ResultStream {
     protected EndpointSpec spec;
     protected QuerySolution nextRow;
     protected Resource nextID;
+    protected Request request;
     
-    public ResultStreamSparqlSelect(ResultSet resultSet, EndpointSpec spec) {
+    public ResultStreamSparqlSelect(ResultSet resultSet, EndpointSpec spec, Request request) {
         this.results = resultSet;
         this.spec = spec;
+        this.request = request;
+    }
+    
+    @Override
+    public Request getRequest() {
+        return request;
     }
     
     @Override
