@@ -13,12 +13,14 @@ import org.apache.jena.atlas.json.JsonValue;
 
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ConfigItem;
+import com.epimorphics.util.EpiException;
 
 /**
  * Represents a singled configured tree view over the data which can be directly mapped to JSON.
  */
 public class ViewMap extends ConfigItem {
-    protected ViewTree tree;
+    private ViewTree tree;
+    private String viewReference;
     protected API api;
     
     public ViewMap(API api) {
@@ -30,6 +32,11 @@ public class ViewMap extends ConfigItem {
         this.api = api;
     }
     
+    public ViewMap(API api, String viewReference) {
+        this.viewReference = viewReference;
+        this.api = api;
+    }
+    
     public API getAPI() {
         return api;
     }
@@ -37,6 +44,9 @@ public class ViewMap extends ConfigItem {
     // TODO constructor to clone an existing tree/map?
     
     public ViewTree getTree() {
+        if (tree == null) {
+            tree = api.getView(viewReference).getTree();
+        }
         return tree;
     }
     
@@ -45,7 +55,7 @@ public class ViewMap extends ConfigItem {
      */
     public String asQuery() {
         StringBuffer query = new StringBuffer();
-        tree.renderAsQuery(query, "id", "");
+        getTree().renderAsQuery(query, "id", "");
         return query.toString();
     }
     
@@ -56,7 +66,7 @@ public class ViewMap extends ConfigItem {
      * @return the legal variable name or null if the name/path is not present within the view
      */
     public String asVariableName(String name) {
-        ViewPath path = tree.pathTo(name);
+        ViewPath path = getTree().pathTo(name);
         if (path != null) {
             return path.asVariableName();
         } else {
@@ -70,16 +80,16 @@ public class ViewMap extends ConfigItem {
      * otherwise use an explicit "p.q.r" notation. Any "_" characters in the names will be handled.
      */
     public ViewEntry findEntry(String name) {
-        ViewPath path = tree.pathTo(name);
+        ViewPath path = getTree().pathTo(name);
         if (path != null) {
-            return tree.findEntry(path);
+            return getTree().findEntry(path);
         } else {
             return null;
         }
     }
     
     public ViewEntry findEntry(ViewPath path) {
-        return tree.findEntry(path);
+        return getTree().findEntry(path);
     }
     
     /**
@@ -88,7 +98,7 @@ public class ViewMap extends ConfigItem {
      * Returns null if this is not a legal path
      */
     public ViewPath pathTo(String name) {
-        return tree.pathTo(name);
+        return getTree().pathTo(name);
     }
     
     /**
@@ -99,13 +109,20 @@ public class ViewMap extends ConfigItem {
      * @return
      */
     
-    public static ViewMap parseFromJson(API api, JsonValue list) {        
-        // TODO allow indirection to named map
-        return new ViewMap(api, ViewTree.parseFromJson(api, list) );
+    public static ViewMap parseFromJson(API api, JsonValue list) {   
+        if (list.isString()) {
+            // Named view reference
+            return new ViewMap(api, list.getAsString().value());
+        } else if (list.isArray()) {
+            // Inline view specification
+            return new ViewMap(api, ViewTree.parseFromJson(api, list) );
+        } else {
+            throw new EpiException("Illegal view specification must be a name or an array of view entries: " + list);
+        }
     }
 
     @Override
     public String toString() {
-        return tree.toString();
+        return getTree().toString();
     }
 }

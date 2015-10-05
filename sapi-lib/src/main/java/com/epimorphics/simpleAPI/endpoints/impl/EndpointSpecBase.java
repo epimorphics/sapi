@@ -9,6 +9,9 @@
 
 package com.epimorphics.simpleAPI.endpoints.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.simpleAPI.core.API;
@@ -28,7 +31,7 @@ import com.epimorphics.util.PrefixUtils;
 public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpec {
     protected API api;
     protected String url;
-    protected ViewMap view;
+    protected Map<String, ViewMap> views = new HashMap<>();
     protected PrefixMapping localPrefixes;
     protected PrefixMapping prefixes;
 
@@ -58,13 +61,20 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
      */
     @Override
     public ViewMap getView() {
-        return view;
+        return getView(DEFAULT_VIEWNAME);
+    }
+    
+    /**
+     * Return a named view which controls formating of query results
+     */
+    public ViewMap getView(String viewname) {
+        return views.get(viewname);
     }
 
     
     @Override
     public QueryBuilder getQueryBuilder(Request request) {
-        QueryBuilder builder = getQueryBuilder();
+        QueryBuilder builder = getQueryBuilder( request.getViewName() );
         for (RequestProcessor proc : api.getRequestProcessors()) {
             builder = proc.process(request, builder, this);
         }
@@ -107,7 +117,11 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     }
 
     public void setView(ViewMap view) {
-        this.view = view;
+        views.put(DEFAULT_VIEWNAME, view);
+    }
+    
+    public void addView(String viewname, ViewMap view) {
+        views.put(viewname, view);
     }
 
 }

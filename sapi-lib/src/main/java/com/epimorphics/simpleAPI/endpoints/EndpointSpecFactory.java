@@ -17,6 +17,7 @@ import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE_ITEM;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE_LIST;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEW;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEWS;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
@@ -65,6 +66,17 @@ public class EndpointSpecFactory {
             }
             if (jo.hasKey(VIEW)) {
                 spec.setView( ViewMap.parseFromJson(api, jo.get(VIEW)) );
+            }
+            if (jo.hasKey(VIEWS)) {
+                JsonValue views = jo.get(VIEWS);
+                if (views.isArray() || views.isString()) {
+                    spec.setView( ViewMap.parseFromJson(api, views) );
+                } else if (views.isObject()) {
+                    JsonObject viewsO = views.getAsObject();
+                    for (String key : viewsO.keys()) {
+                        spec.addView(key, ViewMap.parseFromJson(api, viewsO.get(key)));
+                    }
+                }
             }
             return spec;
         } else {

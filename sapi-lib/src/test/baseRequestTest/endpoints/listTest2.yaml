@@ -1,7 +1,8 @@
 name      : listTest2
 type      : list
 query     : "?id a skos:Concept ."
-view      :
+views :
+  default :
     - "rdfs:label"
     - "skos:notation"
     - "eg:group"
@@ -10,5 +11,6 @@ view      :
         - "rdfs:label"
         - "skos:notation"
         - "eg:group"
-
+  compact : compactView
+ 
 

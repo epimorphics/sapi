@@ -13,13 +13,13 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
+import com.epimorphics.simpleAPI.views.ViewMap;
 
 /**
  * Encapsulates the specification of a single endpoint.
  */
 public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec {
     protected String baseQuery;
-    protected QueryBuilder queryBuilder;
     
     public SparqlEndpointSpec(API api) {
         super(api);
@@ -28,14 +28,17 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
 
     @Override
     public QueryBuilder getQueryBuilder() {
-        if (queryBuilder == null) {
-            String q = baseQuery;
-            if (view != null) {
-                q = q + "\n" + view.asQuery();
-            }
-            queryBuilder = SparqlQueryBuilder.fromBaseQuery(q, getPrefixes());
+        return getQueryBuilder(DEFAULT_VIEWNAME);
+    }
+
+    @Override
+    public QueryBuilder getQueryBuilder(String viewname) {
+        ViewMap view = getView(viewname);
+        String q = baseQuery;
+        if (view != null) {
+            q = q + "\n" + view.asQuery();
         }
-        return queryBuilder;
+        return SparqlQueryBuilder.fromBaseQuery(q, getPrefixes());
     }
 
     public void setBaseQuery(String query) {

@@ -6,7 +6,7 @@
     "documentation" : "http://localhost/flood-monitoring/doc/api-documentation.html" ,
     "version" : "0.1" ,
     "comment" : "WARNING: Pre-alpha test service, data may not be up to date" ,
-    "hasFormat" : [ "http://localhost/flood-monitoring/basetest/list.csv", "http://localhost/flood-monitoring/basetest/list.rdf", "http://localhost/flood-monitoring/basetest/list.ttl" ] ,
+    "hasFormat" : [ "http://localhost/flood-monitoring/basetest/list.csv?group=B&_limit=2&_sort=label", "http://localhost/flood-monitoring/basetest/list.rdf?group=B&_limit=2&_sort=label", "http://localhost/flood-monitoring/basetest/list.ttl?group=B&_limit=2&_sort=label" ] ,
     "limit" : 2
   }
    ,

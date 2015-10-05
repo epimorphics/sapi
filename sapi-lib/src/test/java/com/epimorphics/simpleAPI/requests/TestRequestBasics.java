@@ -79,7 +79,7 @@ public class TestRequestBasics {
     private ResultStream get(String endpointName, Request request) {
         EndpointSpec spec = api.getSpec(endpointName);
         Query query = spec.getQueryBuilder(request).build();
-        System.out.println("Query = " + query);
+//        System.out.println("Query = " + query);
         return source.query(query, spec, request);
     }
     

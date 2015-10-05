@@ -23,6 +23,7 @@ public class ConfigConstants {
     
     public static final String MAPPING   = "mapping";
     public static final String VIEW      = "view";
+    public static final String VIEWS     = "views";
     
     public static final String PREFIXES   = "prefixes";
     public static final String BASE_QUERY = "baseQuery";

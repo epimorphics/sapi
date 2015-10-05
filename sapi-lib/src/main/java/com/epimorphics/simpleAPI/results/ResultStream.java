@@ -16,7 +16,8 @@ import com.epimorphics.simpleAPI.requests.Request;
 
 /**
  * Represents a stream of query results. Each result is a tree view over the underlying
- * data according to some associated ViewMap.
+ * data according to some associated ViewMap. The ResultStream object also carriers forward
+ * the request information to enable rendering of metadata for the results.
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */

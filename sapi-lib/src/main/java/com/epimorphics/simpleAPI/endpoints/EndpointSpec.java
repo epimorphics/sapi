@@ -18,6 +18,7 @@ import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.views.ViewMap;
 
 public interface EndpointSpec extends ConfigInstance {
+    public static final String DEFAULT_VIEWNAME = "default";
 
     /**
      * Return the API instance this endpoint is associated with
@@ -25,9 +26,14 @@ public interface EndpointSpec extends ConfigInstance {
     public API getAPI();
     
     /**
-     * Return a generic query builder for this endpoint
+     * Return a generic query builder for this endpoint, using the default View
      */
     public QueryBuilder getQueryBuilder();
+    
+    /**
+     * Return a generic query builder for this endpoint, using the named View
+     */
+    public QueryBuilder getQueryBuilder(String name);
     
     /**
      * Return a query builder for this endpoint, as customized by
@@ -36,9 +42,14 @@ public interface EndpointSpec extends ConfigInstance {
     public QueryBuilder getQueryBuilder(Request request);
     
     /**
-     * Return the view, if any, which controls formating of query results
+     * Return the default view, if any, which controls formating of query results
      */
     public ViewMap getView();
+    
+    /**
+     * Return a named view which controls formating of query results
+     */
+    public ViewMap getView(String viewname);
     
     /**
      * Return the URL pattern for this endpoint, relative to the base of the API.

@@ -27,6 +27,7 @@ import org.glassfish.jersey.internal.util.collection.MultivaluedStringMap;
 
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
+import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 
 /**
  * Encapsulates a query request, whether from query parameters, path parameters
@@ -35,7 +36,10 @@ import com.epimorphics.simpleAPI.core.API;
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class Request {
+    public static final String VIEW_KEY = "_view";
+    
     protected String requestedURI;
+    protected String fullRequestedURI;
     protected MultivaluedMap<String, String> parameters = new MultivaluedStringMap();
     protected Set<String> consumed = new HashSet<>();
     
@@ -58,6 +62,15 @@ public class Request {
      */
     public String getRequestedURI() {
         return requestedURI;
+    }
+    
+    /**
+     * Return the requested URI, this may not be the same as the actually URL
+     * through which the request arrived but will have been mapped to the 
+     * configured base URI for the service. Includes any query parameters.
+     */
+    public String getFullRequestedURI() {
+        return fullRequestedURI == null ?  requestedURI : fullRequestedURI;
     }
     
     /**
@@ -126,6 +139,10 @@ public class Request {
         this.requestedURI = requestedURI;
     }
     
+    public void setFullRequestedURI(String fullRequestedURI) {
+        this.fullRequestedURI = fullRequestedURI;
+    }
+    
     public void add(String parameter, String value) {
         parameters.add(parameter, value);
     }
@@ -140,6 +157,16 @@ public class Request {
         parameters.addAll(parameter, values);
     }
     
+    public String getViewName() {
+        String viewname = getFirst(VIEW_KEY);
+        if (viewname == null) {
+            viewname = EndpointSpec.DEFAULT_VIEWNAME;
+        } else {
+            consumed.add(VIEW_KEY);
+        }
+        return viewname;
+    }
+    
     /**
      * Construct a request object from the URI, query and path parameters in a jersey call
      */
@@ -147,6 +174,11 @@ public class Request {
         String requestedURI = api.getBaseURI() + uriInfo.getPath();
         Request request = new Request(requestedURI, uriInfo.getQueryParameters());
         request.addAll(uriInfo.getPathParameters());
+        
+        String rawRequest = uriInfo.getRequestUri().toString();
+        String query = rawRequest.substring( rawRequest.indexOf('?') );
+        request.setFullRequestedURI( requestedURI + query );
+        
         return request;
     }
 
