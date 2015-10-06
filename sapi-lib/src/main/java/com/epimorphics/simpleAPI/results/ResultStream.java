@@ -12,6 +12,7 @@ package com.epimorphics.simpleAPI.results;
 import java.util.Iterator;
 
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
 
 /**
@@ -26,6 +27,8 @@ public interface ResultStream extends Iterable<Result>, Iterator<Result> {
     public EndpointSpec getSpec();
     
     public Request getRequest();
+    
+    public Call getCall();
     
     public void close();
      

@@ -18,6 +18,7 @@ import org.apache.jena.rdf.model.Resource;
 
 import com.epimorphics.appbase.data.ClosableResultSet;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
@@ -34,30 +35,33 @@ import com.epimorphics.util.EpiException;
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class ResultStreamSparqlSelect implements ResultStream {
+    protected Call call;
     protected ResultSet results;
-    protected EndpointSpec spec;
     protected QuerySolution nextRow;
     protected Resource nextID;
-    protected Request request;
     
-    public ResultStreamSparqlSelect(ResultSet resultSet, EndpointSpec spec, Request request) {
+    public ResultStreamSparqlSelect(ResultSet resultSet, Call call) {
         this.results = resultSet;
-        this.spec = spec;
-        this.request = request;
+        this.call = call;
+    }
+    
+    @Override
+    public Call getCall() {
+        return call;
     }
     
     @Override
     public Request getRequest() {
-        return request;
+        return call.getRequest();
     }
     
     @Override
     public EndpointSpec getSpec() {
-        return spec;
+        return call.getEndpoint();
     }
 
     public ViewMap getView() {
-        return spec.getView();
+        return getSpec().getView();
     }
 
     @Override

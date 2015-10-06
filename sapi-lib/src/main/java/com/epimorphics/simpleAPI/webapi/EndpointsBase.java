@@ -27,9 +27,8 @@ import org.slf4j.LoggerFactory;
 import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.templates.VelocityRender;
 import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
-import com.epimorphics.simpleAPI.query.Query;
+import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.results.ResultStream;
 
@@ -95,12 +94,21 @@ public class EndpointsBase {
     // ---- Standard list endpoint handling ---------------------------------
     
     public ResultStream listResponse(Request request, String endpointName) {
-        EndpointSpec spec = getAPI().getSpec(endpointName);
-        if (spec == null) {
-            throw new NotFoundException("Could not locate endpoint specification: " + endpointName);
+        Call call = new Call(getAPI(), endpointName,request);
+        return call.getResults();
+    }
+    
+    /**
+     * Handle requests by looking up the path against the set of dynamically
+     * configured endpoint patterns.
+     */
+    public ResultStream defaultResponse() {
+        Call call = getAPI().getCall(uriInfo);
+        if (call != null) {
+            return call.getResults();
+        } else {
+            throw new NotFoundException();
         }
-        Query query = spec.getQueryBuilder(request).build();
-        return getSource().query(query, spec, request);
     }
     
     // ---- Helpers for returning results ---------------------------------

@@ -18,6 +18,7 @@ import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE_ITEM;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE_LIST;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEW;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEWS;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.URL;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
@@ -77,6 +78,13 @@ public class EndpointSpecFactory {
                         spec.addView(key, ViewMap.parseFromJson(api, viewsO.get(key)));
                     }
                 }
+            }
+            if (jo.hasKey(URL)) {
+                String url = JsonUtil.getStringValue(jo, URL);
+                if (url == null) {
+                    throw new EpiException("Could not parse url field, should be a string: " + jo.get(URL));
+                }
+                spec.setUrl(url);
             }
             return spec;
         } else {

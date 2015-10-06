@@ -28,6 +28,7 @@ public class ConfigConstants {
     public static final String PREFIXES   = "prefixes";
     public static final String BASE_QUERY = "baseQuery";
     public static final String QUERY      = "query";
+    public static final String URL        = "url";
     
     public static final String BIND_VARS  = "bindVars";
     public static final String LIMIT      = "limit";

@@ -1,0 +1,9 @@
+name      : listTest4
+type      : list
+url       : "default/test4/{group}"
+query     : "?id a skos:Concept ."
+view      :
+    - "rdfs:label"
+    - "skos:notation"
+    - "eg:group"
+softLimit: 1

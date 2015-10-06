@@ -21,9 +21,7 @@ import org.junit.Test;
 
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
-import com.epimorphics.simpleAPI.query.Query;
 import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.ResultStream;
 
@@ -77,10 +75,8 @@ public class TestRequestBasics {
     }
     
     private ResultStream get(String endpointName, Request request) {
-        EndpointSpec spec = api.getSpec(endpointName);
-        Query query = spec.getQueryBuilder(request).build();
-//        System.out.println("Query = " + query);
-        return source.query(query, spec, request);
+        Call call = new Call(api, endpointName, request);
+        return call.getResults();
     }
     
     private int getAndCount(String endpointName, String... args) {

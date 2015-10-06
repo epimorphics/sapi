@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.UriInfo;
+
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
@@ -29,6 +32,7 @@ import com.epimorphics.appbase.core.Startup;
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
+import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.FilterRequestProcessor;
 import com.epimorphics.simpleAPI.requests.LimitRequestProcessor;
 import com.epimorphics.simpleAPI.requests.RequestProcessor;
@@ -182,6 +186,16 @@ public class API extends ComponentBase implements Startup {
         return null;
     }
     
+    
+    /**
+     * Set up a call based on this request. Looks up the endpoint in the 
+     * register of templates and extracts the request parameters.
+     * @throws NotFoundException if no endpoint matches 
+     */
+    public Call getCall(UriInfo uriInfo) {
+        return monitor.getCall(uriInfo);
+    }
+
     // ---- Support for request processing handlers ------------------------------------
     
     public void setRequestProcessor(RequestProcessor processor) {
