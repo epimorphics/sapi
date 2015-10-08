@@ -35,6 +35,7 @@ import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.FilterRequestProcessor;
 import com.epimorphics.simpleAPI.requests.LimitRequestProcessor;
+import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.requests.RequestProcessor;
 import com.epimorphics.simpleAPI.requests.SortRequestProcessor;
 import com.epimorphics.simpleAPI.views.ViewEntry;
@@ -186,16 +187,38 @@ public class API extends ComponentBase implements Startup {
         return null;
     }
     
-    
     /**
-     * Set up a call based on this request. Looks up the endpoint in the 
+     * Set up a call based on a simple GET request. Looks up the endpoint in the 
      * register of templates and extracts the request parameters.
      * @throws NotFoundException if no endpoint matches 
      */
     public Call getCall(UriInfo uriInfo) {
-        return monitor.getCall(uriInfo);
+        return monitor.getCall(uriInfo, Request.from(this, uriInfo));
     }
-
+    
+    /**
+     * Set up a call based on a POST request. Looks up the endpoint in the 
+     * register of templates and extracts the request parameters.
+     * @throws NotFoundException if no endpoint matches 
+     */
+    public Call getCall(UriInfo uriInfo, String requestBody) {
+        return monitor.getCall(uriInfo, Request.from(this, uriInfo, requestBody));
+    }
+    
+    /**
+     * Set up a call based on a simple GET request 
+     */
+    public Call getCall(String endpoint, UriInfo uriInfo) {
+        return new Call(this, endpoint, Request.from(this, uriInfo));
+    }
+    
+    /**
+     * Set up a call based on a POST request using the named endpoint specification
+     */
+    public Call getCall(String endpoint, UriInfo uriInfo, String requestBody) {
+        return new Call(this, endpoint, Request.from(this, uriInfo, requestBody));
+    }
+    
     // ---- Support for request processing handlers ------------------------------------
     
     public void setRequestProcessor(RequestProcessor processor) {

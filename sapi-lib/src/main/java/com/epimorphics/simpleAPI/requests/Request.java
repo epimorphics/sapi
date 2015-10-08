@@ -21,6 +21,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.jena.atlas.json.JSON;
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
 import org.glassfish.jersey.internal.util.collection.MultivaluedStringMap;
@@ -176,9 +177,10 @@ public class Request {
         request.addAll(uriInfo.getPathParameters());
         
         String rawRequest = uriInfo.getRequestUri().toString();
-        String query = rawRequest.substring( rawRequest.indexOf('?') );
-        request.setFullRequestedURI( requestedURI + query );
-        
+        if (rawRequest.contains("?")) {
+            String query = rawRequest.substring( rawRequest.indexOf('?') );
+            request.setFullRequestedURI( requestedURI + query );
+        }        
         return request;
     }
 
@@ -208,6 +210,19 @@ public class Request {
             }
         }
         return request;
+    }
+
+    /**
+     * Construct a request object a jersey call plus a request body which expected to be a JSON object
+     * @throws WebApiException if the request body does not parse as a JSON object
+     */
+    public static Request from(API api, UriInfo uriInfo, String postargs) {
+        try {
+            return from(api, uriInfo, JSON.parse(postargs));
+        } catch (Exception e) {
+            throw new WebApiException(Status.BAD_REQUEST, "Illegal JSON object in request");
+        }
+        
     }
 
     private static String jsonToString(JsonValue value) {

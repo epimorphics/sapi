@@ -14,6 +14,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.jena.atlas.json.JSON;
@@ -21,6 +24,7 @@ import org.apache.jena.atlas.json.JsonObject;
 import org.junit.Test;
 
 import com.epimorphics.appbase.webapi.testing.TomcatTestBase;
+import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.util.JsonComparator;
 
 public class TestBaseEndToEnd extends TomcatTestBase {
@@ -36,17 +40,29 @@ public class TestBaseEndToEnd extends TomcatTestBase {
 
     @Test
     public void testEndToEnd() throws IOException {
-        checkJSON("basetest/list?_limit=2&_sort=label", "src/test/baseEndToEndTest/expected/list-limit2.json");
-        checkJSON("basetest/list?group=B&_limit=2&_sort=label", "src/test/baseEndToEndTest/expected/list-filterB-limit2.json");
+        checkGet("basetest/list?_limit=2&_sort=label", "src/test/baseEndToEndTest/expected/list-limit2.json");
+        checkGet("basetest/list?group=B&_limit=2&_sort=label", "src/test/baseEndToEndTest/expected/list-filterB-limit2.json");
         
-        checkJSON("basetest/list?_view=compact&_limit=2&_sort=label", "src/test/baseEndToEndTest/expected/list-compact-limit2.json");
+        checkGet("basetest/list?_view=compact&_limit=2&_sort=label", "src/test/baseEndToEndTest/expected/list-compact-limit2.json");
         
-        checkJSON("default/test3?_sort=label", "src/test/baseEndToEndTest/expected/list-default-test3.json");
-        checkJSON("default/test4/B?_sort=label", "src/test/baseEndToEndTest/expected/list-default-test4-B.json");
+        checkGet("default/test3?_sort=label", "src/test/baseEndToEndTest/expected/list-default-test3.json");
+        checkGet("default/test4/B?_sort=label", "src/test/baseEndToEndTest/expected/list-default-test4-B.json");
+        
+        checkPost("basetest/list", JsonUtil.makeJson("group", "B", "_limit", 2, "_sort", "label"), "src/test/baseEndToEndTest/expected/list-filterB-limit2-post.json");
+        checkPost("default/test4/B", JsonUtil.makeJson("_sort", "label"), "src/test/baseEndToEndTest/expected/list-default-test4-B-post.json");
     }
     
-    protected void checkJSON(String url, String expectedF) {
-        Response response = getResponse( BASE_URL + url, "application/json");
+    protected void checkGet(String url, String expectedF) {
+        checkResponse( getResponse( BASE_URL + url, "application/json"), expectedF );
+    }
+    
+    protected void checkPost(String url, JsonObject body, String expectedF) {
+        WebTarget r = c.target( BASE_URL + url );
+        Response response = r.request(MediaType.APPLICATION_JSON).post(Entity.entity(body.toString(), MediaType.APPLICATION_JSON));
+        checkResponse(response, expectedF);
+    }
+    
+    protected void checkResponse(Response response, String expectedF) {
         if (response.getStatus() != 200) {
             System.err.println( String.format("[%d] %s", response.getStatus(), response.readEntity(String.class)));
             assertEquals(200, response.getStatus());

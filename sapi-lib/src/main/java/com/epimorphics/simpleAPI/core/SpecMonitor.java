@@ -58,13 +58,14 @@ public class SpecMonitor extends ConfigMonitor<ConfigItem> {
             }
         }
     }
-    
+
     /**
-     * Set up a call based on this request. Looks up the endpoint in the 
-     * register of templates and extracts the request parameters.
-     * @throws NotFoundException if no endpoint matches 
+     * Locate a registered endpoint which matches the requested URI
+     * @param uriInfo The requested URI to match
+     * @param request The request parameters as derived from a POST body or query parameters
+     * @throws NotFoundException if there is no matching endpoint
      */
-    public Call getCall(UriInfo uriInfo) {
+    public Call getCall(UriInfo uriInfo, Request request) {
         Map<String, String> bindings = new HashMap<>();
         String path = uriInfo.getPath();
         EndpointSpec endpoint = endpoints.lookup(bindings, path, uriInfo.getQueryParameters());
@@ -72,11 +73,10 @@ public class SpecMonitor extends ConfigMonitor<ConfigItem> {
             // TODO should this revert to a describe instead?
             throw new NotFoundException("No endpoint matched request: " + path);
         }
-        Request request = Request.from(api, uriInfo);
         for (Map.Entry<String, String> binding : bindings.entrySet()) {
             request.add(binding.getKey(), binding.getValue());
         }
         return new Call(endpoint, request);
     }
-
+    
 }

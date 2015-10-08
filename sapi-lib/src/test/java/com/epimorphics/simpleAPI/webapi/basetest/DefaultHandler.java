@@ -9,8 +9,11 @@
 
 package com.epimorphics.simpleAPI.webapi.basetest;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
 
 import com.epimorphics.simpleAPI.webapi.EndpointsBase;
 import com.epimorphics.simpleAPI.results.ResultStream;
@@ -27,5 +30,11 @@ public class DefaultHandler extends EndpointsBase {
     @GET
     public ResultStream handleDefault() {
         return defaultResponse();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultStream handleDefault(String body) {
+        return defaultResponse(body);
     }
 }

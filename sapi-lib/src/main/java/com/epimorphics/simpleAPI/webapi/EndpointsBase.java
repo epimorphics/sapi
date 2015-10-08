@@ -14,7 +14,6 @@ import java.net.URISyntaxException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -89,6 +88,13 @@ public class EndpointsBase {
     public Request getRequest() {
         return Request.from(getAPI(), uriInfo);
     }
+    
+    /**
+     * Return the full request including query parameters and posted (JSON) body
+     */
+    public Request getRequest(String body) {
+        return Request.from(getAPI(), uriInfo, body);
+    }
 
     
     // ---- Standard list endpoint handling ---------------------------------
@@ -103,12 +109,15 @@ public class EndpointsBase {
      * configured endpoint patterns.
      */
     public ResultStream defaultResponse() {
-        Call call = getAPI().getCall(uriInfo);
-        if (call != null) {
-            return call.getResults();
-        } else {
-            throw new NotFoundException();
-        }
+        return getAPI().getCall(uriInfo).getResults();
+    }
+    
+    /**
+     * Handle requests by looking up the path against the set of dynamically
+     * configured endpoint patterns. Pass in a POST (JSON) body as well as the request URL.
+     */
+    public ResultStream defaultResponse(String body) {
+        return getAPI().getCall(uriInfo, body).getResults();
     }
     
     // ---- Helpers for returning results ---------------------------------
