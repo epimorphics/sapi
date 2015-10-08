@@ -67,7 +67,9 @@ public class ViewMap extends ConfigItem {
      */
     public String asVariableName(String name) {
         ViewPath path = getTree().pathTo(name);
-        if (path != null) {
+        if ("@id".equals(name)) {
+            return "id";
+        } else  if (path != null) {
             return path.asVariableName();
         } else {
             return null;

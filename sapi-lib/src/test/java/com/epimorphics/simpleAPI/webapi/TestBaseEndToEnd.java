@@ -41,6 +41,7 @@ public class TestBaseEndToEnd extends TomcatTestBase {
     @Test
     public void testEndToEnd() throws IOException {
         checkGet("basetest/list?_limit=2&_sort=label", "src/test/baseEndToEndTest/expected/list-limit2.json");
+        checkGet("basetest/list?_limit=2&_sort=@id", "src/test/baseEndToEndTest/expected/list-limit2-id.json");
         checkGet("basetest/list?group=B&_limit=2&_sort=label", "src/test/baseEndToEndTest/expected/list-filterB-limit2.json");
         
         checkGet("basetest/list?_view=compact&_limit=2&_sort=label", "src/test/baseEndToEndTest/expected/list-compact-limit2.json");
