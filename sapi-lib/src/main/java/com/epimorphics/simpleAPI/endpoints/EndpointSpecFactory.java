@@ -43,7 +43,9 @@ public class EndpointSpecFactory {
             String type =  JsonUtil.getStringValue(jo, TYPE, TYPE_ITEM);
             SparqlEndpointSpec spec = new SparqlEndpointSpec(api);
             if (TYPE_ITEM.equals(type)) {
-                // TODO
+                if (jo.hasKey(QUERY)) {
+                    spec.setBaseQuery( JsonUtil.getStringValue(jo, QUERY) );
+                }
             } else if (TYPE_LIST.equals(type)) {
                 SparqlListEndpointSpec lspec = new SparqlListEndpointSpec(api);
                 spec = lspec;

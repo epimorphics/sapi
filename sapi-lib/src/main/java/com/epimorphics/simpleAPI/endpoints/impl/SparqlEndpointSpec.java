@@ -12,7 +12,7 @@ package com.epimorphics.simpleAPI.endpoints.impl;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
-import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
+import com.epimorphics.simpleAPI.query.impl.DescribeQueryBuilder;
 import com.epimorphics.simpleAPI.views.ViewMap;
 
 /**
@@ -34,11 +34,14 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
     @Override
     public QueryBuilder getQueryBuilder(String viewname) {
         ViewMap view = getView(viewname);
-        String q = baseQuery;
-        if (view != null) {
-            q = q + "\n" + view.asQuery();
+        if (baseQuery == null) {
+            if (view == null) {
+                baseQuery = "DESCRIBE ?id";
+            } else {
+                // TODO generate base describe from view
+            }
         }
-        return SparqlQueryBuilder.fromBaseQuery(q, getPrefixes());
+        return new DescribeQueryBuilder(baseQuery, getPrefixes());
     }
 
     public void setBaseQuery(String query) {
