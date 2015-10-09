@@ -45,4 +45,6 @@ public class ConfigConstants {
     
     public static final String RESULT_ITEMS = "items";
     
+    public static final String ROOT_VAR    = "id";
+    
 }

@@ -10,7 +10,7 @@
 package com.epimorphics.simpleAPI.requests;
 
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
-import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 
 /**
  * General interface for processors that extract parts of the request and 
@@ -21,5 +21,5 @@ import com.epimorphics.simpleAPI.query.QueryBuilder;
  */
 public interface RequestProcessor {
 
-    public QueryBuilder process(Request request, QueryBuilder builder, EndpointSpec spec);
+    public ListQueryBuilder process(Request request, ListQueryBuilder builder, EndpointSpec spec);
 }

@@ -15,7 +15,8 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.sparql.util.FmtUtils;
 
-import com.epimorphics.simpleAPI.query.Query;
+import com.epimorphics.simpleAPI.query.ListQuery;
+import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.util.PrefixUtils;
 
@@ -26,7 +27,7 @@ import com.epimorphics.util.PrefixUtils;
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-public class SparqlQueryBuilder implements QueryBuilder {
+public class SparqlQueryBuilder implements ListQueryBuilder {
     public static final String INJECT_MARKER = "#$INJECT$";
     public static final String FILTER_MARKER = "#$FILTER$";
     public static final String MODIFIER_MARKER = "#$MODIFIER$";
@@ -103,12 +104,12 @@ public class SparqlQueryBuilder implements QueryBuilder {
     }
 
     @Override
-    public QueryBuilder filter(String shortname, RDFNode value) {
+    public ListQueryBuilder filter(String shortname, RDFNode value) {
         return filter( String.format("FILTER (?%s = %s)\n", shortname, FmtUtils.stringForNode( value.asNode() ) ) );
     }
 
     @Override
-    public QueryBuilder filter(String shortname, Collection<RDFNode> values) {
+    public ListQueryBuilder filter(String shortname, Collection<RDFNode> values) {
         StringBuffer filters = new StringBuffer();
         filters.append("FILTER (?");
         filters.append(shortname);
@@ -122,7 +123,7 @@ public class SparqlQueryBuilder implements QueryBuilder {
     }
 
     @Override
-    public QueryBuilder sort(String shortname, boolean down) {
+    public ListQueryBuilder sort(String shortname, boolean down) {
         String sort = String.format(down ? "DESC(?%s)" : "?%s", shortname);
         if (query.contains(SORT_X_MARKER)) {
             return new SparqlQueryBuilder(query.replace(SORT_X_MARKER, sort + " " + SORT_X_MARKER), prefixes);
@@ -132,7 +133,7 @@ public class SparqlQueryBuilder implements QueryBuilder {
     }
 
     @Override
-    public QueryBuilder limit(long limit, long offset) {
+    public ListQueryBuilder limit(long limit, long offset) {
         return modifier( String.format("LIMIT %d OFFSET %d\n", limit, offset) );
     }
 
@@ -143,7 +144,7 @@ public class SparqlQueryBuilder implements QueryBuilder {
     }
 
     @Override
-    public Query build() {
-        return new SparqlQuery( PrefixUtils.expandQuery(query.replaceAll("#\\$[A-Z]*\\$", ""), prefixes) );
+    public ListQuery build() {
+        return new SparqlSelectQuery( PrefixUtils.expandQuery(query.replaceAll("#\\$[A-Z]*\\$", ""), prefixes) );
     }
 }

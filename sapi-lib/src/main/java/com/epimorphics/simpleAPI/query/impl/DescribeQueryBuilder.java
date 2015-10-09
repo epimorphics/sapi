@@ -9,16 +9,11 @@
 
 package com.epimorphics.simpleAPI.query.impl;
 
-import java.util.Collection;
-
-import javax.ws.rs.core.Response.Status;
-
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.PrefixMapping;
 
-import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.rdfutil.QueryUtil;
-import com.epimorphics.simpleAPI.query.Query;
+import com.epimorphics.simpleAPI.query.ItemQuery;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.util.PrefixUtils;
 
@@ -36,33 +31,13 @@ public class DescribeQueryBuilder implements QueryBuilder {
     }
 
     @Override
-    public QueryBuilder filter(String shortname, RDFNode value) {
-        throw new WebApiException(Status.BAD_REQUEST, "Cannot filter an Item query");
-    }
-
-    @Override
-    public QueryBuilder filter(String shortname, Collection<RDFNode> values) {
-        throw new WebApiException(Status.BAD_REQUEST, "Cannot filter an Item query");
-    }
-
-    @Override
-    public QueryBuilder sort(String shortname, boolean down) {
-        throw new WebApiException(Status.BAD_REQUEST, "Cannot sort an Item query");
-    }
-
-    @Override
-    public QueryBuilder limit(long limit, long offset) {
-        throw new WebApiException(Status.BAD_REQUEST, "Cannot limit an Item query");
-    }
-
-    @Override
     public QueryBuilder bind(String varname, RDFNode value) {
-        return new DescribeQueryBuilder( bindQueryParam(query, varname, value) );
+        return new DescribeQueryBuilder( bindQueryParam(query, varname, value), prefixes );
     }
 
     @Override
-    public Query build() {
-        return new SparqlQuery( prefixes == null ? query : PrefixUtils.expandQuery(query, prefixes), true);
+    public ItemQuery build() {
+        return new SparqlDescribeQuery( prefixes == null ? query : PrefixUtils.expandQuery(query, prefixes) );
     }
     
     // TODO move this to somewhere more logical and reusable

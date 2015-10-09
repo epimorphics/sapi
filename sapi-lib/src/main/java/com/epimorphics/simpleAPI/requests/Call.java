@@ -13,6 +13,7 @@ import javax.ws.rs.NotFoundException;
 
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.Query;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.results.ResultStream;
@@ -67,6 +68,6 @@ public class Call {
      */
     public ResultStream getResults() {
         Query query = getQueryBuilder().build();
-        return getAPI().getSource().query(query, this);
+        return getAPI().getSource().query((ListQuery)query, this);
     }
 }

@@ -24,11 +24,14 @@ import org.junit.Test;
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlListEndpointSpec;
 import com.epimorphics.simpleAPI.query.Query;
-import com.epimorphics.simpleAPI.query.impl.SparqlQuery;
+import com.epimorphics.simpleAPI.query.impl.SparqlSelectQuery;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.vocabs.SKOS;
 
-public class TestSpecLoad {
+public class TestSpecAndViews {
+    public static final String RT = "http://environment.data.gov.uk/flood-monitoring/def/core/";
+    
     App app;
     API api;
     
@@ -46,7 +49,7 @@ public class TestSpecLoad {
         assertEquals(10, spec.getSoftLimit().longValue());
         assertEquals(100, spec.getHardLimit().longValue());
         Query query = spec.getQueryBuilder().build();
-        String qStr = ((SparqlQuery)query).getQuery();        
+        String qStr = ((SparqlSelectQuery)query).getQuery();        
         assertTrue(  qStr.contains("?id a rt:FloodAlertOrWarning") );
         assertTrue( qStr.contains("PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>") );
         
@@ -61,15 +64,15 @@ public class TestSpecLoad {
         assertEquals( "view-test", view.getName() );
         List<ViewEntry> children = view.getTree().getChildren();
         assertEquals(4, children.size());
-        checkEntry(children.get(0), "severity",  "rt:severity",  false, false, false,  true);
-        checkEntry(children.get(1), "message",   "rt:message",   false,  true, false,  true);
-        checkEntry(children.get(2), "floodArea", "rt:floodArea",  true, false, false,  true);
-        checkEntry(children.get(3), "test",      "rt:test",      false, false,  true, false);
+        checkEntry(children.get(0), "severity",  RT + "severity",  false, false, false,  true);
+        checkEntry(children.get(1), "message",   RT + "message",   false,  true, false,  true);
+        checkEntry(children.get(2), "floodArea", RT + "floodArea",  true, false, false,  true);
+        checkEntry(children.get(3), "test",      RT + "test",      false, false,  true, false);
         
         // nested block
         children = children.get(2).getNested().getChildren();
-        checkEntry(children.get(0), "notation",  "skos:notation",  false, false, false, true);
-        checkEntry(children.get(1), "county",    "rt:county",      false, false, false, true);
+        checkEntry(children.get(0), "notation",  SKOS.notation.getURI(),  false, false, false, true);
+        checkEntry(children.get(1), "county",    RT + "county",      false, false, false, true);
     }
     
     private void checkEntry(ViewEntry entry, String json, String prop, boolean nested, boolean optional, boolean multi, boolean filterable) {
@@ -82,7 +85,7 @@ public class TestSpecLoad {
     }
     
     @Test
-    public void testViewVarname() {
+    public void testViewAccess() {
         ViewMap view = api.getView("varnameTest");
         assertNotNull(view);
         
@@ -95,5 +98,22 @@ public class TestSpecLoad {
         assertEquals("foo_fu__bar", view.asVariableName("foo.fu_bar"));
         
         assertEquals("foo.fu_bar", view.getTree().pathTo("fu_bar").asDotted());
+        
+        assertEquals("foo", view.pathTo("foo").asDotted());
+        assertEquals("foo.bar", view.pathTo("bar").asDotted());
+        assertNull( view.pathTo("notthere") );
+        
+        assertEquals(RT + "foo", view.findEntry("foo").getProperty());
+        assertEquals(RT + "bar", view.findEntry("bar").getProperty());
+        assertEquals(RT + "fu_bar", view.findEntry("foo.fu_bar").getProperty());
+
+        simpleCheckEntry(view.findEntryByURI(RT + "foo"), "foo", RT + "foo", true);
+        simpleCheckEntry(view.findEntryByURI(RT + "bar"), "bar", RT + "bar", true);
+    }
+    
+    private void simpleCheckEntry(ViewEntry entry, String json, String prop, boolean nested) {
+        assertEquals(json, entry.getJsonName());
+        assertEquals(prop, entry.getProperty());
+        assertEquals(nested, entry.isNested());
     }
 }

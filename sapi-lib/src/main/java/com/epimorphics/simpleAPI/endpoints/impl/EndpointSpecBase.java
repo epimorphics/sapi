@@ -12,11 +12,14 @@ package com.epimorphics.simpleAPI.endpoints.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.simpleAPI.core.API;
+import com.epimorphics.simpleAPI.core.ConfigConstants;
 import com.epimorphics.simpleAPI.core.ConfigItem;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.requests.RequestProcessor;
@@ -75,10 +78,15 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     @Override
     public QueryBuilder getQueryBuilder(Request request) {
         QueryBuilder builder = getQueryBuilder( request.getViewName() );
-        for (RequestProcessor proc : api.getRequestProcessors()) {
-            builder = proc.process(request, builder, this);
+        if (builder instanceof ListQueryBuilder) {
+            ListQueryBuilder lbuilder = (ListQueryBuilder)builder;
+            for (RequestProcessor proc : api.getRequestProcessors()) {
+                lbuilder = proc.process(request, lbuilder, this);
+            }
+            return lbuilder;
+        } else {
+            return builder.bind(ConfigConstants.ROOT_VAR, ResourceFactory.createResource(request.getRequestedURI()));
         }
-        return builder;
     }
     
     /**
@@ -86,9 +94,7 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
      */
     public PrefixMapping getPrefixes() {
         if (prefixes == null) {
-            if (api != null && api.getApp() != null) {
-                prefixes = api.getApp().getPrefixes();
-            }
+            prefixes = api.getPrefixes();
             if (prefixes == null) {
                 prefixes = localPrefixes;
             } else if (localPrefixes != null) {

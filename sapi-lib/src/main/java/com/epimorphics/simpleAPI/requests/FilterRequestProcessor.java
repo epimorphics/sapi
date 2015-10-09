@@ -16,7 +16,7 @@ import org.apache.jena.rdf.model.RDFNode;
 
 import com.epimorphics.rdfutil.TypeUtil;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
-import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
@@ -28,7 +28,7 @@ import com.epimorphics.simpleAPI.views.ViewPath;
 public class FilterRequestProcessor implements RequestProcessor {
 
     @Override
-    public QueryBuilder process(Request request, QueryBuilder builder,
+    public ListQueryBuilder process(Request request, ListQueryBuilder builder,
             EndpointSpec spec) {
         for (String parameter : request.getParameters()) {
             if ( !parameter.startsWith("_") ) {

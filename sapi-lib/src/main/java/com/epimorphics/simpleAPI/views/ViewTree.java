@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
+import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.core.API;
@@ -106,17 +107,20 @@ public class ViewTree implements Iterable<ViewEntry> {
         }
     }
 
-    public static ViewTree parseFromJson(API api, JsonValue list) {
+    public static ViewTree parseFromJson(API api, PrefixMapping prefixes, JsonValue list) {
         ViewTree tree = new ViewTree();
         if (list.isArray()) {
             for (Iterator<JsonValue> pi = list.getAsArray().iterator(); pi.hasNext(); ) {
                 ViewEntry entry = null;
                 JsonValue prop = pi.next();
                 if (prop.isString()) {
-                    entry = new ViewEntry( prop.getAsString().value() );
+                    String p = prop.getAsString().value();
+                    if (prefixes != null) p = prefixes.expandPrefix(p);
+                    entry = new ViewEntry( p );
                 } else if (prop.isObject()) {
                     JsonObject propO = prop.getAsObject();
                     String p = JsonUtil.getStringValue(propO, PROPERTY);
+                    if (prefixes != null) p = prefixes.expandPrefix(p);
                     String name = JsonUtil.getStringValue(propO, NAME);
                     entry = new ViewEntry(name, p);
                     if (propO.hasKey(OPTIONAL)) {
@@ -126,7 +130,7 @@ public class ViewTree implements Iterable<ViewEntry> {
                         entry.setMultivalued( JsonUtil.getBooleanValue(propO, MULTIVALUED, false) );
                     }
                     if (propO.hasKey(NESTED)) {
-                        ViewTree nested = parseFromJson(api, propO.get(NESTED) );
+                        ViewTree nested = parseFromJson(api, prefixes, propO.get(NESTED) );
                         entry.setNested(nested);                        
                     }
                     if (propO.hasKey(FILTERABLE)) {
@@ -193,6 +197,26 @@ public class ViewTree implements Iterable<ViewEntry> {
                 ViewPath fullPath = child.getNested().pathTo(name, path.add(child.getJsonName()));
                 if (fullPath != null) {
                     return fullPath;
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Locate an entry which matches a property URI, breadth first search
+     */
+    public ViewEntry findEntryByURI(String uri) {
+        for (ViewEntry child : this) {
+            if (child.getProperty().equals(uri)) {
+                return child;
+            }
+        }
+        for (ViewEntry child : this) {
+            if (child.isNested()) {
+                ViewEntry entry = child.getNested().findEntryByURI(uri);
+                if (entry != null) {
+                    return entry;
                 }
             }
         }

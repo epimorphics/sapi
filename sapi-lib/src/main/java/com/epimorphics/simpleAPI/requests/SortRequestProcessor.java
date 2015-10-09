@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
-import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 
 /**
  * Handle _sort directive, allows "." path notation to sorting on
@@ -25,7 +25,7 @@ public class SortRequestProcessor extends RequestProcessorBase {
     public static final String SORT = "_sort";
 
     @Override
-    public QueryBuilder process(Request request, QueryBuilder builder,
+    public ListQueryBuilder process(Request request, ListQueryBuilder builder,
             EndpointSpec spec) {
         if (request.hasParameter(SORT)) {
             for (String sort : request.get(SORT)) {

@@ -22,8 +22,8 @@ import org.junit.Test;
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.query.DataSource;
-import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.ResultStream;
+import com.epimorphics.simpleAPI.results.TreeResult;
 
 public class TestRequestBasics {
     App app;
@@ -96,7 +96,7 @@ public class TestRequestBasics {
     private String getFirstLabel(String endpointName, String... args) {
         ResultStream stream = get(endpointName, makeRequest(args));
         assertTrue( stream.iterator().hasNext() );
-        Result first = stream.iterator().next();
+        TreeResult first = (TreeResult) stream.iterator().next();
         Literal label = (Literal) first.getValues("label").iterator().next();
         return label.getLexicalForm();
     }

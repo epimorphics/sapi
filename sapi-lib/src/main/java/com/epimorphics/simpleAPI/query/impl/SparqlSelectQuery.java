@@ -9,7 +9,7 @@
 
 package com.epimorphics.simpleAPI.query.impl;
 
-import com.epimorphics.simpleAPI.query.Query;
+import com.epimorphics.simpleAPI.query.ListQuery;
 
 /**
  * Implementation of query interface that just stores the query as 
@@ -18,23 +18,10 @@ import com.epimorphics.simpleAPI.query.Query;
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-public class SparqlQuery implements Query {
-    protected String query;
-    
-    /**
-     * Construct a list query
-     */
-    public SparqlQuery(String query) {
-        this.query = query;
-    }
-    
-    public String getQuery() {
-        return query;
-    }
-    
-    @Override
-    public String toString() {
-        return query;
+public class SparqlSelectQuery extends SparqlQuery implements ListQuery {
+
+    public SparqlSelectQuery(String query) {
+        super(query);
     }
     
 }
