@@ -20,6 +20,7 @@ import com.epimorphics.sparql.graphpatterns.Basic;
 import com.epimorphics.sparql.graphpatterns.Bind;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.query.Order;
+import com.epimorphics.sparql.query.Util;
 import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.sparql.terms.Filter;
 import com.epimorphics.sparql.terms.IsExpr;
@@ -37,29 +38,10 @@ public class AlternativeSparqlQueryBuilder implements QueryBuilder {
 	
 	@Override public QueryBuilder filter(String shortname, RDFNode value) {
 		Var var = new Var(shortname);
-		IsExpr val = nodeToTerm(value);
+		IsExpr val = Util.nodeToTerm(value);
 		Filter eq = new Filter(new Infix(var, Op.opEq, val));
 		q.addPattern(new Basic(eq));		
 		return this;
-	}
-
-	private IsExpr nodeToTerm(RDFNode value) {
-		Node lit = value.asNode();
-		if (value.isURIResource()) 
-			return new URI(lit.getURI());
-		if (value.isLiteral()) {
-			return new Literal
-				( lit.getLiteralLexicalForm()
-				, asType(lit.getLiteralDatatypeURI())
-				, lit.getLiteralLanguage()
-				);
-		}
-		return null;
-	}
-
-	private URI asType(String uri) {
-		if (uri == null) return null;
-		return new URI(uri);
 	}
 
 	@Override public QueryBuilder filter(String shortname,	Collection<RDFNode> values) {
@@ -68,7 +50,7 @@ public class AlternativeSparqlQueryBuilder implements QueryBuilder {
 		} else {
 			Var var = new Var(shortname);
 			List<IsExpr> operands = new ArrayList<IsExpr>();
-			for (RDFNode value: values) operands.add(nodeToTerm(value));
+			for (RDFNode value: values) operands.add(Util.nodeToTerm(value));
 			IsExpr oneOf = new Infix(var, Op.opIn, new Call(Op.Tuple, operands));
 			q.addPattern(new Basic(new Filter(oneOf)));
 			return this;
@@ -89,7 +71,7 @@ public class AlternativeSparqlQueryBuilder implements QueryBuilder {
 
 	@Override public QueryBuilder bind(String varname, RDFNode value) {
 		final Var var = new Var(varname);
-		final IsExpr val = nodeToTerm(value);
+		final IsExpr val = Util.nodeToTerm(value);
 		q.addPattern((GraphPattern) new Bind(val, var));
 		return this;
 	}
