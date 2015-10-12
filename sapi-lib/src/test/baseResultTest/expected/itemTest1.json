@@ -1,0 +1,16 @@
+{ 
+  "@id" : "http://localhost/example/A2" ,
+  "label" : [ 
+      "A2" ,
+      "a2"
+    ] ,
+  "narrower" : [ 
+      { "@id" : "http://localhost/example/B2" } ,
+      { "@id" : "http://localhost/example/C2" }
+    ] ,
+  "notation" : "21" ,
+  "type" : [ 
+      { "@id" : "http://localhost/example/root" } ,
+      { "@id" : "http://www.w3.org/2004/02/skos/core#Concept" }
+    ]
+}

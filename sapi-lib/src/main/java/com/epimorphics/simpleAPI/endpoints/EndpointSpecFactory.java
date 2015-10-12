@@ -68,16 +68,16 @@ public class EndpointSpecFactory {
                 }
             }
             if (jo.hasKey(VIEW)) {
-                spec.setView( ViewMap.parseFromJson(api, jo.get(VIEW)) );
+                spec.setView( ViewMap.parseFromJson(api, spec.getPrefixes(), jo.get(VIEW)) );
             }
             if (jo.hasKey(VIEWS)) {
                 JsonValue views = jo.get(VIEWS);
                 if (views.isArray() || views.isString()) {
-                    spec.setView( ViewMap.parseFromJson(api, views) );
+                    spec.setView( ViewMap.parseFromJson(api, spec.getPrefixes(), views) );
                 } else if (views.isObject()) {
                     JsonObject viewsO = views.getAsObject();
                     for (String key : viewsO.keys()) {
-                        spec.addView(key, ViewMap.parseFromJson(api, viewsO.get(key)));
+                        spec.addView(key, ViewMap.parseFromJson(api, spec.getPrefixes(), viewsO.get(key)));
                     }
                 }
             }

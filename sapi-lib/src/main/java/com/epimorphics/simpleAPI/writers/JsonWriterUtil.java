@@ -19,7 +19,9 @@ import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.results.Result;
+import com.epimorphics.simpleAPI.results.TreeResult;
 import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewTree;
 
 /**
@@ -30,12 +32,13 @@ import com.epimorphics.simpleAPI.views.ViewTree;
  */
 public class JsonWriterUtil {
 
-    public static void writeResult(Result result, JSFullWriter out) {
-        EndpointSpec spec = result.getStream().getSpec();
-        writeResult(result, spec.getView().getTree(), spec.getAPI(), out);
+    public static void writeResult(TreeResult result, JSFullWriter out) {
+        EndpointSpec spec = result.getCall().getEndpoint();
+        ViewMap view = spec.getView();
+        writeResult(result, view == null ? null : view.getTree(), spec.getAPI(), out);
     }
     
-    protected static void writeResult(Result result, ViewTree tree, API api, JSFullWriter out) {
+    protected static void writeResult(TreeResult result, ViewTree tree, API api, JSFullWriter out) {
         out.startObject();
         String id = result.getStringID();
         if (id != null) {
@@ -43,7 +46,7 @@ public class JsonWriterUtil {
         }
         for (String key : result.getSortedKeys()) {
             List<Object> values = result.getSortedValues(key);
-            ViewEntry policy = tree.getEntry(key);
+            ViewEntry policy = tree == null ? api.getDefaultViewFor(key) : tree.getEntry(key);
             if (values.size() > 1 || policy.isMultivalued()) {
                 // TODO handle case where we have a showOnlyLang setting and there's multiple different language values here
                 out.key(key);
@@ -67,7 +70,7 @@ public class JsonWriterUtil {
                 writer.arrayElementProcess();
             else
                 writer.key(key);
-            writeResult((Result)value, tree.getEntry(key).getNested(), api, writer);
+            writeResult((TreeResult)value, tree == null ? null : tree.getEntry(key).getNested(), api, writer);
         } else if (value instanceof RDFNode) {
             RDFNode n = (RDFNode) value;
             if (n.isURIResource()) {

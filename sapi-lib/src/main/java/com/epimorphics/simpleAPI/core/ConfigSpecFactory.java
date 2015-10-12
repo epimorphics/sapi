@@ -78,9 +78,9 @@ public class ConfigSpecFactory {
             ConfigItem config  = null;
             if ( TYPE_VIEW.equals(type) ) { 
                 if (jo.hasKey(MAPPING)) {
-                    config = ViewMap.parseFromJson(api, jo.get(MAPPING));
+                    config = ViewMap.parseFromJson(api, api.getPrefixes(), jo.get(MAPPING));
                 } else if (jo.hasKey(VIEW)) {
-                        config = ViewMap.parseFromJson(api, jo.get(VIEW));
+                        config = ViewMap.parseFromJson(api, api.getPrefixes(), jo.get(VIEW));
                 } else {
                     throw new EpiException("Illegal view specification, no mapping declared: " + filename);                    
                 }

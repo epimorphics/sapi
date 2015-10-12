@@ -20,6 +20,8 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.shared.PrefixMapping;
+import org.apache.jena.shared.impl.PrefixMappingImpl;
 import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
@@ -53,6 +55,8 @@ import com.epimorphics.util.NameUtils;
  * </ul>
  */
 public class API extends ComponentBase implements Startup {
+    public static final String DEFAULT_VIEWNAME = "defaultView";
+    
     protected DataSource source;
     
     protected String baseURI = "http://localhost/";
@@ -181,10 +185,34 @@ public class API extends ComponentBase implements Startup {
     /**
      * Return the default specification for how to render a given property.
      */
-    public ViewEntry getDefaultViewFor(String uri) {
-        // TODO implement
-        // Should handle qname expansion - might need change in signature for that
-        return null;
+    public ViewEntry getDefaultViewForURI(String uri) {
+        ViewMap defview = getView(DEFAULT_VIEWNAME);
+        if (defview != null) {
+            return defview.findEntryByURI(uri);
+        } else {
+            return new ViewEntry(uri);
+        }
+    }
+
+    /**
+     * Return the default specification for how to render a given short name
+     */
+    public ViewEntry getDefaultViewFor(String name) {
+        ViewMap defview = getView(DEFAULT_VIEWNAME);
+        if (defview != null) {
+            return defview.findEntry(name);
+        } else {
+            return new ViewEntry(name, null);
+        }
+    }
+    
+    public PrefixMapping getPrefixes() {
+        if (getApp() == null) {
+            // Must be in a testing setup
+            return new PrefixMappingImpl();
+        } else {
+            return getApp().getPrefixes();
+        }
     }
     
     /**

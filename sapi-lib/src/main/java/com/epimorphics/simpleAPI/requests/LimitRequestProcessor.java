@@ -11,7 +11,7 @@ package com.epimorphics.simpleAPI.requests;
 
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.endpoints.ListEndpointSpec;
-import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 
 /**
  * Request processor that handles _limit/_offset requests.
@@ -23,7 +23,7 @@ public class LimitRequestProcessor extends RequestProcessorBase {
     public static final String OFFSET = "_offset";
     
     @Override
-    public QueryBuilder process(Request request, QueryBuilder builder, EndpointSpec spec) {
+    public ListQueryBuilder process(Request request, ListQueryBuilder builder, EndpointSpec spec) {
         if (spec instanceof ListEndpointSpec) {
             ListEndpointSpec lspec = (ListEndpointSpec)spec;
             if (request.hasParameter(LIMIT) || request.hasParameter(OFFSET)) {

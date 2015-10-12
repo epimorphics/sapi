@@ -1,0 +1,5 @@
+name : itemTest2
+type : item
+query : |
+    DESCRIBE ?id ?narrower WHERE 
+        {?id skos:narrower ?narrower }

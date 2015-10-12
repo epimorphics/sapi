@@ -17,9 +17,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
 import com.epimorphics.appbase.data.ClosableResultSet;
-import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.requests.Call;
-import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewTree;
@@ -34,30 +32,15 @@ import com.epimorphics.util.EpiException;
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-public class ResultStreamSparqlSelect implements ResultStream {
-    protected Call call;
+public class ResultStreamSparqlSelect extends ResultStreamBase implements ResultStream {
     protected ResultSet results;
     protected QuerySolution nextRow;
     protected Resource nextID;
     
     public ResultStreamSparqlSelect(ResultSet resultSet, Call call) {
+        super(call);
         this.results = resultSet;
         this.call = call;
-    }
-    
-    @Override
-    public Call getCall() {
-        return call;
-    }
-    
-    @Override
-    public Request getRequest() {
-        return call.getRequest();
-    }
-    
-    @Override
-    public EndpointSpec getSpec() {
-        return call.getEndpoint();
     }
 
     public ViewMap getView() {
@@ -82,7 +65,7 @@ public class ResultStreamSparqlSelect implements ResultStream {
                     nextRow = results.next();
                     nextID = nextRow.getResource("id");
                 }
-                Result result = new Result(this, nextID);
+                TreeResult result = new TreeResult(getCall(), nextID);
                 Resource target = nextID;
                 while (nextID != null && nextID.equals(target)) {
                     addRow(result, nextRow);
@@ -106,7 +89,7 @@ public class ResultStreamSparqlSelect implements ResultStream {
         }
     }
     
-    private void addRow(Result result, QuerySolution row) {
+    private void addRow(TreeResult result, QuerySolution row) {
         if (getView() == null) {
             for (Iterator<String> vi = row.varNames(); vi.hasNext();) {
                 String var = vi.next();
@@ -119,16 +102,16 @@ public class ResultStreamSparqlSelect implements ResultStream {
         }
     }
     
-    private void addTree(Result result, ViewTree tree, QuerySolution row, String path) {
+    private void addTree(TreeResult result, ViewTree tree, QuerySolution row, String path) {
         for (ViewEntry ve : tree) {
             String key = ve.getJsonName();
             String npath = path.isEmpty() ? key : path + "_" + key;
             RDFNode value = row.get( npath );
             if (value != null) {
                 if (ve.isNested()) {
-                    Result nested = result.getNested(key, value);
+                    TreeResult nested = result.getNested(key, value);
                     if (nested == null) {
-                        nested = new Result(this, value);
+                        nested = new TreeResult(getCall(), value);
                         result.add(key, nested);
                     }
                     addTree(nested, ve.getNested(), row, npath);

@@ -10,6 +10,7 @@
 package com.epimorphics.simpleAPI.query;
 
 import com.epimorphics.simpleAPI.requests.Call;
+import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.ResultStream;
 
 /**
@@ -20,6 +21,8 @@ import com.epimorphics.simpleAPI.results.ResultStream;
  */
 public interface DataSource {
 
-    public ResultStream query(Query query, Call call);
+    public Result query(ItemQuery query, Call call);
+
+    public ResultStream query(ListQuery query, Call call);
     
 }

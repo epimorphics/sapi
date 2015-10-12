@@ -10,6 +10,7 @@
 package com.epimorphics.simpleAPI.views;
 
 import org.apache.jena.atlas.json.JsonValue;
+import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ConfigItem;
@@ -66,10 +67,11 @@ public class ViewMap extends ConfigItem {
      * @return the legal variable name or null if the name/path is not present within the view
      */
     public String asVariableName(String name) {
-        ViewPath path = getTree().pathTo(name);
         if ("@id".equals(name)) {
             return "id";
-        } else  if (path != null) {
+        }
+        ViewPath path = getTree().pathTo(name);
+        if (path != null) {
             return path.asVariableName();
         } else {
             return null;
@@ -90,6 +92,16 @@ public class ViewMap extends ConfigItem {
         }
     }
     
+    /**
+     * Find the ViewEntry for a property URI
+     */
+    public ViewEntry findEntryByURI(String uri) {
+        return getTree().findEntryByURI(uri);
+    }
+    
+    /**
+     * Retrieve the view entry via a full path description
+     */
     public ViewEntry findEntry(ViewPath path) {
         return getTree().findEntry(path);
     }
@@ -111,13 +123,13 @@ public class ViewMap extends ConfigItem {
      * @return
      */
     
-    public static ViewMap parseFromJson(API api, JsonValue list) {   
+    public static ViewMap parseFromJson(API api, PrefixMapping prefixes, JsonValue list) {   
         if (list.isString()) {
             // Named view reference
             return new ViewMap(api, list.getAsString().value());
         } else if (list.isArray()) {
             // Inline view specification
-            return new ViewMap(api, ViewTree.parseFromJson(api, list) );
+            return new ViewMap(api, ViewTree.parseFromJson(api, prefixes, list) );
         } else {
             throw new EpiException("Illegal view specification must be a name or an array of view entries: " + list);
         }

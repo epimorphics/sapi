@@ -1,0 +1,29 @@
+{ 
+  "@id" : "http://localhost/example/A2" ,
+  "label" : [ 
+      "A2" ,
+      "a2"
+    ] ,
+  "narrower" : [ 
+      { 
+        "@id" : "http://localhost/example/B2" ,
+        "label" : [ 
+            "B2" ,
+            "b2"
+          ] ,
+        "notation" : "22" ,
+        "type" : {"@id" : "http://www.w3.org/2004/02/skos/core#Concept" }
+      } ,
+      { 
+        "@id" : "http://localhost/example/C2" ,
+        "label" : "C2" ,
+        "notation" : "23" ,
+        "type" : {"@id" : "http://www.w3.org/2004/02/skos/core#Concept" }
+      }
+    ] ,
+  "notation" : "21" ,
+  "type" : [ 
+      { "@id" : "http://localhost/example/root" } ,
+      { "@id" : "http://www.w3.org/2004/02/skos/core#Concept" }
+    ]
+}
