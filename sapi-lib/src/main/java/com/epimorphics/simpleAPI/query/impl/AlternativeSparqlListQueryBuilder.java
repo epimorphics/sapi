@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.jena.graph.Node;
 import org.apache.jena.rdf.model.RDFNode;
 
 import com.epimorphics.sparql.exprs.Call;
@@ -23,12 +22,9 @@ import com.epimorphics.sparql.query.Util;
 import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.sparql.terms.Filter;
 import com.epimorphics.sparql.terms.IsExpr;
-import com.epimorphics.sparql.terms.Literal;
-import com.epimorphics.sparql.terms.URI;
 import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
-import com.epimorphics.simpleAPI.query.Query;
 
 public class AlternativeSparqlListQueryBuilder implements ListQueryBuilder {
 
