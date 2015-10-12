@@ -12,7 +12,6 @@ import java.util.List;
 import org.apache.jena.graph.Node;
 import org.apache.jena.rdf.model.RDFNode;
 
-import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.sparql.exprs.Call;
 import com.epimorphics.sparql.exprs.Infix;
 import com.epimorphics.sparql.exprs.Op;
@@ -27,16 +26,18 @@ import com.epimorphics.sparql.terms.IsExpr;
 import com.epimorphics.sparql.terms.Literal;
 import com.epimorphics.sparql.terms.URI;
 import com.epimorphics.sparql.terms.Var;
+import com.epimorphics.simpleAPI.query.ListQuery;
+import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.Query;
 
-public class AlternativeSparqlQueryBuilder implements QueryBuilder {
+public class AlternativeSparqlListQueryBuilder implements ListQueryBuilder {
 
 	final com.epimorphics.sparql.query.Query q = new com.epimorphics.sparql.query.Query();
 		
-	public AlternativeSparqlQueryBuilder() {
+	public AlternativeSparqlListQueryBuilder() {
 	}
 	
-	@Override public QueryBuilder filter(String shortname, RDFNode value) {
+	@Override public ListQueryBuilder filter(String shortname, RDFNode value) {
 		Var var = new Var(shortname);
 		IsExpr val = Util.nodeToTerm(value);
 		Filter eq = new Filter(new Infix(var, Op.opEq, val));
@@ -44,7 +45,7 @@ public class AlternativeSparqlQueryBuilder implements QueryBuilder {
 		return this;
 	}
 
-	@Override public QueryBuilder filter(String shortname,	Collection<RDFNode> values) {
+	@Override public ListQueryBuilder filter(String shortname,	Collection<RDFNode> values) {
 		if (values.size() == 1) {
 			return filter(shortname, values.iterator().next());
 		} else {
@@ -57,19 +58,19 @@ public class AlternativeSparqlQueryBuilder implements QueryBuilder {
 		}
 	}
 
-	@Override public QueryBuilder sort(String shortname, boolean down) {
+	@Override public ListQueryBuilder sort(String shortname, boolean down) {
 		Order sc = (down ? Order.DESC : Order.ASC);
 		q.addOrder(sc, new Var(shortname));
 		return this;
 	}
 
-	@Override public QueryBuilder limit(long limit, long offset) {
+	@Override public ListQueryBuilder limit(long limit, long offset) {
 		q.setLimit(limit);
 		q.setOffset(offset);
 		return this;
 	}
 
-	@Override public QueryBuilder bind(String varname, RDFNode value) {
+	@Override public ListQueryBuilder bind(String varname, RDFNode value) {
 		final Var var = new Var(varname);
 		final IsExpr val = Util.nodeToTerm(value);
 		q.addPattern((GraphPattern) new Bind(val, var));
@@ -85,9 +86,9 @@ public class AlternativeSparqlQueryBuilder implements QueryBuilder {
 		+ "#$MODIFIER$\n"
 		;
 	
-    @Override public Query build() {	
+    @Override public ListQuery build() {	
 		Settings s = new Settings();
-		return new SparqlQuery(q.toSparql(s));
+		return new SparqlSelectQuery(q.toSparql(s));
 	}
 
 }
