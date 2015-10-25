@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -21,6 +22,10 @@ import javax.ws.rs.core.Response;
 
 import org.apache.jena.atlas.json.JSON;
 import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
 import org.junit.Test;
 
 import com.epimorphics.appbase.webapi.testing.TomcatTestBase;
@@ -51,10 +56,19 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         
         checkPost("basetest/list", JsonUtil.makeJson("group", "B", "_limit", 2, "_sort", "label"), "src/test/baseEndToEndTest/expected/list-filterB-limit2-post.json");
         checkPost("default/test4/B", JsonUtil.makeJson("_sort", "label"), "src/test/baseEndToEndTest/expected/list-default-test4-B-post.json");
+        
+        checkGet("example/A2",  "src/test/baseEndToEndTest/expected/describe-A2.json");
+        
+        checkGetTtl("example/A2",  "src/test/baseEndToEndTest/expected/describe-A2.ttl");
+        
     }
     
     protected void checkGet(String url, String expectedF) {
         checkResponse( getResponse( BASE_URL + url, "application/json"), expectedF );
+    }
+    
+    protected void checkGetTtl(String url, String expectedF) {
+        checkResponseTtl( getResponse( BASE_URL + url, "text/turtle"), expectedF );
     }
     
     protected void checkPost(String url, JsonObject body, String expectedF) {
@@ -71,10 +85,27 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         String entity = response.readEntity(String.class);
         JsonObject actual = JSON.parseAny( entity ).getAsObject();
         if (expectedF == null) {
-            System.out.println("Test incompleted, actual was: " + entity);
+            System.out.println("Test incomplete, actual was: " + entity);
         } else {
             JsonObject expected = JSON.read(expectedF);
             assertTrue( JsonComparator.equal(expected, actual) );
+        }
+    }
+    
+    protected void checkResponseTtl(Response response, String expectedF) {
+        if (response.getStatus() != 200) {
+            System.err.println( String.format("[%d] %s", response.getStatus(), response.readEntity(String.class)));
+            assertEquals(200, response.getStatus());
+        }
+        InputStream in = response.readEntity(InputStream.class);
+        Model actual = ModelFactory.createDefaultModel();
+        RDFDataMgr.read(actual, in, Lang.TTL);
+        if (expectedF == null) {
+            System.out.println("Test incomplete, actual was: ");
+            actual.write(System.out, "Turtle");
+        } else {
+            Model expected = RDFDataMgr.loadModel(expectedF);
+            assertTrue( actual.isIsomorphicWith(expected) );
         }
     }
 }

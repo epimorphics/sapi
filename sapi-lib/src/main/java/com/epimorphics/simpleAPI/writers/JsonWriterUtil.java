@@ -46,7 +46,13 @@ public class JsonWriterUtil {
         }
         for (String key : result.getSortedKeys()) {
             List<Object> values = result.getSortedValues(key);
-            ViewEntry policy = tree == null ? api.getDefaultViewFor(key) : tree.getEntry(key);
+            ViewEntry policy = null;
+            if (tree != null) {
+                policy = tree.getEntry(key);
+            }
+            if (policy == null) {
+                policy = api.getDefaultViewFor(key);
+            }
             if (values.size() > 1 || policy.isMultivalued()) {
                 // TODO handle case where we have a showOnlyLang setting and there's multiple different language values here
                 out.key(key);
@@ -70,7 +76,14 @@ public class JsonWriterUtil {
                 writer.arrayElementProcess();
             else
                 writer.key(key);
-            writeResult((TreeResult)value, tree == null ? null : tree.getEntry(key).getNested(), api, writer);
+            ViewTree ntree = null;
+            if (tree != null) {
+                ViewEntry entry = tree.getEntry(key);
+                if (entry != null) {
+                    ntree = entry.getNested();
+                }
+            }
+            writeResult((TreeResult)value, ntree, api, writer);
         } else if (value instanceof RDFNode) {
             RDFNode n = (RDFNode) value;
             if (n.isURIResource()) {

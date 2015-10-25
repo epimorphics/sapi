@@ -70,7 +70,6 @@ public class SpecMonitor extends ConfigMonitor<ConfigItem> {
         String path = uriInfo.getPath();
         EndpointSpec endpoint = endpoints.lookup(bindings, path, uriInfo.getQueryParameters());
         if (endpoint == null) {
-            // TODO should this revert to a describe instead?
             throw new NotFoundException("No endpoint matched request: " + path);
         }
         for (Map.Entry<String, String> binding : bindings.entrySet()) {

@@ -1,0 +1,16 @@
+name : describeTest2
+type : item
+view      :
+    - "skos:notation"
+    - prop: "skos:narrower"
+      nested:
+        - "skos:notation"
+    - prop: "skos:related"
+      optional : true
+      nested:
+        - "skos:notation"
+        - prop: "skos:related"
+          nested:
+            - "skos:notation"
+
+

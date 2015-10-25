@@ -13,7 +13,6 @@ import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.rdf.model.Resource;
 
 import com.epimorphics.json.JSFullWriter;
-import com.epimorphics.simpleAPI.requests.Call;
 
 /**
  * Abstraction for a single result in a result stream. 
@@ -26,13 +25,8 @@ import com.epimorphics.simpleAPI.requests.Call;
 // Note. Original had result as always the JSON tree but for DESCRIBES over a real triple store
 // when returning in RDF form we do want arbitrary graphs without having to go in and out of the tree format.
 
-public interface Result {
+public interface Result extends ResultOrStream {
     
-    /**
-     * The call that generated this result
-     */
-    public Call getCall();
-
     /**
      * Return the result as an RDF resource for serialization to RDF formats
      */

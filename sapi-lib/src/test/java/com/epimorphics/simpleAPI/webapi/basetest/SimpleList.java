@@ -16,8 +16,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.epimorphics.simpleAPI.results.ResultOrStream;
 import com.epimorphics.simpleAPI.webapi.EndpointsBase;
-import com.epimorphics.simpleAPI.results.ResultStream;
 
 @Path("basetest")
 public class SimpleList extends EndpointsBase {
@@ -25,7 +25,7 @@ public class SimpleList extends EndpointsBase {
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
-    public ResultStream listNested() {
+    public ResultOrStream listNested() {
         return listResponse( getRequest(), "listTest2");
     }
 
@@ -33,7 +33,7 @@ public class SimpleList extends EndpointsBase {
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultStream listNestedPost(String body) {
+    public ResultOrStream listNestedPost(String body) {
         return listResponse( getRequest(body), "listTest2");
     }
     

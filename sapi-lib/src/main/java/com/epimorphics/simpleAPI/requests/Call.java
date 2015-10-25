@@ -13,10 +13,11 @@ import javax.ws.rs.NotFoundException;
 
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.query.ItemQuery;
 import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.Query;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
-import com.epimorphics.simpleAPI.results.ResultStream;
+import com.epimorphics.simpleAPI.results.ResultOrStream;
 
 /**
  * Represents all the information involved in invoking a single API call.
@@ -62,12 +63,16 @@ public class Call {
     }
     
     /**
-     * Return the result stream for this call, it builds the query and 
+     * Return the results for this call, it builds the query and 
      * runs it on the configured data source. Suitable for simple
      * cases where no custom processing of request or query is needed.
      */
-    public ResultStream getResults() {
+    public ResultOrStream getResults() {
         Query query = getQueryBuilder().build();
-        return getAPI().getSource().query((ListQuery)query, this);
+        if (query instanceof ListQuery) {
+            return getAPI().getSource().query((ListQuery)query, this);
+        } else {
+            return getAPI().getSource().query((ItemQuery)query, this);
+        }
     }
 }

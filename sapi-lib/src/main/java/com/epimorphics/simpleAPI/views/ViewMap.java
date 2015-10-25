@@ -9,6 +9,9 @@
 
 package com.epimorphics.simpleAPI.views;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.jena.atlas.json.JsonValue;
 import org.apache.jena.shared.PrefixMapping;
 
@@ -57,6 +60,24 @@ public class ViewMap extends ConfigItem {
     public String asQuery() {
         StringBuffer query = new StringBuffer();
         getTree().renderAsQuery(query, "id", "");
+        return query.toString();
+    }
+    
+    /**
+     * Return a SPARQL describe query which describes the neste elements in the tree
+     */
+    public String asDescribe() {
+        StringBuffer queryBody = new StringBuffer();
+        Set<String> vars = new HashSet<>();
+        getTree().renderAsDescribe(queryBody, "id", "", vars);
+        StringBuffer query = new StringBuffer();
+        query.append("DESCRIBE ?id ");
+        for (String var : vars){
+            query.append("?" + var + " ");
+        }
+        query.append("{\n");
+        query.append(queryBody);
+        query.append("}");
         return query.toString();
     }
     

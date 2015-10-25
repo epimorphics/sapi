@@ -1,0 +1,9 @@
+name : itemTest3
+type : item
+view      :
+    - "skos:notation"
+    - prop: "skos:narrower"
+      optional: true
+      nested:
+        - "skos:notation"
+

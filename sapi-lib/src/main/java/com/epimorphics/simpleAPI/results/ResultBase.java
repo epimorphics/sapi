@@ -16,7 +16,9 @@ import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.rdf.model.Resource;
 
 import com.epimorphics.json.JSFullWriter;
+import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.requests.Call;
+import com.epimorphics.simpleAPI.requests.Request;
 
 /**
  * Handy base class for implementing Result
@@ -33,6 +35,16 @@ public abstract class ResultBase implements Result {
     @Override
     public Call getCall() {
         return call;
+    }
+
+    @Override
+    public EndpointSpec getSpec() {
+        return call.getEndpoint();
+    }
+
+    @Override
+    public Request getRequest() {
+        return call.getRequest();
     }
 
     public abstract Resource asResource();

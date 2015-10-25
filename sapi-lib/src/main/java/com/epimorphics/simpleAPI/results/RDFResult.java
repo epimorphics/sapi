@@ -19,7 +19,6 @@ import org.apache.jena.rdf.model.StmtIterator;
 
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.requests.Call;
-import com.epimorphics.simpleAPI.views.ViewMap;
 
 /**
  * A result which is stored as a real RDF (in memory) value.
@@ -45,15 +44,8 @@ public class RDFResult extends ResultBase implements Result {
     }
     
     public TreeResult asTreeResult() {
-        ViewMap view = call.getEndpoint().getView();
-        if (view == null) {
-            // No specified view, convert using localname/global default shortnames 
-            return fromResource(root, new HashSet<>());
-        } else {
-            // TODO implement view-driven conversion
-            return null;
-        }
-        
+        // TODO if there is a view should we limit the describe to that view?
+        return fromResource(root, new HashSet<>());
     }
 
     protected TreeResult fromResource(Resource root, Set<Resource> seen) {

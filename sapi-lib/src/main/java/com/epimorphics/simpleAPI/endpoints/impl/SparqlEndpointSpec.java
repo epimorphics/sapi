@@ -38,7 +38,7 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
             if (view == null) {
                 baseQuery = "DESCRIBE ?id";
             } else {
-                // TODO generate base describe from view
+                baseQuery = view.asDescribe();
             }
         }
         return new DescribeQueryBuilder(baseQuery, getPrefixes());

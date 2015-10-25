@@ -25,24 +25,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.epimorphics.json.JSFullWriter;
-import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ConfigConstants;
-import com.epimorphics.simpleAPI.requests.LimitRequestProcessor;
 import com.epimorphics.simpleAPI.results.Result;
-import com.epimorphics.simpleAPI.results.ResultOrStream;
-import com.epimorphics.simpleAPI.results.ResultStream;
 
 @Provider
 @Produces("application/json")
-public class ResultStreamJSON implements MessageBodyWriter<ResultStream> {
-    static final Logger log = LoggerFactory.getLogger( ResultStreamJSON.class );
+public class ResultJSON implements MessageBodyWriter<Result> {
+    static final Logger log = LoggerFactory.getLogger( ResultJSON.class );
     
     @Override
     public boolean isWriteable(Class<?> type, Type genericType,
             Annotation[] annotations, MediaType mediaType) {
         Class<?>[] sigs = type.getInterfaces();
         for (Class<?> sig: sigs) {
-            if (sig.equals(ResultStream.class)) {
+            if (sig.equals(Result.class)) {
                 return true;
             }
         }
@@ -50,52 +46,30 @@ public class ResultStreamJSON implements MessageBodyWriter<ResultStream> {
     }
 
     @Override
-    public long getSize(ResultStream t, Class<?> type, Type genericType,
+    public long getSize(Result t, Class<?> type, Type genericType,
             Annotation[] annotations, MediaType mediaType) {
         return -1;
     }
 
     @Override
-    public void writeTo(ResultStream results, Class<?> type, Type genericType,
+    public void writeTo(Result result, Class<?> type, Type genericType,
             Annotation[] annotations, MediaType mediaType,
             MultivaluedMap<String, Object> httpHeaders,
             OutputStream entityStream)
                     throws IOException, WebApplicationException {
         JSFullWriter out = new JSFullWriter(entityStream);
-        int count = 0;
         out.startOutput();
         out.startObject();
-        writeMetadata(results, out);
+        ResultStreamJSON.writeMetadata(result, out);
         out.key( ConfigConstants.RESULT_ITEMS );
         out.startArray();
         try {
-            for (Result result : results) {
-                out.arrayElementProcess();
-                result.writeJson(out);
-                count++;
-            }
+            out.arrayElementProcess();
+            result.writeJson(out);
         } finally {
-            results.close();
             out.finishArray();
             out.finishObject();
             out.finishOutput();
-        }
-        log.info("Returned " + count + " coalesced rows");
-    }
-    
-    public static void writeMetadata(ResultOrStream results, JSFullWriter out) {
-        API api = results.getSpec().getAPI();
-        api.startMetadata(out);
-        api.writeFormats(out, results.getRequest().getFullRequestedURI(), "json");
-        condOut("limit", LimitRequestProcessor.LIMIT, results, out);
-        condOut("offset", LimitRequestProcessor.OFFSET, results, out);
-        api.finishMetadata(out);        
-    }
-    
-    protected static void condOut(String key, String parameter, ResultOrStream results, JSFullWriter out) {
-        Long value = results.getRequest().getAsLong(parameter);
-        if (value != null) {
-            out.pair(key, value.longValue());
         }
     }
 

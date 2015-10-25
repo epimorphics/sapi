@@ -101,12 +101,15 @@ public class TestResultBasics {
         
         spec = api.getSpec("itemTest2");
         assertNotNull(spec);
-        
         query = (ItemQuery) spec.getQueryBuilder( request ).build();
-        
         result = source.query(query, new Call(spec, request) );
         assertTrue( JsonComparator.equal("src/test/baseResultTest/expected/itemTest2.json", result.asJson()) );
         
+        spec = api.getSpec("itemTest3");
+        assertNotNull(spec);
+        query = (ItemQuery) spec.getQueryBuilder( request ).build();
+        result = source.query(query, new Call(spec, request) );
+        assertTrue( JsonComparator.equal("src/test/baseResultTest/expected/itemTest2.json", result.asJson()) );
     }
     
     private void checkEntryRoot(TreeResult result, int index) {

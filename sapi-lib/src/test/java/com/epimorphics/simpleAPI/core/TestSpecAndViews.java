@@ -111,6 +111,22 @@ public class TestSpecAndViews {
         simpleCheckEntry(view.findEntryByURI(RT + "bar"), "bar", RT + "bar", true);
     }
     
+    @Test
+    public void testEndointQueryRender() {
+        // TODO sensitive to details of the string bashing
+        ViewMap view = api.getSpec("describeTest2").getView();
+        String query = view.asDescribe();
+        assertTrue( query.contains("{?id <http://www.w3.org/2004/02/skos/core#narrower> ?narrower }") );
+        assertTrue( query.contains("OPTIONAL {?id <http://www.w3.org/2004/02/skos/core#related> ?related }") );
+        assertTrue( query.contains("{?related <http://www.w3.org/2004/02/skos/core#related> ?related_related }") );
+        String describeLine = query.split("\\{")[0];
+        assertTrue( describeLine.contains("DESCRIBE") );
+        assertTrue( describeLine.contains("?id") );
+        assertTrue( describeLine.contains("?narrower") );
+        assertTrue( describeLine.contains("?related") );
+        assertTrue( describeLine.contains("?related_related") );
+    }
+    
     private void simpleCheckEntry(ViewEntry entry, String json, String prop, boolean nested) {
         assertEquals(json, entry.getJsonName());
         assertEquals(prop, entry.getProperty());

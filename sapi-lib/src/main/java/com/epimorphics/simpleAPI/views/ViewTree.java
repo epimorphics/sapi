@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
@@ -95,6 +96,28 @@ public class ViewTree implements Iterable<ViewEntry> {
             } else if (map.isNested()) {
                 ViewTree nested = map.getNested();
                 nested.renderAsQuery(buf, jname, npath);
+            }
+        }
+    }
+    
+    /**
+     * Synthesize the body of a SPARQL DESCRIBE query for this subtree
+     * @param buf Buffer into which to append the query text
+     * @param var the SPARQL variable representing the root of the tree
+     * @param path a prefix to prepend to the variable names to ensure distinct values down the tree
+     * @param vars the set of variables used in the tree
+     */
+    protected void renderAsDescribe(StringBuffer buf, String var, String path, Set<String> vars) {
+        for (ViewEntry map : children.values()) {
+            if (map.isNested()) {
+                String jname = map.getJsonName();
+                String npath = addToPath(path, jname);
+                String nvar =  path.isEmpty() ? jname : path + "_" + jname;
+                buf.append("    ");
+                if (map.isOptional()) buf.append("OPTIONAL ");
+                buf.append("{?" + var + " " + map.asQueryRow(path) + " }\n" );
+                vars.add(nvar);
+                map.getNested().renderAsDescribe(buf, nvar, npath, vars);
             }
         }
     }

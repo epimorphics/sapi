@@ -1,0 +1,11 @@
+<http://localhost/flood-monitoring/example/A2>
+        a       <http://localhost/flood-monitoring/example/Thing> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "A2" ;
+        <http://localhost/flood-monitoring/example/group>
+                "A" ;
+        <http://www.w3.org/2004/02/skos/core#narrower>
+                <http://localhost/flood-monitoring/example/B2> ;
+        <http://www.w3.org/2004/02/skos/core#notation>
+                2 .
+                

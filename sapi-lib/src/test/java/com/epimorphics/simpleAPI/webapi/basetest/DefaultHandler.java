@@ -15,8 +15,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
+import com.epimorphics.simpleAPI.results.ResultOrStream;
 import com.epimorphics.simpleAPI.webapi.EndpointsBase;
-import com.epimorphics.simpleAPI.results.ResultStream;
 
 /**
  * Handle any request that aren't handled by more specific paths. 
@@ -28,13 +28,13 @@ import com.epimorphics.simpleAPI.results.ResultStream;
 public class DefaultHandler extends EndpointsBase {
 
     @GET
-    public ResultStream handleDefault() {
+    public ResultOrStream handleDefault() {
         return defaultResponse();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultStream handleDefault(String body) {
+    public ResultOrStream handleDefault(String body) {
         return defaultResponse(body);
     }
 }

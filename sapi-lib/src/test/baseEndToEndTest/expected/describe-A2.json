@@ -1,0 +1,26 @@
+{ 
+  "@context" : "http://localhost/flood-monitoring/doc/context-TBD.jsonld" ,
+  "meta" : { 
+    "publisher" : "Epimorphics.com" ,
+    "licence" : "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ,
+    "documentation" : "http://localhost/flood-monitoring/doc/api-documentation.html" ,
+    "version" : "0.1" ,
+    "comment" : "WARNING: Pre-alpha test service, data may not be up to date" ,
+    "hasFormat" : [ "http://localhost/flood-monitoring/example/A2.csv", "http://localhost/flood-monitoring/example/A2.rdf", "http://localhost/flood-monitoring/example/A2.ttl" ]
+  }
+   ,
+  "items" : [ { 
+    "@id" : "http://localhost/flood-monitoring/example/A2" ,
+    "group" : "A" ,
+    "label" : "A2" ,
+    "narrower" : { 
+      "@id" : "http://localhost/flood-monitoring/example/B2"
+    }
+     ,
+    "notation" : 2 ,
+    "type" : { 
+      "@id" : "http://localhost/flood-monitoring/example/Thing"
+    }
+  }
+   ]
+}

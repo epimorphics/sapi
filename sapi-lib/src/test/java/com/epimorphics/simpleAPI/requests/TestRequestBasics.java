@@ -76,7 +76,7 @@ public class TestRequestBasics {
     
     private ResultStream get(String endpointName, Request request) {
         Call call = new Call(api, endpointName, request);
-        return call.getResults();
+        return (ResultStream)call.getResults();
     }
     
     private int getAndCount(String endpointName, String... args) {
