@@ -9,6 +9,8 @@
 
 package com.epimorphics.simpleAPI.query.impl;
 
+import javax.ws.rs.NotFoundException;
+
 import org.apache.jena.graph.Graph;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -45,6 +47,10 @@ public class SparqlDataSource implements DataSource {
             SparqlQuery sq = (SparqlQuery) query;
             Graph graph = source.describe(sq.getQuery());
             Model model = ModelFactory.createModelForGraph(graph);
+            if (model.isEmpty()) {
+                // TODO Review whether this should be trapped here or further up the processing stream
+                throw new NotFoundException();
+            }
             Resource root = model.getResource( call.getRequest().getRequestedURI() );
             return new RDFResult(root, call);
         } else {
