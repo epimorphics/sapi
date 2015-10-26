@@ -24,7 +24,7 @@ public class SimpleList extends EndpointsBase {
 
     @GET
     @Path("list")
-    @Produces({MediaType.APPLICATION_JSON, FULL_MEDIA_TYPE_TURTLE})
+    @Produces({MediaType.APPLICATION_JSON, FULL_MEDIA_TYPE_TURTLE, FULL_MEDIA_TYPE_CSV})
     public ResultOrStream listNested() {
         return listResponse( getRequest(), "listTest2");
     }

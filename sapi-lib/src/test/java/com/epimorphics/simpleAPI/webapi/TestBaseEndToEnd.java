@@ -59,13 +59,15 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         
         // Describe checks
         checkGet("example/A2",  "src/test/testCases/baseEndToEndTest/expected/describe-A2.json");
-        checkGetTtl("example/A2", "src/test/testCases/baseEndToEndTest/expected/describe-A2.ttl");
         assertEquals(404, getResponse(BASE_URL + "example/notThere", "application/json").getStatus());
         assertEquals(404, getResponse(BASE_URL + "example/notThere", "text/turtle").getStatus());
 
         // RDF serialization
         checkGetTtl("basetest/list?_limit=2&_sort=@id", "src/test/testCases/baseEndToEndTest/expected/list-limit2-id.ttl");
-        
+        checkGetTtl("example/A2", "src/test/testCases/baseEndToEndTest/expected/describe-A2.ttl");
+
+        // CSV serialization
+//        checkGetCSV("basetest/list?_limit=2&_sort=@id", null);
     }
     
     protected void checkGet(String url, String expectedF) {
@@ -76,6 +78,10 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         checkResponseTtl( getResponse( BASE_URL + url, "text/turtle"), expectedF );
     }
     
+    protected void checkGetCSV(String url, String expectedF) {
+        checkResponseCSV( getResponse( BASE_URL + url, "text/csv"), expectedF );
+    }
+    
     protected void checkPost(String url, JsonObject body, String expectedF) {
         WebTarget r = c.target( BASE_URL + url );
         Response response = r.request(MediaType.APPLICATION_JSON).post(Entity.entity(body.toString(), MediaType.APPLICATION_JSON));
@@ -83,10 +89,7 @@ public class TestBaseEndToEnd extends TomcatTestBase {
     }
     
     protected void checkResponse(Response response, String expectedF) {
-        if (response.getStatus() != 200) {
-            System.err.println( String.format("[%d] %s", response.getStatus(), response.readEntity(String.class)));
-            assertEquals(200, response.getStatus());
-        }
+        checkStatus(response);
         String entity = response.readEntity(String.class);
         JsonObject actual = JSON.parseAny( entity ).getAsObject();
         if (expectedF == null) {
@@ -96,12 +99,16 @@ public class TestBaseEndToEnd extends TomcatTestBase {
             assertTrue( JsonComparator.equal(expected, actual) );
         }
     }
-    
-    protected void checkResponseTtl(Response response, String expectedF) {
+
+    private void checkStatus(Response response) {
         if (response.getStatus() != 200) {
             System.err.println( String.format("[%d] %s", response.getStatus(), response.readEntity(String.class)));
             assertEquals(200, response.getStatus());
         }
+    }
+    
+    protected void checkResponseTtl(Response response, String expectedF) {
+        checkStatus(response);
         InputStream in = response.readEntity(InputStream.class);
         Model actual = ModelFactory.createDefaultModel();
         RDFDataMgr.read(actual, in, Lang.TTL);
@@ -112,5 +119,11 @@ public class TestBaseEndToEnd extends TomcatTestBase {
             Model expected = RDFDataMgr.loadModel(expectedF);
             assertTrue( actual.isIsomorphicWith(expected) );
         }
+    }
+    
+    protected void checkResponseCSV(Response response, String expectedF) {
+        checkStatus(response);
+        String entity = response.readEntity(String.class);
+        System.out.println("CSV out:\n" + entity);
     }
 }
