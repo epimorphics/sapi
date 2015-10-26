@@ -18,11 +18,11 @@ import com.epimorphics.sparql.graphpatterns.Basic;
 import com.epimorphics.sparql.graphpatterns.Bind;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.query.Order;
-import com.epimorphics.sparql.query.Util;
 import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.sparql.terms.Filter;
 import com.epimorphics.sparql.terms.IsExpr;
 import com.epimorphics.sparql.terms.Var;
+import com.epimorphics.sparql.terms.TermUtils;
 import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 
@@ -35,7 +35,7 @@ public class AlternativeSparqlListQueryBuilder implements ListQueryBuilder {
 	
 	@Override public ListQueryBuilder filter(String shortname, RDFNode value) {
 		Var var = new Var(shortname);
-		IsExpr val = Util.nodeToTerm(value);
+		IsExpr val = TermUtils.nodeToTerm(value);
 		Filter eq = new Filter(new Infix(var, Op.opEq, val));
 		q.addPattern(new Basic(eq));		
 		return this;
@@ -47,7 +47,7 @@ public class AlternativeSparqlListQueryBuilder implements ListQueryBuilder {
 		} else {
 			Var var = new Var(shortname);
 			List<IsExpr> operands = new ArrayList<IsExpr>();
-			for (RDFNode value: values) operands.add(Util.nodeToTerm(value));
+			for (RDFNode value: values) operands.add(TermUtils.nodeToTerm(value));
 			IsExpr oneOf = new Infix(var, Op.opIn, new Call(Op.Tuple, operands));
 			q.addPattern(new Basic(new Filter(oneOf)));
 			return this;
@@ -68,7 +68,7 @@ public class AlternativeSparqlListQueryBuilder implements ListQueryBuilder {
 
 	@Override public ListQueryBuilder bind(String varname, RDFNode value) {
 		final Var var = new Var(varname);
-		final IsExpr val = Util.nodeToTerm(value);
+		final IsExpr val = TermUtils.nodeToTerm(value);
 		q.addPattern((GraphPattern) new Bind(val, var));
 		return this;
 	}
@@ -84,7 +84,7 @@ public class AlternativeSparqlListQueryBuilder implements ListQueryBuilder {
 	
     @Override public ListQuery build() {	
 		Settings s = new Settings();
-		return new SparqlSelectQuery(q.toSparql(s));
+		return new SparqlSelectQuery(q.toSparqlSelect(s));
 	}
 
 }
