@@ -42,13 +42,13 @@ public class TestEndpointSpecAttic {
     
     @Before
     public void setUP() throws IOException {
-        app = new App("test", new File("src/test/TestApp/WEB-INF/static-app.conf"));
+        app = new App("test", new File("src/test/testCases/TestApp/WEB-INF/static-app.conf"));
         api = app.getA(API.class);
     }
 
     @Test
     public void testPrefixes() {
-        EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/TestApp/WEB-INF/endpoints/alertTestExplicitQuery.yaml");
+        EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/testCases/TestApp/WEB-INF/endpoints/alertTestExplicitQuery.yaml");
         
         PrefixMapping prefixes = endpoint.getPrefixes();
         assertEquals( "http://environment.data.gov.uk/flood-monitoring/def/core/", prefixes.getNsPrefixURI("rt") );
@@ -246,7 +246,7 @@ public class TestEndpointSpecAttic {
     
     @Test
     public void testParseBug() {
-        EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/TestApp/WEB-INF/endpoints/alertTestExplicitQuery.yaml");
+        EndpointSpec endpoint = EndpointSpecFactory.read(api, "src/test/testCases/TestApp/WEB-INF/endpoints/alertTestExplicitQuery.yaml");
         
         JSONMap map = endpoint.getMap();
         JSONNodeDescription polygonmap = map.getEntry("polygon");

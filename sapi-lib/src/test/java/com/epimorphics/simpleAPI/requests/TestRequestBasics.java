@@ -32,7 +32,7 @@ public class TestRequestBasics {
     
     @Before
     public void setUP() throws IOException {
-        app = new App("test", new File("src/test/baseRequestTest/app.conf"));
+        app = new App("test", new File("src/test/testCases/baseRequestTest/app.conf"));
         api = app.getA(API.class);
         app.startup();
         source = app.getA(DataSource.class);

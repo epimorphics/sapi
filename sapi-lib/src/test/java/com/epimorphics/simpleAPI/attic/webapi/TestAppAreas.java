@@ -40,7 +40,7 @@ public class TestAppAreas extends TomcatTestBase {
 
     @Override
     public String getWebappRoot() {
-        return "src/test/TestApp";
+        return "src/test/testCases/TestApp";
     }
 
     @Test

@@ -37,7 +37,7 @@ public class TestQueryStrings {
     
     @Before
     public void setUP() throws IOException {
-        app = new App("test", new File("src/test/testQueries/WEB-INF/app.conf"));
+        app = new App("test", new File("src/test/testCases/testQueries/WEB-INF/app.conf"));
         api = app.getA(API.class);
         app.startup();
     }

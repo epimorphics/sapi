@@ -37,7 +37,7 @@ public class TestSpecAndViews {
     
     @Before
     public void setUP() throws IOException {
-        app = new App("test", new File("src/test/baseEPTest/app.conf"));
+        app = new App("test", new File("src/test/testCases/baseEPTest/app.conf"));
         api = app.getA(API.class);
         app.startup();
     }

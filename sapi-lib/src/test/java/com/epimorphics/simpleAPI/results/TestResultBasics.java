@@ -41,7 +41,7 @@ public class TestResultBasics {
     
     @Before
     public void setUP() throws IOException {
-        app = new App("test", new File("src/test/baseResultTest/app.conf"));
+        app = new App("test", new File("src/test/testCases/baseResultTest/app.conf"));
         api = app.getA(API.class);
         app.startup();
         source = app.getA(DataSource.class);
@@ -81,8 +81,8 @@ public class TestResultBasics {
         
         // Nested case, check JSON render
         stream = source.query(query, new Call(spec, null));
-        assertTrue( JsonComparator.equal("src/test/baseResultTest/expected/r1.json", stream.next().asJson()) );
-        assertTrue( JsonComparator.equal("src/test/baseResultTest/expected/r2.json", stream.next().asJson()) );
+        assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/r1.json", stream.next().asJson()) );
+        assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/r2.json", stream.next().asJson()) );
         assertFalse( stream.hasNext() );
     }
     
@@ -97,19 +97,19 @@ public class TestResultBasics {
         assertTrue( query.toString().contains(URI) );
         
         Result result = source.query(query, new Call(spec, request) );
-        assertTrue( JsonComparator.equal("src/test/baseResultTest/expected/itemTest1.json", result.asJson()) );
+        assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/itemTest1.json", result.asJson()) );
         
         spec = api.getSpec("itemTest2");
         assertNotNull(spec);
         query = (ItemQuery) spec.getQueryBuilder( request ).build();
         result = source.query(query, new Call(spec, request) );
-        assertTrue( JsonComparator.equal("src/test/baseResultTest/expected/itemTest2.json", result.asJson()) );
+        assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/itemTest2.json", result.asJson()) );
         
         spec = api.getSpec("itemTest3");
         assertNotNull(spec);
         query = (ItemQuery) spec.getQueryBuilder( request ).build();
         result = source.query(query, new Call(spec, request) );
-        assertTrue( JsonComparator.equal("src/test/baseResultTest/expected/itemTest2.json", result.asJson()) );
+        assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/itemTest2.json", result.asJson()) );
     }
     
     private void checkEntryRoot(TreeResult result, int index) {

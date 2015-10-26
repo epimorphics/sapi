@@ -53,7 +53,7 @@ public class TestValueSet {
     
     @Before
     public void setUP() throws IOException {
-        app = new App("test", new File("src/test/TestApp/WEB-INF/static-app.conf"));
+        app = new App("test", new File("src/test/testCases/TestApp/WEB-INF/static-app.conf"));
         api = app.getA(API.class);
     }
     

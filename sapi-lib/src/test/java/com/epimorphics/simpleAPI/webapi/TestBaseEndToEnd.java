@@ -40,26 +40,26 @@ public class TestBaseEndToEnd extends TomcatTestBase {
 
     @Override
     public String getWebappRoot() {
-        return "src/test/baseEndToEndTest";
+        return "src/test/testCases/baseEndToEndTest";
     }
 
     @Test
     public void testEndToEnd() throws IOException {
-        checkGet("basetest/list?_limit=2&_sort=label", "src/test/baseEndToEndTest/expected/list-limit2.json");
-        checkGet("basetest/list?_limit=2&_sort=@id", "src/test/baseEndToEndTest/expected/list-limit2-id.json");
-        checkGet("basetest/list?group=B&_limit=2&_sort=label", "src/test/baseEndToEndTest/expected/list-filterB-limit2.json");
+        checkGet("basetest/list?_limit=2&_sort=label", "src/test/testCases/baseEndToEndTest/expected/list-limit2.json");
+        checkGet("basetest/list?_limit=2&_sort=@id", "src/test/testCases/baseEndToEndTest/expected/list-limit2-id.json");
+        checkGet("basetest/list?group=B&_limit=2&_sort=label", "src/test/testCases/baseEndToEndTest/expected/list-filterB-limit2.json");
         
-        checkGet("basetest/list?_view=compact&_limit=2&_sort=label", "src/test/baseEndToEndTest/expected/list-compact-limit2.json");
+        checkGet("basetest/list?_view=compact&_limit=2&_sort=label", "src/test/testCases/baseEndToEndTest/expected/list-compact-limit2.json");
         
-        checkGet("default/test3?_sort=label", "src/test/baseEndToEndTest/expected/list-default-test3.json");
-        checkGet("default/test4/B?_sort=label", "src/test/baseEndToEndTest/expected/list-default-test4-B.json");
+        checkGet("default/test3?_sort=label", "src/test/testCases/baseEndToEndTest/expected/list-default-test3.json");
+        checkGet("default/test4/B?_sort=label", "src/test/testCases/baseEndToEndTest/expected/list-default-test4-B.json");
         
-        checkPost("basetest/list", JsonUtil.makeJson("group", "B", "_limit", 2, "_sort", "label"), "src/test/baseEndToEndTest/expected/list-filterB-limit2-post.json");
-        checkPost("default/test4/B", JsonUtil.makeJson("_sort", "label"), "src/test/baseEndToEndTest/expected/list-default-test4-B-post.json");
+        checkPost("basetest/list", JsonUtil.makeJson("group", "B", "_limit", 2, "_sort", "label"), "src/test/testCases/baseEndToEndTest/expected/list-filterB-limit2-post.json");
+        checkPost("default/test4/B", JsonUtil.makeJson("_sort", "label"), "src/test/testCases/baseEndToEndTest/expected/list-default-test4-B-post.json");
         
-        checkGet("example/A2",  "src/test/baseEndToEndTest/expected/describe-A2.json");
+        checkGet("example/A2",  "src/test/testCases/baseEndToEndTest/expected/describe-A2.json");
         
-        checkGetTtl("example/A2",  "src/test/baseEndToEndTest/expected/describe-A2.ttl");
+        checkGetTtl("example/A2",  "src/test/testCases/baseEndToEndTest/expected/describe-A2.ttl");
         
         assertEquals(404, getResponse(BASE_URL + "example/notThere", "application/json").getStatus());
         assertEquals(404, getResponse(BASE_URL + "example/notThere", "text/turtle").getStatus());
