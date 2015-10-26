@@ -9,7 +9,9 @@
 
 package com.epimorphics.simpleAPI.views;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.jena.atlas.json.JsonValue;
@@ -26,6 +28,7 @@ public class ViewMap extends ConfigItem {
     private ViewTree tree;
     private String viewReference;
     protected API api;
+    protected List<ViewPath> allPaths;
     
     public ViewMap(API api) {
         this.api = api;
@@ -137,12 +140,15 @@ public class ViewMap extends ConfigItem {
     }
     
     /**
-     * Convert a "p.q.r" path to a variable name.
-     * Does not check whether this is legal within the view.
-     * @param api
-     * @param list
-     * @return
+     * Return a list of the paths to all the leave nodes in the map
      */
+    public List<ViewPath> getAllPaths() {
+        if (allPaths == null) {
+            allPaths = new ArrayList<>();
+            getTree().collectPaths(new ViewPath(), allPaths);
+        }
+        return allPaths;
+    }
     
     public static ViewMap parseFromJson(API api, PrefixMapping prefixes, JsonValue list) {   
         if (list.isString()) {

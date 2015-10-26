@@ -16,7 +16,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +29,7 @@ import com.epimorphics.simpleAPI.query.Query;
 import com.epimorphics.simpleAPI.query.impl.SparqlSelectQuery;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.vocabs.SKOS;
 
 public class TestSpecAndViews {
@@ -109,6 +112,15 @@ public class TestSpecAndViews {
 
         simpleCheckEntry(view.findEntryByURI(RT + "foo"), "foo", RT + "foo", true);
         simpleCheckEntry(view.findEntryByURI(RT + "bar"), "bar", RT + "bar", true);
+        
+        Set<String> expected = new HashSet<>();
+        for (String e : new String[]{"foo", "foo.bar", "foo.bar.label", "foo.bar.notation", "foo.bar.test", 
+                                             "foo.baz", "foo.baz.label", "foo.baz.notation", 
+                                             "foo.fu_bar", 
+                                     "label"}) expected.add(e);
+        Set<String> actual = new HashSet<>();
+        for (ViewPath path : view.getAllPaths()) actual.add( path.asDotted() );
+        assertEquals(expected, actual);
     }
     
     @Test

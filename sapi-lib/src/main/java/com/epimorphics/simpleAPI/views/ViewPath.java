@@ -10,6 +10,8 @@
 package com.epimorphics.simpleAPI.views;
 
 import java.util.LinkedList;
+import java.util.List;
+
 import static java.util.stream.Collectors.*;
 
 /**
@@ -64,11 +66,27 @@ public class ViewPath {
     }
     
     /**
+     * Return the path as a list of element names
+     */
+    public List<String> asList() {
+        return path;
+    }
+    
+    /**
      * Add an element to the end of this path (side effecting)
      */
     public ViewPath add(String elt) {
         path.add(elt);
         return this;
+    }
+    
+    /**
+     * Return a new path with the given element added at the end
+     */
+    public ViewPath withAdd(String elt) {
+        LinkedList<String> newpath = new LinkedList<>(path);
+        newpath.add(elt);
+        return new ViewPath(newpath);
     }
     
     /**
@@ -91,5 +109,10 @@ public class ViewPath {
     public static ViewPath fromVariableName(String varname) {
         String path = varname.replace("__", "|").replace("_", ".").replace("|", "_");
         return new ViewPath( path.split("\\.") );
+    }
+    
+    @Override
+    public String toString() {
+        return asDotted();
     }
 }

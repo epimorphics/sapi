@@ -122,6 +122,18 @@ public class ViewTree implements Iterable<ViewEntry> {
         }
     }
     
+    /**
+     * Extend a list of all paths in the tree 
+     */
+    protected void collectPaths(ViewPath parent, List<ViewPath> paths) {
+        for (ViewEntry map : children.values()) {
+            paths.add( parent.withAdd(map.getJsonName()) );
+            if (map.isNested()) {
+                map.getNested().collectPaths(parent.withAdd(map.getJsonName()), paths);
+            }
+        }
+    }
+    
     private String addToPath(String path, String jname) {
         if (path.isEmpty()) {
             return jname.replace("_", "__");
