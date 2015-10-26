@@ -8,4 +8,16 @@
                 <http://localhost/flood-monitoring/example/B2> ;
         <http://www.w3.org/2004/02/skos/core#notation>
                 2 .
-                
+[ <http://www.w3.org/2000/01/rdf-schema#comment>
+          "WARNING: Pre-alpha test service, data may not be up to date" ;
+  <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+          <http://localhost/flood-monitoring/doc/api-documentation.html> ;
+  <http://purl.org/dc/terms/license>
+          "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
+  <http://purl.org/dc/terms/publisher>
+          "Epimorphics.com" ;
+  <http://www.w3.org/2002/07/owl#versionInfo>
+          "0.1" ;
+  <http://xmlns.com/foaf/0.1/primaryTopic>
+          <http://localhost/flood-monitoring/example/A2>
+] .                

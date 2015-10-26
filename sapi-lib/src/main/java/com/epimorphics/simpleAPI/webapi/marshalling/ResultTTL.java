@@ -21,6 +21,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.apache.jena.rdf.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,8 +56,9 @@ public class ResultTTL implements MessageBodyWriter<Result> {
             MultivaluedMap<String, Object> httpHeaders,
             OutputStream entityStream)
                     throws IOException, WebApplicationException {
-        // TODO metadata
-        result.asResource().getModel().write(entityStream, "Turtle");
+        Resource root = result.asResource();
+        result.getCall().getAPI().addRDFMetadata(root);
+        root.getModel().write(entityStream, "Turtle");
     }
 
 }

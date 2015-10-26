@@ -59,7 +59,7 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         
         checkGet("example/A2",  "src/test/testCases/baseEndToEndTest/expected/describe-A2.json");
         
-        checkGetTtl("example/A2",  "src/test/testCases/baseEndToEndTest/expected/describe-A2.ttl");
+        checkGetTtl("example/A2", "src/test/testCases/baseEndToEndTest/expected/describe-A2.ttl");
         
         assertEquals(404, getResponse(BASE_URL + "example/notThere", "application/json").getStatus());
         assertEquals(404, getResponse(BASE_URL + "example/notThere", "text/turtle").getStatus());
