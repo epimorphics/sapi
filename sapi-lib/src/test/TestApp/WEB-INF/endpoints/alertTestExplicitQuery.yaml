@@ -1,4 +1,5 @@
 # Test of description and nesting with explicit query
+name : alertTestExplicitQuery
 type : list
 
 prefixes : 

@@ -1,0 +1,7 @@
+<html>
+  <body>
+    Arg = $arg
+    Resource = $resource.uRI
+    Description = $resource.getPropertyValue("dct:description")
+  </body>
+</html>
