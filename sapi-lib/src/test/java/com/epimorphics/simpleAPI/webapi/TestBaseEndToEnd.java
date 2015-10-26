@@ -57,12 +57,14 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         checkPost("basetest/list", JsonUtil.makeJson("group", "B", "_limit", 2, "_sort", "label"), "src/test/testCases/baseEndToEndTest/expected/list-filterB-limit2-post.json");
         checkPost("default/test4/B", JsonUtil.makeJson("_sort", "label"), "src/test/testCases/baseEndToEndTest/expected/list-default-test4-B-post.json");
         
+        // Describe checks
         checkGet("example/A2",  "src/test/testCases/baseEndToEndTest/expected/describe-A2.json");
-        
         checkGetTtl("example/A2", "src/test/testCases/baseEndToEndTest/expected/describe-A2.ttl");
-        
         assertEquals(404, getResponse(BASE_URL + "example/notThere", "application/json").getStatus());
         assertEquals(404, getResponse(BASE_URL + "example/notThere", "text/turtle").getStatus());
+
+        // RDF serialization
+        checkGetTtl("basetest/list?_limit=2&_sort=@id", "src/test/testCases/baseEndToEndTest/expected/list-limit2-id.ttl");
         
     }
     

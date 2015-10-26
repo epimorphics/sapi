@@ -1,23 +1,26 @@
+@prefix eg:    <http://localhost/example/> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix jtext: <http://jena.apache.org/text#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+
 <http://localhost/flood-monitoring/example/A2>
-        a       <http://localhost/flood-monitoring/example/Thing> ;
-        <http://www.w3.org/2000/01/rdf-schema#label>
-                "A2" ;
+        a              <http://localhost/flood-monitoring/example/Thing> ;
+        rdfs:label     "A2" ;
         <http://localhost/flood-monitoring/example/group>
                 "A" ;
-        <http://www.w3.org/2004/02/skos/core#narrower>
-                <http://localhost/flood-monitoring/example/B2> ;
-        <http://www.w3.org/2004/02/skos/core#notation>
-                2 .
-[ <http://www.w3.org/2000/01/rdf-schema#comment>
-          "WARNING: Pre-alpha test service, data may not be up to date" ;
-  <http://www.w3.org/2000/01/rdf-schema#seeAlso>
-          <http://localhost/flood-monitoring/doc/api-documentation.html> ;
-  <http://purl.org/dc/terms/license>
-          "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
-  <http://purl.org/dc/terms/publisher>
-          "Epimorphics.com" ;
-  <http://www.w3.org/2002/07/owl#versionInfo>
-          "0.1" ;
-  <http://xmlns.com/foaf/0.1/primaryTopic>
-          <http://localhost/flood-monitoring/example/A2>
-] .                
+        skos:narrower  <http://localhost/flood-monitoring/example/B2> ;
+        skos:notation  2 .
+
+[ rdfs:comment       "WARNING: Pre-alpha test service, data may not be up to date" ;
+  rdfs:seeAlso       <http://localhost/flood-monitoring/doc/api-documentation.html> ;
+  dct:hasFormat      <http://localhost/flood-monitoring/example/A2.json> , <http://localhost/flood-monitoring/example/A2.csv> , <http://localhost/flood-monitoring/example/A2.rdf> ;
+  dct:license        "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
+  dct:publisher      "Epimorphics.com" ;
+  owl:versionInfo    "0.1" ;
+  foaf:primaryTopic  <http://localhost/flood-monitoring/example/A2>
+] .

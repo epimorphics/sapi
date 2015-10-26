@@ -10,6 +10,7 @@
 package com.epimorphics.simpleAPI.results;
 
 import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 
 import com.epimorphics.json.JSFullWriter;
@@ -31,6 +32,12 @@ public interface Result extends ResultOrStream {
      * Return the result as an RDF resource for serialization to RDF formats
      */
     public Resource asResource();
+    
+    /**
+     * Return the result as an RDF resource for serialization to RDF formats.
+     * Copied into the given model
+     */
+    public Resource asResource(Model model);
     
     /**
      * Render the result to a JSON stream

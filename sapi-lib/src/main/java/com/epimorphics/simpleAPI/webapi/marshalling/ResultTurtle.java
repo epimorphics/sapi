@@ -21,16 +21,19 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.sparql.vocabulary.FOAF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.results.Result;
 
 @Provider
 @Produces("text/turtle")
-public class ResultTTL implements MessageBodyWriter<Result> {
-    static final Logger log = LoggerFactory.getLogger( ResultTTL.class );
+public class ResultTurtle implements MessageBodyWriter<Result> {
+    static final Logger log = LoggerFactory.getLogger( ResultTurtle.class );
     
     @Override
     public boolean isWriteable(Class<?> type, Type genericType,
@@ -56,9 +59,17 @@ public class ResultTTL implements MessageBodyWriter<Result> {
             MultivaluedMap<String, Object> httpHeaders,
             OutputStream entityStream)
                     throws IOException, WebApplicationException {
-        Resource root = result.asResource();
-        result.getCall().getAPI().addRDFMetadata(root);
-        root.getModel().write(entityStream, "Turtle");
+        asModel(result).write(entityStream, "Turtle");
     }
 
+    public static Model asModel(Result result) {
+        Resource root = result.asResource();
+        Model model = root.getModel();
+        Call call = result.getCall();
+        model.setNsPrefixes( call.getEndpoint().getPrefixes() );
+        Resource meta = model.createResource(); 
+        call.getAPI().addRDFMetadata(meta, call.getRequest().getFullRequestedURI(), "ttl");
+        meta.addProperty(FOAF.primaryTopic, root);
+        return model;
+    }
 }

@@ -22,7 +22,6 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.shared.impl.PrefixMappingImpl;
-import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
@@ -109,6 +108,21 @@ public class API extends ComponentBase implements Startup {
     
     public void writeFormats(JSFullWriter out, String requestURI, String skipFormat) {
         boolean started = false;
+        for (String format : getFormats(requestURI, skipFormat)) {
+            if (!started) {
+                out.key("hasFormat");
+                out.startArray();
+                started = true;
+            }
+            out.arrayElement(format);
+        }
+        if (started) {
+            out.finishArray();
+        }
+    }
+    
+    protected static List<String> getFormats(String requestURI, String skipFormat) {
+        List<String> formats = new ArrayList<>();
         for (String format : supportedFormats) {
             if (skipFormat.equals(format))
                 continue;
@@ -116,16 +130,9 @@ public class API extends ComponentBase implements Startup {
             String base = m.matches() ? m.group(1) : requestURI;
             String rest = (m.matches() && m.group(3) != null) ? m.group(3) : "";
             String url = base + "." + format + rest;
-            if (!started) {
-                out.key("hasFormat");
-                out.startArray();
-                started = true;
-            }
-            out.arrayElement(url);
+            formats.add(url);
         }
-        if (started) {
-            out.finishArray();
-        }
+        return formats;
     }
 
     public void writeMetadata(JSFullWriter out) {
@@ -139,11 +146,11 @@ public class API extends ComponentBase implements Startup {
     
     /**
      * Inject a page description into a description model
-     * @param thing The resource being described whose associated Model is where the description should be injected
+     * @param meta the resource to which the metadata should be attached
+     * @param requestedURI the full URI of the request, used for generating hasFormat information
+     * @param skipFormat the extension name of a format to omit from the hasFormat list
      */
-    public Resource addRDFMetadata(Resource thing) {
-        Resource meta = thing.getModel().createResource()
-            .addProperty(FOAF.primaryTopic, thing);
+    public Resource addRDFMetadata(Resource meta, String requestedURI, String skipFormat) {
         condAddProperty(meta, DCTerms.publisher, publisher);
         condAddProperty(meta, DCTerms.license, licence);
         if (documentation != null) {
@@ -151,6 +158,9 @@ public class API extends ComponentBase implements Startup {
         }
         condAddProperty(meta, OWL.versionInfo, version);
         condAddProperty(meta, RDFS.comment, comment);
+        for (String format : getFormats(requestedURI, skipFormat)) {
+            meta.addProperty(DCTerms.hasFormat, meta.getModel().createResource(format));
+        }
         return meta;
     }
     

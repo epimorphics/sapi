@@ -20,12 +20,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
+import com.epimorphics.simpleAPI.writers.RDFWriterUtil;
 
 /**
  * Represents a simplified tree view over some RDF resource.
@@ -183,8 +186,12 @@ public class TreeResult extends ResultBase implements Result {
 
     @Override
     public Resource asResource() {
-        // TODO Implement RDF conversion, must have an associated tree spec
-        return null;
+        return asResource(ModelFactory.createDefaultModel());
+    }
+
+    @Override
+    public Resource asResource(Model model) {
+        return RDFWriterUtil.writeResult(this, model);
     }
 
 }

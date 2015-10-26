@@ -12,6 +12,7 @@ package com.epimorphics.simpleAPI.results;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -36,6 +37,12 @@ public class RDFResult extends ResultBase implements Result {
     @Override
     public Resource asResource() {
         return root;
+    }
+
+    @Override
+    public Resource asResource(Model model) {
+        model.add( root.getModel() );
+        return root.inModel(model);
     }
 
     @Override

@@ -1,0 +1,40 @@
+@prefix eg:    <http://localhost/example/> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix jtext: <http://jena.apache.org/text#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix api:  <http://purl.org/linked-data/api/vocab#>
+
+<http://localhost/flood-monitoring/basetest/list?_limit=2&_sort=%40id>
+        rdfs:comment     "WARNING: Pre-alpha test service, data may not be up to date" ;
+        rdfs:seeAlso     <http://localhost/flood-monitoring/doc/api-documentation.html> ;
+        dct:hasFormat    <http://localhost/flood-monitoring/basetest/list.json?_limit=2&_sort=%40id> , <http://localhost/flood-monitoring/basetest/list.csv?_limit=2&_sort=%40id> , <http://localhost/flood-monitoring/basetest/list.rdf?_limit=2&_sort=%40id> ;
+        dct:license      "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
+        dct:publisher    "Epimorphics.com" ;
+        api:items
+                ( eg:A1 eg:A2 ) ;
+        api:limit        "2"^^xsd:long ;
+        owl:versionInfo  "0.1" .
+
+eg:A2   rdfs:label     "A2" ;
+        eg:group       "A" ;
+        skos:narrower  eg:B2 ;
+        skos:notation  2 .
+
+eg:B1   rdfs:label     "B1" ;
+        eg:group       "B" ;
+        skos:notation  1 .
+
+eg:B2   rdfs:label     "B2" ;
+        eg:group       "B" ;
+        skos:notation  2 .
+
+eg:A1   rdfs:label     "A1" ;
+        eg:group       "A" ;
+        skos:narrower  eg:B1 ;
+        skos:notation  1 .
+        

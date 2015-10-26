@@ -1,0 +1,16 @@
+<http://localhost/example/C1>
+        <http://www.w3.org/2004/02/skos/core#notation>
+                "13" .
+
+<http://localhost/example/B1>
+        <http://www.w3.org/2004/02/skos/core#notation>
+                "12" .
+
+<http://localhost/example/A1>
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "a1" , "A1" ;
+        <http://www.w3.org/2004/02/skos/core#narrower>
+                <http://localhost/example/B1> , <http://localhost/example/C1> ;
+        <http://www.w3.org/2004/02/skos/core#notation>
+                "11" .
+                

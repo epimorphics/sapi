@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.riot.RDFDataMgr;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,6 +35,7 @@ import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.util.JsonComparator;
+import com.epimorphics.webapi.test.MockUriInfo;
 
 public class TestResultBasics {
     App app;
@@ -84,6 +87,17 @@ public class TestResultBasics {
         assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/r1.json", stream.next().asJson()) );
         assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/r2.json", stream.next().asJson()) );
         assertFalse( stream.hasNext() );
+        
+        // RDF rendering
+        stream = (ResultStream) api.getCall("listTest1", new MockUriInfo("test?_sort=@id")).getResults();
+        Resource resource = stream.next().asResource();
+        assertEquals( "http://localhost/example/A1", resource.getURI() );
+        assertTrue( resource.getModel().isIsomorphicWith( RDFDataMgr.loadModel("src/test/testCases/baseResultTest/expected/r1.ttl") ) );
+
+        stream = (ResultStream) api.getCall("listTest2", new MockUriInfo("test?_sort=@id")).getResults();
+        resource = stream.next().asResource();
+        assertEquals( "http://localhost/example/A1", resource.getURI() );
+        assertTrue( resource.getModel().isIsomorphicWith( RDFDataMgr.loadModel("src/test/testCases/baseResultTest/expected/r2.ttl") ) );
     }
     
     @Test
