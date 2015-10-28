@@ -129,7 +129,7 @@ public class TestAppAreas extends TomcatTestBase {
         if (expected == null) {
             actual.write(System.out, "Turtle");
         } else {
-            actual.write(System.out, "Turtle");
+//            actual.write(System.out, "Turtle");
             Model mexpected = RDFDataMgr.loadModel(expected);
             assertTrue( mexpected.isIsomorphicWith(actual) );
         }
