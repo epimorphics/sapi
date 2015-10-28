@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,8 +28,10 @@ import org.apache.jena.rdf.model.Resource;
 
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.requests.Call;
+import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.simpleAPI.writers.JsonWriterUtil;
 import com.epimorphics.simpleAPI.writers.RDFWriterUtil;
+import com.epimorphics.util.EpiException;
 
 /**
  * Represents a simplified tree view over some RDF resource.
@@ -112,7 +115,6 @@ public class TreeResult extends ResultBase implements Result {
         return v;
     }
    
-    
     public void add(String key, Object value) {
         Set<Object> v = values.get(key);
         if (v == null) {
@@ -121,7 +123,59 @@ public class TreeResult extends ResultBase implements Result {
         }
         v.add(value);
     }
+    
+    public void add(String key, Object...values) {
+        for (Object value : values) {
+            add(key, value);
+        }
+    }
 
+    /**
+     * Retrieve the values from a location in the tree identified via a path object.
+     * Return null if the path is invalid
+     */
+    public Set<RDFNode> get(ViewPath path) {
+        Set<TreeResult> next = Collections.singleton(this);
+        for (Iterator<String> i = path.asList().iterator(); i.hasNext();) {
+            String key = i.next();
+            if (i.hasNext()) {
+                next = stepDown(next, key);
+                if (next == null) return null;
+            } else {
+                Set<RDFNode> leaves = new HashSet<>();
+                for (TreeResult t : next) {
+                    Collection<Object> vs = t.getValues(key);
+                    if (vs == null) return null;
+                    for (Object v : vs) {
+                        if (v instanceof RDFNode) {
+                            leaves.add( (RDFNode)v );
+                        } else if (v instanceof TreeResult) {
+                            leaves.add( ((TreeResult)v).getId() );
+                        } else {
+                            throw new EpiException("Can't happen");
+                        }
+                    }
+                }
+                return leaves;
+            }
+        }
+        return null;
+    }
+    
+    protected Set<TreeResult> stepDown(Set<TreeResult> from, String key) {
+        Set<TreeResult> next = new HashSet<>();
+        for (TreeResult t : from) {
+            Collection<Object> vs = t.getValues(key);
+            if (vs == null) return null;
+            for (Object v : vs) {
+                if (v instanceof TreeResult) {
+                    next.add( (TreeResult)v );
+                }
+            }
+        }
+        return next; 
+    }
+    
     // --- JSON rendering --------------------------------------
     
     public void writeJson(JSFullWriter out) {

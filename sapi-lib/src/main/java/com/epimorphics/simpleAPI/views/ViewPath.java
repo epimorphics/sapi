@@ -108,6 +108,13 @@ public class ViewPath {
      */
     public static ViewPath fromVariableName(String varname) {
         String path = varname.replace("__", "|").replace("_", ".").replace("|", "_");
+        return fromDotted(path);
+    }
+    
+    /**
+     * Construct a path from a dotted-notation string
+     */
+    public static ViewPath fromDotted(String path) {
         return new ViewPath( path.split("\\.") );
     }
     
