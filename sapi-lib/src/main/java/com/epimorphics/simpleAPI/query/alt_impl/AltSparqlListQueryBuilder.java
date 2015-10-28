@@ -3,7 +3,7 @@
     
     (c) Copyright 2014 Epimorphics Limited
 */
-package com.epimorphics.simpleAPI.query.impl;
+package com.epimorphics.simpleAPI.query.alt_impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,12 +25,13 @@ import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.sparql.terms.TermUtils;
 import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
+import com.epimorphics.simpleAPI.query.impl.SparqlSelectQuery;
 
-public class AlternativeSparqlListQueryBuilder implements ListQueryBuilder {
+public class AltSparqlListQueryBuilder implements ListQueryBuilder {
 
 	final com.epimorphics.sparql.query.Query q = new com.epimorphics.sparql.query.Query();
 		
-	public AlternativeSparqlListQueryBuilder() {
+	public AltSparqlListQueryBuilder() {
 	}
 	
 	@Override public ListQueryBuilder filter(String shortname, RDFNode value) {
@@ -72,15 +73,6 @@ public class AlternativeSparqlListQueryBuilder implements ListQueryBuilder {
 		q.addPattern((GraphPattern) new Bind(val, var));
 		return this;
 	}
-	
-	protected static final String usualTemplate =
-		"SELECT * WHERE {\n"
-		+ "    #$INJECT$\n"
-		+ "    $filters\n"
-		+ "}\n"
-		+ "#$SORT$\n"
-		+ "#$MODIFIER$\n"
-		;
 	
     @Override public ListQuery build() {	
 		Settings s = new Settings();
