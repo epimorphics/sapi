@@ -31,6 +31,13 @@ import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.core.API;
+import com.epimorphics.simpleAPI.views.ViewEntry.PV;
+import com.epimorphics.sparql.graphpatterns.Basic;
+import com.epimorphics.sparql.graphpatterns.Optional;
+import com.epimorphics.sparql.query.Query;
+import com.epimorphics.sparql.terms.Triple;
+import com.epimorphics.sparql.terms.URI;
+import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.util.EpiException;
 
 /**
@@ -113,11 +120,37 @@ public class ViewTree implements Iterable<ViewEntry> {
                 String jname = map.getJsonName();
                 String npath = addToPath(path, jname);
                 String nvar =  path.isEmpty() ? jname : path + "_" + jname;
+                
                 buf.append("    ");
                 if (map.isOptional()) buf.append("OPTIONAL ");
                 buf.append("{?" + var + " " + map.asQueryRow(path) + " }\n" );
+                
                 vars.add(nvar);
                 map.getNested().renderAsDescribe(buf, nvar, npath, vars);
+            }
+        }
+    }    
+    
+    protected void renderForDescribe(Query buf, String var, String path, Set<String> vars) {
+        for (ViewEntry map : children.values()) {
+            if (map.isNested()) {
+                String jname = map.getJsonName();
+                String npath = addToPath(path, jname);
+                String nvar =  path.isEmpty() ? jname : path + "_" + jname;
+                
+                Var S = new Var(nvar);
+                PV pv = map.asQueryRow(path);
+                Triple t = new Triple(S, pv.property, pv.var);
+                Basic triplePattern = new Basic(t);
+
+                if (map.isOptional()) {
+                	buf.addPattern(new Optional(triplePattern));
+                } else {
+                	buf.addPattern(triplePattern);
+                }
+                
+                vars.add(nvar);
+                map.getNested().renderForDescribe(buf, nvar, npath, vars);
             }
         }
     }
@@ -151,13 +184,13 @@ public class ViewTree implements Iterable<ViewEntry> {
                 if (prop.isString()) {
                     String p = prop.getAsString().value();
                     if (prefixes != null) p = prefixes.expandPrefix(p);
-                    entry = new ViewEntry( p );
+                    entry = new ViewEntry( new URI(p) );
                 } else if (prop.isObject()) {
                     JsonObject propO = prop.getAsObject();
                     String p = JsonUtil.getStringValue(propO, PROPERTY);
                     if (prefixes != null) p = prefixes.expandPrefix(p);
                     String name = JsonUtil.getStringValue(propO, NAME);
-                    entry = new ViewEntry(name, p);
+                    entry = new ViewEntry(name, new URI(p));
                     if (propO.hasKey(OPTIONAL)) {
                         entry.setOptional( JsonUtil.getBooleanValue(propO, OPTIONAL, false) );
                     }

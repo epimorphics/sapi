@@ -15,17 +15,18 @@ import org.apache.jena.shared.PrefixMapping;
 import com.epimorphics.rdfutil.QueryUtil;
 import com.epimorphics.simpleAPI.query.ItemQuery;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.sparql.query.Query;
 import com.epimorphics.util.PrefixUtils;
 
 public class DescribeQueryBuilder implements QueryBuilder {
-    protected String query;
+    protected Query query;
     protected PrefixMapping prefixes;
     
-    public DescribeQueryBuilder(String query) {
+    public DescribeQueryBuilder(Query query) {
         this.query = query;
     }
     
-    public DescribeQueryBuilder(String query, PrefixMapping prefixes) {
+    public DescribeQueryBuilder(Query query, PrefixMapping prefixes) {
         this.prefixes = prefixes;
         this.query = query;
     }
@@ -44,7 +45,7 @@ public class DescribeQueryBuilder implements QueryBuilder {
     /**
      * Bind a variable in a query by syntactic substitution
      */
-    public static String bindQueryParam(String query, String var, Object value) {
+    public static String bindQueryParam(Query query, String var, Object value) {
         String subs = QueryUtil.asSPARQLValue( value ).replace("\\", "\\\\");
         // Two step substitute so don't use regex when substituting value (which might have regex special characters)
         String bound = query.replaceAll("\\?" + var + "\\b", MARKER);

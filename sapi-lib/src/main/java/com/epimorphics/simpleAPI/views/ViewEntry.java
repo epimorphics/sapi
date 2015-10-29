@@ -10,6 +10,8 @@
 package com.epimorphics.simpleAPI.views;
 
 import com.epimorphics.rdfutil.RDFUtil;
+import com.epimorphics.sparql.terms.URI;
+import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.util.NameUtils;
 
 /**
@@ -17,8 +19,11 @@ import com.epimorphics.util.NameUtils;
  * Provides a short ("jsonname") for each property.
  */
 public class ViewEntry {
+	
     protected String jsonname;
-    protected String property;
+    
+    protected URI property;
+    
     protected boolean optional = false;
     protected boolean multivalued = false;
     protected boolean filterable = true;
@@ -26,30 +31,30 @@ public class ViewEntry {
     protected String comment;
     protected ViewTree nested = null;
     
-    public ViewEntry(String jsonname, String property) {
+    public ViewEntry(String jsonname, URI property) {
         this.jsonname = jsonname == null ? makeJsonName(property) : jsonname;
         this.property = property;
     }
     
-    public ViewEntry(String property) {
+    public ViewEntry(URI property) {
         this.jsonname = makeJsonName(property);
         this.property = property;
     }
 
-    static String makeJsonName(String property) {
-        String name = RDFUtil.getLocalname(property);
+    static String makeJsonName(URI property) {
+        String name = RDFUtil.getLocalname(property.getURI());
         if (name.isEmpty()) {
             // curie/qname format but at this stage no expansion to URI
-            name = NameUtils.splitAfterLast(property, ":");
+            name = NameUtils.splitAfterLast(property.getURI(), ":");
         }
         return name;
     }
     
-    public String getProperty() {
+    public URI getProperty() {
         return property;
     }
 
-    public void setProperty(String property) {
+    public void setProperty(URI property) {
         this.property = property;
     }
 
@@ -109,13 +114,20 @@ public class ViewEntry {
         return jsonname;
     }
 
-    public String asQueryRow(String parent) {
+    public static class PV {
+    	public final URI property;
+    	public final Var var;
+    	
+    	public PV(URI property, Var var) {
+    		this.property = property;
+    		this.var = var;
+    	}
+    }
+    
+    public PV asQueryRow(String parent) {
         String varname = parent.isEmpty() ? jsonname : parent + "_" + jsonname;
-        if (property.startsWith("http:") || property.startsWith("https:")) {
-            return "<" + property + "> ?" + varname;
-        } else {
-            return property + " ?" + varname;
-        }
+        Var var = new Var(varname);
+        return new PV(property, var);  
     }
     
     /**

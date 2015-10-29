@@ -42,7 +42,7 @@ public class RDFWriterUtil {
         Resource root = result.getId().inModel(model).asResource();
         for (String key : result.getKeys()) {
             ViewEntry entry = tree.getEntry(key);
-            Property prop = model.createProperty( entry.getProperty() );
+            Property prop = model.createProperty( entry.getProperty().getURI() );
             for (Object value : result.getValues(key)) {
                 if (value instanceof TreeResult) {
                     Resource sub = writeResult((TreeResult)value, tree, api, model);

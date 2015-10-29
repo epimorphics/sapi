@@ -30,6 +30,7 @@ import com.epimorphics.simpleAPI.query.impl.SparqlSelectQuery;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
+import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.vocabs.SKOS;
 
 public class TestSpecAndViews {
@@ -127,7 +128,7 @@ public class TestSpecAndViews {
     public void testEndointQueryRender() {
         // TODO sensitive to details of the string bashing
         ViewMap view = api.getSpec("describeTest2").getView();
-        String query = view.asDescribe();
+        String query = view.asDescribe().toSparqlDescribe(new Settings());
         assertTrue( query.contains("{?id <http://www.w3.org/2004/02/skos/core#narrower> ?narrower }") );
         assertTrue( query.contains("OPTIONAL {?id <http://www.w3.org/2004/02/skos/core#related> ?related }") );
         assertTrue( query.contains("{?related <http://www.w3.org/2004/02/skos/core#related> ?related_related }") );

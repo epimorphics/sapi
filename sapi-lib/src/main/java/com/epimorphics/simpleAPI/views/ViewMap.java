@@ -19,6 +19,11 @@ import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ConfigItem;
+import com.epimorphics.sparql.graphpatterns.GraphPattern;
+import com.epimorphics.sparql.query.Query;
+import com.epimorphics.sparql.templates.Settings;
+import com.epimorphics.sparql.terms.TermAtomic;
+import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.util.EpiException;
 
 /**
@@ -69,22 +74,22 @@ public class ViewMap extends ConfigItem {
     /**
      * Return a SPARQL describe query which describes the neste elements in the tree
      */
-    public String asDescribe() {
-        StringBuffer queryBody = new StringBuffer();
-        Set<String> vars = new HashSet<>();
-        getTree().renderAsDescribe(queryBody, "id", "", vars);
-        StringBuffer query = new StringBuffer();
-        query.append("DESCRIBE ?id ");
-        for (String var : vars){
-            query.append("?" + var + " ");
-        }
-        query.append("{\n");
-        query.append(queryBody);
-        query.append("}");
-        return query.toString();
+    public Query asDescribe() {
+    	Set<String> vars = new HashSet<>();
+    	Query sq = new Query();
+    	getTree().renderForDescribe(sq, "id", "", vars);
+    	sq.addDescribeElements(list(new Var("id")));
+    	for (String v: vars) sq.addDescribeElements(list(new Var(v)));
+    	return sq;
     }
     
-    /**
+    private List<TermAtomic> list(Var var) {
+    	List<TermAtomic> l = new ArrayList<TermAtomic>();
+		l.add(var);
+		return l;
+	}
+
+	/**
      * Convert a property name to the corresponding variable name used in generated queries.
      * If the property name is unambiguous then it will be located anywhere in the tree,
      * otherwise use an explicit "p.q.r" notation. Any "_" characters in the names will be handled.

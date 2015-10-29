@@ -28,6 +28,7 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlListEndpointSpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.util.EpiException;
 
 /**
@@ -50,7 +51,7 @@ public class EndpointSpecFactory {
                 SparqlListEndpointSpec lspec = new SparqlListEndpointSpec(api);
                 spec = lspec;
                 if (jo.hasKey(QUERY)) {
-                    lspec.setBaseQuery( JsonUtil.getStringValue(jo, QUERY) );
+                    lspec.setBaseQuery( new GraphPatternText(JsonUtil.getStringValue(jo, QUERY) );
                 }
                 if (jo.hasKey(LIMIT)) {
                     lspec.setHardLimit( JsonUtil.getIntValue(jo, LIMIT, Integer.MAX_VALUE) );

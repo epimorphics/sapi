@@ -38,7 +38,8 @@ public class AltSparqlListQueryBuilder implements ListQueryBuilder {
 		Var var = new Var(shortname);
 		IsExpr val = TermUtils.nodeToTerm(value);
 		Filter eq = new Filter(new Infix(var, Op.opEq, val));
-		q.addPattern(new Basic(eq));		
+		Basic basic = new Basic(eq);
+		q.addPattern(basic);		
 		return this;
 	}
 

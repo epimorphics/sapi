@@ -41,6 +41,7 @@ import com.epimorphics.simpleAPI.requests.RequestProcessor;
 import com.epimorphics.simpleAPI.requests.SortRequestProcessor;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.sparql.terms.URI;
 import com.epimorphics.util.NameUtils;
 
 /**
@@ -200,7 +201,7 @@ public class API extends ComponentBase implements Startup {
         if (defview != null) {
             return defview.findEntryByURI(uri);
         } else {
-            return new ViewEntry(uri);
+            return new ViewEntry(new URI(uri));
         }
     }
 
