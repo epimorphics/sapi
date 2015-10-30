@@ -159,7 +159,7 @@ public class TreeResult extends ResultBase implements Result {
                 return leaves;
             }
         }
-        return null;
+        return Collections.singleton(getId());
     }
     
     protected Set<TreeResult> stepDown(Set<TreeResult> from, String key) {

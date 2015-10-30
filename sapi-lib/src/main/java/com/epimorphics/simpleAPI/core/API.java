@@ -71,6 +71,7 @@ public class API extends ComponentBase implements Startup {
     
     protected boolean showLang = false;
     protected String showOnlyLang;
+    protected boolean fullPathsInCSVHeaders = false;
     
     protected List<RequestProcessor> requestProcessors = new ArrayList<>();
     protected List<RequestProcessor> allRequestProcessors;
@@ -393,6 +394,19 @@ public class API extends ComponentBase implements Startup {
     public String getShowOnlyLang() {
         return showOnlyLang; 
     }
+    
+    public boolean isFullPathsInCSVHeaders() {
+        return fullPathsInCSVHeaders;
+    }
+
+    /**
+     * Set to true to force CSV output headers to show the full nesting structure
+     * of the columns (dotted paths)
+     */
+    public void setFullPathsInCSVHeaders(boolean fullPathsInCSVHeaders) {
+        this.fullPathsInCSVHeaders = fullPathsInCSVHeaders;
+    }
+    
 
     // ---- Internals -----------------------------------------------
 

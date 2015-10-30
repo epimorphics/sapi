@@ -13,18 +13,18 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.jena.rdf.model.RDFNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.ResultStream;
 import com.epimorphics.simpleAPI.results.TreeResult;
+import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.util.EpiException;
-import org.apache.jena.rdf.model.RDFNode;
 
 /**
  * Support for writing Results and ResultStreams out as CSV file streams.
@@ -38,8 +38,8 @@ public class CSVWriter {
     protected static final String VALUE_SEP = "|" ;
     protected static final String ID_COL = "@id" ;
     protected static final Charset ENC = StandardCharsets.UTF_8;
-    
-    protected List<String> headers;
+
+    protected List<ViewPath> paths;
     protected OutputStream out;
     protected boolean includeID = true;
     
@@ -90,38 +90,27 @@ public class CSVWriter {
      * If this is the first row it will generate a CSV header row as well.
      */
     public void write(TreeResult result) throws IOException {
-        if (headers == null) {
-            List<String> keys = result.getSortedKeys();
-            if (includeID) {
-                headers = new ArrayList<>( keys.size() + 1 );
-                headers.add(ID_COL);
-                headers.addAll(keys);
-            } else {
-                headers = keys;
+        if (paths == null) {
+            paths = result.getSpec().getView().getAllPaths();
+            if (paths == null) {
+                throw new EpiException("Can't render tree to CSV without a view specification");
             }
-            writeHeaders();
+            writeHeaders( result.getSpec().getAPI().isFullPathsInCSVHeaders() );
         }
         StringBuffer buf = new StringBuffer();
         boolean started = false;
-        for (String header : headers) {
+        for (ViewPath path : paths) {
             if (started) { buf.append(SEP); } else { started = true; }
-            if (header.equals(ID_COL)) {
-                buf.append( serializeNode(result.getId()) );
+            // TODO does ID_COL output work?
+            Collection<RDFNode> values = result.get(path);
+            if (values == null || values.isEmpty()) {
+                // Optional value
+                buf.append( safeString("") );
             } else {
-                Collection<Object> values = result.getValues(header);
-                if (values == null || values.isEmpty()) {
-                    // Optional value
-                    buf.append( safeString("") );
-                } else {
-                    boolean multi = false;
-                    for (Object value : values) {
-                        if (multi) buf.append(VALUE_SEP); else multi = true;
-                        if (value instanceof RDFNode) {
-                            buf.append( serializeNode( (RDFNode)value ) );
-                        } else {
-                            throw new EpiException("Internal inconsistency in value set, expecting RDF values");
-                        }
-                    }
+                boolean multi = false;
+                for (RDFNode value : values) {
+                    if (multi) buf.append(VALUE_SEP); else multi = true;
+                    buf.append( serializeNode( (RDFNode)value ) );
                 }
             }
         }
@@ -139,12 +128,16 @@ public class CSVWriter {
         }
     }
     
-    protected void writeHeaders() throws IOException {
+    protected void writeHeaders(boolean showDotted) throws IOException {
         StringBuffer buf = new StringBuffer();
         boolean started = false;
-        for (String header : headers) {
+        for (ViewPath path : paths) {
             if (started) { buf.append(SEP); } else { started = true; }
-            buf.append( safeString(header) );
+            if ( path.isEmpty() ) {
+                buf.append( ID_COL );
+            } else {
+                buf.append( safeString( showDotted ? path.asDotted() : path.last() ) );
+            }
         }
         buf.append(LINE_END);
         out.write( buf.toString().getBytes(ENC) );

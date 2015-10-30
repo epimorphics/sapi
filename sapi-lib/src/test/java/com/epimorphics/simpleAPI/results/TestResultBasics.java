@@ -14,6 +14,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.util.FileManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,9 +37,12 @@ import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.util.JsonComparator;
+import com.epimorphics.simpleAPI.writers.CSVWriter;
 import com.epimorphics.webapi.test.MockUriInfo;
 
 public class TestResultBasics {
+    static final String EXPECTED = "src/test/testCases/baseResultTest/expected/";
+    
     App app;
     API api;
     DataSource source;
@@ -84,20 +89,42 @@ public class TestResultBasics {
         
         // Nested case, check JSON render
         stream = source.query(query, new Call(spec, null));
-        assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/r1.json", stream.next().asJson()) );
-        assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/r2.json", stream.next().asJson()) );
+        assertTrue( JsonComparator.equal(EXPECTED + "r1.json", stream.next().asJson()) );
+        assertTrue( JsonComparator.equal(EXPECTED + "r2.json", stream.next().asJson()) );
         assertFalse( stream.hasNext() );
         
         // RDF rendering
         stream = (ResultStream) api.getCall("listTest1", new MockUriInfo("test?_sort=@id")).getResults();
         Resource resource = stream.next().asResource();
         assertEquals( "http://localhost/example/A1", resource.getURI() );
-        assertTrue( resource.getModel().isIsomorphicWith( RDFDataMgr.loadModel("src/test/testCases/baseResultTest/expected/r1.ttl") ) );
+        assertTrue( resource.getModel().isIsomorphicWith( RDFDataMgr.loadModel(EXPECTED + "r1.ttl") ) );
 
         stream = (ResultStream) api.getCall("listTest2", new MockUriInfo("test?_sort=@id")).getResults();
         resource = stream.next().asResource();
         assertEquals( "http://localhost/example/A1", resource.getURI() );
-        assertTrue( resource.getModel().isIsomorphicWith( RDFDataMgr.loadModel("src/test/testCases/baseResultTest/expected/r2.ttl") ) );
+        assertTrue( resource.getModel().isIsomorphicWith( RDFDataMgr.loadModel(EXPECTED + "r2.ttl") ) );
+    }
+    
+    @Test
+    public void testCSVRender() throws IOException {
+        assertTrue( checkCSV( api.getCall("listTest3", new MockUriInfo("test?_sort=@id")).getResults(), "list3.csv", "list3-alt.csv") );
+        api.setFullPathsInCSVHeaders(true);
+        assertTrue( checkCSV( api.getCall("listTest3", new MockUriInfo("test?_sort=@id")).getResults(), "list3-dot.csv", "list3-alt-dot.csv") );
+        api.setFullPathsInCSVHeaders(false);
+    }
+    
+    protected boolean checkCSV(ResultOrStream stream, String...expectedFiles) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        CSVWriter writer = new CSVWriter(bos);
+        writer.write( (ResultStream) stream);
+        String actual = bos.toString();
+        for (String expectedFile : expectedFiles) {
+            String expected = FileManager.get().readWholeFileAsUTF8(EXPECTED + expectedFile).replace("\n", "\r\n");
+            if (actual.equals(expected)) {
+                return true;
+            }
+        }
+        return false;
     }
     
     @Test

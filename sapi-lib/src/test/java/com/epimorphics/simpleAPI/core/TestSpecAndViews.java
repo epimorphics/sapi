@@ -114,7 +114,7 @@ public class TestSpecAndViews {
         simpleCheckEntry(view.findEntryByURI(RT + "bar"), "bar", RT + "bar", true);
         
         Set<String> expected = new HashSet<>();
-        for (String e : new String[]{"foo", "foo.bar", "foo.bar.label", "foo.bar.notation", "foo.bar.test", 
+        for (String e : new String[]{"", "foo", "foo.bar", "foo.bar.label", "foo.bar.notation", "foo.bar.test", 
                                              "foo.baz", "foo.baz.label", "foo.baz.notation", 
                                              "foo.fu_bar", 
                                      "label"}) expected.add(e);

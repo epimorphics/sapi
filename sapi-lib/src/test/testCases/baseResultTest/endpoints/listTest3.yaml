@@ -1,0 +1,12 @@
+name      : listTest3
+type      : list
+query     : "?id a eg:Itest ."
+view      :
+    - "rdfs:label"
+    - "skos:notation"
+    - prop: "eg:child"
+      optional: true
+      nested:
+        - { prop: "skos:notation", optional: true, name: "cnotation" }
+
+

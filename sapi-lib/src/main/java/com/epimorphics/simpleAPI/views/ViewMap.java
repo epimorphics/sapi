@@ -145,6 +145,7 @@ public class ViewMap extends ConfigItem {
     public List<ViewPath> getAllPaths() {
         if (allPaths == null) {
             allPaths = new ArrayList<>();
+            allPaths.add( new ViewPath() );
             getTree().collectPaths(new ViewPath(), allPaths);
         }
         return allPaths;
