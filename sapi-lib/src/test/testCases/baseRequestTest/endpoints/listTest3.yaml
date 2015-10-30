@@ -1,7 +1,7 @@
 name      : listTest3
 type      : list
 url       : "default/test3"
-query     : "?id a skos:Concept ."
+baseQuery : "?id a skos:Concept ."
 view      :
     - "rdfs:label"
     - "skos:notation"
