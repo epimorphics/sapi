@@ -12,6 +12,8 @@ package com.epimorphics.simpleAPI.results.wappers;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.jena.rdf.model.Resource;
+
 import static com.epimorphics.simpleAPI.writers.JsonWriterUtil.*;
 
 /**
@@ -21,6 +23,15 @@ import static com.epimorphics.simpleAPI.writers.JsonWriterUtil.*;
 public class WJSONObject extends HashMap<String, Object> implements Map<String, Object> {
     private static final long serialVersionUID = 2209592197821602773L;
 
+    protected WJSONObject() {
+        super();
+    }
+    
+    protected WJSONObject(Resource resource) {
+        super();
+        put(ID_FIELD, resource.getURI());
+    }
+    
     public boolean isObject() {
         return true;
     }

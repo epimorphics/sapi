@@ -101,7 +101,6 @@ public class CSVWriter {
         boolean started = false;
         for (ViewPath path : paths) {
             if (started) { buf.append(SEP); } else { started = true; }
-            // TODO does ID_COL output work?
             Collection<RDFNode> values = result.get(path);
             if (values == null || values.isEmpty()) {
                 // Optional value
