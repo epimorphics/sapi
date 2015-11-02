@@ -35,6 +35,10 @@ import com.epimorphics.util.EpiException;
 public class WResult {
     protected Result result;
     
+    public WResult(Result result) {
+        this.result = result;
+    }
+    
     public Result asResult() {
         return result;
     }

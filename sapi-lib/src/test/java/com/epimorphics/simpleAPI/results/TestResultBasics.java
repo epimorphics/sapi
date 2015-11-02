@@ -36,6 +36,8 @@ import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
+import com.epimorphics.simpleAPI.results.wappers.WJSONObject;
+import com.epimorphics.simpleAPI.results.wappers.WResult;
 import com.epimorphics.simpleAPI.util.JsonComparator;
 import com.epimorphics.simpleAPI.writers.CSVWriter;
 import com.epimorphics.webapi.test.MockUriInfo;
@@ -111,6 +113,29 @@ public class TestResultBasics {
         api.setFullPathsInCSVHeaders(true);
         assertTrue( checkCSV( api.getCall("listTest3", new MockUriInfo("test?_sort=@id")).getResults(), "list3-dot.csv", "list3-alt-dot.csv") );
         api.setFullPathsInCSVHeaders(false);
+    }
+    
+    @Test
+    public void testWJSONwrapping() {
+        ResultStream stream = (ResultStream) api.getCall("listTest3", new MockUriInfo("test?_sort=@id")).getResults();
+        WJSONObject actual = new WResult( stream.next() ).asJson();
+        
+        WJSONObject expected = makeWJSON("http://localhost/example/A", 
+                "label", "A",
+                "notation", "1",
+                "child", makeWJSON("http://localhost/example/AC", "cnotation", "1C"));
+        assertEquals(expected, actual);
+    }
+    
+    protected static WJSONObject makeWJSON(String id, Object...args) {
+        WJSONObject obj = new WJSONObject();
+        obj.put("@id", id);
+        for (int i = 0; i < args.length;) {
+            String key = args[i++].toString();
+            Object value = args[i++];
+            obj.put(key, value);
+        }
+        return obj;
     }
     
     protected boolean checkCSV(ResultOrStream stream, String...expectedFiles) throws IOException {

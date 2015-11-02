@@ -54,5 +54,13 @@ public class WJSONLangString {
         return false;
     }
     
-    
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof WJSONLangString) {
+            WJSONLangString o = (WJSONLangString) other;
+            return language.equals(o.language) && lexicalForm.equals(o.lexicalForm);
+        } else {
+            return false;
+        }
+    }
 }
