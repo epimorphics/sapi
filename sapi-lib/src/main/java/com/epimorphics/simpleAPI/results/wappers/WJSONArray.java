@@ -10,6 +10,7 @@
 package com.epimorphics.simpleAPI.results.wappers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -37,5 +38,15 @@ public class WJSONArray extends ArrayList<Object> implements List<Object>{
     
     public boolean isTypedLiteral() {
         return false;
+    }
+    
+    // Order independent equality for testing
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof WJSONArray) {
+            return new HashSet<>( this ).equals( new HashSet<>( (WJSONArray)other ) );
+        } else {
+            return false;
+        }
     }
 }

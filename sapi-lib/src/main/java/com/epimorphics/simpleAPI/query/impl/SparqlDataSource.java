@@ -15,6 +15,8 @@ import org.apache.jena.graph.Graph;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.epimorphics.appbase.data.SparqlSource;
 import com.epimorphics.simpleAPI.query.DataSource;
@@ -32,6 +34,8 @@ import com.epimorphics.util.EpiException;
  * round a SPARQL source
  */
 public class SparqlDataSource implements DataSource {
+    static final Logger log = LoggerFactory.getLogger( SparqlDataSource.class );
+    
     protected SparqlSource source;
     
     public SparqlDataSource(){
@@ -61,6 +65,7 @@ public class SparqlDataSource implements DataSource {
     @Override
     public ResultStream query(ListQuery query, Call call) {
         if (query instanceof SparqlQuery) {
+            log.debug( "Query: " + ((SparqlQuery) query).getQuery() );
             SparqlQuery sq = (SparqlQuery) query;
             return new ResultStreamSparqlSelect( source.streamableSelect( sq.getQuery() ), call );
         } else {

@@ -17,6 +17,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
@@ -36,6 +37,8 @@ import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
+import com.epimorphics.simpleAPI.results.wappers.WJSONArray;
+import com.epimorphics.simpleAPI.results.wappers.WJSONLangString;
 import com.epimorphics.simpleAPI.results.wappers.WJSONObject;
 import com.epimorphics.simpleAPI.results.wappers.WResult;
 import com.epimorphics.simpleAPI.util.JsonComparator;
@@ -53,7 +56,7 @@ public class TestResultBasics {
     public void setUP() throws IOException {
         app = new App("test", new File("src/test/testCases/baseResultTest/app.conf"));
         api = app.getA(API.class);
-        app.startup();
+//        app.startup();
         source = app.getA(DataSource.class);
     }
 
@@ -117,14 +120,32 @@ public class TestResultBasics {
     
     @Test
     public void testWJSONwrapping() {
-        ResultStream stream = (ResultStream) api.getCall("listTest3", new MockUriInfo("test?_sort=@id")).getResults();
-        WJSONObject actual = new WResult( stream.next() ).asJson();
-        
+        WJSONObject actual = getFirstWrapped("listTest3");
         WJSONObject expected = makeWJSON("http://localhost/example/A", 
                 "label", "A",
                 "notation", "1",
                 "child", makeWJSON("http://localhost/example/AC", "cnotation", "1C"));
         assertEquals(expected, actual);
+
+        api.setShowLangTag(true);
+        actual = getFirstWrapped("listTest4");
+        expected = makeWJSON("http://localhost/example/test1", 
+                "label", makeWJSONArray("a plain string", "another label"),
+                "lang", new WJSONLangString("english", "en"),
+                "int", 1,
+                "decimal", new BigDecimal("1.5"),
+                "boolean", true,
+                "child", makeWJSON(null, "clabel", "child"),
+                "offspring", makeWJSONArray( makeWJSON("http://localhost/example/o1", "olabel", "o1"), makeWJSON("http://localhost/example/o2", "olabel", "o2") )
+                );
+        assertEquals(expected, actual);
+        api.setShowLangTag(false);
+    }
+    
+    protected WJSONObject getFirstWrapped(String spec) {
+        ResultStream stream = (ResultStream) api.getCall(spec, new MockUriInfo("test?_sort=@id")).getResults();
+        WJSONObject actual = new WResult( stream.next() ).asJson();
+        return actual;
     }
     
     protected static WJSONObject makeWJSON(String id, Object...args) {
@@ -136,6 +157,14 @@ public class TestResultBasics {
             obj.put(key, value);
         }
         return obj;
+    }
+    
+    protected static WJSONArray makeWJSONArray(Object...args) {
+        WJSONArray array = new WJSONArray();
+        for (Object arg : args) {
+            array.add(arg);
+        }
+        return array;
     }
     
     protected boolean checkCSV(ResultOrStream stream, String...expectedFiles) throws IOException {
