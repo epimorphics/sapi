@@ -97,6 +97,8 @@ public class TestResultBasics {
         assertTrue( JsonComparator.equal(EXPECTED + "r1.json", stream.next().asJson()) );
         assertTrue( JsonComparator.equal(EXPECTED + "r2.json", stream.next().asJson()) );
         assertFalse( stream.hasNext() );
+        stream = (ResultStream) api.getCall("listTest4", new MockUriInfo("test?_sort=@id")).getResults();
+        assertTrue( JsonComparator.equal(EXPECTED + "r4.json", stream.next().asJson()) );
         
         // RDF rendering
         stream = (ResultStream) api.getCall("listTest1", new MockUriInfo("test?_sort=@id")).getResults();

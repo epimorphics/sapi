@@ -20,6 +20,7 @@ import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEW;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEWS;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.URL;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.BASE_QUERY;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.TEMPLATE;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
@@ -88,6 +89,9 @@ public class EndpointSpecFactory {
                     throw new EpiException("Could not parse url field, should be a string: " + jo.get(URL));
                 }
                 spec.setUrl(url);
+            }
+            if (jo.hasKey(TEMPLATE)) {
+                spec.setTemplateName( JsonUtil.getStringValue(jo, TEMPLATE) );
             }
             return spec;
         } else {
