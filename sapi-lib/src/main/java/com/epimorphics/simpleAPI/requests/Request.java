@@ -11,12 +11,14 @@ package com.epimorphics.simpleAPI.requests;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -39,10 +41,15 @@ import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 public class Request {
     public static final String VIEW_KEY = "_view";
     
+    public static final String BINDING_KEY_URI = "uri";
+    public static final String BINDING_KEY_REQUEST = "request";
+    public static final String BINDING_KEY_BASEURI = "baseURI";
+    
     protected String requestedURI;
     protected String fullRequestedURI;
     protected MultivaluedMap<String, String> parameters = new MultivaluedStringMap();
     protected Set<String> consumed = new HashSet<>();
+    protected Map<String, Object> bindings = new HashMap<>();
     
     public Request() {
     }
@@ -157,7 +164,36 @@ public class Request {
     public void addAll(String parameter, List<String> values) {
         parameters.addAll(parameter, values);
     }
+
+    /**
+     * Add an additional binding to be passed into the HTML rendering context
+     */
+    public void addRenderBinding(String key, Object value) {
+        bindings.put(key, value);
+    }
     
+    /**
+     * Return the bindings that should be included in the HTML rendering context
+     * on top of the minimal default (app, lib, components, root)
+     */
+    public Map<String, Object> getRenderBindings() {
+        for (String parameter : parameters.keySet()) {
+            List<String> values = parameters.get(parameter);
+            if (values.size() == 1) {
+                safeAddRenderBinding(parameter, values.get(0));
+            } else {
+                safeAddRenderBinding(parameter, values);
+            }
+        }
+        safeAddRenderBinding(BINDING_KEY_URI, getRequestedURI());
+        return bindings;
+    }
+    
+    protected void safeAddRenderBinding(String key, Object value) {
+        if (!bindings.containsKey(key)) {
+            bindings.put(key, value);
+        }
+    }
     public String getViewName() {
         String viewname = getFirst(VIEW_KEY);
         if (viewname == null) {
@@ -167,14 +203,24 @@ public class Request {
         }
         return viewname;
     }
-    
+
     /**
      * Construct a request object from the URI, query and path parameters in a jersey call
      */
-    public static Request from(API api, UriInfo uriInfo) {
+    public static Request from(API api, UriInfo uriInfo, HttpServletRequest servletRequest) {
         String requestedURI = api.getBaseURI() + uriInfo.getPath();
         Request request = new Request(requestedURI, uriInfo.getQueryParameters());
         request.addAll(uriInfo.getPathParameters());
+        request.addRenderBinding(BINDING_KEY_REQUEST, servletRequest);
+        String baseURI = api.getBaseURI();
+        if (uriInfo != null && uriInfo.getBaseUri() != null) {
+            String requestBase = uriInfo.getBaseUri().toString();
+            if ( requestBase.contains("http://localhost") ) {
+                // Use configured base URI unless the request is a localhost (for which we assume this is a test situation)
+                baseURI = requestBase;
+            }
+        }
+        request.addRenderBinding(BINDING_KEY_BASEURI, baseURI);
         
         String rawRequest = uriInfo.getRequestUri().toString();
         if (rawRequest.contains("?")) {
@@ -188,8 +234,8 @@ public class Request {
      * Construct a request object a jersey call plus a json object (probably passed in to a POST request).
      * Assumes no nesting of the json object
      */
-    public static Request from(API api, UriInfo uriInfo, JsonObject postargs) {
-        Request request = from(api, uriInfo);
+    public static Request from(API api, UriInfo uriInfo, HttpServletRequest servletRequest, JsonObject postargs) {
+        Request request = from(api, uriInfo, servletRequest);
         for (Map.Entry<String, JsonValue> entry : postargs.entrySet()) {
             String key = entry.getKey();
             JsonValue value = entry.getValue();
@@ -216,9 +262,9 @@ public class Request {
      * Construct a request object a jersey call plus a request body which expected to be a JSON object
      * @throws WebApiException if the request body does not parse as a JSON object
      */
-    public static Request from(API api, UriInfo uriInfo, String postargs) {
+    public static Request from(API api, UriInfo uriInfo, HttpServletRequest servletRequest, String postargs) {
         try {
-            return from(api, uriInfo, JSON.parse(postargs));
+            return from(api, uriInfo, servletRequest, JSON.parse(postargs));
         } catch (Exception e) {
             throw new WebApiException(Status.BAD_REQUEST, "Illegal JSON object in request");
         }

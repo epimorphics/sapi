@@ -92,5 +92,4 @@ public class Call {
         this.templateName = templateName;
     }
     
-    
 }

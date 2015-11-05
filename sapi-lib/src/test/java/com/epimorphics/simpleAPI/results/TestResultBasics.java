@@ -97,16 +97,16 @@ public class TestResultBasics {
         assertTrue( JsonComparator.equal(EXPECTED + "r1.json", stream.next().asJson()) );
         assertTrue( JsonComparator.equal(EXPECTED + "r2.json", stream.next().asJson()) );
         assertFalse( stream.hasNext() );
-        stream = (ResultStream) api.getCall("listTest4", new MockUriInfo("test?_sort=@id")).getResults();
+        stream = (ResultStream) api.getCall("listTest4", new MockUriInfo("test?_sort=@id"), null).getResults();
         assertTrue( JsonComparator.equal(EXPECTED + "r4.json", stream.next().asJson()) );
         
         // RDF rendering
-        stream = (ResultStream) api.getCall("listTest1", new MockUriInfo("test?_sort=@id")).getResults();
+        stream = (ResultStream) api.getCall("listTest1", new MockUriInfo("test?_sort=@id"), null).getResults();
         Resource resource = stream.next().asResource();
         assertEquals( "http://localhost/example/A1", resource.getURI() );
         assertTrue( resource.getModel().isIsomorphicWith( RDFDataMgr.loadModel(EXPECTED + "r1.ttl") ) );
 
-        stream = (ResultStream) api.getCall("listTest2", new MockUriInfo("test?_sort=@id")).getResults();
+        stream = (ResultStream) api.getCall("listTest2", new MockUriInfo("test?_sort=@id"), null).getResults();
         resource = stream.next().asResource();
         assertEquals( "http://localhost/example/A1", resource.getURI() );
         assertTrue( resource.getModel().isIsomorphicWith( RDFDataMgr.loadModel(EXPECTED + "r2.ttl") ) );
@@ -114,9 +114,9 @@ public class TestResultBasics {
     
     @Test
     public void testCSVRender() throws IOException {
-        assertTrue( checkCSV( api.getCall("listTest3", new MockUriInfo("test?_sort=@id")).getResults(), "list3.csv", "list3-alt.csv") );
+        assertTrue( checkCSV( api.getCall("listTest3", new MockUriInfo("test?_sort=@id"), null).getResults(), "list3.csv", "list3-alt.csv") );
         api.setFullPathsInCSVHeaders(true);
-        assertTrue( checkCSV( api.getCall("listTest3", new MockUriInfo("test?_sort=@id")).getResults(), "list3-dot.csv", "list3-alt-dot.csv") );
+        assertTrue( checkCSV( api.getCall("listTest3", new MockUriInfo("test?_sort=@id"), null).getResults(), "list3-dot.csv", "list3-alt-dot.csv") );
         api.setFullPathsInCSVHeaders(false);
     }
     
@@ -145,7 +145,7 @@ public class TestResultBasics {
     }
     
     protected WJSONObject getFirstWrapped(String spec) {
-        ResultStream stream = (ResultStream) api.getCall(spec, new MockUriInfo("test?_sort=@id")).getResults();
+        ResultStream stream = (ResultStream) api.getCall(spec, new MockUriInfo("test?_sort=@id"), null).getResults();
         WJSONObject actual = new WResult( stream.next() ).asJson();
         return actual;
     }

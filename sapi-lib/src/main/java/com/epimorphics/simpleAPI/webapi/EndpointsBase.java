@@ -89,14 +89,14 @@ public class EndpointsBase {
      * Return the full request including parameters
      */
     public Request getRequest() {
-        return Request.from(getAPI(), uriInfo);
+        return Request.from(getAPI(), uriInfo, request);
     }
     
     /**
      * Return the full request including query parameters and posted (JSON) body
      */
     public Request getRequest(String body) {
-        return Request.from(getAPI(), uriInfo, body);
+        return Request.from(getAPI(), uriInfo, request, body);
     }
 
     
@@ -113,11 +113,11 @@ public class EndpointsBase {
      */
     public ResultOrStream defaultResponse() {
         try {
-            return getAPI().getCall(uriInfo).getResults();
+            return getAPI().getCall(uriInfo, request).getResults();
         } catch (NotFoundException e) {
             // default to a describe
             EndpointSpec defaultEndpoint = new SparqlEndpointSpec(getAPI());
-            return new Call(defaultEndpoint, Request.from(getAPI(), uriInfo)).getResults();
+            return new Call(defaultEndpoint, Request.from(getAPI(), uriInfo, request)).getResults();
         }
     }
     
@@ -126,7 +126,7 @@ public class EndpointsBase {
      * configured endpoint patterns. Pass in a POST (JSON) body as well as the request URL.
      */
     public ResultOrStream defaultResponse(String body) {
-        return getAPI().getCall(uriInfo, body).getResults();
+        return getAPI().getCall(uriInfo, request, body).getResults();
     }
     
     // ---- Helpers for returning results ---------------------------------
