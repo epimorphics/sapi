@@ -1,0 +1,12 @@
+Test template
+uri = $uri
+_sort = $_sort
+baseURI = $baseURI
+#foreach($result in $results)
+  #set($result = $result.asJson())
+Resource: $result.uRI
+  label:    $result.label
+  notation: $result.notation
+  group:    $result.group
+  child:    $result.narrower.get('@id') $result.narrower.label
+#end

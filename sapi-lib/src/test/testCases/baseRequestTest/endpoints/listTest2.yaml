@@ -1,6 +1,7 @@
 name      : listTest2
 type      : list
 baseQuery : "?id a skos:Concept ."
+template  : test.vm
 views :
   default :
     - "rdfs:label"

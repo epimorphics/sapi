@@ -71,6 +71,11 @@ public class TestBaseEndToEnd extends TomcatTestBase {
 
         // CSV serialization
         checkGetCSV("basetest/list?_limit=2&_sort=@id", EXPECTED + "list-limit2-id.csv");
+        
+        // HTML serialization
+        checkResponseText(
+                getResponse(BASE_URL + "basetest/list?_limit=2&_sort=@id", "text/html"),
+                EXPECTED + "list-limit2-id2.html" );
     }
     
     protected void checkGet(String url, String expectedF) {
@@ -131,6 +136,17 @@ public class TestBaseEndToEnd extends TomcatTestBase {
             System.out.println("Test incomplete, actual was" + entity);
         } else {
             String expected = FileManager.get().readWholeFileAsUTF8(expectedF).replace("\n", "\r\n");
+            assertEquals(expected, entity);
+        }
+    }
+    
+    protected void checkResponseText(Response response, String expectedF) {
+        checkStatus(response);
+        String entity = response.readEntity(String.class);
+        if (expectedF == null) {
+            System.out.println("Test incomplete, actual was" + entity);
+        } else {
+            String expected = FileManager.get().readWholeFileAsUTF8(expectedF);
             assertEquals(expected, entity);
         }
     }
