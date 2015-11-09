@@ -1,6 +1,6 @@
 name      : listTest1
 type      : list
-query     : "?id a skos:Concept ."
+baseQuery : "?id a skos:Concept ."
 view      :
     - "rdfs:label"
     - "skos:notation"

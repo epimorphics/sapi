@@ -1,0 +1,4 @@
+@id,label,notation,child,child.cnotation
+http://localhost/example/A,A,1,http://localhost/example/AC,1C
+http://localhost/example/B,B,2|3,http://localhost/example/BC,""
+http://localhost/example/C,C,4,"",""

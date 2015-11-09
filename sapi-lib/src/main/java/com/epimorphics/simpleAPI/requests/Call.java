@@ -29,6 +29,7 @@ import com.epimorphics.simpleAPI.results.ResultOrStream;
 public class Call {
     protected EndpointSpec endpoint;
     protected Request request;
+    protected String templateName;
     
     public Call(EndpointSpec endpoint, Request request) {
         this.endpoint = endpoint;
@@ -75,4 +76,20 @@ public class Call {
             return getAPI().getSource().query((ItemQuery)query, this);
         }
     }
+    
+    /**
+     * Return the name of a (velocity or other) template to use for HTML rendering of this endpoint
+     */
+    public String getTemplateName() {
+        return templateName == null ? endpoint.getTemplateName() : templateName;
+    }
+
+    /**
+     * Override the template to use for HTML render to this call.
+     * Used for custom construction of endpoints
+     */
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
+    }
+    
 }

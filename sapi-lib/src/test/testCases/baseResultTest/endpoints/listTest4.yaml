@@ -1,0 +1,15 @@
+name      : listTest4
+type      : list
+baseQuery : "?id a eg:Test ."
+view      :
+    - "eg:label"
+    - "eg:lang"
+    - "eg:int"
+    - "eg:decimal"
+    - "eg:boolean"
+    - prop: "eg:child"
+      nested:
+        - { prop: "eg:label", name: "clabel" }
+    - prop: "eg:offspring"
+      nested:
+        - { prop: "eg:label", name: "olabel" }

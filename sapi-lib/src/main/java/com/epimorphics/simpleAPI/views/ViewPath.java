@@ -16,6 +16,7 @@ import static java.util.stream.Collectors.*;
 
 /**
  * Represents a path within a ViewTree, comprising a sequence of shortnames. 
+ * The empty path and refers to the URI of the root resource.
  */
 public class ViewPath {
     protected LinkedList<String> path;
@@ -40,6 +41,13 @@ public class ViewPath {
      */
     public String first() {
         return path.getFirst();
+    }
+    
+    /**
+     * Return the last element in the path
+     */
+    public String last() {
+        return path.getLast();
     }
     
     /**

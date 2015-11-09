@@ -19,6 +19,8 @@ import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE_LIST;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEW;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEWS;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.URL;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.BASE_QUERY;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.TEMPLATE;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
@@ -50,8 +52,8 @@ public class EndpointSpecFactory {
             } else if (TYPE_LIST.equals(type)) {
                 SparqlListEndpointSpec lspec = new SparqlListEndpointSpec(api);
                 spec = lspec;
-                if (jo.hasKey(QUERY)) {
-                    lspec.setBaseQuery( JsonUtil.getStringValue(jo, QUERY) );
+                if (jo.hasKey(BASE_QUERY)) {
+                    lspec.setBaseQuery( JsonUtil.getStringValue(jo, BASE_QUERY) );
                 }
                 if (jo.hasKey(LIMIT)) {
                     lspec.setHardLimit( JsonUtil.getIntValue(jo, LIMIT, Integer.MAX_VALUE) );
@@ -88,6 +90,9 @@ public class EndpointSpecFactory {
                     throw new EpiException("Could not parse url field, should be a string: " + jo.get(URL));
                 }
                 spec.setUrl(url);
+            }
+            if (jo.hasKey(TEMPLATE)) {
+                spec.setTemplateName( JsonUtil.getStringValue(jo, TEMPLATE) );
             }
             return spec;
         } else {

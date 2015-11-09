@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.UriInfo;
 
@@ -72,6 +73,7 @@ public class API extends ComponentBase implements Startup {
     
     protected boolean showLang = false;
     protected String showOnlyLang;
+    protected boolean fullPathsInCSVHeaders = false;
     
     protected List<RequestProcessor> requestProcessors = new ArrayList<>();
     protected List<RequestProcessor> allRequestProcessors;
@@ -231,8 +233,8 @@ public class API extends ComponentBase implements Startup {
      * register of templates and extracts the request parameters.
      * @throws NotFoundException if no endpoint matches 
      */
-    public Call getCall(UriInfo uriInfo) {
-        return monitor.getCall(uriInfo, Request.from(this, uriInfo));
+    public Call getCall(UriInfo uriInfo, HttpServletRequest servletRequest) {
+        return monitor.getCall(uriInfo, Request.from(this, uriInfo, servletRequest));
     }
     
     /**
@@ -240,22 +242,22 @@ public class API extends ComponentBase implements Startup {
      * register of templates and extracts the request parameters.
      * @throws NotFoundException if no endpoint matches 
      */
-    public Call getCall(UriInfo uriInfo, String requestBody) {
-        return monitor.getCall(uriInfo, Request.from(this, uriInfo, requestBody));
+    public Call getCall(UriInfo uriInfo, HttpServletRequest servletRequest, String requestBody) {
+        return monitor.getCall(uriInfo, Request.from(this, uriInfo, servletRequest, requestBody));
     }
     
     /**
      * Set up a call based on a simple GET request 
      */
-    public Call getCall(String endpoint, UriInfo uriInfo) {
-        return new Call(this, endpoint, Request.from(this, uriInfo));
+    public Call getCall(String endpoint, UriInfo uriInfo, HttpServletRequest servletRequest) {
+        return new Call(this, endpoint, Request.from(this, uriInfo, servletRequest));
     }
     
     /**
      * Set up a call based on a POST request using the named endpoint specification
      */
-    public Call getCall(String endpoint, UriInfo uriInfo, String requestBody) {
-        return new Call(this, endpoint, Request.from(this, uriInfo, requestBody));
+    public Call getCall(String endpoint, UriInfo uriInfo, HttpServletRequest servletRequest, String requestBody) {
+        return new Call(this, endpoint, Request.from(this, uriInfo, servletRequest, requestBody));
     }
     
     // ---- Support for request processing handlers ------------------------------------
@@ -394,6 +396,19 @@ public class API extends ComponentBase implements Startup {
     public String getShowOnlyLang() {
         return showOnlyLang; 
     }
+    
+    public boolean isFullPathsInCSVHeaders() {
+        return fullPathsInCSVHeaders;
+    }
+
+    /**
+     * Set to true to force CSV output headers to show the full nesting structure
+     * of the columns (dotted paths)
+     */
+    public void setFullPathsInCSVHeaders(boolean fullPathsInCSVHeaders) {
+        this.fullPathsInCSVHeaders = fullPathsInCSVHeaders;
+    }
+    
 
     // ---- Internals -----------------------------------------------
 

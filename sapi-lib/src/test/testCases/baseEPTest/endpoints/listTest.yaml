@@ -2,6 +2,6 @@ name      : listTest
 type      : list
 prefixes  : 
     rt :   "http://environment.data.gov.uk/flood-monitoring/def/core/"
-query     : "?id a rt:FloodAlertOrWarning ."
+baseQuery     : "?id a rt:FloodAlertOrWarning ."
 limit     : 100
 softLimit :  10

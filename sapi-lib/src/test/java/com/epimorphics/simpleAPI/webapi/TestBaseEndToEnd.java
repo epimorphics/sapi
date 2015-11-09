@@ -26,6 +26,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.util.FileManager;
 import org.junit.Test;
 
 import com.epimorphics.appbase.webapi.testing.TomcatTestBase;
@@ -33,6 +34,8 @@ import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.util.JsonComparator;
 
 public class TestBaseEndToEnd extends TomcatTestBase {
+    static final String EXPECTED = "src/test/testCases/baseEndToEndTest/expected/";
+    
     @Override
     public String getWebappContext() {
         return "";
@@ -45,29 +48,34 @@ public class TestBaseEndToEnd extends TomcatTestBase {
 
     @Test
     public void testEndToEnd() throws IOException {
-        checkGet("basetest/list?_limit=2&_sort=label", "src/test/testCases/baseEndToEndTest/expected/list-limit2.json");
-        checkGet("basetest/list?_limit=2&_sort=@id", "src/test/testCases/baseEndToEndTest/expected/list-limit2-id.json");
-        checkGet("basetest/list?group=B&_limit=2&_sort=label", "src/test/testCases/baseEndToEndTest/expected/list-filterB-limit2.json");
+        checkGet("basetest/list?_limit=2&_sort=label", EXPECTED + "list-limit2.json");
+        checkGet("basetest/list?_limit=2&_sort=@id", EXPECTED + "list-limit2-id.json");
+        checkGet("basetest/list?group=B&_limit=2&_sort=label", EXPECTED + "list-filterB-limit2.json");
         
-        checkGet("basetest/list?_view=compact&_limit=2&_sort=label", "src/test/testCases/baseEndToEndTest/expected/list-compact-limit2.json");
+        checkGet("basetest/list?_view=compact&_limit=2&_sort=label", EXPECTED + "list-compact-limit2.json");
         
-        checkGet("default/test3?_sort=label", "src/test/testCases/baseEndToEndTest/expected/list-default-test3.json");
-        checkGet("default/test4/B?_sort=label", "src/test/testCases/baseEndToEndTest/expected/list-default-test4-B.json");
+        checkGet("default/test3?_sort=label", EXPECTED + "list-default-test3.json");
+        checkGet("default/test4/B?_sort=label", EXPECTED + "list-default-test4-B.json");
         
-        checkPost("basetest/list", JsonUtil.makeJson("group", "B", "_limit", 2, "_sort", "label"), "src/test/testCases/baseEndToEndTest/expected/list-filterB-limit2-post.json");
-        checkPost("default/test4/B", JsonUtil.makeJson("_sort", "label"), "src/test/testCases/baseEndToEndTest/expected/list-default-test4-B-post.json");
+        checkPost("basetest/list", JsonUtil.makeJson("group", "B", "_limit", 2, "_sort", "label"), EXPECTED + "list-filterB-limit2-post.json");
+        checkPost("default/test4/B", JsonUtil.makeJson("_sort", "label"), EXPECTED + "list-default-test4-B-post.json");
         
         // Describe checks
-        checkGet("example/A2",  "src/test/testCases/baseEndToEndTest/expected/describe-A2.json");
+        checkGet("example/A2",  EXPECTED + "describe-A2.json");
         assertEquals(404, getResponse(BASE_URL + "example/notThere", "application/json").getStatus());
         assertEquals(404, getResponse(BASE_URL + "example/notThere", "text/turtle").getStatus());
 
         // RDF serialization
-        checkGetTtl("basetest/list?_limit=2&_sort=@id", "src/test/testCases/baseEndToEndTest/expected/list-limit2-id.ttl");
-        checkGetTtl("example/A2", "src/test/testCases/baseEndToEndTest/expected/describe-A2.ttl");
+        checkGetTtl("basetest/list?_limit=2&_sort=@id", EXPECTED + "list-limit2-id.ttl");
+        checkGetTtl("example/A2", EXPECTED + "describe-A2.ttl");
 
         // CSV serialization
-//        checkGetCSV("basetest/list?_limit=2&_sort=@id", null);
+        checkGetCSV("basetest/list?_limit=2&_sort=@id", EXPECTED + "list-limit2-id.csv");
+        
+        // HTML serialization
+        checkResponseText(
+                getResponse(BASE_URL + "basetest/list?_limit=2&_sort=@id", "text/html"),
+                EXPECTED + "list-limit2-id2.html" );
     }
     
     protected void checkGet(String url, String expectedF) {
@@ -113,7 +121,7 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         Model actual = ModelFactory.createDefaultModel();
         RDFDataMgr.read(actual, in, Lang.TTL);
         if (expectedF == null) {
-            System.out.println("Test incomplete, actual was: ");
+            System.out.println("Test incomplete, actual was:\n");
             actual.write(System.out, "Turtle");
         } else {
             Model expected = RDFDataMgr.loadModel(expectedF);
@@ -124,6 +132,22 @@ public class TestBaseEndToEnd extends TomcatTestBase {
     protected void checkResponseCSV(Response response, String expectedF) {
         checkStatus(response);
         String entity = response.readEntity(String.class);
-        System.out.println("CSV out:\n" + entity);
+        if (expectedF == null) {
+            System.out.println("Test incomplete, actual was" + entity);
+        } else {
+            String expected = FileManager.get().readWholeFileAsUTF8(expectedF).replace("\n", "\r\n");
+            assertEquals(expected, entity);
+        }
+    }
+    
+    protected void checkResponseText(Response response, String expectedF) {
+        checkStatus(response);
+        String entity = response.readEntity(String.class);
+        if (expectedF == null) {
+            System.out.println("Test incomplete, actual was" + entity);
+        } else {
+            String expected = FileManager.get().readWholeFileAsUTF8(expectedF);
+            assertEquals(expected, entity);
+        }
     }
 }

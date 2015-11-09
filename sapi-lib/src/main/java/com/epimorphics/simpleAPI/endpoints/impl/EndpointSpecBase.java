@@ -37,6 +37,7 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     protected Map<String, ViewMap> views = new HashMap<>();
     protected PrefixMapping localPrefixes;
     protected PrefixMapping prefixes;
+    protected String templateName;
 
     public EndpointSpecBase(API api) {
         this.api = api;
@@ -128,6 +129,14 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     
     public void addView(String viewname, ViewMap view) {
         views.put(viewname, view);
+    }
+
+    public String getTemplateName() {
+        return templateName;
+    }
+
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
     }
 
 }

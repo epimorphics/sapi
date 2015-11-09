@@ -1,0 +1,30 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix eg:   <http://localhost/example/> .
+
+eg:A a eg:Itest;
+    rdfs:label "A";
+    skos:notation "1";
+    eg:child  eg:AC .
+
+eg:AC a eg:Ctest;
+    rdfs:label "AC";
+    skos:notation "1C" .
+
+eg:B a eg:Itest;
+    rdfs:label "B";
+    skos:notation "2", "3";
+    eg:child  eg:BC .
+
+eg:BC a eg:Ctest;
+    rdfs:label "BC";
+    .
+    
+eg:C a eg:Itest;
+    rdfs:label "C";
+    skos:notation "4";
+    .

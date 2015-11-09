@@ -63,4 +63,8 @@ public interface EndpointSpec extends ConfigInstance {
      */
     public PrefixMapping getPrefixes();
     
+    /**
+     * Return the name of a (velocity or other) template to use for HTML rendering of this endpoint
+     */
+    public String getTemplateName();
 }

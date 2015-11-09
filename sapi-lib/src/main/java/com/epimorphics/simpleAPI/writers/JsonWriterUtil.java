@@ -32,6 +32,12 @@ import com.epimorphics.simpleAPI.views.ViewTree;
  */
 public class JsonWriterUtil {
 
+    public static final String LANGUAGE_FIELD = "@language";
+    public static final String VALUE_FIELD = "@value";
+    public static final String ID_FIELD = "@id";
+    public static final String LABEL_FIELD = "label";
+
+
     public static void writeResult(TreeResult result, JSFullWriter out) {
         EndpointSpec spec = result.getCall().getEndpoint();
         ViewMap view = spec.getView();
@@ -42,7 +48,7 @@ public class JsonWriterUtil {
         out.startObject();
         String id = result.getStringID();
         if (id != null) {
-            out.pair("@id", id);
+            out.pair(ID_FIELD, id);
         }
         for (String key : result.getSortedKeys()) {
             List<Object> values = result.getSortedValues(key);
@@ -116,8 +122,8 @@ public class JsonWriterUtil {
                         else
                             writer.key(key);
                         writer.startObject();
-                        writer.pair("@value", lex);
-                        writer.pair("@language", lang);
+                        writer.pair(VALUE_FIELD, lex);
+                        writer.pair(LANGUAGE_FIELD, lang);
                         writer.finishObject();
                     }
                 } else {
@@ -137,6 +143,7 @@ public class JsonWriterUtil {
                         else
                             writer.pair(key, (Boolean) jv);
                     } else {
+                        // TODO handle other typed literals
                         if (isArrayElt)
                             writer.arrayElement(lex);
                         else

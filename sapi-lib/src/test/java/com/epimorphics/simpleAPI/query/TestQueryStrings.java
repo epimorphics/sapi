@@ -50,7 +50,7 @@ public class TestQueryStrings {
         assertEquals( "http://environment.data.gov.uk/flood-monitoring/def/core/", prefixes.getNsPrefixURI("rt") );
         assertEquals( SKOS.getURI(), prefixes.getNsPrefixURI("skos") );
         
-        String query = api.getCall("describe-test", new MockUriInfo("test")).getQueryBuilder().build().toString();
+        String query = api.getCall("describe-test", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
         assertTrue( query.contains("PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>"));
         assertTrue( query.contains("DESCRIBE <http://localhost/flood-monitoring/test> ?warning"));
         assertTrue( query.contains("OPTIONAL { <http://localhost/flood-monitoring/test> rt:currentWarning ?warning }"));
@@ -58,7 +58,7 @@ public class TestQueryStrings {
     
     @Test
     public void testQueryGeneration() {
-        String query = api.getCall("queryBuildTest", new MockUriInfo("test")).getQueryBuilder().build().toString();
+        String query = api.getCall("queryBuildTest", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
         
         assertTrue( query.contains("PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>") );
         assertTrue( query.contains("SELECT * WHERE {") );

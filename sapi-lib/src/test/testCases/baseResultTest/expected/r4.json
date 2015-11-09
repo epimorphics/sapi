@@ -1,0 +1,22 @@
+{ 
+  "@id" : "http://localhost/example/test1" ,
+  "boolean" : true ,
+  "child" : {"clabel" : "child" } ,
+  "decimal" : 1.5 ,
+  "int" : 1 ,
+  "label" : [ 
+      "a plain string" ,
+      "another label"
+    ] ,
+  "lang" : "english" ,
+  "offspring" : [ 
+      { 
+        "@id" : "http://localhost/example/o1" ,
+        "olabel" : "o1"
+      } ,
+      { 
+        "@id" : "http://localhost/example/o2" ,
+        "olabel" : "o2"
+      }
+    ]
+}

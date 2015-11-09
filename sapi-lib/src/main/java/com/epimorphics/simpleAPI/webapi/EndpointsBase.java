@@ -32,7 +32,6 @@ import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
-import com.epimorphics.simpleAPI.results.ResultOrStream;
 
 public class EndpointsBase {
     public static final String FULL_MEDIA_TYPE_TURTLE = "text/turtle; charset=UTF-8";
@@ -89,35 +88,35 @@ public class EndpointsBase {
      * Return the full request including parameters
      */
     public Request getRequest() {
-        return Request.from(getAPI(), uriInfo);
+        return Request.from(getAPI(), uriInfo, request);
     }
     
     /**
      * Return the full request including query parameters and posted (JSON) body
      */
     public Request getRequest(String body) {
-        return Request.from(getAPI(), uriInfo, body);
+        return Request.from(getAPI(), uriInfo, request, body);
     }
 
     
     // ---- Standard list endpoint handling ---------------------------------
     
-    public ResultOrStream listResponse(Request request, String endpointName) {
+    public Response listResponse(Request request, String endpointName) {
         Call call = new Call(getAPI(), endpointName,request);
-        return call.getResults();
+        return respondWith( call.getResults() );
     }
     
     /**
      * Handle requests by looking up the path against the set of dynamically
      * configured endpoint patterns.
      */
-    public ResultOrStream defaultResponse() {
+    public Response defaultResponse() {
         try {
-            return getAPI().getCall(uriInfo).getResults();
+            return respondWith( getAPI().getCall(uriInfo, request).getResults() );
         } catch (NotFoundException e) {
             // default to a describe
             EndpointSpec defaultEndpoint = new SparqlEndpointSpec(getAPI());
-            return new Call(defaultEndpoint, Request.from(getAPI(), uriInfo)).getResults();
+            return respondWith( new Call(defaultEndpoint, Request.from(getAPI(), uriInfo, request)).getResults() );
         }
     }
     
@@ -125,8 +124,8 @@ public class EndpointsBase {
      * Handle requests by looking up the path against the set of dynamically
      * configured endpoint patterns. Pass in a POST (JSON) body as well as the request URL.
      */
-    public ResultOrStream defaultResponse(String body) {
-        return getAPI().getCall(uriInfo, body).getResults();
+    public Response defaultResponse(String body) {
+        return respondWith( getAPI().getCall(uriInfo, request, body).getResults() );
     }
     
     // ---- Helpers for returning results ---------------------------------

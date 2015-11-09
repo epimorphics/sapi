@@ -9,14 +9,13 @@
 
 package com.epimorphics.simpleAPI.results;
 
+import static com.epimorphics.simpleAPI.util.TreeTestUtil.lit;
+import static com.epimorphics.simpleAPI.util.TreeTestUtil.res;
+import static com.epimorphics.simpleAPI.util.TreeTestUtil.set;
+import static com.epimorphics.simpleAPI.util.TreeTestUtil.tree;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.ResourceFactory;
 import org.junit.Test;
 
 import com.epimorphics.simpleAPI.views.ViewPath;
@@ -41,29 +40,12 @@ public class TestResultAccess {
         assertEquals(set(res("B")), A.get( path("foo") ));
         assertEquals(set(res("D"), res("E")), A.get( path("baz") ));
         assertEquals(set(lit("v5"),lit("v6")), A.get( path("baz.p") ) );
+        
+        assertEquals( set(res("A")), A.get( new ViewPath() ) );
     }
     
     ViewPath path(String dotted) {
         return ViewPath.fromDotted(dotted);
     }
-    
-    RDFNode lit(String s) {
-        return ResourceFactory.createPlainLiteral(s);
-    }
-    
-    RDFNode res(String s) {
-        return ResourceFactory.createResource( NS + s );
-    }
-    
-    TreeResult tree(String id) {
-        return new TreeResult(null, res(id));
-    }
 
-    Set<RDFNode> set(RDFNode...values) {
-        Set<RDFNode> set = new HashSet<>();
-        for (RDFNode value : values) {
-            set.add(value);
-        }
-        return set;
-    }
 }
