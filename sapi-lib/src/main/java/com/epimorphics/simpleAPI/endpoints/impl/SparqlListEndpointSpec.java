@@ -28,8 +28,7 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
         super(api);
     }
 
-    @Override
-    public QueryBuilder getQueryBuilder(String viewname) {
+    @Override public QueryBuilder getQueryBuilder(String viewname) {
         ViewMap view = getView(viewname);
         String q = baseQuery;
         if (view != null) {

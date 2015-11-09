@@ -18,6 +18,7 @@ import org.apache.jena.sparql.util.FmtUtils;
 import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.sparql.query.Query;
 import com.epimorphics.util.PrefixUtils;
 
 /**
@@ -28,6 +29,7 @@ import com.epimorphics.util.PrefixUtils;
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class SparqlQueryBuilder implements ListQueryBuilder {
+	
     public static final String INJECT_MARKER = "#$INJECT$";
     public static final String FILTER_MARKER = "#$FILTER$";
     public static final String MODIFIER_MARKER = "#$MODIFIER$";
@@ -41,14 +43,14 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
             + "#$SORT$\n"
             + "#$MODIFIER$\n";
     
-    protected String query;
+    protected Query query;
     protected PrefixMapping prefixes;
 
-    protected SparqlQueryBuilder(String query) {
+    protected SparqlQueryBuilder(Query query) {
         this.query = query;
     }
 
-    protected SparqlQueryBuilder(String query, PrefixMapping prefixes) {
+    protected SparqlQueryBuilder(Query query, PrefixMapping prefixes) {
         this.query = query;
         this.prefixes = prefixes;
     }
@@ -56,15 +58,15 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
     /**
      * Construct a query builder from a base query.
      */
-    public static final QueryBuilder fromBaseQuery(String baseQuery) {
+    public static final QueryBuilder fromBaseQuery(Query baseQuery) {
         return fromBaseQuery(baseQuery, null);
     }
     
     /**
      * Construct a query builder from a base query.
      */
-    public static final QueryBuilder fromBaseQuery(String baseQuery, PrefixMapping prefixes) {
-        return new SparqlQueryBuilder( GENERIC_TEMPLATE.replace(INJECT_MARKER, baseQuery + "\n    " + INJECT_MARKER), prefixes );
+    public static final QueryBuilder fromBaseQuery(Query baseQuery, PrefixMapping prefixes) {
+        return new SparqlQueryBuilder( baseQuery, prefixes );
     }
     
     /**

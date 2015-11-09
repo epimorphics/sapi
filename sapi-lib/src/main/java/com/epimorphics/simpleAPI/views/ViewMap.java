@@ -66,9 +66,9 @@ public class ViewMap extends ConfigItem {
      * Return a SPARQL query string representing the bindings for this map
      */
     public String asQuery() {
-        StringBuffer query = new StringBuffer();
-        getTree().renderAsQuery(query, "id", "");
-        return query.toString();
+    	Query q = new Query();
+        q.addPattern(getTree().buildPattern("id", ""));
+        return q.toSparqlConstruct(new Settings());
     }
     
     /**

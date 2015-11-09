@@ -51,7 +51,7 @@ public class EndpointSpecFactory {
                 SparqlListEndpointSpec lspec = new SparqlListEndpointSpec(api);
                 spec = lspec;
                 if (jo.hasKey(QUERY)) {
-                    lspec.setBaseQuery( new GraphPatternText(JsonUtil.getStringValue(jo, QUERY) );
+                    lspec.setBaseQuery( JsonUtil.getStringValue(jo, QUERY) );
                 }
                 if (jo.hasKey(LIMIT)) {
                     lspec.setHardLimit( JsonUtil.getIntValue(jo, LIMIT, Integer.MAX_VALUE) );

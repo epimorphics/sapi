@@ -32,8 +32,11 @@ import org.apache.jena.shared.PrefixMapping;
 import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.views.ViewEntry.PV;
+import com.epimorphics.sparql.graphpatterns.And;
 import com.epimorphics.sparql.graphpatterns.Basic;
+import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.graphpatterns.Optional;
+import com.epimorphics.sparql.graphpatterns.PatternCommon;
 import com.epimorphics.sparql.query.Query;
 import com.epimorphics.sparql.terms.Triple;
 import com.epimorphics.sparql.terms.URI;
@@ -69,69 +72,42 @@ public class ViewTree implements Iterable<ViewEntry> {
         return children.get(shortname);
     }
     
-    /**
-     * Synthesize a SPARQL query for this subtree.
-     * @param buf Buffer into which to append the query text
-     * @param var the SPARQL variable representing the root of the tree
-     * @param path a prefix to prepend to the variable names to ensure distinct values down the tree
-     */
-    protected void renderAsQuery(StringBuffer buf, String var, String path) {
-        boolean started = false;
-        for (ViewEntry map : children.values()) {
-            if (!map.isOptional()) {
-                if (!started){
-                    started = true;
-                    buf.append("    ?" + var + "\n");                    
-                }
-                buf.append("        " + map.asQueryRow(path) + " ;\n");
-            }
-        }
-        if (started) buf.append("    .\n");
-        for (ViewEntry map : children.values()) {
+    
+    protected GraphPattern buildPattern(String var, String path) {
+
+    	List<GraphPattern> patterns = new ArrayList<GraphPattern>();
+    	
+    	for (ViewEntry map : children.values()) {
             String jname = map.getJsonName();
             String npath = addToPath(path, jname);
             if (map.isOptional()) {
-                if (map.isNested()) {
-                    buf.append("    OPTIONAL {?" + var + " " + map.asQueryRow(path) + " .\n" );
+            	if (map.isNested()) {
+            		ViewTree nested = map.getNested();
+            		GraphPattern p = nested.buildPattern(jname, npath);
+            		patterns.add(new Optional(p));
+            	} else {
+                	PV pv = map.asQueryRow(path);
+                	Triple t = new Triple(new Var(var), pv.property, pv.var);
+                	GraphPattern p = new Optional(new Basic(t));
+                	patterns.add(p);
+            		
+            	}
+            } else {
+            	PV pv = map.asQueryRow(path);
+            	Triple t = new Triple(new Var(var), pv.property, pv.var);
+            	GraphPattern p = new Basic(t);
+            	patterns.add(p);
+            	if (map.isNested()) {
                     ViewTree nested = map.getNested();
-                    nested.renderAsQuery(buf, jname, npath);
-                    buf.append("    }\n" );
-                    
-                } else {
-                    buf.append("    OPTIONAL {?" + var + " " + map.asQueryRow(path) + " .}\n" );
-                }
-            } else if (map.isNested()) {
-                ViewTree nested = map.getNested();
-                nested.renderAsQuery(buf, jname, npath);
+                    patterns.add(nested.buildPattern(jname, npath));            		
+            	}
             }
         }
+    	
+    	return new And(patterns);    	
     }
     
-    /**
-     * Synthesize the body of a SPARQL DESCRIBE query for this subtree
-     * @param buf Buffer into which to append the query text
-     * @param var the SPARQL variable representing the root of the tree
-     * @param path a prefix to prepend to the variable names to ensure distinct values down the tree
-     * @param vars the set of variables used in the tree
-     */
-    protected void renderAsDescribe(StringBuffer buf, String var, String path, Set<String> vars) {
-        for (ViewEntry map : children.values()) {
-            if (map.isNested()) {
-                String jname = map.getJsonName();
-                String npath = addToPath(path, jname);
-                String nvar =  path.isEmpty() ? jname : path + "_" + jname;
-                
-                buf.append("    ");
-                if (map.isOptional()) buf.append("OPTIONAL ");
-                buf.append("{?" + var + " " + map.asQueryRow(path) + " }\n" );
-                
-                vars.add(nvar);
-                map.getNested().renderAsDescribe(buf, nvar, npath, vars);
-            }
-        }
-    }    
-    
-    protected void renderForDescribe(Query buf, String var, String path, Set<String> vars) {
+    protected void renderForDescribe(Query q, String var, String path, Set<String> vars) {
         for (ViewEntry map : children.values()) {
             if (map.isNested()) {
                 String jname = map.getJsonName();
@@ -144,13 +120,13 @@ public class ViewTree implements Iterable<ViewEntry> {
                 Basic triplePattern = new Basic(t);
 
                 if (map.isOptional()) {
-                	buf.addPattern(new Optional(triplePattern));
+                	q.addPattern(new Optional(triplePattern));
                 } else {
-                	buf.addPattern(triplePattern);
+                	q.addPattern(triplePattern);
                 }
                 
                 vars.add(nvar);
-                map.getNested().renderForDescribe(buf, nvar, npath, vars);
+                map.getNested().renderForDescribe(q, nvar, npath, vars);
             }
         }
     }
