@@ -36,7 +36,6 @@ import com.epimorphics.sparql.graphpatterns.And;
 import com.epimorphics.sparql.graphpatterns.Basic;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.graphpatterns.Optional;
-import com.epimorphics.sparql.graphpatterns.PatternCommon;
 import com.epimorphics.sparql.query.Query;
 import com.epimorphics.sparql.terms.Triple;
 import com.epimorphics.sparql.terms.URI;
@@ -120,9 +119,9 @@ public class ViewTree implements Iterable<ViewEntry> {
                 Basic triplePattern = new Basic(t);
 
                 if (map.isOptional()) {
-                	q.addPattern(new Optional(triplePattern));
+                	q.addEarlyPattern(new Optional(triplePattern));
                 } else {
-                	q.addPattern(triplePattern);
+                	q.addEarlyPattern(triplePattern);
                 }
                 
                 vars.add(nvar);

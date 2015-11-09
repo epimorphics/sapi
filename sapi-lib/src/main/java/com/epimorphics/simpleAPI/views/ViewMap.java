@@ -67,7 +67,7 @@ public class ViewMap extends ConfigItem {
      */
     public String asQuery() {
     	Query q = new Query();
-        q.addPattern(getTree().buildPattern("id", ""));
+        q.addEarlyPattern(getTree().buildPattern("id", ""));
         return q.toSparqlConstruct(new Settings());
     }
     

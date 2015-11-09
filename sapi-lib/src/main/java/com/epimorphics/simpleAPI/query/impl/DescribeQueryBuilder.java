@@ -15,7 +15,12 @@ import org.apache.jena.shared.PrefixMapping;
 import com.epimorphics.rdfutil.QueryUtil;
 import com.epimorphics.simpleAPI.query.ItemQuery;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.sparql.graphpatterns.Bind;
 import com.epimorphics.sparql.query.Query;
+import com.epimorphics.sparql.templates.Settings;
+import com.epimorphics.sparql.terms.Literal;
+import com.epimorphics.sparql.terms.URI;
+import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.util.PrefixUtils;
 
 public class DescribeQueryBuilder implements QueryBuilder {
@@ -31,26 +36,28 @@ public class DescribeQueryBuilder implements QueryBuilder {
         this.query = query;
     }
 
-    @Override
-    public QueryBuilder bind(String varname, RDFNode value) {
+    @Override public QueryBuilder bind(String varname, RDFNode value) {
         return new DescribeQueryBuilder( bindQueryParam(query, varname, value), prefixes );
     }
 
-    @Override
-    public ItemQuery build() {
-        return new SparqlDescribeQuery( prefixes == null ? query : PrefixUtils.expandQuery(query, prefixes) );
+    @Override public ItemQuery build() {
+    	String queryString = query.toSparqlDescribe(new Settings());
+        return new SparqlDescribeQuery
+        	( prefixes == null 
+        	? queryString 
+        	: PrefixUtils.expandQuery(queryString, prefixes) )
+        	;
     }
     
     // TODO move this to somewhere more logical and reusable
     /**
      * Bind a variable in a query by syntactic substitution
      */
-    public static String bindQueryParam(Query query, String var, Object value) {
-        String subs = QueryUtil.asSPARQLValue( value ).replace("\\", "\\\\");
-        // Two step substitute so don't use regex when substituting value (which might have regex special characters)
-        String bound = query.replaceAll("\\?" + var + "\\b", MARKER);
-        bound = bound.replace(MARKER, subs);
-        return bound;
+    public static Query bindQueryParam(Query query, String var, Object value) {
+        String subs = QueryUtil.asSPARQLValue( value );
+        Literal val = new Literal(subs, new URI("xsd:string"), "");
+        Query q = query.copy().addLaterPattern(new Bind(val, new Var(var)));
+        return q;
     }
     protected static final String MARKER="?ILLEGAL-VAR";
 }

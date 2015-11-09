@@ -9,7 +9,9 @@
 
 package com.epimorphics.simpleAPI.query.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.PrefixMapping;
@@ -18,7 +20,20 @@ import org.apache.jena.sparql.util.FmtUtils;
 import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.sparql.exprs.Call;
+import com.epimorphics.sparql.exprs.Infix;
+import com.epimorphics.sparql.exprs.Op;
+import com.epimorphics.sparql.graphpatterns.Basic;
+import com.epimorphics.sparql.graphpatterns.Bind;
+import com.epimorphics.sparql.graphpatterns.GraphPattern;
+import com.epimorphics.sparql.graphpatterns.GraphPatternText;
+import com.epimorphics.sparql.query.Order;
 import com.epimorphics.sparql.query.Query;
+import com.epimorphics.sparql.templates.Settings;
+import com.epimorphics.sparql.terms.Filter;
+import com.epimorphics.sparql.terms.IsExpr;
+import com.epimorphics.sparql.terms.TermUtils;
+import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.util.PrefixUtils;
 
 /**
@@ -35,6 +50,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
     public static final String MODIFIER_MARKER = "#$MODIFIER$";
     public static final String SORT_MARKER = "#$SORT$";
     public static final String SORT_X_MARKER = "#$SORTX$";
+    
     public static final String GENERIC_TEMPLATE =
             "SELECT * WHERE {\n"
             + "    #$INJECT$\n"
@@ -73,7 +89,8 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Construct a query builder from a complete query template that must incluide the inject, filter and modification markers.
      */
     public static final QueryBuilder fromTemplate(String queryTemplate) {
-        return new SparqlQueryBuilder( queryTemplate );
+    	Query q = new Query().setTemplate(queryTemplate);
+        return new SparqlQueryBuilder( q );
     }
     
     public void setPrefixes(PrefixMapping prefixes) {
@@ -85,7 +102,8 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Mostly used internally in the builder but public to support legacy apps.
      */
     public SparqlQueryBuilder inject(String s) {
-        return new SparqlQueryBuilder(query.replace(INJECT_MARKER, INJECT_MARKER + "\n    " + s), prefixes);
+    	Query q = query.copy().addEarlyPattern(new GraphPatternText(s));
+        return new SparqlQueryBuilder(q, prefixes);
     }
     
     /**
@@ -93,60 +111,60 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Mostly used internally in the builder but public to support legacy apps.
      */
     public SparqlQueryBuilder filter(String s) {
-        return new SparqlQueryBuilder(query.replace(FILTER_MARKER, s + "\n    " + FILTER_MARKER), prefixes);
+    	Query q = query.copy().addLaterPattern(new GraphPatternText(s));
+        return new SparqlQueryBuilder(q, prefixes);
     }
-    
     
     /**
      * Insert an arbitrary sparql query modifier in to the query.
      * Mostly used internally in the builder but public to support legacy apps.
      */
     protected SparqlQueryBuilder modifier(String s) {
-        return new SparqlQueryBuilder(query.replace(MODIFIER_MARKER, s + "\n" + MODIFIER_MARKER), prefixes);
+    	Query q = query.copy().addRawModifier(s);
+        return new SparqlQueryBuilder(q, prefixes);
     }
+	
+	@Override public ListQueryBuilder filter(String shortname, RDFNode value) {
+		Var var = new Var(shortname);
+		IsExpr val = TermUtils.nodeToTerm(value);
+		Filter eq = new Filter(new Infix(var, Op.opEq, val));
+		Basic basic = new Basic(eq);		
+		return new SparqlQueryBuilder(query.copy().addEarlyPattern(basic));
+	}
 
-    @Override
-    public ListQueryBuilder filter(String shortname, RDFNode value) {
-        return filter( String.format("FILTER (?%s = %s)\n", shortname, FmtUtils.stringForNode( value.asNode() ) ) );
-    }
+	@Override public ListQueryBuilder filter(String shortname,	Collection<RDFNode> values) {
+		if (values.size() == 1) {
+			return filter(shortname, values.iterator().next());
+		} else {
+			Var var = new Var(shortname);
+			List<IsExpr> operands = new ArrayList<IsExpr>();
+			for (RDFNode value: values) operands.add(TermUtils.nodeToTerm(value));
+			IsExpr oneOf = new Infix(var, Op.opIn, new Call(Op.Tuple, operands));
+			return new SparqlQueryBuilder(query.copy().addEarlyPattern(new Basic(new Filter(oneOf))));
+		}
+	}
+	
+	@Override public ListQueryBuilder sort(String shortname, boolean down) {
+		Order sc = (down ? Order.DESC : Order.ASC);
+		return new SparqlQueryBuilder(query.copy().addOrder(sc, new Var(shortname)));
+	}
 
-    @Override
-    public ListQueryBuilder filter(String shortname, Collection<RDFNode> values) {
-        StringBuffer filters = new StringBuffer();
-        filters.append("FILTER (?");
-        filters.append(shortname);
-        filters.append(" IN (");
-        for (RDFNode value : values) {
-            filters.append(FmtUtils.stringForNode( value.asNode() ));
-            filters.append(" ");
-        }
-        filters.append(") )");
-        return filter( filters.toString() );
-    }
+	@Override public ListQueryBuilder limit(long limit, long offset) {
+		Query q = new Query();
+		q.setLimit(limit);
+		q.setOffset(offset);
+		return new SparqlQueryBuilder(q);
+	}
 
-    @Override
-    public ListQueryBuilder sort(String shortname, boolean down) {
-        String sort = String.format(down ? "DESC(?%s)" : "?%s", shortname);
-        if (query.contains(SORT_X_MARKER)) {
-            return new SparqlQueryBuilder(query.replace(SORT_X_MARKER, sort + " " + SORT_X_MARKER), prefixes);
-        } else {
-            return new SparqlQueryBuilder(query.replace(SORT_MARKER, "ORDER BY " + sort + " " + SORT_X_MARKER), prefixes);
-        }
-    }
+	@Override public ListQueryBuilder bind(String varname, RDFNode value) {
+		final Var var = new Var(varname);
+		final IsExpr val = TermUtils.nodeToTerm(value);
+		Query q = query.copy().addEarlyPattern((GraphPattern) new Bind(val, var));
+		return new SparqlQueryBuilder(q);
+	}
 
-    @Override
-    public ListQueryBuilder limit(long limit, long offset) {
-        return modifier( String.format("LIMIT %d OFFSET %d\n", limit, offset) );
-    }
-
-    @Override
-    public QueryBuilder bind(String varname, RDFNode value) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ListQuery build() {
-        return new SparqlSelectQuery( PrefixUtils.expandQuery(query.replaceAll("#\\$[A-Z]*\\$", ""), prefixes) );
+    @Override public ListQuery build() {
+    	String queryString = query.toSparqlSelect(new Settings());
+        return new SparqlSelectQuery( PrefixUtils.expandQuery(queryString, prefixes) );
     }
 }
