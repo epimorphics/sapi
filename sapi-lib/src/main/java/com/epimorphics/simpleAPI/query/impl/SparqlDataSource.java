@@ -49,7 +49,9 @@ public class SparqlDataSource implements DataSource {
     public Result query(ItemQuery query, Call call) {
         if (query instanceof SparqlQuery) {
             SparqlQuery sq = (SparqlQuery) query;
-            Graph graph = source.describe(sq.getQuery());
+            String queryString = sq.getQuery();
+            // System.err.println(">> queryString: " + queryString);
+			Graph graph = source.describe(queryString);
             Model model = ModelFactory.createModelForGraph(graph);
             if (model.isEmpty()) {
                 // TODO Review whether this should be trapped here or further up the processing stream
