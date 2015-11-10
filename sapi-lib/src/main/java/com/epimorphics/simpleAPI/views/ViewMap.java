@@ -71,6 +71,10 @@ public class ViewMap extends ConfigItem {
         return q.toSparqlConstruct(new Settings());
     }
     
+    public void addTreePattern(Query q) {
+        q.addEarlyPattern(getTree().buildPattern("id", ""));
+    }
+    
     /**
      * Return a SPARQL describe query which describes the neste elements in the tree
      */
