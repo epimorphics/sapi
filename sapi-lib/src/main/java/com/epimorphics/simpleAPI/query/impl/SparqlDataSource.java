@@ -53,7 +53,7 @@ public class SparqlDataSource implements DataSource {
             Model model = ModelFactory.createModelForGraph(graph);
             if (model.isEmpty()) {
                 // TODO Review whether this should be trapped here or further up the processing stream
-                throw new NotFoundException();
+                throw new NotFoundException(call.toString());
             }
             Resource root = model.getResource( call.getRequest().getRequestedURI() );
             return new RDFResult(root, call);

@@ -44,6 +44,10 @@ public class Call {
         this.request = request;
     }
     
+    public String toString() {
+    	return "Call{" + endpoint + ", " + request + "}";
+    }
+    
     public API getAPI() {
         return endpoint.getAPI();
     }

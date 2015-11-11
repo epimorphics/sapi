@@ -25,6 +25,8 @@ public class SparqlQuery implements Query {
      * Construct a list query
      */
     public SparqlQuery(String query) {
+    	System.err.println(">> SparqlQuery: " + query);
+    	new RuntimeException().printStackTrace();
         this.query = query;
     }
     

@@ -9,6 +9,7 @@
 
 package com.epimorphics.simpleAPI.query.impl;
 
+import org.apache.jena.graph.Node;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.PrefixMapping;
 
@@ -18,6 +19,7 @@ import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.sparql.graphpatterns.Bind;
 import com.epimorphics.sparql.query.Query;
 import com.epimorphics.sparql.templates.Settings;
+import com.epimorphics.sparql.terms.IsExpr;
 import com.epimorphics.sparql.terms.Literal;
 import com.epimorphics.sparql.terms.URI;
 import com.epimorphics.sparql.terms.Var;
@@ -54,10 +56,23 @@ public class DescribeQueryBuilder implements QueryBuilder {
      * Bind a variable in a query by syntactic substitution
      */
     public static Query bindQueryParam(Query query, String var, Object value) {
-        String subs = QueryUtil.asSPARQLValue( value );
-        Literal val = new Literal(subs, new URI("xsd:string"), "");
-        Query q = query.copy().addLaterPattern(new Bind(val, new Var(var)));
+//    	System.err.println(">> describeQuery_value: " + value);
+//        String subs = QueryUtil.asSPARQLValue( value );
+//        Literal val = new Literal(subs, new URI("xsd:string"), "");
+        Query q = query.copy().addLaterPattern(new Bind(asTerm(value), new Var(var)));
         return q;
     }
-    protected static final String MARKER="?ILLEGAL-VAR";
+    
+    private static IsExpr asTerm(Object value) {
+    	if (value instanceof RDFNode) 
+    		return new URI(((RDFNode) value).asNode().getURI());
+    	if (value instanceof org.apache.jena.rdf.model.Literal) {
+    		Node n = ((RDFNode) value).asNode();
+    		URI type = new URI(n.getLiteralDatatypeURI());
+    		return new Literal(n.getLiteralLexicalForm(), type, n.getLiteralLanguage());
+    	}
+    	return null;
+	}
+    
+	protected static final String MARKER="?ILLEGAL-VAR";
 }
