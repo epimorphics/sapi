@@ -14,6 +14,7 @@ import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.DescribeQueryBuilder;
 import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.sparql.query.Query;
 
 /**
@@ -42,7 +43,7 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
 
     public void setBaseQuery(String baseQueryString) {
     	if (baseQuery == null) baseQuery = new Query();
-        baseQuery.setTemplate(baseQueryString);
+        baseQuery.addEarlyPattern(new GraphPatternText(baseQueryString));
     }
 
 }

@@ -14,6 +14,7 @@ import com.epimorphics.simpleAPI.endpoints.ListEndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
 import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.sparql.query.Query;
 
 /**
  * Endpoints which return lists of results and can have associated hard/soft limits.
@@ -30,11 +31,9 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
 
     @Override public QueryBuilder getQueryBuilder(String viewname) {
         ViewMap view = getView(viewname);
-        String q = baseQuery;
-        if (view != null) {
-            q = q + "\n" + view.asQuery();
-        }
-        return SparqlQueryBuilder.fromBaseQuery(q, getPrefixes());
+        Query withTree = baseQuery.copy();
+        if (view != null) view.addTreePattern(withTree);
+        return SparqlQueryBuilder.fromBaseQuery(withTree, getPrefixes());
     }
 
     /**
