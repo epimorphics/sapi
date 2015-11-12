@@ -78,7 +78,7 @@ public class TestSpecAndViews {
     
     private void checkEntry(ViewEntry entry, String json, String prop, boolean nested, boolean optional, boolean multi, boolean filterable) {
         assertEquals(json, entry.getJsonName());
-        assertEquals(prop, entry.getProperty());
+        assertEquals(prop, entry.getProperty().getURI());
         assertEquals(nested, entry.isNested());
         assertEquals(optional, entry.isOptional());
         assertEquals(multi, entry.isMultivalued());
@@ -104,9 +104,9 @@ public class TestSpecAndViews {
         assertEquals("foo.bar", view.pathTo("bar").asDotted());
         assertNull( view.pathTo("notthere") );
         
-        assertEquals(RT + "foo", view.findEntry("foo").getProperty());
-        assertEquals(RT + "bar", view.findEntry("bar").getProperty());
-        assertEquals(RT + "fu_bar", view.findEntry("foo.fu_bar").getProperty());
+        assertEquals(RT + "foo", view.findEntry("foo").getProperty().getURI());
+        assertEquals(RT + "bar", view.findEntry("bar").getProperty().getURI());
+        assertEquals(RT + "fu_bar", view.findEntry("foo.fu_bar").getProperty().getURI());
 
         simpleCheckEntry(view.findEntryByURI(RT + "foo"), "foo", RT + "foo", true);
         simpleCheckEntry(view.findEntryByURI(RT + "bar"), "bar", RT + "bar", true);
@@ -146,7 +146,7 @@ public class TestSpecAndViews {
 
 	private void simpleCheckEntry(ViewEntry entry, String json, String prop, boolean nested) {
         assertEquals(json, entry.getJsonName());
-        assertEquals(prop, entry.getProperty());
+        assertEquals(prop, entry.getProperty().getURI());
         assertEquals(nested, entry.isNested());
     }
 }

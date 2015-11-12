@@ -251,7 +251,7 @@ public class ViewTree implements Iterable<ViewEntry> {
      */
     public ViewEntry findEntryByURI(String uri) {
         for (ViewEntry child : this) {
-            if (child.getProperty().equals(uri)) {
+            if (child.getProperty().getURI().equals(uri)) {
                 return child;
             }
         }
