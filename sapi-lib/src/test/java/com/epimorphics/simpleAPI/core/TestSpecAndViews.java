@@ -9,10 +9,7 @@
 
 package com.epimorphics.simpleAPI.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -129,9 +126,9 @@ public class TestSpecAndViews {
         // TODO sensitive to details of the string bashing
         ViewMap view = api.getSpec("describeTest2").getView();
         String query = view.asDescribe().toSparqlDescribe(new Settings());
-        assertTrue( query.contains("{?id <http://www.w3.org/2004/02/skos/core#narrower> ?narrower }") );
-        assertTrue( query.contains("OPTIONAL {?id <http://www.w3.org/2004/02/skos/core#related> ?related }") );
-        assertTrue( query.contains("{?related <http://www.w3.org/2004/02/skos/core#related> ?related_related }") );
+        assertContains( query, "?id <http://www.w3.org/2004/02/skos/core#narrower> ?narrower");
+        assertContains( query, "OPTIONAL {?id <http://www.w3.org/2004/02/skos/core#related> ?related ");
+        assertContains( query, "?related <http://www.w3.org/2004/02/skos/core#related> ?related_related");
         String describeLine = query.split("\\{")[0];
         assertTrue( describeLine.contains("DESCRIBE") );
         assertTrue( describeLine.contains("?id") );
@@ -140,7 +137,14 @@ public class TestSpecAndViews {
         assertTrue( describeLine.contains("?related_related") );
     }
     
-    private void simpleCheckEntry(ViewEntry entry, String json, String prop, boolean nested) {
+    private void assertContains(String query, String substring) {
+    	if (query.contains(substring)) return;
+    	System.err.println(">> query: " + query);
+    	System.err.println(">> subst: " + substring);
+    	fail("query\n" + query + "\nshould contain\n" + substring + "\n");
+	}
+
+	private void simpleCheckEntry(ViewEntry entry, String json, String prop, boolean nested) {
         assertEquals(json, entry.getJsonName());
         assertEquals(prop, entry.getProperty());
         assertEquals(nested, entry.isNested());
