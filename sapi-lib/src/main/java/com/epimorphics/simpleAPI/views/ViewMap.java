@@ -19,7 +19,6 @@ import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ConfigItem;
-import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.query.Query;
 import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.sparql.terms.TermAtomic;

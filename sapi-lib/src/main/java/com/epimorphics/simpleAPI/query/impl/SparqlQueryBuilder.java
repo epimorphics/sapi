@@ -18,7 +18,6 @@ import java.util.Set;
 
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.PrefixMapping;
-import org.apache.jena.sparql.util.FmtUtils;
 
 import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
@@ -48,10 +47,6 @@ import com.epimorphics.util.PrefixUtils;
  */
 public class SparqlQueryBuilder implements ListQueryBuilder {
 	
-	static int counter = 0;
-	
-	int index = ++counter;
-	
     public static final String INJECT_MARKER = "#$INJECT$";
     public static final String FILTER_MARKER = "#$FILTER$";
     public static final String MODIFIER_MARKER = "#$MODIFIER$";
@@ -70,12 +65,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
     
     protected PrefixMapping prefixes = PrefixMapping.Factory.create();
 
-//    protected SparqlQueryBuilder(Query query) {
-//        this.query = query;
-//    }
-
     protected SparqlQueryBuilder(Query query, PrefixMapping prefixes) {
-    	System.err.println(">> SpqralQueryBuilder #" + index + " with " + prefixes.getNsPrefixMap().size() + " prefixes.");
         this.query = query;
         setPrefixes(prefixes);
     }
@@ -102,7 +92,6 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
     		new RuntimeException().printStackTrace();
     		prefixes = PrefixMapping.Factory.create();
     	}
-    	System.err.println(">> setPrefixes [" + prefixes.getNsPrefixMap().size() + "] on #" + index);
         this.prefixes = prefixes;
     }
     
@@ -175,15 +164,11 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
     @Override public ListQuery build() {
     	Settings s = new Settings();
     	Set<Entry<String, String>> es = prefixes.getNsPrefixMap().entrySet();
-    	System.err.println(">> BUILD [" + es.size() + " prefixes] on #" + index + " ...");
 		for (Map.Entry<String, String> e: es) {
-    		System.err.println(">> prefix: " + e.getKey() + ", " + e.getValue());
     		s.setPrefix(e.getKey(), e.getValue());
     	}
 		String queryString = query.toSparqlSelect(s);
         String expanded = PrefixUtils.expandQuery(queryString, prefixes);
-        System.err.println(">> expanded: " + expanded);
-    	System.err.println(">> BUILT.");
 		return new SparqlSelectQuery( expanded );
     }
 }

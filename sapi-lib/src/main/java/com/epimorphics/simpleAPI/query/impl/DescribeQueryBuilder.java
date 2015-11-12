@@ -13,7 +13,6 @@ import org.apache.jena.graph.Node;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.PrefixMapping;
 
-import com.epimorphics.rdfutil.QueryUtil;
 import com.epimorphics.simpleAPI.query.ItemQuery;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.sparql.graphpatterns.Bind;
@@ -56,11 +55,7 @@ public class DescribeQueryBuilder implements QueryBuilder {
      * Bind a variable in a query by syntactic substitution
      */
     public static Query bindQueryParam(Query query, String var, Object value) {
-//    	System.err.println(">> describeQuery_value: " + value);
-//        String subs = QueryUtil.asSPARQLValue( value );
-//        Literal val = new Literal(subs, new URI("xsd:string"), "");
-        Query q = query.copy().addLaterPattern(new Bind(asTerm(value), new Var(var)));
-        return q;
+        return query.copy().addLaterPattern(new Bind(asTerm(value), new Var(var)));
     }
     
     private static IsExpr asTerm(Object value) {
@@ -71,7 +66,7 @@ public class DescribeQueryBuilder implements QueryBuilder {
     		URI type = new URI(n.getLiteralDatatypeURI());
     		return new Literal(n.getLiteralLexicalForm(), type, n.getLiteralLanguage());
     	}
-    	return null;
+    	throw new IllegalArgumentException("as Term: " + value.toString());
 	}
     
 	protected static final String MARKER="?ILLEGAL-VAR";

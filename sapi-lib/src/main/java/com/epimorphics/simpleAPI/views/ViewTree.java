@@ -113,9 +113,9 @@ public class ViewTree implements Iterable<ViewEntry> {
                 String npath = addToPath(path, jname);
                 String nvar =  path.isEmpty() ? jname : path + "_" + jname;
                 
-                Var S = new Var(nvar);
+                Var S = new Var(var);
                 PV pv = map.asQueryRow(path);
-                Triple t = new Triple(S, pv.property, pv.var);
+                Triple t = new Triple(S, pv.property, pv.var);                
                 Basic triplePattern = new Basic(t);
 
                 if (map.isOptional()) {

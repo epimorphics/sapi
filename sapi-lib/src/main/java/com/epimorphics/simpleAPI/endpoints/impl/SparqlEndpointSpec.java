@@ -46,4 +46,9 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
         baseQuery.addEarlyPattern(new GraphPatternText(baseQueryString));
     }
 
+    public void setCompleteQuery(String completeQueryString) {
+    	if (baseQuery == null) baseQuery = new Query();
+        baseQuery.setTemplate(completeQueryString); 
+    }
+
 }

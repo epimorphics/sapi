@@ -50,10 +50,10 @@ public class SparqlDataSource implements DataSource {
         if (query instanceof SparqlQuery) {
             SparqlQuery sq = (SparqlQuery) query;
             String queryString = sq.getQuery();
-            // System.err.println(">> queryString: " + queryString);
 			Graph graph = source.describe(queryString);
             Model model = ModelFactory.createModelForGraph(graph);
             if (model.isEmpty()) {
+            	// System.err.println(">> No results for query: " + queryString);
                 // TODO Review whether this should be trapped here or further up the processing stream
                 throw new NotFoundException(call.toString());
             }

@@ -30,7 +30,6 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlListEndpointSpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
-import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.util.EpiException;
 
 /**
@@ -47,7 +46,7 @@ public class EndpointSpecFactory {
             SparqlEndpointSpec spec = new SparqlEndpointSpec(api);
             if (TYPE_ITEM.equals(type)) {
                 if (jo.hasKey(QUERY)) {
-                    spec.setBaseQuery( JsonUtil.getStringValue(jo, QUERY) );
+                    spec.setCompleteQuery( JsonUtil.getStringValue(jo, QUERY) );
                 }
             } else if (TYPE_LIST.equals(type)) {
                 SparqlListEndpointSpec lspec = new SparqlListEndpointSpec(api);
