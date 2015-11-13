@@ -55,7 +55,7 @@ public class DescribeQueryBuilder implements QueryBuilder {
      * Bind a variable in a query by syntactic substitution
      */
     public static Query bindQueryParam(Query query, String var, Object value) {
-        return query.copy().addLaterPattern(new Bind(asTerm(value), new Var(var)));
+        return query.copy().addEarlyPattern(new Bind(asTerm(value), new Var(var)));
     }
     
     private static IsExpr asTerm(Object value) {
