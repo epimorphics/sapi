@@ -66,15 +66,15 @@ public class TestQueryStrings {
         assertContains( query, "SELECT * WHERE {" );
         assertContains( query, "?id a rt:FloodAlertOrWarning ." );
         
-        assertContains( query, "<http://environment.data.gov.uk/flood-monitoring/def/core/severity> ?severity ;" );
-        assertContains( query, "<http://environment.data.gov.uk/flood-monitoring/def/core/severityLevel> ?severityLevel ;" );
-        assertContains( query, "<http://environment.data.gov.uk/flood-monitoring/def/core/floodArea> ?floodArea ;" );
-        assertContains( query, "<http://environment.data.gov.uk/flood-monitoring/def/core/eaAreaName> ?eaAreaName ;" );
-        assertContains( query, "<http://purl.org/dc/terms/description> ?description ;" );
-        assertContains( query, "OPTIONAL {?id <http://environment.data.gov.uk/flood-monitoring/def/core/message> ?message .}" );
+        assertContains( query, "rt:severity ?severity ." );
+        assertContains( query, "rt:severityLevel ?severityLevel ." );
+        assertContains( query, "rt:floodArea ?floodArea ." );
+        assertContains( query, "rt:eaAreaName ?eaAreaName ." );
+        assertContains( query, "dct:description ?description ." );
+        assertContains( query, "OPTIONAL {?id rt:message ?message .}" );
         assertContains( query, "?floodArea" );
-        assertContains( query, "<http://www.w3.org/2004/02/skos/core#notation> ?floodArea_notation ;" );
-        assertContains( query, "<http://environment.data.gov.uk/flood-monitoring/def/core/county> ?floodArea_county ;" );
+        assertContains( query, "skos:notation ?floodArea_notation ." );
+        assertContains( query, "rt:county ?floodArea_county ." );
 
         boolean ok = true;
         try { QueryFactory.create(query); } catch (Exception e) { ok = false; }

@@ -77,7 +77,7 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
 
     
     @Override
-    public QueryBuilder getQueryBuilder(Request request) {
+    public QueryBuilder getQueryBuilder(Request request) {    	
         QueryBuilder builder = getQueryBuilder( request.getViewName() );
         if (builder instanceof ListQueryBuilder) {
             ListQueryBuilder lbuilder = (ListQueryBuilder)builder;
