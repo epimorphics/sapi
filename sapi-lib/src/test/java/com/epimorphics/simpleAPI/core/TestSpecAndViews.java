@@ -28,6 +28,7 @@ import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.sparql.templates.Settings;
+import com.epimorphics.test.utils.Asserts;
 import com.epimorphics.vocabs.SKOS;
 
 public class TestSpecAndViews {
@@ -126,25 +127,18 @@ public class TestSpecAndViews {
         // TODO sensitive to details of the string bashing
         ViewMap view = api.getSpec("describeTest2").getView();
         String query = view.asDescribe().toSparqlDescribe(new Settings());
-        assertContains( query, "?id <http://www.w3.org/2004/02/skos/core#narrower> ?narrower");
-        assertContains( query, "OPTIONAL {?id <http://www.w3.org/2004/02/skos/core#related> ?related ");
-        assertContains( query, "?related <http://www.w3.org/2004/02/skos/core#related> ?related_related");
+        Asserts.assertContains( query, "?id <http://www.w3.org/2004/02/skos/core#narrower> ?narrower");
+        Asserts.assertContains( query, "OPTIONAL {?id <http://www.w3.org/2004/02/skos/core#related> ?related ");
+        Asserts.assertContains( query, "?related <http://www.w3.org/2004/02/skos/core#related> ?related_related");
         String describeLine = query.split("\\{")[0];
-        assertTrue( describeLine.contains("DESCRIBE") );
-        assertTrue( describeLine.contains("?id") );
-        assertTrue( describeLine.contains("?narrower") );
-        assertTrue( describeLine.contains("?related") );
-        assertTrue( describeLine.contains("?related_related") );
+        Asserts.assertContains( describeLine, "DESCRIBE" );
+        Asserts.assertContains( describeLine, "?id");
+        Asserts.assertContains( describeLine, "?narrower");
+        Asserts.assertContains( describeLine, "?related");
+        Asserts.assertContains( describeLine, "?related_related");
     }
     
-    private void assertContains(String query, String substring) {
-    	if (query.contains(substring)) return;
-    	System.err.println(">> query: " + query);
-    	System.err.println(">> subst: " + substring);
-    	fail("query\n" + query + "\nshould contain\n" + substring + "\n");
-	}
-
-	private void simpleCheckEntry(ViewEntry entry, String json, String prop, boolean nested) {
+    private void simpleCheckEntry(ViewEntry entry, String json, String prop, boolean nested) {
         assertEquals(json, entry.getJsonName());
         assertEquals(prop, entry.getProperty().getURI());
         assertEquals(nested, entry.isNested());

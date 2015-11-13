@@ -12,6 +12,8 @@ package com.epimorphics.simpleAPI.query;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import static com.epimorphics.test.utils.Asserts.*;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -51,28 +53,28 @@ public class TestQueryStrings {
         assertEquals( SKOS.getURI(), prefixes.getNsPrefixURI("skos") );
         
         String query = api.getCall("describe-test", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
-        assertTrue( query.contains("PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>"));
-        assertTrue( query.contains("DESCRIBE <http://localhost/flood-monitoring/test> ?warning"));
-        assertTrue( query.contains("OPTIONAL { <http://localhost/flood-monitoring/test> rt:currentWarning ?warning }"));
+        assertContains( query, "PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>");
+        assertContains( query, "DESCRIBE <http://localhost/flood-monitoring/test> ?warning");
+        assertContains( query, "OPTIONAL { <http://localhost/flood-monitoring/test> rt:currentWarning ?warning }");
     }
     
     @Test
     public void testQueryGeneration() {
         String query = api.getCall("queryBuildTest", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
         
-        assertTrue( query.contains("PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>") );
-        assertTrue( query.contains("SELECT * WHERE {") );
-        assertTrue( query.contains("?id a rt:FloodAlertOrWarning .") );
+        assertContains( query, "PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>" );
+        assertContains( query, "SELECT * WHERE {" );
+        assertContains( query, "?id a rt:FloodAlertOrWarning ." );
         
-        assertTrue( query.contains("<http://environment.data.gov.uk/flood-monitoring/def/core/severity> ?severity ;") );
-        assertTrue( query.contains("<http://environment.data.gov.uk/flood-monitoring/def/core/severityLevel> ?severityLevel ;") );
-        assertTrue( query.contains("<http://environment.data.gov.uk/flood-monitoring/def/core/floodArea> ?floodArea ;") );
-        assertTrue( query.contains("<http://environment.data.gov.uk/flood-monitoring/def/core/eaAreaName> ?eaAreaName ;") );
-        assertTrue( query.contains("<http://purl.org/dc/terms/description> ?description ;") );
-        assertTrue( query.contains("OPTIONAL {?id <http://environment.data.gov.uk/flood-monitoring/def/core/message> ?message .}") );
-        assertTrue( query.contains("?floodArea") );
-        assertTrue( query.contains("<http://www.w3.org/2004/02/skos/core#notation> ?floodArea_notation ;") );
-        assertTrue( query.contains("<http://environment.data.gov.uk/flood-monitoring/def/core/county> ?floodArea_county ;") );
+        assertContains( query, "<http://environment.data.gov.uk/flood-monitoring/def/core/severity> ?severity ;" );
+        assertContains( query, "<http://environment.data.gov.uk/flood-monitoring/def/core/severityLevel> ?severityLevel ;" );
+        assertContains( query, "<http://environment.data.gov.uk/flood-monitoring/def/core/floodArea> ?floodArea ;" );
+        assertContains( query, "<http://environment.data.gov.uk/flood-monitoring/def/core/eaAreaName> ?eaAreaName ;" );
+        assertContains( query, "<http://purl.org/dc/terms/description> ?description ;" );
+        assertContains( query, "OPTIONAL {?id <http://environment.data.gov.uk/flood-monitoring/def/core/message> ?message .}" );
+        assertContains( query, "?floodArea" );
+        assertContains( query, "<http://www.w3.org/2004/02/skos/core#notation> ?floodArea_notation ;" );
+        assertContains( query, "<http://environment.data.gov.uk/flood-monitoring/def/core/county> ?floodArea_county ;" );
 
         boolean ok = true;
         try { QueryFactory.create(query); } catch (Exception e) { ok = false; }
