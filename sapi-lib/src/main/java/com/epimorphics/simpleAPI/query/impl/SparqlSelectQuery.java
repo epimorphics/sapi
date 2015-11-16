@@ -22,6 +22,7 @@ public class SparqlSelectQuery extends SparqlQuery implements ListQuery {
 
     public SparqlSelectQuery(String query) {
         super(query);
+        System.err.println("QQQ: " + query);
     }
     
 }

@@ -174,6 +174,9 @@ public class TestResultBasics {
         CSVWriter writer = new CSVWriter(bos);
         writer.write( (ResultStream) stream);
         String actual = bos.toString();
+        
+        System.err.println(">> checCSV, actual:\n" + actual);
+        
         for (String expectedFile : expectedFiles) {
             String expected = FileManager.get().readWholeFileAsUTF8(EXPECTED + expectedFile).replace("\n", "\r\n");
             if (actual.equals(expected)) {

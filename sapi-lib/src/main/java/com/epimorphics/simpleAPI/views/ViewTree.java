@@ -79,23 +79,21 @@ public class ViewTree implements Iterable<ViewEntry> {
     	for (ViewEntry map : children.values()) {
             String jname = map.getJsonName();
             String npath = addToPath(path, jname);
-            if (map.isOptional()) {
+        	PV pv = map.asQueryRow(path);
+        	Triple t = new Triple(new Var(var), pv.property, pv.var);
+        	Basic basic = new Basic(t);
+        //
+			if (map.isOptional()) {
             	if (map.isNested()) {
             		ViewTree nested = map.getNested();
             		GraphPattern p = nested.buildPattern(jname, npath);
-            		patterns.add(new Optional(p));
+            		GraphPattern both = new And(basic, p);
+            		patterns.add(new Optional(both));
             	} else {
-                	PV pv = map.asQueryRow(path);
-                	Triple t = new Triple(new Var(var), pv.property, pv.var);
-                	GraphPattern p = new Optional(new Basic(t));
-                	patterns.add(p);
-            		
+            		patterns.add(new Optional(basic));            		
             	}
             } else {
-            	PV pv = map.asQueryRow(path);
-            	Triple t = new Triple(new Var(var), pv.property, pv.var);
-            	GraphPattern p = new Basic(t);
-            	patterns.add(p);
+            	patterns.add(basic);
             	if (map.isNested()) {
                     ViewTree nested = map.getNested();
                     patterns.add(nested.buildPattern(jname, npath));            		
