@@ -148,7 +148,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
 	}
 
 	@Override public ListQueryBuilder limit(long limit, long offset) {
-		Query q = new Query();
+		Query q = query.copy();
 		q.setLimit(limit);
 		q.setOffset(offset);
 		return new SparqlQueryBuilder(q, prefixes);
