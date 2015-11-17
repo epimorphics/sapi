@@ -104,7 +104,12 @@ public class TestBaseEndToEnd extends TomcatTestBase {
             System.out.println("Test incomplete, actual was: " + entity);
         } else {
             JsonObject expected = JSON.read(expectedF);
-            assertTrue( JsonComparator.equal(expected, actual) );
+            boolean equal = JsonComparator.equal(expected, actual);
+            if (!equal) {
+            	System.err.println(">> expected: " + expected);
+            	System.err.println(">> actual:   " + actual);
+            }
+			assertTrue( equal );
         }
     }
 

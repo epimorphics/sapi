@@ -29,7 +29,23 @@ public class SparqlQuery implements Query {
     }
     
     public String getQuery() {
-        return query;
+    	System.err.println(">> QUERY WAS:\n" + query);
+    	new RuntimeException().printStackTrace();
+//    	return
+//    		"PREFIX eg: <http://localhost/example/>" 
+//    		+ " PREFIX skos: <http://www.w3.org/2004/02/skos/core#>"
+//    		+ " PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+//    		+ " PREFIX eg: <http://localhost/example/>"
+//    		+ " PREFIX skos: <http://www.w3.org/2004/02/skos/core#>"
+//    		+ " PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+//    		+ " SELECT * WHERE {"
+//    		+ "   ?id a eg:Itest . "
+//    		+ "   ?id rdfs:label ?label . "
+//    		+ "   ?id skos:notation ?notation . "
+//    		+ "   OPTIONAL { ?id eg:child ?child . OPTIONAL { ?child skos:notation ?child_cnotation . }}"
+//    		+ "} "
+//    		+ "ORDER BY ASC(?id)";
+         return query;
     }
     
     @Override

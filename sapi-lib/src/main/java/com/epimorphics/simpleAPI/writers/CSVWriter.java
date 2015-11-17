@@ -64,6 +64,7 @@ public class CSVWriter {
         try {
             for (Result result : stream) {
                 if (result instanceof TreeResult) {
+                	System.err.println(">> TreeResult: " + result);
                     write( (TreeResult) result);
                 } else {
                     // TODO review how to handle this case
