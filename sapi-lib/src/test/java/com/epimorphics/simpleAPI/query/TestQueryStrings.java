@@ -9,10 +9,9 @@
 
 package com.epimorphics.simpleAPI.query;
 
+import static com.epimorphics.util.Asserts.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import static com.epimorphics.test.utils.Asserts.*;
 
 import java.io.File;
 import java.io.IOException;

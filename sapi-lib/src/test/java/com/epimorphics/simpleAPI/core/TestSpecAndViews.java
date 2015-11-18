@@ -28,7 +28,7 @@ import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.sparql.templates.Settings;
-import com.epimorphics.test.utils.Asserts;
+import com.epimorphics.util.Asserts;
 import com.epimorphics.vocabs.SKOS;
 
 public class TestSpecAndViews {
