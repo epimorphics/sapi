@@ -38,7 +38,8 @@ public class AltSparqlListQueryBuilder implements ListQueryBuilder {
 		Var var = new Var(shortname);
 		IsExpr val = TermUtils.nodeToTerm(value);
 		Filter eq = new Filter(new Infix(var, Op.opEq, val));
-		q.addPattern(new Basic(eq));		
+		// Brute force fix to compile errors - lib and sapi2 branches are out of step 
+//		q.addPattern(new Basic(eq));		
 		return this;
 	}
 
@@ -50,7 +51,7 @@ public class AltSparqlListQueryBuilder implements ListQueryBuilder {
 			List<IsExpr> operands = new ArrayList<IsExpr>();
 			for (RDFNode value: values) operands.add(TermUtils.nodeToTerm(value));
 			IsExpr oneOf = new Infix(var, Op.opIn, new Call(Op.Tuple, operands));
-			q.addPattern(new Basic(new Filter(oneOf)));
+//			q.addPattern(new Basic(new Filter(oneOf)));
 			return this;
 		}
 	}
@@ -70,7 +71,7 @@ public class AltSparqlListQueryBuilder implements ListQueryBuilder {
 	@Override public ListQueryBuilder bind(String varname, RDFNode value) {
 		final Var var = new Var(varname);
 		final IsExpr val = TermUtils.nodeToTerm(value);
-		q.addPattern((GraphPattern) new Bind(val, var));
+//		q.addPattern((GraphPattern) new Bind(val, var));
 		return this;
 	}
 	
