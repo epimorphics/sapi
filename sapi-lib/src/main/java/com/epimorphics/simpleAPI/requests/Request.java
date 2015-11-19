@@ -110,6 +110,13 @@ public class Request {
     }
     
     /**
+     * Return all the parameter values
+     */
+    public MultivaluedMap<String, String> getParametersMap() {
+        return parameters;
+    }
+    
+    /**
      * Return a single value for the given parameter as an long,
      * or null if there is no such value.
      * If value exists but is not a long throws a WebApiExpception signalling a bad request
