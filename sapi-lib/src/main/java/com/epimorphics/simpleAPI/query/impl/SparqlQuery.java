@@ -32,8 +32,7 @@ public class SparqlQuery implements Query {
          return query;
     }
     
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return query;
     }
     

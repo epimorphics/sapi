@@ -16,7 +16,7 @@ import org.apache.jena.shared.PrefixMapping;
 import com.epimorphics.simpleAPI.query.ItemQuery;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.sparql.graphpatterns.Bind;
-import com.epimorphics.sparql.query.Query;
+import com.epimorphics.sparql.query.AbstractSparqlQuery;
 import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.sparql.terms.IsExpr;
 import com.epimorphics.sparql.terms.Literal;
@@ -25,14 +25,14 @@ import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.util.PrefixUtils;
 
 public class DescribeQueryBuilder implements QueryBuilder {
-    protected Query query;
+    protected AbstractSparqlQuery query;
     protected PrefixMapping prefixes;
     
-    public DescribeQueryBuilder(Query query) {
+    public DescribeQueryBuilder(AbstractSparqlQuery query) {
         this.query = query;
     }
     
-    public DescribeQueryBuilder(Query query, PrefixMapping prefixes) {
+    public DescribeQueryBuilder(AbstractSparqlQuery query, PrefixMapping prefixes) {
         this.prefixes = prefixes;
         this.query = query;
     }
@@ -43,6 +43,9 @@ public class DescribeQueryBuilder implements QueryBuilder {
 
     @Override public ItemQuery build() {
     	String queryString = query.toSparqlDescribe(new Settings());
+//    	System.err.println(">> query: " + queryString);
+//    	System.err.println(">> early: " + query.getEarly());
+//    	System.err.println(">> bound: " + query.getBindings());
         return new SparqlDescribeQuery
         	( prefixes == null 
         	? queryString 
@@ -54,8 +57,8 @@ public class DescribeQueryBuilder implements QueryBuilder {
     /**
      * Bind a variable in a query by syntactic substitution
      */
-    public static Query bindQueryParam(Query query, String var, Object value) {
-        return query.copy().addEarlyPattern(new Bind(asTerm(value), new Var(var)));
+    public static AbstractSparqlQuery bindQueryParam(AbstractSparqlQuery query, String var, Object value) {
+        return query.copy().addPreBinding(new Bind(asTerm(value), new Var(var)));
     }
     
     private static IsExpr asTerm(Object value) {

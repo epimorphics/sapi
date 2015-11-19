@@ -43,6 +43,7 @@ import com.epimorphics.simpleAPI.results.wappers.WJSONObject;
 import com.epimorphics.simpleAPI.results.wappers.WResult;
 import com.epimorphics.simpleAPI.util.JsonComparator;
 import com.epimorphics.simpleAPI.writers.CSVWriter;
+import com.epimorphics.util.Asserts;
 import com.epimorphics.webapi.test.MockUriInfo;
 
 public class TestResultBasics {
@@ -175,7 +176,7 @@ public class TestResultBasics {
         writer.write( (ResultStream) stream);
         String actual = bos.toString();
         
-        System.err.println(">> checCSV, actual:\n" + actual);
+//        System.err.println(">> checCSV, actual:\n" + actual);
         
         for (String expectedFile : expectedFiles) {
             String expected = FileManager.get().readWholeFileAsUTF8(EXPECTED + expectedFile).replace("\n", "\r\n");
@@ -194,7 +195,7 @@ public class TestResultBasics {
         String URI = "http://localhost/example/A2";
         Request request = new Request(URI);
         ItemQuery query = (ItemQuery) spec.getQueryBuilder( request ).build();
-        assertTrue( query.toString().contains(URI) );
+        Asserts.assertContains(query.toString(), URI );
         
         Result result = source.query(query, new Call(spec, request) );
         assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/itemTest1.json", result.asJson()) );
