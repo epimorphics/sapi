@@ -1,0 +1,6 @@
+{
+    "foo": true,
+    "bar": "\\d\\d",
+    "age": { "default" : "42" },
+    "baz" : {"regex" : ".*", "required": true}
+}
