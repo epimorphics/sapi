@@ -36,7 +36,7 @@ import com.epimorphics.sparql.graphpatterns.And;
 import com.epimorphics.sparql.graphpatterns.Basic;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.graphpatterns.Optional;
-import com.epimorphics.sparql.query.AbstractSparqlQuery;
+import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.terms.Triple;
 import com.epimorphics.sparql.terms.URI;
 import com.epimorphics.sparql.terms.Var;
@@ -104,7 +104,7 @@ public class ViewTree implements Iterable<ViewEntry> {
     	return new And(patterns);    	
     }
     
-    protected void renderForDescribe(AbstractSparqlQuery q, String var, String path, Set<String> vars) {
+    protected void renderForDescribe(QueryShape q, String var, String path, Set<String> vars) {
         for (ViewEntry map : children.values()) {
             if (map.isNested()) {
                 String jname = map.getJsonName();

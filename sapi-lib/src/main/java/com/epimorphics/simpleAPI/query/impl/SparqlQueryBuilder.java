@@ -29,7 +29,7 @@ import com.epimorphics.sparql.graphpatterns.Basic;
 import com.epimorphics.sparql.graphpatterns.Bind;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.sparql.query.Order;
-import com.epimorphics.sparql.query.AbstractSparqlQuery;
+import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.sparql.terms.Filter;
 import com.epimorphics.sparql.terms.IsExpr;
@@ -60,11 +60,11 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
             + "#$SORT$\n"
             + "#$MODIFIER$\n";
     
-    protected AbstractSparqlQuery query;
+    protected QueryShape query;
     
     protected PrefixMapping prefixes = PrefixMapping.Factory.create();
 
-    protected SparqlQueryBuilder(AbstractSparqlQuery query, PrefixMapping prefixes) {
+    protected SparqlQueryBuilder(QueryShape query, PrefixMapping prefixes) {
         this.query = query;
         setPrefixes(prefixes);
     }
@@ -72,7 +72,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
     /**
      * Construct a query builder from a base query.
      */
-    public static final QueryBuilder fromBaseQuery(AbstractSparqlQuery baseQuery, PrefixMapping prefixes) {
+    public static final QueryBuilder fromBaseQuery(QueryShape baseQuery, PrefixMapping prefixes) {
         return new SparqlQueryBuilder( baseQuery, prefixes );
     }
     
@@ -80,7 +80,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Construct a query builder from a complete query template that must incluide the inject, filter and modification markers.
      */
     public static final QueryBuilder fromTemplate(String queryTemplate) {
-    	AbstractSparqlQuery q = new AbstractSparqlQuery().setTemplate(queryTemplate);
+    	QueryShape q = new QueryShape().setTemplate(queryTemplate);
         return new SparqlQueryBuilder( q, PrefixMapping.Factory.create() );
     }
     
@@ -99,7 +99,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Mostly used internally in the builder but public to support legacy apps.
      */
     public SparqlQueryBuilder inject(String s) {
-    	AbstractSparqlQuery q = query.copy().addEarlyPattern(new GraphPatternText(s));
+    	QueryShape q = query.copy().addEarlyPattern(new GraphPatternText(s));
         return new SparqlQueryBuilder(q, prefixes);
     }
     
@@ -108,7 +108,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Mostly used internally in the builder but public to support legacy apps.
      */
     public SparqlQueryBuilder filter(String s) {
-    	AbstractSparqlQuery q = query.copy().addLaterPattern(new GraphPatternText(s));
+    	QueryShape q = query.copy().addLaterPattern(new GraphPatternText(s));
         return new SparqlQueryBuilder(q, prefixes);
     }
     
@@ -117,7 +117,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Mostly used internally in the builder but public to support legacy apps.
      */
     protected SparqlQueryBuilder modifier(String s) {
-    	AbstractSparqlQuery q = query.copy().addRawModifier(s);
+    	QueryShape q = query.copy().addRawModifier(s);
         return new SparqlQueryBuilder(q, prefixes);
     }
 	
@@ -147,7 +147,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
 	}
 
 	@Override public ListQueryBuilder limit(long limit, long offset) {
-		AbstractSparqlQuery q = query.copy();
+		QueryShape q = query.copy();
 		q.setLimit(limit);
 		q.setOffset(offset);
 		return new SparqlQueryBuilder(q, prefixes);
@@ -156,7 +156,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
 	@Override public ListQueryBuilder bind(String varname, RDFNode value) {
 		final Var var = new Var(varname);
 		final IsExpr val = TermUtils.nodeToTerm(value);
-		AbstractSparqlQuery q = query.copy().addPreBinding(new Bind(val, var));
+		QueryShape q = query.copy().addPreBinding(new Bind(val, var));
 		return new SparqlQueryBuilder(q, prefixes);
 	}
 

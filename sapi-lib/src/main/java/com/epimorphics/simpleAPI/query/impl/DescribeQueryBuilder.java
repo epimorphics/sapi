@@ -16,7 +16,7 @@ import org.apache.jena.shared.PrefixMapping;
 import com.epimorphics.simpleAPI.query.ItemQuery;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.sparql.graphpatterns.Bind;
-import com.epimorphics.sparql.query.AbstractSparqlQuery;
+import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.sparql.terms.IsExpr;
 import com.epimorphics.sparql.terms.Literal;
@@ -25,14 +25,14 @@ import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.util.PrefixUtils;
 
 public class DescribeQueryBuilder implements QueryBuilder {
-    protected AbstractSparqlQuery query;
+    protected QueryShape query;
     protected PrefixMapping prefixes;
     
-    public DescribeQueryBuilder(AbstractSparqlQuery query) {
+    public DescribeQueryBuilder(QueryShape query) {
         this.query = query;
     }
     
-    public DescribeQueryBuilder(AbstractSparqlQuery query, PrefixMapping prefixes) {
+    public DescribeQueryBuilder(QueryShape query, PrefixMapping prefixes) {
         this.prefixes = prefixes;
         this.query = query;
     }
@@ -57,7 +57,7 @@ public class DescribeQueryBuilder implements QueryBuilder {
     /**
      * Bind a variable in a query by syntactic substitution
      */
-    public static AbstractSparqlQuery bindQueryParam(AbstractSparqlQuery query, String var, Object value) {
+    public static QueryShape bindQueryParam(QueryShape query, String var, Object value) {
         return query.copy().addPreBinding(new Bind(asTerm(value), new Var(var)));
     }
     

@@ -19,7 +19,7 @@ import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ConfigItem;
-import com.epimorphics.sparql.query.AbstractSparqlQuery;
+import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.sparql.terms.TermAtomic;
 import com.epimorphics.sparql.terms.Var;
@@ -65,21 +65,21 @@ public class ViewMap extends ConfigItem {
      * Return a SPARQL query string representing the bindings for this map
      */
     public String asQuery() {
-    	AbstractSparqlQuery q = new AbstractSparqlQuery();
+    	QueryShape q = new QueryShape();
         q.addEarlyPattern(getTree().buildPattern("id", ""));
         return q.toSparqlConstruct(new Settings());
     }
     
-    public void addTreePattern(AbstractSparqlQuery q) {
+    public void addTreePattern(QueryShape q) {
         q.addEarlyPattern(getTree().buildPattern("id", ""));
     }
     
     /**
      * Return a SPARQL describe query which describes the neste elements in the tree
      */
-    public AbstractSparqlQuery asDescribe() {
+    public QueryShape asDescribe() {
     	Set<String> vars = new HashSet<>();
-    	AbstractSparqlQuery sq = new AbstractSparqlQuery();
+    	QueryShape sq = new QueryShape();
     	getTree().renderForDescribe(sq, "id", "", vars);
     	sq.addDescribeElements(list(new Var("id")));
     	for (String v: vars) sq.addDescribeElements(list(new Var(v)));

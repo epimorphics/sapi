@@ -15,14 +15,14 @@ import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.DescribeQueryBuilder;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
-import com.epimorphics.sparql.query.AbstractSparqlQuery;
+import com.epimorphics.sparql.query.QueryShape;
 
 /**
  * Encapsulates the specification of a single endpoint.
  */
 public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec {
 	
-    protected AbstractSparqlQuery baseQuery;
+    protected QueryShape baseQuery;
     
     public SparqlEndpointSpec(API api) {
         super(api);
@@ -35,19 +35,19 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
     @Override public QueryBuilder getQueryBuilder(String viewname) {
         ViewMap view = getView(viewname);
         if (baseQuery == null) {
-        	if (view == null) baseQuery = new AbstractSparqlQuery();
+        	if (view == null) baseQuery = new QueryShape();
         	else baseQuery = view.asDescribe();
         }
         return new DescribeQueryBuilder(baseQuery, getPrefixes());
     }
 
     public void setBaseQuery(String baseQueryString) {
-    	if (baseQuery == null) baseQuery = new AbstractSparqlQuery();
+    	if (baseQuery == null) baseQuery = new QueryShape();
         baseQuery.addEarlyPattern(new GraphPatternText(baseQueryString));
     }
 
     public void setCompleteQuery(String completeQueryString) {
-    	if (baseQuery == null) baseQuery = new AbstractSparqlQuery();
+    	if (baseQuery == null) baseQuery = new QueryShape();
         baseQuery.setTemplate(completeQueryString); 
     }
 
