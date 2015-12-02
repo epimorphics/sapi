@@ -9,18 +9,7 @@
 
 package com.epimorphics.simpleAPI.endpoints;
 
-import static com.epimorphics.simpleAPI.core.ConfigConstants.LIMIT;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.PREFIXES;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.QUERY;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.SOFT_LIMIT;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE_ITEM;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE_LIST;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEW;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEWS;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.URL;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.BASE_QUERY;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TEMPLATE;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
@@ -89,6 +78,11 @@ public class EndpointSpecFactory {
                     throw new EpiException("Could not parse url field, should be a string: " + jo.get(URL));
                 }
                 spec.setUrl(url);
+            }
+            if (jo.hasKey(TRANSFORM)) {
+            	String name = JsonUtil.getStringValue(jo, TRANSFORM);
+            	spec.useTransformer(name);
+            	
             }
             if (jo.hasKey(TEMPLATE)) {
                 spec.setTemplateName( JsonUtil.getStringValue(jo, TEMPLATE) );
