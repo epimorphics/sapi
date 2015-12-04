@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.epimorphics.appbase.core.ComponentBase;
-import com.epimorphics.sparql.query.Transforms;
 
 public class AppTransforms extends ComponentBase {
 
@@ -21,15 +20,5 @@ public class AppTransforms extends ComponentBase {
 	
 	public void setInclude(String name) {
 		transformNames.add(name);
-	}
-	
-	public void fill(Transforms ts) {
-		for (String name: transformNames) {
-			ts.add(name, Transforms.get(name));
-		}
-	}
-
-	public void update(Transforms ts, String name) {
-		
 	}
 }

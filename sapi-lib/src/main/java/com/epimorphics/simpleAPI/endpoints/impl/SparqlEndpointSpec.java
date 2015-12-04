@@ -66,7 +66,7 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
 		Transform t = Transforms.get(name);		
 		if (t == null) throw new RuntimeException("transform '" + name + "' not found.");
 		Transforms ts = baseQuery.getTransforms();
-		ts.add(name, t);
+		ts.add(t);
 	}
 
 }
