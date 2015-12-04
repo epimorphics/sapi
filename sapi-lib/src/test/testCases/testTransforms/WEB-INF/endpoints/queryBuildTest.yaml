@@ -1,0 +1,27 @@
+# Test of description and nesting with implicit query
+name: queryBuildTest
+type : list
+
+prefixes : 
+  rt :   "http://environment.data.gov.uk/flood-monitoring/def/core/"
+
+transform : "geoByIndex"
+  
+baseQuery : |
+    ?id a rt:FloodAlertOrWarning .
+
+limit : 10
+    
+view :
+  - { prop : "rt:severity", filterable: true, type: "rdf:PlainLiteral"}
+  - { prop : "rt:severityLevel", filterable: true, type: "xsd:int" }
+  - { prop : "rt:message", optional : true }
+  - prop : "rt:floodArea"
+    nested :
+      - "skos:notation"
+      - {prop: "rt:county", filterable: true, type: "" }
+    filterable : true
+    type : rdfs:Resource
+  - "rt:eaAreaName"
+  - "dct:description"
+
