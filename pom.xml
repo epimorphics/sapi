@@ -3,13 +3,13 @@
   <groupId>com.epimorphics</groupId>
   <artifactId>sapi</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.2</version>
+  <version>0.1.3-SNAPSHOT</version>
   <name>sapi</name>
   <description>Simple API</description>
   
   <scm>
     <developerConnection>scm:git:git@github.com:epimorphics/sapi.git</developerConnection>
-    <tag>sapi-0.1.2</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
