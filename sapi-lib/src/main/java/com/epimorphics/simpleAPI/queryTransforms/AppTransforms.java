@@ -17,8 +17,13 @@ public class AppTransforms extends ComponentBase {
 	
 	public AppTransforms() {		
 	}
+//	
+//	public void setInclude(String name) {
+//		transformNames.add(name);
+//	}
 	
-	public void setInclude(String name) {
-		transformNames.add(name);
+	public void setInclude(List<String> names) {
+		transformNames.clear();
+		transformNames.addAll(names);
 	}
 }
