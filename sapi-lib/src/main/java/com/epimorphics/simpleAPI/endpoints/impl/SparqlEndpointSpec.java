@@ -13,14 +13,11 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.DescribeQueryBuilder;
-import com.epimorphics.simpleAPI.queryTransforms.AppTransforms;
 import com.epimorphics.simpleAPI.views.ViewMap;
-import com.epimorphics.sparql.geo.GeoQuery;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.query.Transform;
 import com.epimorphics.sparql.query.Transforms;
-import com.epimorphics.sparql.terms.Var;
 
 /**
  * Encapsulates the specification of a single endpoint.
@@ -60,8 +57,9 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
     	QueryShape q = new QueryShape();
     	return q;    	
     }
-        
+    
 	public void useTransformer(String name) {
+		System.err.println(">> useTransform: " + name);
 		if (baseQuery == null) baseQuery = createQueryShape();
 		Transform t = Transforms.get(name);		
 		if (t == null) throw new RuntimeException("transform '" + name + "' not found.");
