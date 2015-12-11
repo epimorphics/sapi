@@ -9,10 +9,14 @@
 
 package com.epimorphics.simpleAPI.endpoints.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.DescribeQueryBuilder;
+import com.epimorphics.simpleAPI.queryTransforms.AppTransforms;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.sparql.query.QueryShape;
@@ -23,6 +27,8 @@ import com.epimorphics.sparql.query.Transforms;
  * Encapsulates the specification of a single endpoint.
  */
 public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec {
+
+	static final Logger log = LoggerFactory.getLogger( SparqlEndpointSpec.class );
 	
     protected QueryShape baseQuery;
     
@@ -55,16 +61,23 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
     
     protected QueryShape createQueryShape() {
     	QueryShape q = new QueryShape();
+    	AppTransforms at = (AppTransforms) api.getApp().getComponent("apptransforms");
+    	if (at != null)
+    		for (String name: at.transformNames) 
+    			setTransform(q, name);
     	return q;    	
     }
+
+	private void setTransform(QueryShape qs, String name) {
+		Transform t = Transforms.get(name);
+		if (t == null) throw new RuntimeException("transform '" + name + "' not found.");
+		log.debug("using transform " + name);
+		qs.getTransforms().add(t);
+	}
     
 	public void useTransformer(String name) {
-		System.err.println(">> useTransform: " + name);
 		if (baseQuery == null) baseQuery = createQueryShape();
-		Transform t = Transforms.get(name);		
-		if (t == null) throw new RuntimeException("transform '" + name + "' not found.");
-		Transforms ts = baseQuery.getTransforms();
-		ts.add(t);
+		setTransform(baseQuery, name);
 	}
 
 }
