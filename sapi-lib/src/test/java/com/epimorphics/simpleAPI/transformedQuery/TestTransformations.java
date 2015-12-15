@@ -37,20 +37,15 @@ public class TestTransformations {
 	}
 	
 	@Test public void testA() {
-        EndpointSpec endpoint = api.getSpec("alertTestExplicitQuery");
+        EndpointSpec endpoint = api.getSpec("describe-test");
         
         PrefixMapping prefixes = endpoint.getPrefixes();
         assertEquals( "http://environment.data.gov.uk/flood-monitoring/def/core/", prefixes.getNsPrefixURI("rt") );
         assertEquals( SKOS.getURI(), prefixes.getNsPrefixURI("skos") );
         
         String query = api.getCall("describe-test", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
-        
-        System.err.println(">> " + query);
-        
+                
         assertContains( query, "?id <http://jena.apache.org/spatial#withinCircle> (60.1 19.2 11.0) ." );
-        assertContains( query, "DESCRIBE ?id WHERE " );
-        assertContains( query, "" );
-        assertContains( query, "" );
         
 //        assertContains( query, "PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>");
 //        assertContains( query, "DESCRIBE <http://localhost/flood-monitoring/test> ?warning");
