@@ -22,6 +22,7 @@ public class ConfigConstants {
     public static final String NAME      = "name";
     
     public static final String TRANSFORM = "transform";
+    public static final String GEOQUERY  = "geoquery";
     
     public static final String MAPPING   = "mapping";
     public static final String VIEW      = "view";
