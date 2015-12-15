@@ -45,6 +45,7 @@ public class TestTransformations {
         
         String query = api.getCall("describe-test", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
                 
+        System.err.println(">> query:\n" + query);
         assertContains( query, "?id <http://jena.apache.org/spatial#withinCircle> (60.1 19.2 11.0) ." );
         
 //        assertContains( query, "PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>");
