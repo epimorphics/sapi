@@ -11,6 +11,10 @@ package com.epimorphics.simpleAPI.endpoints;
 
 import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
 
@@ -19,6 +23,8 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlListEndpointSpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.sparql.geo.GeoQuery;
+import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.util.EpiException;
 
 /**
@@ -72,6 +78,7 @@ public class EndpointSpecFactory {
                     }
                 }
             }
+            
             if (jo.hasKey(URL)) {
                 String url = JsonUtil.getStringValue(jo, URL);
                 if (url == null) {
@@ -79,14 +86,32 @@ public class EndpointSpecFactory {
                 }
                 spec.setUrl(url);
             }
+            
             if (jo.hasKey(TRANSFORM)) {
             	String name = JsonUtil.getStringValue(jo, TRANSFORM);
             	spec.useTransformer(name);
-            	
             }
+            
+            if (jo.hasKey(GEOQUERY)) {
+            	
+            	JsonObject geo = jo.get(GEOQUERY).getAsObject();
+            	
+            	System.err.println(">> GEOQUERY " + geo);
+
+            	String geoVars = JsonUtil.getStringValue(jo, "var");
+            	String geoName = JsonUtil.getStringValue(jo, "name");
+            	
+            	JsonArray ja = jo.get("values").getAsArray();
+            	List<Number> n = new ArrayList<Number>(ja.size());
+            	
+            	GeoQuery placeholder = new GeoQuery(new Var(geoVars), geoName, n);
+            	spec.geoQuery(placeholder);
+            }
+            
             if (jo.hasKey(TEMPLATE)) {
                 spec.setTemplateName( JsonUtil.getStringValue(jo, TEMPLATE) );
             }
+            
             return spec;
         } else {
             throw new EpiException("Illegal EndpointSpec: expected a json object, in " + filename);
