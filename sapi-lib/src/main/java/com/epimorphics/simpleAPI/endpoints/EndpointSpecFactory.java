@@ -96,7 +96,7 @@ public class EndpointSpecFactory {
             	
             	JsonObject geo = jo.get(GEOQUERY).getAsObject();
 
-            	String geoVars = JsonUtil.getStringValue(geo, "var");
+            	String geoVars = JsonUtil.getStringValue(geo, "var", "id");
             	String geoName = JsonUtil.getStringValue(geo, "name");
             	
             	JsonArray ja = geo.get("values").getAsArray();
