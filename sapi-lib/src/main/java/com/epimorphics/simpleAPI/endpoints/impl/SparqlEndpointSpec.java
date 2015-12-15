@@ -18,6 +18,7 @@ import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.DescribeQueryBuilder;
 import com.epimorphics.simpleAPI.queryTransforms.AppTransforms;
 import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.sparql.geo.GeoQuery;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.query.Transform;
@@ -78,6 +79,12 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
 	public void useTransformer(String name) {
 		if (baseQuery == null) baseQuery = createQueryShape();
 		setTransform(baseQuery, name);
+	}
+	
+	public void geoQuery(GeoQuery gq) {
+		System.err.println(">> SparqlEndpoint.geoQuery " + gq);
+		if (baseQuery == null) baseQuery = createQueryShape();
+		baseQuery.setGeoQuery(gq);
 	}
 
 }
