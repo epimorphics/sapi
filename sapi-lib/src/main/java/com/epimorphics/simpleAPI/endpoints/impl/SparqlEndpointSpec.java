@@ -82,7 +82,6 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
 	}
 	
 	public void geoQuery(GeoQuery gq) {
-		System.err.println(">> SparqlEndpoint.geoQuery " + gq);
 		if (baseQuery == null) baseQuery = createQueryShape();
 		baseQuery.setGeoQuery(gq);
 	}
