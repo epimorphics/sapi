@@ -63,9 +63,7 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
     protected QueryShape createQueryShape() {
     	QueryShape q = new QueryShape();
     	AppTransforms at = (AppTransforms) api.getApp().getComponent("apptransforms");
-    	if (at != null)
-    		for (String name: at.transformNames) 
-    			setTransform(q, name);
+    	if (at != null) q.getTransforms().addAll(at.transforms);
     	return q;    	
     }
 
@@ -78,7 +76,7 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
     
 	public void useTransformer(String name) {
 		if (baseQuery == null) baseQuery = createQueryShape();
-		setTransform(baseQuery, name);
+//		setTransform(baseQuery, name);
 	}
 	
 	public void geoQuery(GeoQuery gq) {
