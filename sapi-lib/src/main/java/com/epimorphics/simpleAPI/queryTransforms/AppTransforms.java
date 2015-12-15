@@ -12,9 +12,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.epimorphics.appbase.core.App;
 import com.epimorphics.appbase.core.ComponentBase;
 import com.epimorphics.appbase.core.Startup;
+import com.epimorphics.sparql.query.Transform;
+import com.epimorphics.sparql.query.Transforms;
 
 public class AppTransforms extends ComponentBase implements Startup {
 
@@ -22,15 +23,18 @@ public class AppTransforms extends ComponentBase implements Startup {
 
 	public final List<String> transformNames = new ArrayList<String>();
 	
+	public final Transforms transforms = new Transforms();
+	
 	public AppTransforms() {		
 	}	
 	
-	public void setInclude(String name) {
-		log.debug("including transform " + name);
-		transformNames.add(name);
+	public void setIncludAll(List<Transform> things) {
+		System.err.println("including transforms " + things);
+		for (Transform t: things) transforms.add(t);
 	}
 	
-	@Override public void startup(App app) {
+	public void setInclude(Transform t) {
+		log.debug("including transform " + t);
+		transforms.add(t);
 	}
-
 }
