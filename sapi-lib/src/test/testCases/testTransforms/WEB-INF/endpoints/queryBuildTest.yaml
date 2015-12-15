@@ -5,7 +5,7 @@ type : list
 prefixes : 
   rt :   "http://environment.data.gov.uk/flood-monitoring/def/core/"
 
-transform : "GeoQuery:ByJenaText"
+transform : "GeoQuery:ByJenaSpatial"
   
 baseQuery : |
     ?id a rt:FloodAlertOrWarning .
