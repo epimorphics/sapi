@@ -1,9 +1,9 @@
-type  : item
+type  : list
 name : describe-test
 prefixes : 
   rt :   "http://environment.data.gov.uk/flood-monitoring/def/core/"
 
 geoquery : 
-    var : "v"
+    var : "id"
     name : "withinCircle"
     values : [60.1, 19.2, 11.0]
