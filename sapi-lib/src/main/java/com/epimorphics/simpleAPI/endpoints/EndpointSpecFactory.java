@@ -95,17 +95,16 @@ public class EndpointSpecFactory {
             if (jo.hasKey(GEOQUERY)) {
             	
             	JsonObject geo = jo.get(GEOQUERY).getAsObject();
-            	
-            	System.err.println(">> GEOQUERY " + geo);
 
-            	String geoVars = JsonUtil.getStringValue(jo, "var");
-            	String geoName = JsonUtil.getStringValue(jo, "name");
+            	String geoVars = JsonUtil.getStringValue(geo, "var");
+            	String geoName = JsonUtil.getStringValue(geo, "name");
             	
-            	JsonArray ja = jo.get("values").getAsArray();
+            	JsonArray ja = geo.get("values").getAsArray();
             	List<Number> n = new ArrayList<Number>(ja.size());
+            	for (JsonValue jv: ja) n.add(jv.getAsNumber().value());
             	
-            	GeoQuery placeholder = new GeoQuery(new Var(geoVars), geoName, n);
-            	spec.geoQuery(placeholder);
+            	GeoQuery gq = new GeoQuery(new Var(geoVars), geoName, n);
+            	spec.geoQuery(gq);
             }
             
             if (jo.hasKey(TEMPLATE)) {
