@@ -83,7 +83,7 @@ public class EndpointSpecFactory {
             
             if (jo.hasKey(TRANSFORM)) {
             	String name = JsonUtil.getStringValue(jo, TRANSFORM);
-            	spec.useTransformer(name);
+            	spec.useTransformByClassName(name);
             }
             
             if (jo.hasKey(TEMPLATE)) {

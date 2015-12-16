@@ -9,6 +9,8 @@
 
 package com.epimorphics.simpleAPI.endpoints.impl;
 
+import javax.ws.rs.NotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,11 +20,9 @@ import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.DescribeQueryBuilder;
 import com.epimorphics.simpleAPI.queryTransforms.AppTransforms;
 import com.epimorphics.simpleAPI.views.ViewMap;
-import com.epimorphics.sparql.geo.GeoQuery;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.query.Transform;
-import com.epimorphics.sparql.query.Transforms;
 
 /**
  * Encapsulates the specification of a single endpoint.
@@ -63,6 +63,10 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
         getBaseQuery().setTemplate(completeQueryString); 
     }
     
+    /**
+		Create a QueryShape for this endpoint spec, copying into it the
+		transforms from the apptransforms component of this app.
+    */
     protected QueryShape createQueryShape() {
     	QueryShape q = new QueryShape();
     	AppTransforms at = (AppTransforms) api.getApp().getComponent("apptransforms");
@@ -70,20 +74,27 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
     	return q;    	
     }
 
-	private void setTransform(QueryShape qs, String name) {
-		Transform t = Transforms.get(name);
-		if (t == null) throw new RuntimeException("transform '" + name + "' not found.");
-		log.debug("using transform " + name);
-		qs.getTransforms().add(t);
-	}
-    
-	public void useTransformer(String name) {
-		getBaseQuery();
-//		setTransform(baseQuery, name);
-	}
-	
-	public void geoQuery(GeoQuery gq) {
-		getBaseQuery().setGeoQuery(gq);
+    /**
+		Use (make available in this specs transforms) a Transform object
+		of the class specified by its name.     
+    */
+	public void useTransformByClassName(String className) {
+		QueryShape qs = getBaseQuery();
+		try {
+			Class<?> c = Class.forName(className);
+			Object o = c.newInstance();
+			if (o instanceof Transform) {
+				qs.getTransforms().add((Transform) o);
+			} else {
+				throw new RuntimeException(className + " is not a transform");
+			}
+		} catch (ClassNotFoundException e) {
+			throw new NotFoundException("class " + className);
+		} catch (InstantiationException e) {
+			throw new RuntimeException("could not instantiate class " + className);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException("could not access class " + className);
+		}
 	}
 
 }
