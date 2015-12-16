@@ -13,6 +13,8 @@ import java.util.Collection;
 
 import org.apache.jena.rdf.model.RDFNode;
 
+import com.epimorphics.sparql.geo.GeoQuery;
+
 /**
  * Represents a generic list query (might be SPARQL or noSQL) that can
  * be modified and extended.
@@ -42,6 +44,12 @@ public interface ListQueryBuilder extends QueryBuilder {
      * Set a paging window on the query results
      */
     public ListQueryBuilder limit(long limit, long offset);
+    
+    /**
+     * Set a geoquery filter
+     */
+    public ListQueryBuilder geoQuery(GeoQuery gq);
+    
     
     /**
      * Finalize the query, in the case of SPARQL this will include

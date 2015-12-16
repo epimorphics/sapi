@@ -25,6 +25,7 @@ import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.sparql.exprs.Call;
 import com.epimorphics.sparql.exprs.Infix;
 import com.epimorphics.sparql.exprs.Op;
+import com.epimorphics.sparql.geo.GeoQuery;
 import com.epimorphics.sparql.graphpatterns.Basic;
 import com.epimorphics.sparql.graphpatterns.Bind;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
@@ -139,6 +140,12 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
 			IsExpr oneOf = new Infix(var, Op.opIn, new Call(Op.Tuple, operands));
 			return new SparqlQueryBuilder(query.copy().addEarlyPattern(new Basic(new Filter(oneOf))), prefixes);
 		}
+	}
+	
+	@Override public ListQueryBuilder geoQuery(GeoQuery gq) {
+		QueryShape q = query.copy();
+		q.setGeoQuery(gq);
+		return new SparqlQueryBuilder(q, prefixes);
 	}
 	
 	@Override public ListQueryBuilder sort(String shortname, boolean down) {

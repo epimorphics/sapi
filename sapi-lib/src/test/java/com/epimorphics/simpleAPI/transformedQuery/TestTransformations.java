@@ -19,6 +19,10 @@ import org.junit.Test;
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
+import com.epimorphics.sparql.geo.GeoQuery;
+import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.vocabs.SKOS;
 import com.epimorphics.webapi.test.MockUriInfo;
 
@@ -43,7 +47,10 @@ public class TestTransformations {
         assertEquals( "http://environment.data.gov.uk/flood-monitoring/def/core/", prefixes.getNsPrefixURI("rt") );
         assertEquals( SKOS.getURI(), prefixes.getNsPrefixURI("skos") );
         
-        String query = api.getCall("describe-test", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
+        GeoQuery gq = new GeoQuery(new Var("id"), "withinCircle", 60.1, 19.2, 11.0);
+        QueryBuilder baseQB = api.getCall("describe-test", new MockUriInfo("test"), null).getQueryBuilder();
+        QueryBuilder geoQB = ((SparqlQueryBuilder) baseQB).geoQuery(gq);
+		String query = geoQB.build().toString();
                 
         System.err.println(">> query:\n" + query);
         assertContains( query, "?id <http://jena.apache.org/spatial#withinCircle> (60.1 19.2 11.0) ." );

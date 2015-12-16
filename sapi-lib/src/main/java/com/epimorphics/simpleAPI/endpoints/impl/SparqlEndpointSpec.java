@@ -50,14 +50,17 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
         return new DescribeQueryBuilder(baseQuery, getPrefixes());
     }
 
-    public void setBaseQuery(String baseQueryString) {
+    public QueryShape getBaseQuery() {
     	if (baseQuery == null) baseQuery = createQueryShape();
-        baseQuery.addEarlyPattern(new GraphPatternText(baseQueryString));
+    	return baseQuery;
+    }
+    
+    public void setBaseQuery(String baseQueryString) {
+        getBaseQuery().addEarlyPattern(new GraphPatternText(baseQueryString));
     }
 
     public void setCompleteQuery(String completeQueryString) {
-    	if (baseQuery == null) baseQuery = createQueryShape();
-        baseQuery.setTemplate(completeQueryString); 
+        getBaseQuery().setTemplate(completeQueryString); 
     }
     
     protected QueryShape createQueryShape() {
@@ -75,13 +78,12 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
 	}
     
 	public void useTransformer(String name) {
-		if (baseQuery == null) baseQuery = createQueryShape();
+		getBaseQuery();
 //		setTransform(baseQuery, name);
 	}
 	
 	public void geoQuery(GeoQuery gq) {
-		if (baseQuery == null) baseQuery = createQueryShape();
-		baseQuery.setGeoQuery(gq);
+		getBaseQuery().setGeoQuery(gq);
 	}
 
 }
