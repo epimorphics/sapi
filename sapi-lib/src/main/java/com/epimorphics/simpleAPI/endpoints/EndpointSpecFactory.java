@@ -11,10 +11,6 @@ package com.epimorphics.simpleAPI.endpoints;
 
 import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
 
@@ -23,8 +19,6 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlListEndpointSpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
-import com.epimorphics.sparql.geo.GeoQuery;
-import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.util.EpiException;
 
 /**
@@ -90,21 +84,6 @@ public class EndpointSpecFactory {
             if (jo.hasKey(TRANSFORM)) {
             	String name = JsonUtil.getStringValue(jo, TRANSFORM);
             	spec.useTransformer(name);
-            }
-            
-            if (jo.hasKey(GEOQUERY)) {
-            	
-            	JsonObject geo = jo.get(GEOQUERY).getAsObject();
-
-            	String geoVars = JsonUtil.getStringValue(geo, "var", "id");
-            	String geoName = JsonUtil.getStringValue(geo, "name");
-            	
-            	JsonArray ja = geo.get("values").getAsArray();
-            	List<Number> n = new ArrayList<Number>(ja.size());
-            	for (JsonValue jv: ja) n.add(jv.getAsNumber().value());
-            	
-            	GeoQuery gq = new GeoQuery(new Var(geoVars), geoName, n);
-            	spec.geoQuery(gq);
             }
             
             if (jo.hasKey(TEMPLATE)) {
