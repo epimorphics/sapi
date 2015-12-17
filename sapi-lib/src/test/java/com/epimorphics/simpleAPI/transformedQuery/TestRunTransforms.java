@@ -26,7 +26,7 @@ import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.vocabs.SKOS;
 import com.epimorphics.webapi.test.MockUriInfo;
 
-public class RunTransforms {
+public class TestRunTransforms {
 	
 	App app;
 	API api;
