@@ -1,0 +1,21 @@
+# Test of description and nesting with explicit query
+type : list
+limit : 4
+softLimit : 2
+
+prefixes : 
+  rt :   "http://environment.data.gov.uk/flood-monitoring/def/core/"
+
+baseQuery : "?id a rt:FloodAlertOrWarning; rt:severityLevel 2. "
+
+mapping :
+  - "rt:severity"
+  - "rt:severityLevel"
+  - { prop : "rt:message", optional : true }
+  - { prop : "rt:messageWelsh", optional : true }
+  - prop : "rt:floodArea"
+    nested :
+      - "skos:notation"
+      - "rt:county"
+      - "rt:riverOrSea"
+      - "rt:polygon"

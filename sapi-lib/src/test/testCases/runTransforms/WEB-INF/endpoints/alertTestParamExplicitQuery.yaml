@@ -1,0 +1,46 @@
+# Test of description and nesting with explicit query
+type : list
+
+prefixes : 
+  rt :   "http://environment.data.gov.uk/flood-monitoring/def/core/"
+
+# baseQuery : "?id a rt:FloodAlertOrWarning ."
+
+query: |
+    SELECT * WHERE {
+        ?id a rt:FloodAlertOrWarning ;
+            rt:severity ?severity ;
+            rt:severityLevel ?severityLevel ;
+            rt:floodArea ?floodArea ;
+        .
+        FILTER (?severityLevel  <= ?min-severity)
+        OPTIONAL {?id rt:message ?message}
+        ?floodArea
+            rt:county ?county ;
+            skos:notation ?notation ;
+            rt:riverOrSea ?riverOrSea ;
+            rt:polygon ?polygon ;
+            .
+       }
+
+bindVars :
+ - "min-severity"
+ 
+mapping :
+  - "rt:severity"
+  - "rt:severityLevel"
+  - { prop : "rt:message", optional : true }
+  - { prop : "rt:messageWelsh", optional : true }
+  - prop : "rt:floodArea"
+    nested :
+      - "skos:notation"
+      - "rt:county"
+      - "rt:riverOrSea"
+      - "rt:polygon"
+  - "rt:eaAreaName"
+  - "rt:eaRegionName"
+  - "dct:description"
+  - "rt:isTidal"
+  - "rt:timeMessageChanged"
+  - "rt:timeRaised"
+  - "rt:timeSeverityChanged"

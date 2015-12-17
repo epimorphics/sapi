@@ -1,0 +1,17 @@
+# Test of description and nesting with explicit query
+type : list
+
+prefixes : 
+  rt :   "http://environment.data.gov.uk/flood-monitoring/def/core/"
+
+# baseQuery : "?id a rt:FloodAlertOrWarning ."
+
+query: |
+    SELECT * WHERE {
+        ?id a rt:FloodAlertOrWarning ;
+            rt:severity ?severity ;
+            rt:severityLevel ?severityLevel ;
+        .
+        ?id rt:severityLevel 2 .
+        OPTIONAL {?id rt:message ?message}
+       }
