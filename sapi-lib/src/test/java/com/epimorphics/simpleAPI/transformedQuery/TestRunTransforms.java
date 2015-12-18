@@ -41,14 +41,14 @@ public class TestRunTransforms {
 	}
 	
 	@Test public void testEndToEnd() {
-        EndpointSpec endpoint = api.getSpec("describe-test");
+        EndpointSpec endpoint = api.getSpec("run-transform-test");
         
         PrefixMapping prefixes = endpoint.getPrefixes();
         assertEquals( "http://environment.data.gov.uk/flood-monitoring/def/core/", prefixes.getNsPrefixURI("rt") );
         assertEquals( SKOS.getURI(), prefixes.getNsPrefixURI("skos") );
         
         GeoQuery gq = new GeoQuery(new Var("id"), "withinCircle", 60.1, 19.2, 11.0);
-        QueryBuilder baseQB = api.getCall("describe-test", new MockUriInfo("test"), null).getQueryBuilder();
+        QueryBuilder baseQB = api.getCall("run-transform-test", new MockUriInfo("test"), null).getQueryBuilder();
         QueryBuilder geoQB = ((SparqlQueryBuilder) baseQB).geoQuery(gq);
 		String query = geoQB.build().toString();
                 
