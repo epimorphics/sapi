@@ -32,7 +32,7 @@ public class TestRunTransforms {
 	API api;
 	    
 	@Before	public void setUP() throws IOException {
-		app = new App("test", new File("src/test/testCases/testTransforms/WEB-INF/app.conf"));
+		app = new App("test", new File("src/test/testCases/runTransforms/WEB-INF/app.conf"));
 	    api = app.getA(API.class);
 	    app.startup();
 	}
@@ -40,7 +40,7 @@ public class TestRunTransforms {
 	@Test public void testSetup() {
 	}
 	
-	@Test public void testA() {
+	@Test public void testEndToEnd() {
         EndpointSpec endpoint = api.getSpec("describe-test");
         
         PrefixMapping prefixes = endpoint.getPrefixes();
@@ -52,7 +52,7 @@ public class TestRunTransforms {
         QueryBuilder geoQB = ((SparqlQueryBuilder) baseQB).geoQuery(gq);
 		String query = geoQB.build().toString();
                 
-        // System.err.println(">> query:\n" + query);
+        System.err.println(">> query:\n" + query);
         assertContains( query, "?id <http://jena.apache.org/spatial#withinCircle> (60.1 19.2 11.0) ." );
         
 //        assertContains( query, "PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>");
