@@ -19,10 +19,13 @@ import org.junit.Test;
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.query.DataSource;
+import com.epimorphics.simpleAPI.query.ListQuery;
+import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
-import com.epimorphics.sparql.geo.GeoQuery;
-import com.epimorphics.sparql.terms.Var;
+import com.epimorphics.simpleAPI.requests.Call;
+import com.epimorphics.simpleAPI.results.ResultStream;
 import com.epimorphics.vocabs.SKOS;
 import com.epimorphics.webapi.test.MockUriInfo;
 
@@ -30,11 +33,13 @@ public class TestRunTransforms {
 	
 	App app;
 	API api;
+    DataSource source;
 	    
 	@Before	public void setUP() throws IOException {
 		app = new App("test", new File("src/test/testCases/runTransforms/WEB-INF/app.conf"));
 	    api = app.getA(API.class);
 	    app.startup();
+        source = app.getA(DataSource.class);
 	}
 	
 	@Test public void testSetup() {
@@ -46,14 +51,22 @@ public class TestRunTransforms {
         PrefixMapping prefixes = endpoint.getPrefixes();
         assertEquals( "http://environment.data.gov.uk/flood-monitoring/def/core/", prefixes.getNsPrefixURI("rt") );
         assertEquals( SKOS.getURI(), prefixes.getNsPrefixURI("skos") );
-        
-        GeoQuery gq = new GeoQuery(new Var("id"), "withinCircle", 60.1, 19.2, 11.0);
-        QueryBuilder baseQB = api.getCall("run-transform-test", new MockUriInfo("test"), null).getQueryBuilder();
-        QueryBuilder geoQB = ((SparqlQueryBuilder) baseQB).geoQuery(gq);
-		String query = geoQB.build().toString();
                 
-        System.err.println(">> query:\n" + query);
-        assertContains( query, "?id <http://jena.apache.org/spatial#withinCircle> (60.1 19.2 11.0) ." );
+        QueryBuilder baseQB = api.getCall("run-transform-test", new MockUriInfo("test"), null).getQueryBuilder();
+        
+        ListQueryBuilder geoQB = ((SparqlQueryBuilder) baseQB); 
+		
+        ListQuery query = geoQB.build();
+		
+        String queryString = query.toString();
+		
+		ResultStream stream = source.query(query, new Call(endpoint, null));
+        
+		System.err.println(">> RESULTS:");
+		while (stream.hasNext()) System.err.println(">> result: " + stream.next());
+		
+		System.err.println(">> query:\n" + queryString);
+        assertContains( queryString, "?id <http://jena.apache.org/spatial#withinCircle> (60.1 19.2 11.0) ." );
         
 //        assertContains( query, "PREFIX rt: <http://environment.data.gov.uk/flood-monitoring/def/core/>");
 //        assertContains( query, "DESCRIBE <http://localhost/flood-monitoring/test> ?warning");

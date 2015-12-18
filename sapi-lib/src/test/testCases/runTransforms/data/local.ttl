@@ -1,0 +1,463 @@
+@prefix afn:   <http://jena.hpl.hp.com/ARQ/function#> .
+@prefix dgu:   <http://reference.data.gov.uk/def/reference/> .
+@prefix spatialrelations: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/> .
+@prefix org:   <http://www.w3.org/ns/org#> .
+@prefix cab:   <http://environment.data.gov.uk/public-register/def/regime/carriers-and-brokers/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time:  <http://www.w3.org/2006/time#> .
+@prefix schema-org: <http://schema.org/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix onsadmingeo: <http://statistics.data.gov.uk/def/administrative-geography/> .
+@prefix admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/> .
+@prefix regime: <http://environment.data.gov.uk/public-register/def/regime/> .
+@prefix text:  <http://jena.apache.org/text#> .
+@prefix geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix status: <http://reference.data.gov.uk/def/status/> .
+@prefix at:    <http://environment.data.gov.uk/public-register/def/applicant-type/> .
+@prefix void:  <http://rdfs.org/ns/void#> .
+@prefix intervals: <http://reference.data.gov.uk/def/intervals/> .
+@prefix postcode: <http://data.ordnancesurvey.co.uk/ontology/postcode/> .
+@prefix qb:    <http://purl.org/linked-data/cube#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix geometry: <http://data.ordnancesurvey.co.uk/ontology/geometry/> .
+@prefix reg:   <http://environment.data.gov.uk/public-register/def/registration/> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52123/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU52123"@en ;
+        spatialrelations:easting   364886 ;
+        spatialrelations:northing  177453 ;
+        geo:lat                    51.494919 ;
+        geo:long                   -2.507195 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52493/site/0>
+        rdfs:label       "Site for registration CBDU52493"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52493/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52493/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52493/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53027/site/0>
+        rdfs:label       "Site for registration CBDU53027"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53027/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53027/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53027/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53548/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU53548"@en ;
+        spatialrelations:easting   359578 ;
+        spatialrelations:northing  181316 ;
+        geo:lat                    51.529296 ;
+        geo:long                   -2.584097 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU51532/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU51532"@en ;
+        spatialrelations:easting   353005 ;
+        spatialrelations:northing  181425 ;
+        geo:lat                    51.529765 ;
+        geo:long                   -2.678860 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53548>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU53548"@en ;
+        at:applicantType        at:person ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53548/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU53548" ;
+        reg:expiryDate          "2018-06-21"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53548/holder/0> ;
+        reg:regime              cab:carrier-broker-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-19"^^xsd:date ;
+        reg:renewalDate         "2015-06-19"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53548/site/0> ;
+        skos:notation           "CBDU53548" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53934>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU53934"@en ;
+        at:applicantType        at:person ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53934/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU53934" ;
+        reg:expiryDate          "2018-06-22"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53934/holder/0> ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-22"^^xsd:date ;
+        reg:renewalDate         "2015-06-22"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53934/site/0> ;
+        skos:notation           "CBDU53934" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53934/site/0>
+        rdfs:label       "Site for registration CBDU53934"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53934/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53934/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53934/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52402>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU52402"@en ;
+        at:applicantType        at:company ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52402/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU52402" ;
+        reg:expiryDate          "2018-06-16"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52402/holder/0> ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-11"^^xsd:date ;
+        reg:renewalDate         "2015-06-16"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52402/site/0> ;
+        skos:notation           "CBDU52402" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU50819/site/0>
+        rdfs:label       "Site for registration CBDU50819"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU50819/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU50819/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU50819/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53934/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU53934"@en ;
+        spatialrelations:easting   364133 ;
+        spatialrelations:northing  203416 ;
+        geo:lat                    51.728309 ;
+        geo:long                   -2.520707 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52493/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU52493"@en ;
+        spatialrelations:easting   366908 ;
+        spatialrelations:northing  176970 ;
+        geo:lat                    51.490699 ;
+        geo:long                   -2.478024 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52123>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU52123"@en ;
+        at:applicantType        at:organisation-of-individuals ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52123/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU52123" ;
+        reg:expiryDate          "2018-07-01"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52123/holder/0> ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-10"^^xsd:date ;
+        reg:renewalDate         "2015-06-10"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52123/site/0> ;
+        skos:notation           "CBDU52123" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52402/site/0>
+        rdfs:label       "Site for registration CBDU52402"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52402/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52402/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52402/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53225/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU53225"@en ;
+        spatialrelations:easting   361592 ;
+        spatialrelations:northing  201520 ;
+        geo:lat                    51.711093 ;
+        geo:long                   -2.557286 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53141/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU53141"@en ;
+        spatialrelations:easting   374817 ;
+        spatialrelations:northing  200091 ;
+        geo:lat                    51.698997 ;
+        geo:long                   -2.365778 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52845/site/0>
+        rdfs:label       "Site for registration CBDU52845"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52845/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52845/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52845/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52703/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU52703"@en ;
+        spatialrelations:easting   366550 ;
+        spatialrelations:northing  176293 ;
+        geo:lat                    51.484591 ;
+        geo:long                   -2.483116 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52402/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU52402"@en ;
+        spatialrelations:easting   363530 ;
+        spatialrelations:northing  203297 ;
+        geo:lat                    51.727200 ;
+        geo:long                   -2.529425 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52542>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU52542"@en ;
+        at:applicantType        at:company ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52542/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU52542" ;
+        reg:expiryDate          "2018-06-12"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52542/holder/0> ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-12"^^xsd:date ;
+        reg:renewalDate         "2015-06-12"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52542/site/0> ;
+        skos:notation           "CBDU52542" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52617/site/0>
+        rdfs:label       "Site for registration CBDU52617"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52617/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52617/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52617/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52617/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU52617"@en ;
+        spatialrelations:easting   354994 ;
+        spatialrelations:northing  178641 ;
+        geo:lat                    51.504898 ;
+        geo:long                   -2.649831 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52542/site/0>
+        rdfs:label       "Site for registration CBDU52542"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52542/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52542/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52542/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52845/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU52845"@en ;
+        spatialrelations:easting   365178 ;
+        spatialrelations:northing  176781 ;
+        geo:lat                    51.488895 ;
+        geo:long                   -2.502923 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52703/site/0>
+        rdfs:label       "Site for registration CBDU52703"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52703/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52703/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52703/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53027>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU53027"@en ;
+        at:applicantType        at:company ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53027/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU53027" ;
+        reg:expiryDate          "2018-06-24"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53027/holder/0> ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-16"^^xsd:date ;
+        reg:renewalDate         "2015-06-24"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53027/site/0> ;
+        skos:notation           "CBDU53027" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53093/site/0>
+        rdfs:label       "Site for registration CBDU53093"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53093/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53093/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53093/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53027/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU53027"@en ;
+        spatialrelations:easting   365083 ;
+        spatialrelations:northing  176636 ;
+        geo:lat                    51.487586 ;
+        geo:long                   -2.504276 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53093/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU53093"@en ;
+        spatialrelations:easting   361185 ;
+        spatialrelations:northing  182212 ;
+        geo:lat                    51.537465 ;
+        geo:long                   -2.561031 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53141>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU53141"@en ;
+        at:applicantType        at:person ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53141/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU53141" ;
+        reg:expiryDate          "2018-06-17"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53141/holder/0> ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-17"^^xsd:date ;
+        reg:renewalDate         "2015-06-17"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53141/site/0> ;
+        skos:notation           "CBDU53141" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU50819>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU50819"@en ;
+        at:applicantType        at:person ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU50819/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU50819" ;
+        reg:expiryDate          "2018-06-01"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU50819/holder/0> ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-01"^^xsd:date ;
+        reg:renewalDate         "2015-06-01"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU50819/site/0> ;
+        skos:notation           "CBDU50819" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53141/site/0>
+        rdfs:label       "Site for registration CBDU53141"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53141/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53141/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53141/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU51532/site/0>
+        rdfs:label       "Site for registration CBDU51532"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU51532/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU51532/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU51532/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52845>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU52845"@en ;
+        at:applicantType        at:company ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52845/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU52845" ;
+        reg:expiryDate          "2018-07-08"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52845/holder/0> ;
+        reg:regime              cab:carrier-broker-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-15"^^xsd:date ;
+        reg:renewalDate         "2015-06-24"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52845/site/0> ;
+        skos:notation           "CBDU52845" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53225>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU53225"@en ;
+        at:applicantType        at:person ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53225/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU53225" ;
+        reg:expiryDate          "2018-06-17"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53225/holder/0> ;
+        reg:regime              cab:carrier-broker-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-17"^^xsd:date ;
+        reg:renewalDate         "2015-06-17"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53225/site/0> ;
+        skos:notation           "CBDU53225" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52617>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU52617"@en ;
+        at:applicantType        at:person ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52617/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU52617" ;
+        reg:expiryDate          "2018-07-10"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52617/holder/0> ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-13"^^xsd:date ;
+        reg:renewalDate         "2015-06-16"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52617/site/0> ;
+        skos:notation           "CBDU52617" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52123/site/0>
+        rdfs:label       "Site for registration CBDU52123"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52123/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52123/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52123/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52542/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU52542"@en ;
+        spatialrelations:easting   374503 ;
+        spatialrelations:northing  192153 ;
+        geo:lat                    51.627610 ;
+        geo:long                   -2.369738 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53548/site/0>
+        rdfs:label       "Site for registration CBDU53548"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53548/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53548/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53548/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53225/site/0>
+        rdfs:label       "Site for registration CBDU53225"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53225/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53225/site/0/address/0> ;
+        org:siteOf       <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53225/holder/0> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52703>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU52703"@en ;
+        at:applicantType        at:company ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52703/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU52703" ;
+        reg:expiryDate          "2018-06-24"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52703/holder/0> ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-15"^^xsd:date ;
+        reg:renewalDate         "2015-06-24"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52703/site/0> ;
+        skos:notation           "CBDU52703" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU50819/site/0/location/0>
+        a                          geo:Point ;
+        rdfs:label                 "Site location for registration CBDU50819"@en ;
+        spatialrelations:easting   357880 ;
+        spatialrelations:northing  178085 ;
+        geo:lat                    51.500122 ;
+        geo:long                   -2.608185 .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU51532>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU51532"@en ;
+        at:applicantType        at:company ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU51532/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU51532" ;
+        reg:expiryDate          "2018-06-22"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU51532/holder/0> ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-05"^^xsd:date ;
+        reg:renewalDate         "2015-06-05"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU51532/site/0> ;
+        skos:notation           "CBDU51532" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52493>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU52493"@en ;
+        at:applicantType        at:person ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52493/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU52493" ;
+        reg:expiryDate          "2018-07-03"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52493/holder/0> ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-12"^^xsd:date ;
+        reg:renewalDate         "2015-06-12"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU52493/site/0> ;
+        skos:notation           "CBDU52493" .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53093>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CBDU53093"@en ;
+        at:applicantType        at:person ;
+        reg:applicant           <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53093/applicant/0> ;
+        reg:eprReferenceNumber  "CBDU53093" ;
+        reg:expiryDate          "2018-06-24"^^xsd:date ;
+        reg:holder              <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53093/holder/0> ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2015-06-17"^^xsd:date ;
+        reg:renewalDate         "2015-06-24"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CBDU53093/site/0> ;
+        skos:notation           "CBDU53093" .
