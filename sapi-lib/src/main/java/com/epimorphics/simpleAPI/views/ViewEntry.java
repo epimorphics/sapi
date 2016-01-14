@@ -30,6 +30,7 @@ public class ViewEntry {
     protected String typeURI;
     protected String comment;
     protected ViewTree nested = null;
+    protected String valueBase = null;
     
     public ViewEntry(String jsonname, URI property) {
         this.jsonname = jsonname == null ? makeJsonName(property) : jsonname;
@@ -113,6 +114,14 @@ public class ViewEntry {
     public String getJsonName() {
         return jsonname;
     }
+    
+    public String getValueBase() {
+        return valueBase;
+    }
+
+    public void setValueBase(String valueBase) {
+        this.valueBase = valueBase;
+    }
 
     public static class PV {
     	public final URI property;
@@ -155,6 +164,7 @@ public class ViewEntry {
         if (filterable) buf.append(" filterable");
         if (optional) buf.append(" optional");
         if (multivalued) buf.append(" multi");
+        if (valueBase != null) buf.append(" base(" + valueBase + ")");
         if (comment != null) buf.append(" '" + comment + "'");
         if (isNested()) {
             buf.append("\n");

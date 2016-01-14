@@ -60,6 +60,9 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         checkPost("basetest/list", JsonUtil.makeJson("group", "B", "_limit", 2, "_sort", "label"), EXPECTED + "list-filterB-limit2-post.json");
         checkPost("default/test4/B", JsonUtil.makeJson("_sort", "label"), EXPECTED + "list-default-test4-B-post.json");
         
+        // Filter with localname expansion
+        checkGet("basetest/list?narrower=A1", EXPECTED + "list-filter-A1local.json");
+        
         // Describe checks
         checkGet("example/A2",  EXPECTED + "describe-A2.json");
         assertEquals(404, getResponse(BASE_URL + "example/notThere", "application/json").getStatus());

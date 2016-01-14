@@ -8,6 +8,7 @@ views :
     - "skos:notation"
     - "eg:group"
     - prop : "skos:narrower"
+      valueBase : "http://localhost/example/"
       nested :
         - "rdfs:label"
         - "skos:notation"

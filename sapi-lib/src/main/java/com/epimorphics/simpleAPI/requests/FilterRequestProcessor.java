@@ -20,6 +20,7 @@ import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
+import com.epimorphics.util.NameUtils;
 
 /**
  * Handle filter queries. Treats any request parameter that isn't a directive (begins with "_")
@@ -43,13 +44,17 @@ public class FilterRequestProcessor implements RequestProcessor {
                         if (type != null) {
                             type = spec.getPrefixes().expandPrefix(type);
                         }
+                        String valueBase = entry.getValueBase();
+                        if (valueBase != null) {
+                            valueBase = spec.getPrefixes().expandPrefix(valueBase);
+                        }
                         List<String> rawargs = request.get(parameter);
                         if (rawargs.size() == 1) {
-                            builder = builder.filter(varname, TypeUtil.asTypedValue(rawargs.get(0), type));
+                            builder = builder.filter(varname, asValue(rawargs.get(0), type, valueBase));
                         } else {
                             List<RDFNode> args = new ArrayList<>(rawargs.size());
                             for (int i = 0; i < rawargs.size(); i++) {
-                                args.set(i, TypeUtil.asTypedValue(rawargs.get(i), type));
+                                args.set(i, asValue(rawargs.get(i), type, valueBase));
                             }
                             builder = builder.filter(varname, args);
                         }
@@ -58,6 +63,13 @@ public class FilterRequestProcessor implements RequestProcessor {
             }
         }
         return builder;
+    }
+    
+    private static RDFNode asValue(String value, String type, String valueBase) {
+        if (valueBase != null && ! NameUtils.isURI(value)) {
+            value = NameUtils.ensureLastSlash(valueBase) + value;
+        }
+        return TypeUtil.asTypedValue(value, type);
     }
     
 }
