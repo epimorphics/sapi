@@ -21,6 +21,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.templates.VelocityRender;
+import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
@@ -77,7 +79,11 @@ public class ResultStreamHTML implements MessageBodyWriter<ResultStream> {
         Map<String, Object> bindings = request.getRenderBindings();
         // Add the result in, this side-effects the request render bindings but that's OK, it is use-once
         bindings.put("results", wresults);
-        velocity.renderTo(entityStream, call.getTemplateName(), AppConfig.getAppConfig().getContext(), bindings);
+        try {
+            velocity.renderTo(entityStream, call.getTemplateName(), AppConfig.getAppConfig().getContext(), bindings);
+        } catch (org.apache.velocity.exception.ResourceNotFoundException e) {
+            throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "HTML rendering not available");
+        }
     }
 
 }
