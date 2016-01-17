@@ -100,7 +100,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Mostly used internally in the builder but public to support legacy apps.
      */
     public SparqlQueryBuilder inject(String s) {
-    	QueryShape q = query.copy().addEarlyPattern(new GraphPatternText(s));
+    	QueryShape q = query.copy().injectEarlyPattern(new GraphPatternText(s));
         return new SparqlQueryBuilder(q, prefixes);
     }
     
@@ -127,7 +127,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
 		IsExpr val = TermUtils.nodeToTerm(value);
 		Filter eq = new Filter(new Infix(var, Op.opEq, val));
 		Basic basic = new Basic(eq);		
-		return new SparqlQueryBuilder(query.copy().addEarlyPattern(basic), prefixes);
+		return new SparqlQueryBuilder(query.copy().addLaterPattern(basic), prefixes);
 	}
 
 	@Override public ListQueryBuilder filter(String shortname,	Collection<RDFNode> values) {
@@ -138,7 +138,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
 			List<IsExpr> operands = new ArrayList<IsExpr>();
 			for (RDFNode value: values) operands.add(TermUtils.nodeToTerm(value));
 			IsExpr oneOf = new Infix(var, Op.opIn, new Call(Op.Tuple, operands));
-			return new SparqlQueryBuilder(query.copy().addEarlyPattern(new Basic(new Filter(oneOf))), prefixes);
+			return new SparqlQueryBuilder(query.copy().addLaterPattern(new Basic(new Filter(oneOf))), prefixes);
 		}
 	}
 	

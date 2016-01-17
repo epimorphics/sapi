@@ -9,8 +9,12 @@
 
 package com.epimorphics.simpleAPI.requests;
 
-import javax.ws.rs.NotFoundException;
+import java.util.List;
 
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Response.Status;
+
+import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.ItemQuery;
@@ -74,10 +78,21 @@ public class Call {
      */
     public ResultOrStream getResults() {
         Query query = getQueryBuilder().build();
+        checkRequestRecognized();
         if (query instanceof ListQuery) {
             return getAPI().getSource().query((ListQuery)query, this);
         } else {
             return getAPI().getSource().query((ItemQuery)query, this);
+        }
+    }
+    
+    /**
+     * Check that all request parameters have been dealt with, if now treat as a bad request
+     */
+    public void checkRequestRecognized() {
+        List<String> missing = request.getRemainingParameters();
+        if ( ! missing.isEmpty() ) {
+            throw new WebApiException(Status.BAD_REQUEST, "Did not recognize request parameters: " + missing);
         }
     }
     

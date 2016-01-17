@@ -42,7 +42,9 @@ public class GeoRequestProcessor implements RequestProcessor {
     public ListQueryBuilder process(Request request, ListQueryBuilder builder, EndpointSpec spec) {
         if (builder instanceof SparqlQueryBuilder) {
             GeoQuery gq = null;
-            if (request.hasParameter(P_LAT) && request.hasParameter(P_LONG) && request.hasParameter(P_DIST)) {
+            if (request.hasAvailableParameter(P_LAT) && 
+                    request.hasAvailableParameter(P_LONG) && 
+                    request.hasAvailableParameter(P_DIST)) {
                 LatLonE point = new LatLonE(request.getAsDouble(P_LAT), request.getAsDouble(P_LONG));
                 OsGridRef osPoint = OsGridRef.fromLatLon(point);
                 gq = new GeoQuery(new Var(DEFAULT_ID), DEFAULT_ALG, 
@@ -50,7 +52,9 @@ public class GeoRequestProcessor implements RequestProcessor {
                 request.consume(P_LAT);
                 request.consume(P_LONG);
                 request.consume(P_DIST);
-            } else if (request.hasParameter(P_EASTING) && request.hasParameter(P_NORTHING) && request.hasParameter(P_DIST)) {
+            } else if (request.hasAvailableParameter(P_EASTING) && 
+                    request.hasAvailableParameter(P_NORTHING) && 
+                    request.hasAvailableParameter(P_DIST)) {
                 gq = new GeoQuery(new Var(DEFAULT_ID), DEFAULT_ALG, 
                         request.getAsLong(P_EASTING), request.getAsLong(P_NORTHING),  getDistance(request));
                 request.consume(P_EASTING);

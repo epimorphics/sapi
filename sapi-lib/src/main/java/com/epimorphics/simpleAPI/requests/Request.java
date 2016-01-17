@@ -96,6 +96,13 @@ public class Request {
     }
     
     /**
+     * Test if the parameter is present and not consumed
+     */
+    public boolean hasAvailableParameter(String parameter) {
+        return parameters.containsKey(parameter) && !consumed.contains(parameter);
+    }
+    
+    /**
      * Return the values for the given parameter
      */
     public List<String> get(String parameter) {
@@ -173,7 +180,32 @@ public class Request {
             return null;
         }
     }
-
+    
+    /**
+     * Return a single value for the given parameter as a lucene query.
+     * Assumes the request is a set of strings and returns a conjunctive
+     * wildcard query over them, with ' characters escape for embedding in SPARQL.
+     */
+    public String getAsLuceneQuery(String parameter) {
+        String value = parameters.getFirst(parameter);
+        if (value == null) return null; 
+        String[] words = value.split("([\\+\\-\\&\\|!\\(\\)\\{\\}\\[\\]^\"~/\\.,]|\\s)+");
+        // Note this doesn't include ' which may need to be treated as a special case
+        
+        String query = null;
+        if (words.length >= 1) {
+            query = "(";
+            int i = 0;
+            while (i < words.length -1) {
+                query += words[i++] + "* AND ";
+            }
+            query += words[i] + "*)";
+        } else {
+            query =  words[0] + "*";
+        }
+        return query.replace("'", "\\'");
+    }
+    
     /**
      * Note that a parameter has been dealt with
      */
@@ -187,6 +219,13 @@ public class Request {
     public List<String> getRemainingParameters() {
         List<String> remainder = new ArrayList<>( parameters.keySet() );
         remainder.removeAll(consumed);
+        for (Iterator<String> i = remainder.iterator(); i.hasNext(); ) {
+            String p = i.next();
+            if (p.startsWith("__")) {
+                // This is an internal parameter, e.g. using in path regex, and doesn't count as an external request
+                i.remove();
+            }
+        }
         return remainder;
     }
     

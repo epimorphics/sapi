@@ -24,7 +24,7 @@ import com.epimorphics.simpleAPI.webapi.EndpointsBase;
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-@Path("/{path:.*}")
+@Path("/{__path:.*}")
 public class DefaultHandler extends EndpointsBase {
 
     @GET
