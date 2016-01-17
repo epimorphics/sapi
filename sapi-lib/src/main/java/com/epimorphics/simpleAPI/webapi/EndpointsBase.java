@@ -49,7 +49,7 @@ public class EndpointsBase {
     
     protected @Context ServletContext context;
     protected @Context UriInfo uriInfo;
-    protected @Context HttpServletRequest request;
+    protected @Context HttpServletRequest httprequest;
 
     // ---- Generic access methods ---------------------------------
     
@@ -88,14 +88,14 @@ public class EndpointsBase {
      * Return the full request including parameters
      */
     public Request getRequest() {
-        return Request.from(getAPI(), uriInfo, request);
+        return Request.from(getAPI(), uriInfo, httprequest);
     }
     
     /**
      * Return the full request including query parameters and posted (JSON) body
      */
     public Request getRequest(String body) {
-        return Request.from(getAPI(), uriInfo, request, body);
+        return Request.from(getAPI(), uriInfo, httprequest, body);
     }
 
     
@@ -112,11 +112,11 @@ public class EndpointsBase {
      */
     public Response defaultResponse() {
         try {
-            return respondWith( getAPI().getCall(uriInfo, request).getResults() );
+            return respondWith( getAPI().getCall(uriInfo, httprequest).getResults() );
         } catch (NotFoundException e) {
             // default to a describe
             EndpointSpec defaultEndpoint = new SparqlEndpointSpec(getAPI());
-            return respondWith( new Call(defaultEndpoint, Request.from(getAPI(), uriInfo, request)).getResults() );
+            return respondWith( new Call(defaultEndpoint, Request.from(getAPI(), uriInfo, httprequest)).getResults() );
         }
     }
     
@@ -125,7 +125,7 @@ public class EndpointsBase {
      * configured endpoint patterns. Pass in a POST (JSON) body as well as the request URL.
      */
     public Response defaultResponse(String body) {
-        return respondWith( getAPI().getCall(uriInfo, request, body).getResults() );
+        return respondWith( getAPI().getCall(uriInfo, httprequest, body).getResults() );
     }
     
     // ---- Helpers for returning results ---------------------------------

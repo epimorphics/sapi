@@ -82,6 +82,17 @@ public class Call {
     }
     
     /**
+     * Return the results for this call using a built (and possible modified) query. 
+     */
+    public ResultOrStream getResults(Query query) {
+        if (query instanceof ListQuery) {
+            return getAPI().getSource().query((ListQuery)query, this);
+        } else {
+            return getAPI().getSource().query((ItemQuery)query, this);
+        }
+    }
+    
+    /**
      * Return the name of a (velocity or other) template to use for HTML rendering of this endpoint
      */
     public String getTemplateName() {
