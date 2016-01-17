@@ -31,13 +31,14 @@ public class FilterRequestProcessor implements RequestProcessor {
     @Override
     public ListQueryBuilder process(Request request, ListQueryBuilder builder,
             EndpointSpec spec) {
-        for (String parameter : request.getParameters()) {
+        for (String parameter : request.getRemainingParameters()) {
             if ( !parameter.startsWith("_") ) {
                 ViewMap view = spec.getView();
                 if (view != null) {
                     ViewPath path = view.pathTo(parameter);
                     if (path != null) {
                         // A legal filter
+                        request.consume(parameter);
                         String varname = path.asVariableName();
                         ViewEntry entry = view.findEntry(path);
                         String type = entry.getTypeURI();

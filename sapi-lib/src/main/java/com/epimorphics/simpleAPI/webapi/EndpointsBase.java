@@ -97,7 +97,13 @@ public class EndpointsBase {
     public Request getRequest(String body) {
         return Request.from(getAPI(), uriInfo, httprequest, body);
     }
-
+    
+    /**
+     * Return a call package containing the endpoint and the request
+     */
+    public Call getCall() {
+        return getAPI().getCall(uriInfo, httprequest);
+    }
     
     // ---- Standard list endpoint handling ---------------------------------
     
@@ -112,7 +118,7 @@ public class EndpointsBase {
      */
     public Response defaultResponse() {
         try {
-            return respondWith( getAPI().getCall(uriInfo, httprequest).getResults() );
+            return respondWith( getCall().getResults() );
         } catch (NotFoundException e) {
             // default to a describe
             EndpointSpec defaultEndpoint = new SparqlEndpointSpec(getAPI());

@@ -133,6 +133,46 @@ public class Request {
             return null;
         }
     }
+    
+    /**
+     * Return a single value for the given parameter as an double,
+     * or null if there is no such value.
+     * If value exists but is not a double throws a WebApiExpception signalling a bad request
+     */
+    public Double getAsDouble(String parameter) {
+        String value = parameters.getFirst(parameter);
+        if (value != null) {
+            try {
+                return Double.parseDouble(value);
+            } catch (NumberFormatException e) {
+                throw new WebApiException(Status.BAD_REQUEST, "Illegal parameter format for " + parameter);
+            }
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * Return a single value for the given parameter as an number (Double or Long)
+     * or null if there is no such value.
+     * If value exists but is not a number throws a WebApiExpception signalling a bad request
+     */
+    public Number getAsNumber(String parameter) {
+        String value = parameters.getFirst(parameter);
+        if (value != null) {
+            try {
+                return Double.parseDouble(value);
+            } catch (NumberFormatException e) {
+                try {
+                    return Long.parseLong(value);
+                } catch (NumberFormatException e2) {
+                    throw new WebApiException(Status.BAD_REQUEST, "Illegal parameter format for " + parameter);
+                }
+            }
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Note that a parameter has been dealt with
@@ -146,7 +186,7 @@ public class Request {
      */
     public List<String> getRemainingParameters() {
         List<String> remainder = new ArrayList<>( parameters.keySet() );
-        remainder.remove( consumed );
+        remainder.removeAll(consumed);
         return remainder;
     }
     
