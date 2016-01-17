@@ -99,10 +99,22 @@ public class EndpointsBase {
     }
     
     /**
-     * Return a call package containing the endpoint and the request
+     * Return a call package containing the dynamically located endpoint and the request
      */
     public Call getCall() {
-        return getAPI().getCall(uriInfo, httprequest);
+        try {
+            return getAPI().getCall(uriInfo, httprequest);
+        } catch (NotFoundException e) {
+            EndpointSpec defaultEndpoint = new SparqlEndpointSpec(getAPI());
+            return new Call(defaultEndpoint, getRequest());
+        }
+    }
+    
+    /**
+     * Return a call package containing the specified endpoint and the request
+     */
+    public Call getCall(String endpoint) {
+        return getAPI().getCall(endpoint, uriInfo, httprequest);
     }
     
     // ---- Standard list endpoint handling ---------------------------------
@@ -117,13 +129,7 @@ public class EndpointsBase {
      * configured endpoint patterns.
      */
     public Response defaultResponse() {
-        try {
-            return respondWith( getCall().getResults() );
-        } catch (NotFoundException e) {
-            // default to a describe
-            EndpointSpec defaultEndpoint = new SparqlEndpointSpec(getAPI());
-            return respondWith( new Call(defaultEndpoint, Request.from(getAPI(), uriInfo, httprequest)).getResults() );
-        }
+        return respondWith( getCall().getResults() );
     }
     
     /**
