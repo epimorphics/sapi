@@ -34,6 +34,7 @@ public class Call {
     protected EndpointSpec endpoint;
     protected Request request;
     protected String templateName;
+    protected QueryBuilder builder;
     
     public Call(EndpointSpec endpoint, Request request) {
         this.endpoint = endpoint;
@@ -68,7 +69,19 @@ public class Call {
      * Return a query builder corresponding to this call.
      */
     public QueryBuilder getQueryBuilder() {
-        return endpoint.getQueryBuilder(request);
+        if (builder == null) {
+            builder = endpoint.getQueryBuilder(request); 
+        }
+        return builder;
+    }
+    
+    /**
+     * Update the query builder corresponding to this call,
+     * useful for programmatic endpoints that want to 
+     * inject their own processing.
+     */
+    public void setQueryBuilder(QueryBuilder builder) {
+        this.builder = builder;
     }
     
     /**

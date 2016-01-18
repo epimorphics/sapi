@@ -28,6 +28,7 @@ import com.epimorphics.sparql.exprs.Op;
 import com.epimorphics.sparql.geo.GeoQuery;
 import com.epimorphics.sparql.graphpatterns.Basic;
 import com.epimorphics.sparql.graphpatterns.Bind;
+import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.sparql.query.Order;
 import com.epimorphics.sparql.query.QueryShape;
@@ -100,7 +101,14 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Mostly used internally in the builder but public to support legacy apps.
      */
     public SparqlQueryBuilder inject(String s) {
-    	QueryShape q = query.copy().injectEarlyPattern(new GraphPatternText(s));
+        return inject( new GraphPatternText(s) );
+    }
+    
+    /**
+     * Insert an arbitrary sparql query string before the base query element.
+     */
+    public SparqlQueryBuilder inject(GraphPattern pattern) {
+        QueryShape q = query.copy().injectEarlyPattern(pattern);
         return new SparqlQueryBuilder(q, prefixes);
     }
     
@@ -109,7 +117,14 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Mostly used internally in the builder but public to support legacy apps.
      */
     public SparqlQueryBuilder filter(String s) {
-    	QueryShape q = query.copy().addLaterPattern(new GraphPatternText(s));
+        return filter( new GraphPatternText(s) );
+    }
+    
+    /**
+     * Insert an arbitrary sparql query string in the filter region of the query.
+     */
+    public SparqlQueryBuilder filter(GraphPattern pattern) {
+        QueryShape q = query.copy().addLaterPattern(pattern);
         return new SparqlQueryBuilder(q, prefixes);
     }
     
