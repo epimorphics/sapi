@@ -49,6 +49,26 @@ public class EndpointSpecFactory {
                 if (jo.hasKey(SOFT_LIMIT)) {
                     lspec.setSoftLimit( JsonUtil.getIntValue(jo, SOFT_LIMIT, Integer.MAX_VALUE) );
                 }
+                if (jo.hasKey(GEO)) {
+                    JsonValue jv = jo.get(GEO);
+                    if (jv.isBoolean() && jv.getAsBoolean().value()) {
+                        lspec.setGeoSearch( new JsonObject() );
+                    } else if (jv.isObject()) {
+                        lspec.setGeoSearch( jv.getAsObject() );
+                    } else {
+                        throw new EpiException("Could not parse geoSearch specification, must be boolean or object");
+                    }
+                }
+                if (jo.hasKey(TEXT_SEARCH)) {
+                    JsonValue jv = jo.get(TEXT_SEARCH);
+                    if (jv.isBoolean() && jv.getAsBoolean().value()) {
+                        lspec.setTextSearchRoot(ROOT_VAR);
+                    } else if (jv.isString()) {
+                        lspec.setTextSearchRoot( jv.getAsString().value() );
+                    } else {
+                        throw new EpiException("Could not parse textSearch specification, must be boolean or a string given the variable to search on");
+                    }
+                }
             } else {
                 throw new EpiException("Did not recognize type of endpoint configuration " + type + " in " + filename);
             }

@@ -12,9 +12,11 @@ package com.epimorphics.simpleAPI.endpoints.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.shared.PrefixMapping;
 
+import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ConfigConstants;
 import com.epimorphics.simpleAPI.core.ConfigItem;
@@ -25,6 +27,8 @@ import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.requests.RequestProcessor;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.util.PrefixUtils;
+
+import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
 
 /**
  * Provides some useful common methods for implementing EndpointSpecs
@@ -38,6 +42,8 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     protected PrefixMapping localPrefixes;
     protected PrefixMapping prefixes;
     protected String templateName;
+    protected JsonObject geoSearch;
+    protected String textSearchRoot = ROOT_VAR;
 
     public EndpointSpecBase(API api) {
         this.api = api;
@@ -138,5 +144,38 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     public void setTemplateName(String templateName) {
         this.templateName = templateName;
     }
+    
+    public void setGeoSearch(JsonObject geoSearch) {
+        this.geoSearch = geoSearch;
+    }
+    
+    public JsonObject getGeoSearch() {
+        return geoSearch;
+    }
 
+    public String getGeoParameter() {
+        if (geoSearch != null) {
+            return JsonUtil.getStringValue(geoSearch, GEO_PARAMETER, ROOT_VAR);
+        } else {
+            return null;
+        }
+    }
+    
+    public String getGeoAlgorithm() {
+        if (geoSearch != null) {
+            return JsonUtil.getStringValue(geoSearch, GEO_ALGORITHM, "withinBox");
+        } else {
+            return null;
+        }
+        
+    }
+
+    public String getTextSearchRoot() {
+        return textSearchRoot;
+    }
+
+    public void setTextSearchRoot(String textSearchRoot) {
+        this.textSearchRoot = textSearchRoot;
+    }
+    
 }

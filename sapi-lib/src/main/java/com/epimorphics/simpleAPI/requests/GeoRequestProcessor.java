@@ -12,6 +12,7 @@ package com.epimorphics.simpleAPI.requests;
 import com.epimorphics.geo.LatLonE;
 import com.epimorphics.geo.OsGridRef;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.endpoints.impl.EndpointSpecBase;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
 import com.epimorphics.sparql.geo.GeoQuery;
@@ -35,34 +36,34 @@ public class GeoRequestProcessor implements RequestProcessor {
     public static final String P_EASTING  = "easting";
     public static final String P_NORTHING = "northing";
     
-    public static final String DEFAULT_ID  = "id";
-    public static final String DEFAULT_ALG = "withinBox";
-    
     @Override
     public ListQueryBuilder process(Request request, ListQueryBuilder builder, EndpointSpec spec) {
-        if (builder instanceof SparqlQueryBuilder) {
-            GeoQuery gq = null;
-            if (request.hasAvailableParameter(P_LAT) && 
-                    request.hasAvailableParameter(P_LONG) && 
-                    request.hasAvailableParameter(P_DIST)) {
-                LatLonE point = new LatLonE(request.getAsDouble(P_LAT), request.getAsDouble(P_LONG));
-                OsGridRef osPoint = OsGridRef.fromLatLon(point);
-                gq = new GeoQuery(new Var(DEFAULT_ID), DEFAULT_ALG, 
-                        osPoint.getEasting(), osPoint.getNorthing(), getDistance(request));
-                request.consume(P_LAT);
-                request.consume(P_LONG);
-                request.consume(P_DIST);
-            } else if (request.hasAvailableParameter(P_EASTING) && 
-                    request.hasAvailableParameter(P_NORTHING) && 
-                    request.hasAvailableParameter(P_DIST)) {
-                gq = new GeoQuery(new Var(DEFAULT_ID), DEFAULT_ALG, 
-                        request.getAsLong(P_EASTING), request.getAsLong(P_NORTHING),  getDistance(request));
-                request.consume(P_EASTING);
-                request.consume(P_NORTHING);
-                request.consume(P_DIST);
-            }
-            if (gq != null) {
-                return ((SparqlQueryBuilder)builder).geoQuery(gq);
+        if (spec instanceof EndpointSpecBase) {
+            EndpointSpecBase specbase = (EndpointSpecBase) spec;
+            if (builder instanceof SparqlQueryBuilder && specbase.getGeoSearch() != null) {
+                GeoQuery gq = null;
+                if (request.hasAvailableParameter(P_LAT) && 
+                        request.hasAvailableParameter(P_LONG) && 
+                        request.hasAvailableParameter(P_DIST)) {
+                    LatLonE point = new LatLonE(request.getAsDouble(P_LAT), request.getAsDouble(P_LONG));
+                    OsGridRef osPoint = OsGridRef.fromLatLon(point);
+                    gq = new GeoQuery(new Var(specbase.getGeoParameter()), specbase.getGeoAlgorithm(),
+                            osPoint.getEasting(), osPoint.getNorthing(), getDistance(request));
+                    request.consume(P_LAT);
+                    request.consume(P_LONG);
+                    request.consume(P_DIST);
+                } else if (request.hasAvailableParameter(P_EASTING) && 
+                        request.hasAvailableParameter(P_NORTHING) && 
+                        request.hasAvailableParameter(P_DIST)) {
+                    gq = new GeoQuery(new Var(specbase.getGeoParameter()), specbase.getGeoAlgorithm(),
+                            request.getAsLong(P_EASTING), request.getAsLong(P_NORTHING),  getDistance(request));
+                    request.consume(P_EASTING);
+                    request.consume(P_NORTHING);
+                    request.consume(P_DIST);
+                }
+                if (gq != null) {
+                    return ((SparqlQueryBuilder)builder).geoQuery(gq);
+                }
             }
         }
         return builder;

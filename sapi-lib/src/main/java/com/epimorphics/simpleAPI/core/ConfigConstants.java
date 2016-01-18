@@ -49,6 +49,12 @@ public class ConfigConstants {
     public static final String PROP_TYPE   = "type";
     public static final String VALUE_BASE  = "valueBase";
     
+    public static final String GEO           = "geoSearch";
+    public static final String GEO_PARAMETER = "parameter";
+    public static final String GEO_ALGORITHM = "algorithm";
+    
+    public static final String TEXT_SEARCH    = "textSearch";
+    
     public static final String RESULT_ITEMS = "items";
     
     public static final String ROOT_VAR    = "id";

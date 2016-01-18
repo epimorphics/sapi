@@ -10,6 +10,7 @@
 package com.epimorphics.simpleAPI.requests;
 
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.endpoints.impl.EndpointSpecBase;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
 
@@ -22,12 +23,15 @@ public class SearchRequestProcessor implements RequestProcessor {
     
     @Override
     public ListQueryBuilder process(Request request, ListQueryBuilder builder, EndpointSpec spec) {
-        if ( request.hasAvailableParameter(P_SEARCH) && builder instanceof SparqlQueryBuilder ) {
-            String lucene = request.getAsLuceneQuery(P_SEARCH);
-            request.consume(P_SEARCH);
-            return ((SparqlQueryBuilder)builder).inject("?id  <http://jena.apache.org/text#query> '" + lucene + "'.");
+        if (spec instanceof EndpointSpecBase) {
+            EndpointSpecBase specbase = (EndpointSpecBase) spec;
+            if ( request.hasAvailableParameter(P_SEARCH) && builder instanceof SparqlQueryBuilder && specbase.getTextSearchRoot() != null) {
+                String lucene = request.getAsLuceneQuery(P_SEARCH);
+                request.consume(P_SEARCH);
+                String search = String.format("?%s  <http://jena.apache.org/text#query> '%s'.", specbase.getTextSearchRoot(), lucene);
+                return ((SparqlQueryBuilder)builder).inject( search );
+            }
         }
-        // TODO Auto-generated method stub
         return builder;
     }
 
