@@ -87,7 +87,7 @@ public class ViewTree implements Iterable<ViewEntry> {
 			if (map.isOptional()) {
             	if (map.isNested()) {
             		ViewTree nested = map.getNested();
-            		GraphPattern p = nested.buildPattern(jname, npath);
+            		GraphPattern p = nested.buildPattern(npath, npath);
             		GraphPattern both = new And(basic, p);
             		patterns.add(new Optional(both));
             	} else {
@@ -97,7 +97,7 @@ public class ViewTree implements Iterable<ViewEntry> {
             	patterns.add(basic);
             	if (map.isNested()) {
                     ViewTree nested = map.getNested();
-                    patterns.add(nested.buildPattern(jname, npath));            		
+                    patterns.add(nested.buildPattern(npath, npath));            		
             	}
             }
         }

@@ -25,15 +25,22 @@ public class SimpleList extends EndpointsBase {
     @GET
     @Path("list")
     @Produces({MediaType.APPLICATION_JSON, FULL_MEDIA_TYPE_TURTLE, FULL_MEDIA_TYPE_CSV, MediaType.TEXT_HTML})
-    public Response listNested() {
+    public Response listTest2() {
         return listResponse( getRequest(), "listTest2");
+    }
+
+    @GET
+    @Path("listNested")
+    @Produces({MediaType.APPLICATION_JSON, FULL_MEDIA_TYPE_TURTLE, FULL_MEDIA_TYPE_CSV, MediaType.TEXT_HTML})
+    public Response listNested() {
+        return listResponse( getRequest(), "listTestNest");
     }
 
     @POST
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response listNestedPost(String body) {
+    public Response listTest2Post(String body) {
         return listResponse( getRequest(body), "listTest2");
     }
     

@@ -80,4 +80,34 @@ public class TestQueryStrings {
         assertTrue( ok );
     }
     
+    @Test
+    public void testQueryBaseCase() {
+        String query = api.getCall("listTest2", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
+        assertContains(query, "SELECT * WHERE {");
+        assertContains(query, "?id a skos:Concept");
+        assertContains(query, "?id rdfs:label ?label");
+        assertContains(query, "?id skos:notation ?notation");
+        assertContains(query, "?id eg:group ?group");
+        assertContains(query, "?id skos:narrower ?narrower .");
+        assertContains(query, "?narrower rdfs:label ?narrower_label");
+        assertContains(query, "?narrower skos:notation ?narrower_notation");
+        assertContains(query, "?narrower eg:group ?narrower_group");
+    }
+    
+    @Test
+    public void testQueryDoubleNested() {
+        String query = api.getCall("listTestNest", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
+        System.out.println(query);        // TEMP
+        assertContains(query, "SELECT * WHERE {");
+        assertContains(query, "?id a skos:Concept");
+        assertContains(query, "?id rdfs:label ?label");
+        assertContains(query, "?id skos:notation ?notation");
+        assertContains(query, "?id eg:group ?group");
+        assertContains(query, "?id skos:narrower ?narrower .");
+        assertContains(query, "?narrower rdfs:label ?narrower_label");
+        assertContains(query, "?narrower skos:notation ?narrower_notation");
+        assertContains(query, "?narrower eg:group ?narrower_group");
+        assertContains(query, "?narrower skos:narrower ?narrower_narrower ");
+        assertContains(query, "?narrower_narrower rdfs:label ?narrower_narrower_label");
+    }
 }

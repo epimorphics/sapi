@@ -63,6 +63,9 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         // Filter with localname expansion
         checkGet("basetest/list?narrower=A1", EXPECTED + "list-filter-A1local.json");
         
+        // Check version with extra nest level
+        checkGet("basetest/listNested?narrower=A1", null);
+        
         // Describe checks
         checkGet("example/A2",  EXPECTED + "describe-A2.json");
         assertEquals(404, getResponse(BASE_URL + "example/notThere", "application/json").getStatus());

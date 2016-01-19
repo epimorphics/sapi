@@ -56,7 +56,11 @@ public class ViewMap extends ConfigItem {
     
     public ViewTree getTree() {
         if (tree == null) {
-            tree = api.getView(viewReference).getTree();
+            ViewMap view = api.getView(viewReference);
+            if (view == null) {
+                throw new EpiException("Cannot find view: " + viewReference);
+            }
+            tree = view.getTree();
         }
         return tree;
     }
