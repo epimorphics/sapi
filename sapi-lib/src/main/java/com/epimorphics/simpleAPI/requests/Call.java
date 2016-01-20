@@ -14,7 +14,10 @@ import java.util.List;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.jena.rdf.model.RDFNode;
+
 import com.epimorphics.appbase.webapi.WebApiException;
+import com.epimorphics.rdfutil.TypeUtil;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.ItemQuery;
@@ -22,6 +25,10 @@ import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.Query;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.results.ResultOrStream;
+import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.views.ViewPath;
+import com.epimorphics.util.NameUtils;
 
 /**
  * Represents all the information involved in invoking a single API call.
@@ -82,6 +89,38 @@ public class Call {
      */
     public void setQueryBuilder(QueryBuilder builder) {
         this.builder = builder;
+    }
+    
+    /**
+     * Convert a parameter value string to a well typed
+     * value than can be injected into a sparql query.
+     * Return null if the mapping can't be found
+     */
+    public RDFNode prepareParameterValue(String parameter, String value) {
+        ViewMap view = endpoint.getView();
+        if (view != null) {
+            ViewPath path = view.pathTo(parameter);
+            if (path != null) {
+                // A legal filter
+                request.consume(parameter);
+                ViewEntry entry = view.findEntry(path);
+                if (entry != null) {
+                    String type = entry.getTypeURI();
+                    if (type != null) {
+                        type = endpoint.getPrefixes().expandPrefix(type);
+                    }
+                    String valueBase = entry.getValueBase();
+                    if (valueBase != null) {
+                        valueBase = endpoint.getPrefixes().expandPrefix(valueBase);
+                    }
+                    if (valueBase != null && ! NameUtils.isURI(value)) {
+                        value = NameUtils.ensureLastSlash(valueBase) + value;
+                    }
+                    return TypeUtil.asTypedValue(value, type);
+                }
+            }
+        }
+        return null;
     }
     
     /**

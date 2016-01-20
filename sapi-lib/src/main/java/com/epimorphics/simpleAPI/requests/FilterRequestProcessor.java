@@ -41,23 +41,25 @@ public class FilterRequestProcessor implements RequestProcessor {
                         request.consume(parameter);
                         String varname = path.asVariableName();
                         ViewEntry entry = view.findEntry(path);
-                        String type = entry.getTypeURI();
-                        if (type != null) {
-                            type = spec.getPrefixes().expandPrefix(type);
-                        }
-                        String valueBase = entry.getValueBase();
-                        if (valueBase != null) {
-                            valueBase = spec.getPrefixes().expandPrefix(valueBase);
-                        }
-                        List<String> rawargs = request.get(parameter);
-                        if (rawargs.size() == 1) {
-                            builder = builder.filter(varname, asValue(rawargs.get(0), type, valueBase));
-                        } else {
-                            List<RDFNode> args = new ArrayList<>(rawargs.size());
-                            for (int i = 0; i < rawargs.size(); i++) {
-                                args.set(i, asValue(rawargs.get(i), type, valueBase));
+                        if (entry != null) {
+                            String type = entry.getTypeURI();
+                            if (type != null) {
+                                type = spec.getPrefixes().expandPrefix(type);
                             }
-                            builder = builder.filter(varname, args);
+                            String valueBase = entry.getValueBase();
+                            if (valueBase != null) {
+                                valueBase = spec.getPrefixes().expandPrefix(valueBase);
+                            }
+                            List<String> rawargs = request.get(parameter);
+                            if (rawargs.size() == 1) {
+                                builder = builder.filter(varname, asValue(rawargs.get(0), type, valueBase));
+                            } else {
+                                List<RDFNode> args = new ArrayList<>(rawargs.size());
+                                for (int i = 0; i < rawargs.size(); i++) {
+                                    args.set(i, asValue(rawargs.get(i), type, valueBase));
+                                }
+                                builder = builder.filter(varname, args);
+                            }
                         }
                     }
                 }
