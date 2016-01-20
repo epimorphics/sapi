@@ -48,6 +48,7 @@ public class ConfigConstants {
     public static final String FILTERABLE  = "filterable";
     public static final String PROP_TYPE   = "type";
     public static final String VALUE_BASE  = "valueBase";
+    public static final String SUPPRESSID  = "suppressID";
     
     public static final String GEO           = "geoSearch";
     public static final String GEO_PARAMETER = "parameter";

@@ -30,6 +30,13 @@ public class SimpleList extends EndpointsBase {
     }
 
     @GET
+    @Path("listSuppress")
+    @Produces({MediaType.APPLICATION_JSON, TURTLE, CSV, MediaType.TEXT_HTML})
+    public Response listTestSuppressed() {
+        return listResponse( getRequest(), "listTestSuppressed");
+    }
+
+    @GET
     @Path("listNested")
     @Produces({MediaType.APPLICATION_JSON, TURTLE, CSV, MediaType.TEXT_HTML})
     public Response listNested() {

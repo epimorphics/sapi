@@ -77,6 +77,7 @@ public class TestBaseEndToEnd extends TomcatTestBase {
 
         // CSV serialization
         checkGetCSV("basetest/list?_limit=2&_sort=@id", EXPECTED + "list-limit2-id.csv");
+        checkGetCSV("basetest/listSuppress?_limit=2&_sort=@id", EXPECTED + "list-limit2-suppress.csv");
         
         // HTML serialization
         checkResponseText(

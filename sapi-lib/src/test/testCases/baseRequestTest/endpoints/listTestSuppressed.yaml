@@ -1,0 +1,19 @@
+name      : listTestSuppressed
+type      : list
+baseQuery : "?id a skos:Concept ."
+template  : test.vm
+views :
+  default :
+    - "rdfs:label"
+    - "skos:notation"
+    - "eg:group"
+    - prop : "skos:narrower"
+      valueBase : "http://localhost/example/"
+      suppressID : true
+      nested :
+        - "rdfs:label"
+        - "skos:notation"
+        - "eg:group"
+  compact : compactView
+ 
+

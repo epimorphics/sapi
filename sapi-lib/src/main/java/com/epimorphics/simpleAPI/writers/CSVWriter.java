@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.jena.rdf.model.RDFNode;
@@ -23,6 +24,8 @@ import org.slf4j.LoggerFactory;
 import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.ResultStream;
 import com.epimorphics.simpleAPI.results.TreeResult;
+import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.util.EpiException;
 
@@ -91,9 +94,16 @@ public class CSVWriter {
      */
     public void write(TreeResult result) throws IOException {
         if (paths == null) {
-            paths = result.getSpec().getView().getAllPaths();
+            ViewMap viewmap = result.getSpec().getView();
+            paths = viewmap.getAllPaths();
             if (paths == null) {
                 throw new EpiException("Can't render tree to CSV without a view specification");
+            }
+            for (Iterator<ViewPath> i = paths.iterator(); i.hasNext();) {
+                ViewEntry entry = viewmap.findEntry(i.next());
+                if (entry != null && entry.isSuppressId()) {
+                    i.remove();
+                }
             }
             writeHeaders( result.getSpec().getAPI().isFullPathsInCSVHeaders() );
         }
