@@ -235,12 +235,12 @@ public class ViewTree implements Iterable<ViewEntry> {
     protected ViewPath pathTo(String name, ViewPath path) {
         for (ViewEntry child : this) {
             if (child.getJsonName().equals(name)) {
-                return path.add(name);
+                return path.withAdd(name);
             }
         }
         for (ViewEntry child : this) {
             if (child.isNested()) {
-                ViewPath fullPath = child.getNested().pathTo(name, path.add(child.getJsonName()));
+                ViewPath fullPath = child.getNested().pathTo(name, path.withAdd(child.getJsonName()));
                 if (fullPath != null) {
                     return fullPath;
                 }
