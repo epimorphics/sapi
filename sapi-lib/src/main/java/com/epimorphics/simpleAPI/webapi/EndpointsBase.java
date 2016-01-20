@@ -11,36 +11,70 @@ package com.epimorphics.simpleAPI.webapi;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Variant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.templates.VelocityRender;
+import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
+import com.epimorphics.simpleAPI.results.ResultOrStream;
 
 public class EndpointsBase {
-    public static final String FULL_MEDIA_TYPE_TURTLE = "text/turtle; charset=UTF-8";
-    public static final String MEDIA_TYPE_JSON_PRIORITY = "application/json;qs=2";
-    public static final String FULL_MEDIA_TYPE_CSV = "text/csv; charset=UTF-8";
-    public static final String MEDIA_TYPE_JSONLD = "application/ld+json";
-    public static final String MEDIA_TYPE_RDFXML = "application/rdf+xml";
+    public static final String TURTLE = "text/turtle; charset=UTF-8";
+    public static final String CSV = "text/csv; charset=UTF-8";
+    public static final String JSONLD = "application/ld+json";
+    public static final String RDFXML = "application/rdf+xml";
+    
+    public static MediaType TURTLE_TYPE;
+    public static MediaType CSV_TYPE;
+    public static MediaType JSONLD_TYPE;
+    public static MediaType RDFXML_TYPE;
+    public static  List<Variant> nonHtmlVariants;
+    
     public static final String CONTENT_DISPOSITION_HEADER = "Content-Disposition";
     public static final String CONTENT_DISPOSITION_FMT = "attachment; filename=\"%s.%s\"";
+    
+    static {
+        Map<String,String> nonPreferred = new HashMap<>();
+        nonPreferred.put("qs", "0.5");
+        
+        Map<String,String> nonPreferredUTF8 = new HashMap<>( nonPreferred );
+        nonPreferredUTF8.put("charset", "UTF-8");
+        
+        TURTLE_TYPE = new MediaType("text", "turtle", nonPreferredUTF8);
+        CSV_TYPE    = new MediaType("text", "csv", nonPreferredUTF8);
+        JSONLD_TYPE = new MediaType("application", "ld+json", nonPreferred);
+        RDFXML_TYPE = new MediaType("application", "rdf+xml", nonPreferred);
+        
+        nonHtmlVariants = Variant.mediaTypes(
+                MediaType.APPLICATION_JSON_TYPE,
+                TURTLE_TYPE,
+                RDFXML_TYPE,
+                JSONLD_TYPE,
+                CSV_TYPE).build();
+    }
     
     static final Logger log = LoggerFactory.getLogger( EndpointsBase.class );
     
@@ -50,6 +84,7 @@ public class EndpointsBase {
     protected @Context ServletContext context;
     protected @Context UriInfo uriInfo;
     protected @Context HttpServletRequest httprequest;
+    protected @Context javax.ws.rs.core.Request containerRequest;
 
     // ---- Generic access methods ---------------------------------
     
@@ -169,7 +204,18 @@ public class EndpointsBase {
     public Response respondWith(Object entity, int maxAge) {
         CacheControl cc = new CacheControl();
         cc.setMaxAge(maxAge);
-        return Response.ok(entity).cacheControl(cc).build();    
+        if (entity instanceof ResultOrStream) {
+            if ( ((ResultOrStream)entity).getCall().getTemplateName() == null) {
+                // No HTML rendering possible to perform dynamic content negotiation amongst the rest
+                Variant preferred = containerRequest.selectVariant(nonHtmlVariants);
+                if (preferred == null) {
+                    throw new WebApiException(Status.NOT_ACCEPTABLE, "Cannot provide that media type");
+                }
+                return Response.ok(entity).type(preferred.getMediaType()).cacheControl(cc).build();     
+            }
+        }
+        // Let normal message body lookup decide the best rendering
+        return Response.ok(entity).cacheControl(cc).build();     
     }
     
     // ---- Helpers for Velocity rendering ---------------------------------

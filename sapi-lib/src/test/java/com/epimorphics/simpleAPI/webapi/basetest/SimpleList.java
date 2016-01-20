@@ -24,14 +24,14 @@ public class SimpleList extends EndpointsBase {
 
     @GET
     @Path("list")
-    @Produces({MediaType.APPLICATION_JSON, FULL_MEDIA_TYPE_TURTLE, FULL_MEDIA_TYPE_CSV, MediaType.TEXT_HTML})
+    @Produces({MediaType.APPLICATION_JSON, TURTLE, CSV, MediaType.TEXT_HTML})
     public Response listTest2() {
         return listResponse( getRequest(), "listTest2");
     }
 
     @GET
     @Path("listNested")
-    @Produces({MediaType.APPLICATION_JSON, FULL_MEDIA_TYPE_TURTLE, FULL_MEDIA_TYPE_CSV, MediaType.TEXT_HTML})
+    @Produces({MediaType.APPLICATION_JSON, TURTLE, CSV, MediaType.TEXT_HTML})
     public Response listNested() {
         return listResponse( getRequest(), "listTestNest");
     }
