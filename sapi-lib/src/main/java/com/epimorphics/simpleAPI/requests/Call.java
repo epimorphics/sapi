@@ -95,7 +95,11 @@ public class Call {
      * Return the view to be used for this call
      */
     public ViewMap getView() {
-        return endpoint.getView( request.getViewName() );
+        if (request == null) {
+            return endpoint.getView();
+        } else {
+            return endpoint.getView( request.getViewName() );
+        }
     }
     
     /**
