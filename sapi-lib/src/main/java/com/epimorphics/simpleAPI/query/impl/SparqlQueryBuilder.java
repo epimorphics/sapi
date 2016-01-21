@@ -19,6 +19,7 @@ import java.util.Set;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.PrefixMapping;
 
+import com.epimorphics.simpleAPI.core.ConfigConstants;
 import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
@@ -30,6 +31,7 @@ import com.epimorphics.sparql.graphpatterns.Basic;
 import com.epimorphics.sparql.graphpatterns.Bind;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
+import com.epimorphics.sparql.query.As;
 import com.epimorphics.sparql.query.Order;
 import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.templates.Settings;
@@ -185,7 +187,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      */
     public String buildQueryBodyProjecting(String projection) {
         QueryShape qs = query.copy();
-        qs.addProjection(new Var(projection));
+        qs.addProjection(new As(new Var(ConfigConstants.ROOT_VAR), new Var(projection)));
         return qs.toSparqlSelect(new Settings());
     }
 }
