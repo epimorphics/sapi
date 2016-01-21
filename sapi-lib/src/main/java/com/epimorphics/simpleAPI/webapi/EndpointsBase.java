@@ -80,6 +80,7 @@ public class EndpointsBase {
     
     protected VelocityRender velocity;
     protected API api;
+    protected Request request;
     
     protected @Context ServletContext context;
     protected @Context UriInfo uriInfo;
@@ -123,7 +124,10 @@ public class EndpointsBase {
      * Return the full request including parameters
      */
     public Request getRequest() {
-        return Request.from(getAPI(), uriInfo, httprequest);
+        if (request == null) {
+            request = Request.from(getAPI(), uriInfo, httprequest); 
+        }
+        return request;
     }
     
     /**
