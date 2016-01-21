@@ -62,7 +62,7 @@ public class RDFResult extends ResultBase implements Result {
             Statement s = i.next();
             String key = getCall().getAPI().getDefaultViewForURI( s.getPredicate().getURI() ).getJsonName();
             RDFNode value = s.getObject();
-            if (value.isResource()) {
+            if (value.isResource() && !seen.contains(value)) {
                 result.add(key, fromResource(value.asResource(), seen));
             } else {
                 result.add(key,  value);
