@@ -21,6 +21,8 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.ResultStream;
 import com.epimorphics.simpleAPI.results.TreeResult;
@@ -94,7 +96,9 @@ public class CSVWriter {
      */
     public void write(TreeResult result) throws IOException {
         if (paths == null) {
-            ViewMap viewmap = result.getSpec().getView();
+            Call call = result.getCall();
+            EndpointSpec spec = call.getEndpoint();
+            ViewMap viewmap = spec.getView( call.getRequest().getViewName() );
             paths = viewmap.getAllPaths();
             if (paths == null) {
                 throw new EpiException("Can't render tree to CSV without a view specification");
@@ -105,8 +109,9 @@ public class CSVWriter {
                     i.remove();
                 }
             }
-            writeHeaders( result.getSpec().getAPI().isFullPathsInCSVHeaders() );
+            writeHeaders( spec.getAPI().isFullPathsInCSVHeaders() );
         }
+        
         StringBuffer buf = new StringBuffer();
         boolean started = false;
         for (ViewPath path : paths) {
