@@ -214,6 +214,14 @@ public class Request {
     }
     
     /**
+     * Unconsume a parameter. Useful when temporarily hiding
+     * parameters from some processing
+     */
+    public void unhide(String parameter) {
+        consumed.remove(parameter);
+    }
+    
+    /**
      * Return all parameters that have not be consumed
      */
     public List<String> getRemainingParameters() {
