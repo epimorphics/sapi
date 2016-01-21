@@ -40,7 +40,7 @@ public class JsonWriterUtil {
 
     public static void writeResult(TreeResult result, JSFullWriter out) {
         EndpointSpec spec = result.getCall().getEndpoint();
-        ViewMap view = spec.getView();
+        ViewMap view = result.getCall().getView();
         writeResult(result, view == null ? null : view.getTree(), spec.getAPI(), out);
     }
     

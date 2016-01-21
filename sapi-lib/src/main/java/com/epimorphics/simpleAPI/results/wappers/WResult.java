@@ -63,7 +63,7 @@ public class WResult {
     // TODO This is a near clone of JsonWriterUtil - replace with a generic Visitor pattern shared implementation?
     public static WJSONObject wrap(TreeResult result) {
         EndpointSpec spec = result.getCall().getEndpoint();
-        ViewMap view = spec.getView();
+        ViewMap view = result.getCall().getView();
         return wrap(result, view == null ? null : view.getTree(), spec.getAPI());
     }
     

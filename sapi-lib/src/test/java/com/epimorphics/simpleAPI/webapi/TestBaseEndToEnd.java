@@ -53,6 +53,7 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         checkGet("basetest/list?group=B&_limit=2&_sort=label", EXPECTED + "list-filterB-limit2.json");
         
         checkGet("basetest/list?_view=compact&_limit=2&_sort=label", EXPECTED + "list-compact-limit2.json");
+        checkGet("basetest/list?_view=expanded&_limit=2&_sort=label", EXPECTED + "list-expanded-limit2.json");
         
         checkGet("default/test3?_sort=label", EXPECTED + "list-default-test3.json");
         checkGet("default/test4/B?_sort=label", EXPECTED + "list-default-test4-B.json");
@@ -64,7 +65,7 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         checkGet("basetest/list?narrower=A1", EXPECTED + "list-filter-A1local.json");
         
         // Check version with extra nest level
-        checkGet("basetest/listNested?narrower=A1", null);
+        checkGet("basetest/listNested?narrower=A1", EXPECTED + "list-nested-A1.json");
         
         // Describe checks
         checkGet("example/A2",  EXPECTED + "describe-A2.json");

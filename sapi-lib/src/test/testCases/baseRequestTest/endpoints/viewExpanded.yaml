@@ -1,9 +1,6 @@
-name      : listTest2
-type      : list
-baseQuery : "?id a skos:Concept ."
-template  : test.vm
-views :
-  default :
+name: expandedView
+type: view
+view :
     - "rdfs:label"
     - "skos:notation"
     - "eg:group"
@@ -13,8 +10,4 @@ views :
         - "rdfs:label"
         - "skos:notation"
         - "eg:group"
-  compact : compactView
-  expanded : expandedView
- 
- 
-
+        - "skos:narrower"

@@ -44,7 +44,7 @@ public class ResultStreamSparqlSelect extends ResultStreamBase implements Result
     }
 
     public ViewMap getView() {
-        return getSpec().getView();
+        return call.getView();
     }
 
     @Override

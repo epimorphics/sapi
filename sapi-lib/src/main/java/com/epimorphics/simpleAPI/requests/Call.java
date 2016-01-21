@@ -92,12 +92,19 @@ public class Call {
     }
     
     /**
+     * Return the view to be used for this call
+     */
+    public ViewMap getView() {
+        return endpoint.getView( request.getViewName() );
+    }
+    
+    /**
      * Convert a parameter value string to a well typed
      * value than can be injected into a sparql query.
      * Return null if the mapping can't be found
      */
     public RDFNode prepareParameterValue(String parameter, String value) {
-        ViewMap view = endpoint.getView();
+        ViewMap view = getView();
         if (view != null) {
             ViewPath path = view.pathTo(parameter);
             if (path != null) {

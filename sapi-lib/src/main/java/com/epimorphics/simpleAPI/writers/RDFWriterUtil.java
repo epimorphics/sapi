@@ -31,7 +31,7 @@ public class RDFWriterUtil {
 
     public static Resource writeResult(TreeResult result, Model model) {
         EndpointSpec spec = result.getCall().getEndpoint();
-        ViewMap view = spec.getView();
+        ViewMap view = result.getCall().getView();
         if (view == null) {
             throw new EpiException("Can't format as RDF output without an explicit view map");
         }

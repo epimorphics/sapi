@@ -33,7 +33,7 @@ public class FilterRequestProcessor implements RequestProcessor {
             EndpointSpec spec) {
         for (String parameter : request.getRemainingParameters()) {
             if ( !parameter.startsWith("_") ) {
-                ViewMap view = spec.getView();
+                ViewMap view = spec.getView( request.getViewName() );
                 if (view != null) {
                     ViewPath path = view.pathTo(parameter);
                     if (path != null) {

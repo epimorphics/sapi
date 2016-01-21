@@ -36,7 +36,7 @@ public class SortRequestProcessor extends RequestProcessorBase {
                     down = true;
                     sort = sort.substring(1).trim();
                 }
-                String sortVar = spec.getView().asVariableName(sort);
+                String sortVar = spec.getView( request.getViewName() ).asVariableName(sort);
                 if (sortVar == null) {
                     throw new WebApiException(Status.BAD_REQUEST, "Did not recognize parameter to sort on: " + sort);
                 }
