@@ -176,4 +176,16 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
         String expanded = PrefixUtils.expandQuery(queryString, prefixes);
 		return new SparqlSelectQuery( expanded );
     }
+    
+    /**
+     * Experimental facility to allow one query builder to be used to create
+     * an inner select for use in another query
+     * @param projection the variable to project out
+     * @return
+     */
+    public String buildQueryBodyProjecting(String projection) {
+        QueryShape qs = query.copy();
+        qs.addProjection(new Var(projection));
+        return qs.toSparqlSelect(new Settings());
+    }
 }
