@@ -80,12 +80,20 @@ public class ConfigSpecFactory {
                 if (jo.hasKey(MAPPING)) {
                     config = ViewMap.parseFromJson(api, api.getPrefixes(), jo.get(MAPPING));
                 } else if (jo.hasKey(VIEW)) {
+                    try {
                         config = ViewMap.parseFromJson(api, api.getPrefixes(), jo.get(VIEW));
+                    } catch (EpiException e) {
+                        throw new EpiException("Problem parsing " + filename + ": " + e.getMessage());
+                    }
                 } else {
                     throw new EpiException("Illegal view specification, no mapping declared: " + filename);                    
                 }
             } else if ( TYPE_ITEM.equals(type) || TYPE_LIST.equals(type) ) {
-                config = EndpointSpecFactory.parse(api, filename, json);
+                try {
+                    config = EndpointSpecFactory.parse(api, filename, json);
+                } catch (EpiException e) {
+                    throw new EpiException("Problem parsing " + filename + ": " + e.getMessage());
+                }
             } else {
                 throw new EpiException("Illegal config specification, no type declared: " + filename);
             }
