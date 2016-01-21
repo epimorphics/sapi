@@ -47,23 +47,7 @@ import com.epimorphics.util.PrefixUtils;
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class SparqlQueryBuilder implements ListQueryBuilder {
-	
-    public static final String INJECT_MARKER = "#$INJECT$";
-    public static final String FILTER_MARKER = "#$FILTER$";
-    public static final String MODIFIER_MARKER = "#$MODIFIER$";
-    public static final String SORT_MARKER = "#$SORT$";
-    public static final String SORT_X_MARKER = "#$SORTX$";
-    
-    public static final String GENERIC_TEMPLATE =
-            "SELECT * WHERE {\n"
-            + "    #$INJECT$\n"
-            + "    #$FILTER$\n"
-            + "}\n"
-            + "#$SORT$\n"
-            + "#$MODIFIER$\n";
-    
     protected QueryShape query;
-    
     protected PrefixMapping prefixes = PrefixMapping.Factory.create();
 
     protected SparqlQueryBuilder(QueryShape query, PrefixMapping prefixes) {
