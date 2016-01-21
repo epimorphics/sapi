@@ -236,7 +236,16 @@ public class API extends ComponentBase implements Startup {
      * @throws NotFoundException if no endpoint matches 
      */
     public Call getCall(UriInfo uriInfo, HttpServletRequest servletRequest) {
-        return monitor.getCall(uriInfo, Request.from(this, uriInfo, servletRequest));
+        return getCall(uriInfo, Request.from(this, uriInfo, servletRequest));
+    }
+    
+    /**
+     * Set up a call based on a simple GET request. Looks up the endpoint in the 
+     * register of templates and extracts the request parameters.
+     * @throws NotFoundException if no endpoint matches 
+     */
+    public Call getCall(UriInfo uriInfo, Request request) {
+        return monitor.getCall(uriInfo, request);
     }
     
     /**
@@ -245,21 +254,28 @@ public class API extends ComponentBase implements Startup {
      * @throws NotFoundException if no endpoint matches 
      */
     public Call getCall(UriInfo uriInfo, HttpServletRequest servletRequest, String requestBody) {
-        return monitor.getCall(uriInfo, Request.from(this, uriInfo, servletRequest, requestBody));
+        return getCall(uriInfo, Request.from(this, uriInfo, servletRequest, requestBody));
     }
     
     /**
      * Set up a call based on a simple GET request 
      */
     public Call getCall(String endpoint, UriInfo uriInfo, HttpServletRequest servletRequest) {
-        return new Call(this, endpoint, Request.from(this, uriInfo, servletRequest));
+        return getCall(endpoint, Request.from(this, uriInfo, servletRequest));
+    }
+    
+    /**
+     * Set up a call based on a simple GET request 
+     */
+    public Call getCall(String endpoint, Request request) {
+        return new Call(this, endpoint, request);
     }
     
     /**
      * Set up a call based on a POST request using the named endpoint specification
      */
     public Call getCall(String endpoint, UriInfo uriInfo, HttpServletRequest servletRequest, String requestBody) {
-        return new Call(this, endpoint, Request.from(this, uriInfo, servletRequest, requestBody));
+        return getCall(endpoint, Request.from(this, uriInfo, servletRequest, requestBody));
     }
     
     // ---- Support for request processing handlers ------------------------------------

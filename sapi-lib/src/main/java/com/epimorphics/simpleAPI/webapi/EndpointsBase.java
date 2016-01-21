@@ -134,7 +134,10 @@ public class EndpointsBase {
      * Return the full request including query parameters and posted (JSON) body
      */
     public Request getRequest(String body) {
-        return Request.from(getAPI(), uriInfo, httprequest, body);
+        if (request == null) {
+            request = Request.from(getAPI(), uriInfo, httprequest, body);
+        }
+        return request;
     }
     
     /**
@@ -142,7 +145,7 @@ public class EndpointsBase {
      */
     public Call getCall() {
         try {
-            return getAPI().getCall(uriInfo, httprequest);
+            return getAPI().getCall(uriInfo, getRequest() );
         } catch (NotFoundException e) {
             EndpointSpec defaultEndpoint = new SparqlEndpointSpec(getAPI());
             return new Call(defaultEndpoint, getRequest());
@@ -153,7 +156,7 @@ public class EndpointsBase {
      * Return a call package containing the specified endpoint and the request
      */
     public Call getCall(String endpoint) {
-        return getAPI().getCall(endpoint, uriInfo, httprequest);
+        return getAPI().getCall(endpoint, getRequest());
     }
     
     // ---- Standard list endpoint handling ---------------------------------
