@@ -27,7 +27,7 @@ public class SortRequestProcessor extends RequestProcessorBase {
     @Override
     public ListQueryBuilder process(Request request, ListQueryBuilder builder,
             EndpointSpec spec) {
-        if (request.hasParameter(SORT)) {
+        if (request.hasAvailableParameter(SORT)) {
             for (String sort : request.get(SORT)) {
                 boolean down = false;
                 if (sort.startsWith("+")) {

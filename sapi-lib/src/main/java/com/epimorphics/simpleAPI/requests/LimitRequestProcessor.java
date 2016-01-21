@@ -26,7 +26,7 @@ public class LimitRequestProcessor extends RequestProcessorBase {
     public ListQueryBuilder process(Request request, ListQueryBuilder builder, EndpointSpec spec) {
         if (spec instanceof ListEndpointSpec) {
             ListEndpointSpec lspec = (ListEndpointSpec)spec;
-            if (request.hasParameter(LIMIT) || request.hasParameter(OFFSET)) {
+            if (request.hasAvailableParameter(LIMIT) || request.hasAvailableParameter(OFFSET)) {
                 long limit = Long.MAX_VALUE;
                 if (request.hasParameter(LIMIT)) {
                     limit = request.getAsLong(LIMIT);
