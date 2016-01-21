@@ -15,6 +15,7 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
 
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.rdfutil.TypeUtil;
@@ -142,10 +143,18 @@ public class Call {
     public ResultOrStream getResults() {
         Query query = getQueryBuilder().build();
         checkRequestRecognized();
-        if (query instanceof ListQuery) {
-            return getAPI().getSource().query((ListQuery)query, this);
-        } else {
-            return getAPI().getSource().query((ItemQuery)query, this);
+        try {
+            if (query instanceof ListQuery) {
+                return getAPI().getSource().query((ListQuery)query, this);
+            } else {
+                return getAPI().getSource().query((ItemQuery)query, this);
+            }
+        } catch (QueryExceptionHTTP e) {
+            if (e.getResponseCode() == 503) {
+                throw new WebApiException(e.getResponseCode(), "Query timed out");
+            } else {
+                throw new WebApiException(e.getResponseCode(), e.getMessage());
+            }
         }
     }
     
