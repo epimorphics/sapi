@@ -56,7 +56,7 @@ public class FilterRequestProcessor implements RequestProcessor {
                             } else {
                                 List<RDFNode> args = new ArrayList<>(rawargs.size());
                                 for (int i = 0; i < rawargs.size(); i++) {
-                                    args.set(i, asValue(rawargs.get(i), type, valueBase));
+                                    args.add(i, asValue(rawargs.get(i), type, valueBase));
                                 }
                                 builder = builder.filter(varname, args);
                             }
