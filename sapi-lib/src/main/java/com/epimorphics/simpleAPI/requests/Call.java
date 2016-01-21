@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
+import org.apache.jena.sparql.resultset.ResultSetException;
 
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.rdfutil.TypeUtil;
@@ -155,6 +156,8 @@ public class Call {
             } else {
                 throw new WebApiException(e.getResponseCode(), e.getMessage());
             }
+        } catch (ResultSetException e2) {
+            throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Bad response from data server, probably query timeout in mid flight");
         }
     }
     
