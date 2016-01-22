@@ -38,7 +38,7 @@ public abstract class ResultStreamBase implements ResultStream {
 
     @Override
     public void close() {
-        // Defalt is to do nothing
+        // Default is to do nothing
     }
 
 }
