@@ -182,6 +182,18 @@ public class Request {
     }
     
     /**
+     * Return a single value for the given parameter as a boolean (with the given default)
+     */
+    public boolean getAsBoolean(String parameter, boolean dflt) {
+        String value = parameters.getFirst(parameter);
+        if (value != null) {
+            return value.equalsIgnoreCase("true");
+        } else {
+            return dflt;
+        }
+    }
+    
+    /**
      * Return a single value for the given parameter as a lucene query.
      * Assumes the request is a set of strings and returns a conjunctive
      * wildcard query over them, with ' characters escape for embedding in SPARQL.
