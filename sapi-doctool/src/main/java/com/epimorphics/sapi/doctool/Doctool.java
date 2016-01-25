@@ -21,10 +21,6 @@ import java.util.Map;
 import org.apache.jena.riot.RDFDataMgr;
 
 import com.epimorphics.rdfutil.RDFUtil;
-import com.epimorphics.simpleAPI.attic.core.EndpointSpec;
-import com.epimorphics.simpleAPI.attic.core.EndpointSpecFactory;
-import com.epimorphics.simpleAPI.attic.core.JSONMap;
-import com.epimorphics.simpleAPI.attic.core.impl.JSONMapEntry;
 import com.epimorphics.util.NameUtils;
 import com.epimorphics.vocabs.SKOS;
 import org.apache.jena.rdf.model.Model;
@@ -60,8 +56,9 @@ public class Doctool {
         
         File specDir = new File( args[1] );
         for (String specfn : specDir.list()) {
-            EndpointSpec spec = EndpointSpecFactory.read(null, new File(specDir, specfn).getPath());
-            generateDataTable(NameUtils.removeExtension(specfn), spec, vocabulary);
+            // TODO port to sapi2
+//            EndpointSpec spec = EndpointSpecFactory.read(null, new File(specDir, specfn).getPath());
+//            generateDataTable(NameUtils.removeExtension(specfn), spec, vocabulary);
         }
     }
     
@@ -109,7 +106,7 @@ public class Doctool {
     private static String asComment(Statement s) {
         return s.getObject().asLiteral().getLexicalForm();
     }
-
+/*
     public static void generateDataTable(String specname, EndpointSpec spec, Model vocabulary) throws IOException {
         JSONMap mapping = spec.getMap();
         if (mapping == null) return;
@@ -179,5 +176,6 @@ public class Doctool {
         
         return nested;
     }
+    */
 }
 
