@@ -185,8 +185,12 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * @param projection the variable to project out
      * @return
      */
-    public String buildQueryBodyProjecting(String projection) {
+    public String buildQueryBodyProjecting(String projection, boolean removeLimits) {
         QueryShape qs = query.copy();
+        if (removeLimits){
+            qs.setLimit(-1);
+            qs.setOffset(-1);
+        }
         qs.addProjection(new As(new Var(ConfigConstants.ROOT_VAR), new Var(projection)));
         return qs.toSparqlSelect(new Settings());
     }
