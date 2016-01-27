@@ -12,6 +12,7 @@ package com.epimorphics.simpleAPI.requests;
 import java.util.List;
 
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.jena.rdf.model.RDFNode;
@@ -164,8 +165,12 @@ public class Call {
         } catch (ResultSetException e2) {
             throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Bad response from data server, probably query timeout in mid flight");
         } catch (Exception e3) {
-            log.error("Query problem: " + e3.getMessage());
-            throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Problem with query processing: " + e3);
+            if ( !(e3 instanceof WebApplicationException) ) {
+                log.error("Query problem: " + e3.getMessage());
+                throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Problem with query processing: " + e3);
+            } else {
+                throw e3;
+            }
         }
     }
     
