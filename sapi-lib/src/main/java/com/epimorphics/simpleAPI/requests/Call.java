@@ -17,6 +17,8 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
 import org.apache.jena.sparql.resultset.ResultSetException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.rdfutil.TypeUtil;
@@ -40,6 +42,8 @@ import com.epimorphics.util.NameUtils;
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class Call {
+    static Logger log = LoggerFactory.getLogger( Call.class );
+    
     protected EndpointSpec endpoint;
     protected Request request;
     protected String templateName;
@@ -154,10 +158,14 @@ public class Call {
             if (e.getResponseCode() == 503) {
                 throw new WebApiException(e.getResponseCode(), "Query timed out");
             } else {
-                throw new WebApiException(e.getResponseCode(), e.getMessage());
+                log.error("Odd query reponse: " + e.getMessage());
+                throw new WebApiException(Status.INTERNAL_SERVER_ERROR, e.getMessage());
             }
         } catch (ResultSetException e2) {
             throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Bad response from data server, probably query timeout in mid flight");
+        } catch (Exception e3) {
+            log.error("Query problem: " + e3.getMessage());
+            throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Problem with query processing: " + e3);
         }
     }
     
