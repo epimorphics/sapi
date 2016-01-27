@@ -225,6 +225,15 @@ public class EndpointsBase {
         return Response.ok(entity).cacheControl(cc).build();     
     }
     
+    /**
+     * Return a "no cache" cache control setting
+     */
+    public CacheControl noCache() {
+        CacheControl cc = new CacheControl();
+        cc.setNoCache(true);
+        return cc;
+    }
+    
     // ---- Helpers for Velocity rendering ---------------------------------
 
     // TODO review context setting
