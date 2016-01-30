@@ -60,7 +60,7 @@ public class WJSONObject extends HashMap<String, Object> implements Map<String, 
         return get(LABEL_FIELD);
     }
     
-    public Object getname() {
+    public Object getName() {
         return getLabel();
     }
 }
