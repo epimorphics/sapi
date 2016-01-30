@@ -70,6 +70,8 @@ public class API extends ComponentBase implements Startup {
     protected String comment;
     protected int  maxAge = 60;
     protected SpecMonitor monitor;
+    protected String defaultItemTemplate;
+    protected String defaultListTemplate;
     
     protected boolean showLang = false;
     protected String showOnlyLang;
@@ -427,6 +429,22 @@ public class API extends ComponentBase implements Startup {
         this.fullPathsInCSVHeaders = fullPathsInCSVHeaders;
     }
     
+    public String getDefaultItemTemplate() {
+        return defaultItemTemplate;
+    }
+
+    public void setDefaultItemTemplate(String defaultItemTemplate) {
+        this.defaultItemTemplate = defaultItemTemplate;
+    }
+
+    public String getDefaultListTemplate() {
+        return defaultListTemplate;
+    }
+
+    public void setDefaultListTemplate(String defaultListTemplate) {
+        this.defaultListTemplate = defaultListTemplate;
+    }
+
 
     // ---- Internals -----------------------------------------------
 

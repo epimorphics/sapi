@@ -9,10 +9,15 @@
 
 package com.epimorphics.simpleAPI.results.wappers;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.jena.rdf.model.Resource;
+
+import com.epimorphics.rdfutil.RDFUtil;
 
 import static com.epimorphics.simpleAPI.writers.JsonWriterUtil.*;
 
@@ -56,8 +61,25 @@ public class WJSONObject extends HashMap<String, Object> implements Map<String, 
         return false;
     }
     
+    public List<String> getOrderedFields() {
+        List<String> keys = new ArrayList<>(keySet());
+        keys.remove(ID_FIELD);
+        Collections.sort(keys);
+        return keys;
+    }
+    
     public Object getLabel() {
-        return get(LABEL_FIELD);
+        Object label = get(LABEL_FIELD);
+        if (label == null) {
+           String uri = getURI();
+           if (uri != null) {
+               label = RDFUtil.getLocalname(uri);
+           }
+        }
+        if (label == null) {
+            label = "[]";
+        }
+        return label;
     }
     
     public Object getName() {

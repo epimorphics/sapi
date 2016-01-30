@@ -151,8 +151,14 @@ public class Call {
         checkRequestRecognized();
         try {
             if (query instanceof ListQuery) {
+                if (getTemplateName() == null) {
+                    templateName = getAPI().getDefaultListTemplate();
+                }
                 return getAPI().getSource().query((ListQuery)query, this);
             } else {
+                if (getTemplateName() == null) {
+                    templateName = getAPI().getDefaultItemTemplate();
+                }
                 return getAPI().getSource().query((ItemQuery)query, this);
             }
         } catch (QueryExceptionHTTP e) {

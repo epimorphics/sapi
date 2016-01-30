@@ -22,6 +22,7 @@ import com.epimorphics.rdfutil.ModelWrapper;
 import com.epimorphics.rdfutil.RDFNodeWrapper;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.results.RDFResult;
 import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.TreeResult;
 import com.epimorphics.simpleAPI.views.ViewEntry;
@@ -47,13 +48,13 @@ public class WResult {
         if (result instanceof TreeResult) {
             return wrap((TreeResult)result);
         } else {
-            // TODO implement via JSON translation?
-            throw new EpiException("Can't yet convert a raw RDF resource to wapped JSON, used asRDF()");
+            return wrap( ((RDFResult)result).asTreeResult() );
         }
     }
 
     public RDFNodeWrapper asRDF() {
         Resource resource = result.asResource();
+        resource.getModel().setNsPrefixes( API.get().getPrefixes() );
         ModelWrapper modelw = new ModelWrapper(resource.getModel());
         return new RDFNodeWrapper(modelw, resource);
     }
