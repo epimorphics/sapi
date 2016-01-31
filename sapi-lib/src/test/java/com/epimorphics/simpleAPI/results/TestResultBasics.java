@@ -111,6 +111,12 @@ public class TestResultBasics {
         resource = stream.next().asResource();
         assertEquals( "http://localhost/example/A1", resource.getURI() );
         assertTrue( resource.getModel().isIsomorphicWith( RDFDataMgr.loadModel(EXPECTED + "r2.ttl") ) );
+        
+        // RDF rendering with nesting
+        stream = (ResultStream) api.getCall("listTest5", new MockUriInfo("test?_sort=@id"), null).getResults();
+        resource = stream.next().asResource();
+        assertEquals( "http://localhost/example/F", resource.getURI() );
+        assertTrue( resource.getModel().isIsomorphicWith( RDFDataMgr.loadModel(EXPECTED + "f.ttl") ) );
     }
     
     @Test

@@ -45,9 +45,13 @@ public class RDFWriterUtil {
             Property prop = model.createProperty( entry.getProperty().getURI() );
             for (Object value : result.getValues(key)) {
                 if (value instanceof TreeResult) {
-                    Resource sub = writeResult((TreeResult)value, tree, api, model);
-                    root.addProperty(prop, sub);
-                } if (value instanceof RDFNode) {
+                    if (entry.isNested()) {
+                        Resource sub = writeResult((TreeResult)value, entry.getNested(), api, model);
+                        root.addProperty(prop, sub);
+                    } else {
+                        throw new EpiException("Inconsitency between view and result tree structure");
+                    }
+                } else if (value instanceof RDFNode) {
                     root.addProperty(prop, (RDFNode)value);
                 }
             }
