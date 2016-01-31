@@ -156,4 +156,14 @@ public class WJSONObject {
     public Object getName() {
         return getLabel();
     }
+    
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof WJSONObject && this.properties.equals(((WJSONObject)other).properties);
+    }
+    
+    @Override
+    public int hashCode() {
+        return properties.hashCode();
+    }
 }
