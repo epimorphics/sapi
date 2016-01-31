@@ -32,6 +32,10 @@ public class WJSONArray extends ArrayList<Object> implements List<Object>{
         return false;
     }
     
+    public boolean isAnon() {
+        return false;
+    }
+    
     public boolean isLangString() {
         return false;
     }
