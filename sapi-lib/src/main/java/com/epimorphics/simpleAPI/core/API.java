@@ -70,6 +70,7 @@ public class API extends ComponentBase implements Startup {
     protected String comment;
     protected int  maxAge = 60;
     protected SpecMonitor monitor;
+    protected boolean htmlNonDefault = false;
     protected String defaultItemTemplate;
     protected String defaultListTemplate;
     
@@ -128,16 +129,19 @@ public class API extends ComponentBase implements Startup {
         }
     }
     
-    protected static List<String> getFormats(String requestURI, String skipFormat) {
+    protected List<String> getFormats(String requestURI, String skipFormat) {
         List<String> formats = new ArrayList<>();
+        Matcher m = URIPAT.matcher(requestURI);
+        String base = m.matches() ? m.group(1) : requestURI;
+        String rest = (m.matches() && m.group(3) != null) ? m.group(3) : "";
         for (String format : supportedFormats) {
             if (skipFormat.equals(format))
                 continue;
-            Matcher m = URIPAT.matcher(requestURI);
-            String base = m.matches() ? m.group(1) : requestURI;
-            String rest = (m.matches() && m.group(3) != null) ? m.group(3) : "";
             String url = base + "." + format + rest;
             formats.add(url);
+        }
+        if ( isHtmlSupported() ) {
+            formats.add(base + ".html" + rest);
         }
         return formats;
     }
@@ -443,6 +447,25 @@ public class API extends ComponentBase implements Startup {
 
     public void setDefaultListTemplate(String defaultListTemplate) {
         this.defaultListTemplate = defaultListTemplate;
+    }
+    
+    /**
+     * Set HTML support to "true" (full support with normal conneg), "false" (suppressed, no HTML render)
+     * or "nonDefault" (returned only it html is the only format accepted)
+     */
+    public void setHtmlNonDefault(boolean support) {
+        this.htmlNonDefault = support;
+    }
+    
+    /**
+     * Regard HTML as supported if there's a default template or we've explicit set it is supported-but-not-default
+     */
+    public boolean isHtmlSupported() {
+        return defaultItemTemplate != null || defaultListTemplate != null || htmlNonDefault;
+    }
+    
+    public boolean isHtmlNonDefault() {
+        return htmlNonDefault;
     }
 
 

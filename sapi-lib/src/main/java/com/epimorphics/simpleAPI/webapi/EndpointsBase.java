@@ -212,13 +212,18 @@ public class EndpointsBase {
         CacheControl cc = new CacheControl();
         cc.setMaxAge(maxAge);
         if (entity instanceof ResultOrStream) {
-            if ( ((ResultOrStream)entity).getCall().getTemplateName() == null) {
+            if ( ((ResultOrStream)entity).getCall().getTemplateName() == null || api.isHtmlNonDefault()) {
                 // No HTML rendering possible to perform dynamic content negotiation amongst the rest
                 Variant preferred = containerRequest.selectVariant(nonHtmlVariants);
                 if (preferred == null) {
-                    throw new WebApiException(Status.NOT_ACCEPTABLE, "Cannot provide that media type");
+                    if (api.isHtmlNonDefault()) {
+                        // No alternative to HTML to fall through to default
+                    } else {
+                        throw new WebApiException(Status.NOT_ACCEPTABLE, "Cannot provide that media type");
+                    }
+                } else {
+                    return Response.ok(entity).type(preferred.getMediaType()).cacheControl(cc).build();
                 }
-                return Response.ok(entity).type(preferred.getMediaType()).cacheControl(cc).build();     
             }
         }
         // Let normal message body lookup decide the best rendering
