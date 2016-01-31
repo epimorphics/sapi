@@ -52,7 +52,11 @@ public class FilterRequestProcessor implements RequestProcessor {
                             }
                             List<String> rawargs = request.get(parameter);
                             if (rawargs.size() == 1) {
-                                builder = builder.filter(varname, asValue(rawargs.get(0), type, valueBase));
+                                if (!rawargs.get(0).equals("*")) {
+                                    builder = builder.filter(varname, asValue(rawargs.get(0), type, valueBase));
+                                } else {
+                                    // Wildcard filter, silently ignore
+                                }
                             } else {
                                 List<RDFNode> args = new ArrayList<>(rawargs.size());
                                 for (int i = 0; i < rawargs.size(); i++) {
