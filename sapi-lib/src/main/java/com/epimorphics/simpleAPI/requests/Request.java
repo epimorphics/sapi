@@ -28,6 +28,7 @@ import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
 import org.glassfish.jersey.internal.util.collection.MultivaluedStringMap;
 
+import com.epimorphics.appbase.templates.URLBuilder;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
@@ -41,7 +42,8 @@ import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 public class Request {
     public static final String VIEW_KEY = "_view";
     
-    public static final String BINDING_KEY_URI = "uri";
+    public static final String BINDING_KEY_URI = "uri";   // base URI as a string
+    public static final String BINDING_KEY_URL = "url";   // full URL, with query, as a builder
     public static final String BINDING_KEY_REQUEST = "request";
     public static final String BINDING_KEY_BASEURI = "baseURI";
     
@@ -318,6 +320,11 @@ public class Request {
         Request request = new Request(requestedURI, uriInfo.getQueryParameters());
         request.addAll(uriInfo.getPathParameters());
         request.addRenderBinding(BINDING_KEY_REQUEST, servletRequest);
+        String fullURL = servletRequest.getRequestURI();
+        if ( servletRequest.getQueryString() != null ) {
+            fullURL += "?" + servletRequest.getQueryString();
+        }
+        request.addRenderBinding(BINDING_KEY_URL, new URLBuilder(fullURL));
         String baseURI = api.getBaseURI();
         if (uriInfo != null && uriInfo.getBaseUri() != null) {
             String requestBase = uriInfo.getBaseUri().toString();
