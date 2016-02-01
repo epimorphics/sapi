@@ -30,6 +30,7 @@ import org.apache.jena.vocabulary.RDFS;
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.core.ComponentBase;
+import com.epimorphics.appbase.core.GenericConfig;
 import com.epimorphics.appbase.core.Startup;
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
@@ -77,6 +78,8 @@ public class API extends ComponentBase implements Startup {
     protected boolean showLang = false;
     protected String showOnlyLang;
     protected boolean fullPathsInCSVHeaders = false;
+    
+    protected GenericConfig configExtensions = new GenericConfig();
     
     protected List<RequestProcessor> requestProcessors = new ArrayList<>();
     protected List<RequestProcessor> allRequestProcessors;
@@ -468,9 +471,16 @@ public class API extends ComponentBase implements Startup {
         return htmlNonDefault;
     }
 
+    public GenericConfig getConfigExtensions() {
+        return configExtensions;
+    }
+
+    public void setConfigExtensions(GenericConfig configExtensions) {
+        this.configExtensions = configExtensions;
+    }
+    
 
     // ---- Internals -----------------------------------------------
-
 
     private void condOut(JSFullWriter out, String key, String value) {
         if (value != null) {
