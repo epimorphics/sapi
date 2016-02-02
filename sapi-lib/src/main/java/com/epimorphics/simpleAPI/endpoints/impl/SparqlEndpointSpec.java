@@ -69,8 +69,10 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
     */
     protected QueryShape createQueryShape() {
     	QueryShape q = new QueryShape();
-    	AppTransforms at = (AppTransforms) api.getApp().getComponent("apptransforms");
-    	if (at != null) q.getTransforms().addAll(at.transforms);
+    	if (api != null) {
+        	AppTransforms at = (AppTransforms) api.getApp().getComponent("apptransforms");
+        	if (at != null) q.getTransforms().addAll(at.transforms);
+    	}
     	return q;    	
     }
 

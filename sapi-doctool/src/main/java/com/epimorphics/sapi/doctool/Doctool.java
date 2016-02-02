@@ -21,23 +21,28 @@ import java.util.Map;
 import org.apache.jena.riot.RDFDataMgr;
 
 import com.epimorphics.rdfutil.RDFUtil;
+import com.epimorphics.simpleAPI.core.API;
+import com.epimorphics.simpleAPI.core.ConfigSpecFactory;
+import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.endpoints.EndpointSpecFactory;
 import com.epimorphics.util.NameUtils;
 import com.epimorphics.vocabs.SKOS;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDFS;
 
 /**
- * Generate raw documentation for a set of API specs plus a vocabulary.
+ * Generate raw documentation for a set of API specs plus a set of vocabularies.
  * <p>
  * Generates an index.html listing the terms in the vocabulary (very crude) and a {spec}.html
  * table for each specification file in a directory of specification files.
  * </p>
  * <p>
- * Note that the prefixes declared in the vocabulary file must match the
- * prefixes used in the specification files.
+ * Define the endpoints, prefixes and vocabulary elements in an app.conf file.
+ * The vocabulary files are assumed to be defined as a SparqlSource
  * </p>
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
@@ -45,25 +50,42 @@ import org.apache.jena.vocabulary.RDFS;
 public class Doctool {
     public static final String VOCAB_INDEX_FILE = "index.html";
     
+    protected File outputDir;
+    protected Model vocabulary;
+    
     public static void main(String[] args) throws IOException {
-        if (args.length != 2) {
-            System.out.println("Usage:  doctool vocab-file  spec-directory");
+        if (args.length != 3) {
+            System.out.println("Usage:  doctool output-directory vocab-directory  spec-directory");
             System.exit(1);
         }
         
-        Model vocabulary = RDFDataMgr.loadModel( args[0] );
-        generateVocabIndex(vocabulary);
+        Doctool doc = new Doctool( args[0] );
+        Model vocabulary = doc.loadVocabularies( args[1] );
+        doc.generateVocabIndex(vocabulary);
         
-        File specDir = new File( args[1] );
+        File specDir = new File( args[2] );
         for (String specfn : specDir.list()) {
-            // TODO port to sapi2
-//            EndpointSpec spec = EndpointSpecFactory.read(null, new File(specDir, specfn).getPath());
-//            generateDataTable(NameUtils.removeExtension(specfn), spec, vocabulary);
+            doc.generateDataTable( new File(specDir, specfn), vocabulary );
         }
     }
     
-    public static void generateVocabIndex(Model vocabulary) throws IOException {
-        FileWriter out = new FileWriter( VOCAB_INDEX_FILE );
+    public Doctool(String outputDir) {
+        this.outputDir = new File(outputDir);
+    }
+    
+    public Model loadVocabularies( String vocabDir ) throws IOException {
+        File vocabDirF = new File( vocabDir );
+        Model vocabulary = ModelFactory.createDefaultModel();
+        for (String fname : vocabDirF.list( (dir,fn) -> fn.endsWith(".ttl") )) {
+            Model v = RDFDataMgr.loadModel( new File(vocabDirF, fname).getPath() );
+            vocabulary.add(v);
+            vocabulary.setNsPrefixes(v);
+        }
+        return vocabulary;
+    }
+    
+    public void generateVocabIndex(Model vocabulary) throws IOException {
+        FileWriter out = new FileWriter( new File(outputDir, VOCAB_INDEX_FILE) );
         List<Statement> terms 
             = vocabulary.listStatements(null, RDFS.comment, (RDFNode)null)
             .andThen( vocabulary.listStatements(null, SKOS.definition, (RDFNode)null) )
@@ -94,37 +116,44 @@ public class Doctool {
         out.close();
     }
     
-    private static String asJsonName(Statement s) {
+    private String asJsonName(Statement s) {
         return RDFUtil.getLocalname( s.getSubject() );
     }
     
-    private static String asRDFName(Statement s) {
+    private String asRDFName(Statement s) {
         Resource r = s.getSubject();
         return r.getModel().shortForm( r.getURI() );
     }
     
-    private static String asComment(Statement s) {
+    private String asComment(Statement s) {
         return s.getObject().asLiteral().getLexicalForm();
     }
-/*
-    public static void generateDataTable(String specname, EndpointSpec spec, Model vocabulary) throws IOException {
-        JSONMap mapping = spec.getMap();
-        if (mapping == null) return;
-        
-        System.out.println("Processing " + specname);
-        FileWriter out = new FileWriter( specname + ".html" );
-        Map<String, JSONMap> nested = writeMapping(out, mapping, vocabulary);
-        while (! nested.isEmpty() ) {
-            Map<String, JSONMap> processing = nested;
-            nested = new HashMap<String, JSONMap>();
-            for (String field : processing.keySet()) {
-                out.write( String.format("<p>Structure of nested field <code>%s</code>:</p>", field) );
-                nested.putAll( writeMapping(out, processing.get(field), vocabulary));
-            }
-        }
-        out.close();
+    
+    public void generateDataTable(File file, Model vocabulary) throws IOException {
+        EndpointSpec spec = (EndpointSpec) ConfigSpecFactory.read(new API(), file.getPath());
+        generateDataTable( spec.getName(), spec, vocabulary);
+    }
+
+    public void generateDataTable(String specname, EndpointSpec spec, Model vocabulary) throws IOException {
+        System.out.println("Found " + specname);
+//        JSONMap mapping = spec.getMap();
+//        if (mapping == null) return;
+//        
+//        System.out.println("Processing " + specname);
+//        FileWriter out = new FileWriter( specname + ".html" );
+//        Map<String, JSONMap> nested = writeMapping(out, mapping, vocabulary);
+//        while (! nested.isEmpty() ) {
+//            Map<String, JSONMap> processing = nested;
+//            nested = new HashMap<String, JSONMap>();
+//            for (String field : processing.keySet()) {
+//                out.write( String.format("<p>Structure of nested field <code>%s</code>:</p>", field) );
+//                nested.putAll( writeMapping(out, processing.get(field), vocabulary));
+//            }
+//        }
+//        out.close();
     }
     
+    /*
     private static Map<String, JSONMap> writeMapping(FileWriter out, JSONMap mapping, Model vocabulary) throws IOException {
         Map<String, JSONMap> nested = new HashMap<String, JSONMap>();
         
