@@ -319,12 +319,14 @@ public class Request {
         String requestedURI = api.getBaseURI() + uriInfo.getPath();
         Request request = new Request(requestedURI, uriInfo.getQueryParameters());
         request.addAll(uriInfo.getPathParameters());
-        request.addRenderBinding(BINDING_KEY_REQUEST, servletRequest);
-        String fullURL = servletRequest.getRequestURI();
-        if ( servletRequest.getQueryString() != null ) {
-            fullURL += "?" + servletRequest.getQueryString();
+        if (servletRequest != null) {
+            request.addRenderBinding(BINDING_KEY_REQUEST, servletRequest);
+            String fullURL = servletRequest.getRequestURI();
+            if ( servletRequest.getQueryString() != null ) {
+                fullURL += "?" + servletRequest.getQueryString();
+            }
+            request.addRenderBinding(BINDING_KEY_URL, new URLBuilder(fullURL));
         }
-        request.addRenderBinding(BINDING_KEY_URL, new URLBuilder(fullURL));
         String baseURI = api.getBaseURI();
         if (uriInfo != null && uriInfo.getBaseUri() != null) {
             String requestBase = uriInfo.getBaseUri().toString();
