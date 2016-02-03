@@ -110,6 +110,9 @@ public class EndpointSpecFactory {
                 spec.setTemplateName( JsonUtil.getStringValue(jo, TEMPLATE) );
             }
             
+            if (jo.hasKey(ITEM_NAME)) {
+                spec.setItemName( JsonUtil.getStringValue(jo, ITEM_NAME) );
+            }
             return spec;
         } else {
             throw new EpiException("Illegal EndpointSpec: expected a json object, in " + filename);

@@ -9,6 +9,7 @@
 
 package com.epimorphics.simpleAPI.endpoints.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +45,7 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     protected String templateName;
     protected JsonObject geoSearch;
     protected String textSearchRoot = ROOT_VAR;
+    protected String itemName;
 
     public EndpointSpecBase(API api) {
         this.api = api;
@@ -79,6 +81,13 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
      */
     public ViewMap getView(String viewname) {
         return views.get(viewname);
+    }
+    
+    /**
+     * List all available views names
+     */
+    public Collection<String> listViewNames() {
+        return views.keySet();
     }
 
     
@@ -177,5 +186,15 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     public void setTextSearchRoot(String textSearchRoot) {
         this.textSearchRoot = textSearchRoot;
     }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+    
+    
     
 }

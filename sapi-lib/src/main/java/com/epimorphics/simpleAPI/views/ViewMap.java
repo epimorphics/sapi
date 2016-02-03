@@ -152,7 +152,7 @@ public class ViewMap extends ConfigItem {
     }
     
     /**
-     * Return a list of the paths to all the leave nodes in the map
+     * Return a list of the paths to all the leaf nodes in the map
      */
     public List<ViewPath> getAllPaths() {
         if (allPaths == null) {

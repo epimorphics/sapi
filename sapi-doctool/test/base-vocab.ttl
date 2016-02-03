@@ -1,0 +1,66 @@
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix void:  <http://rdfs.org/ns/void#> .
+@prefix org:   <http://www.w3.org/ns/org#> .
+@prefix qb:    <http://purl.org/linked-data/cube#> .
+@prefix version: <http://purl.org/linked-data/version#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time:  <http://www.w3.org/2006/time#> .
+@prefix reg:   <http://purl.org/linked-data/registry#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix api:   <http://purl.org/linked-data/api/vocab#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix qudt:     <http://qudt.org/schema/qudt#> .
+@prefix spatialrelations: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/> .
+@prefix w3cgeo:           <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+
+# --- To support document generation -----
+
+dct:description
+    rdfs:comment "A textual description of the {x}."@en ;
+    rdfs:range xsd:string .
+
+rdfs:label
+    rdfs:comment "A name for the {x}."@en ;
+    rdfs:range xsd:string .
+
+rdfs:comment
+    rdfs:comment "An explanatory comment or description of the {x}."@en ;
+    rdfs:range xsd:string .
+
+skos:notation
+    rdfs:comment "A string or other literal which uniquely identifies the {x}."@en ;
+    .
+
+rdf:type
+    rdfs:comment "The class or type of this {x}."@en ;
+    rdfs:range xsd:string .
+    
+qudt:unit
+    rdfs:comment "The units in which the {x} is measured."@en;
+    .
+
+skos:definition
+    rdfs:comment "The definition of the {x}."@en;
+    rdfs:range xsd:string .
+    
+owl:sameAs 
+    rdfs:comment "An alternative URI resource equivalent to this {x}."@en;
+    .
+    
+spatialrelations:easting
+    rdfs:comment "The easting of the point on the British National Grid"@en .
+    
+spatialrelations:northing
+    rdfs:comment "The easting of the point on the British National Grid"@en .
+
+w3cgeo:lat
+    rdfs:comment "The latitude of the point in WGS84 coordinates"@en .
+
+w3cgeo:long
+    rdfs:comment "The longitude of the point in WGS84 coordinates"@en .
+
+    

@@ -195,6 +195,23 @@ public class API extends ComponentBase implements Startup {
         }
         return null;
     }
+    
+    public List<SparqlEndpointSpec> listSpecs() {
+        return listConfigs(SparqlEndpointSpec.class);
+    }
+    
+    @SuppressWarnings("unchecked")
+    private <T> List<T> listConfigs(Class<T> cls) {
+        List<T> list = new ArrayList<>();
+        if (monitor != null){
+            for (ConfigItem ci : monitor.getEntries()) {
+                if (cls.isInstance(ci)) {
+                    list.add( (T) ci);
+                }
+            }
+        }
+        return list;
+    }
 
     public ViewMap getView(String name) {
         if (monitor != null){
@@ -204,6 +221,10 @@ public class API extends ComponentBase implements Startup {
             }
         }
         return null;
+    }
+    
+    public List<ViewMap> listViews() {
+        return listConfigs(ViewMap.class);
     }
 
     /**

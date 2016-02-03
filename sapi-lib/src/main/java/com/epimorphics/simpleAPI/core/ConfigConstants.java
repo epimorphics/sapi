@@ -20,6 +20,7 @@ public class ConfigConstants {
     public static final String TYPE_LIST = "list";
     public static final String TYPE_VIEW = "view";
     public static final String NAME      = "name";
+    public static final String ITEM_NAME = "itemName";   // Supports documentation
     
     public static final String TRANSFORM = "transform";
     public static final String GEOQUERY  = "geoquery";

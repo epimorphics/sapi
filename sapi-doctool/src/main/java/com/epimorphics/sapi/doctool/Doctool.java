@@ -12,27 +12,30 @@ package com.epimorphics.sapi.doctool;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
-import org.apache.jena.riot.RDFDataMgr;
-
-import com.epimorphics.rdfutil.RDFUtil;
-import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.core.ConfigSpecFactory;
-import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
-import com.epimorphics.simpleAPI.endpoints.EndpointSpecFactory;
-import com.epimorphics.util.NameUtils;
-import com.epimorphics.vocabs.SKOS;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDFS;
+
+import com.epimorphics.appbase.core.App;
+import com.epimorphics.appbase.data.SparqlSource;
+import com.epimorphics.rdfutil.RDFUtil;
+import com.epimorphics.simpleAPI.core.API;
+import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
+import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.views.ViewPath;
+import com.epimorphics.util.NameUtils;
+import com.epimorphics.vocabs.SKOS;
 
 /**
  * Generate raw documentation for a set of API specs plus a set of vocabularies.
@@ -42,49 +45,55 @@ import org.apache.jena.vocabulary.RDFS;
  * </p>
  * <p>
  * Define the endpoints, prefixes and vocabulary elements in an app.conf file.
- * The vocabulary files are assumed to be defined as a SparqlSource
+ * The vocabulary files are assumed to be defined as a SparqlSource called vocabulary.
  * </p>
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class Doctool {
+    public static final String VOCAB_SOURCE = "vocabulary";
     public static final String VOCAB_INDEX_FILE = "index.html";
     
     protected File outputDir;
+    protected App  app;
+    protected API  api;
     protected Model vocabulary;
     
     public static void main(String[] args) throws IOException {
-        if (args.length != 3) {
-            System.out.println("Usage:  doctool output-directory vocab-directory  spec-directory");
+        if (args.length != 2) {
+            System.out.println("Usage:  doctool output-directory spec.conf");
             System.exit(1);
         }
         
-        Doctool doc = new Doctool( args[0] );
-        Model vocabulary = doc.loadVocabularies( args[1] );
-        doc.generateVocabIndex(vocabulary);
-        
-        File specDir = new File( args[2] );
-        for (String specfn : specDir.list()) {
-            doc.generateDataTable( new File(specDir, specfn), vocabulary );
+        Doctool doc = new Doctool( args[0], args[1] );
+        doc.generateVocabIndex();
+        doc.generateDataTables();
+    }
+    
+    public Doctool(String outputDir, String specfile) throws IOException {
+        this.outputDir = new File(outputDir);
+        app  = new App("test", new File(specfile));
+        app.startup();
+        api = app.getA(API.class);
+        if (api == null) {
+            System.err.println("No API defined, aborting");
         }
     }
     
-    public Doctool(String outputDir) {
-        this.outputDir = new File(outputDir);
-    }
-    
-    public Model loadVocabularies( String vocabDir ) throws IOException {
-        File vocabDirF = new File( vocabDir );
-        Model vocabulary = ModelFactory.createDefaultModel();
-        for (String fname : vocabDirF.list( (dir,fn) -> fn.endsWith(".ttl") )) {
-            Model v = RDFDataMgr.loadModel( new File(vocabDirF, fname).getPath() );
-            vocabulary.add(v);
-            vocabulary.setNsPrefixes(v);
+    public Model getVocabulary() throws IOException {
+        vocabulary = ModelFactory.createDefaultModel();
+        SparqlSource vocabSource = app.getComponentAs(VOCAB_SOURCE, SparqlSource.class);
+        if (vocabSource == null) {
+            System.out.println("Waring: No vocabularies defined");
+        } else {
+            vocabulary.add( vocabSource.getAccessor().getModel() );
+            vocabulary.setNsPrefixes( api.getPrefixes() );
         }
         return vocabulary;
     }
     
-    public void generateVocabIndex(Model vocabulary) throws IOException {
+    public void generateVocabIndex() throws IOException {
+        getVocabulary();
         FileWriter out = new FileWriter( new File(outputDir, VOCAB_INDEX_FILE) );
         List<Statement> terms 
             = vocabulary.listStatements(null, RDFS.comment, (RDFNode)null)
@@ -129,52 +138,28 @@ public class Doctool {
         return s.getObject().asLiteral().getLexicalForm();
     }
     
-    public void generateDataTable(File file, Model vocabulary) throws IOException {
-        EndpointSpec spec = (EndpointSpec) ConfigSpecFactory.read(new API(), file.getPath());
-        generateDataTable( spec.getName(), spec, vocabulary);
-    }
-
-    public void generateDataTable(String specname, EndpointSpec spec, Model vocabulary) throws IOException {
-        System.out.println("Found " + specname);
-//        JSONMap mapping = spec.getMap();
-//        if (mapping == null) return;
-//        
-//        System.out.println("Processing " + specname);
-//        FileWriter out = new FileWriter( specname + ".html" );
-//        Map<String, JSONMap> nested = writeMapping(out, mapping, vocabulary);
-//        while (! nested.isEmpty() ) {
-//            Map<String, JSONMap> processing = nested;
-//            nested = new HashMap<String, JSONMap>();
-//            for (String field : processing.keySet()) {
-//                out.write( String.format("<p>Structure of nested field <code>%s</code>:</p>", field) );
-//                nested.putAll( writeMapping(out, processing.get(field), vocabulary));
-//            }
-//        }
-//        out.close();
+    public void generateDataTables() throws IOException {
+        getVocabulary();
+        for (SparqlEndpointSpec s : api.listSpecs()) {
+            System.out.println("Processing: " + s.getName());
+            FileWriter out = new FileWriter( new File(outputDir, s.getName() + ".html") );
+            writeMap(out, s);
+            out.close();
+        }
     }
     
-    /*
-    private static Map<String, JSONMap> writeMapping(FileWriter out, JSONMap mapping, Model vocabulary) throws IOException {
-        Map<String, JSONMap> nested = new HashMap<String, JSONMap>();
-        
+    public void writeMap(FileWriter out, SparqlEndpointSpec spec) throws IOException {
+        ViewSet viewset = new ViewSet(spec);
+
         out.write( "<table class='table table-condensed table-bordered'>\n" );
         out.write( "  <thead>\n" );
-        out.write( "    <tr><th>Field</th><th>Meaning</th><th>Type</th><th>Occurs</th></tr>\n" );
+        out.write( "    <tr><th>Field</th><th>Meaning</th><th>Type</th><th>Occurs</th><th>Views</th></tr>\n" );
         out.write( "  </thead>\n" );
         out.write( "  <tbody>\n" );
-        List<JSONMapEntry> entries = mapping.getMapping();
-        Collections.sort(entries, new Comparator<JSONMapEntry>() {
-            @Override
-            public int compare(JSONMapEntry o1, JSONMapEntry o2) {
-                return o1.getJsonName().compareTo( o2.getJsonName() );
-            }
-        });
-        for (JSONMapEntry entry : mapping.getMapping()) {
-            String jsonname = entry.getJsonName();
-            if (entry.isParent()) {
-                nested.put(jsonname, entry.getNestedMap());
-            }
-            Resource prop = vocabulary.getResource( vocabulary.expandPrefix( entry.getProperty() ) );
+
+        for (String path : viewset.listPaths()) {
+            ViewEntry entry = viewset.getEntry(path);
+            Resource prop = vocabulary.getResource( vocabulary.expandPrefix( entry.getProperty().getURI() ) );
             String meaning = entry.getComment();
             if (meaning == null) {
                 meaning = RDFUtil.getStringValue(prop, RDFS.comment);
@@ -182,7 +167,16 @@ public class Doctool {
             if (meaning == null) {
                 meaning = RDFUtil.getStringValue(prop, SKOS.definition, "No definition found");
             }
-            String type = entry.getType();
+            
+            // Expand item name in definition strings
+            
+            String itemName = path.contains(".") ? NameUtils.splitBeforeLast(path, ".") : spec.getItemName(); 
+            if (itemName == null) {
+                itemName = "Item";
+            }
+            meaning = meaning.replace("{x}", itemName);
+            
+            String type = entry.getTypeURI();
             if (type == null) {
                 Resource typeR = RDFUtil.getResourceValue(prop, RDFS.range);
                 if (typeR != null && typeR.isURIResource()) {
@@ -198,13 +192,90 @@ public class Doctool {
             if (entry.isMultivalued()) {
                 occurs = "multi-valued";
             }
-            out.write( String.format("    <tr><td><code>%s</code></td><td>%s</td><td>%s</td><td>%s</td></tr>\n", jsonname, meaning, type, occurs) );
+            out.write( String.format("    <tr><td><code>%s</code></td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n", 
+                    path, meaning, type, occurs, viewset.viewDescription(path)) );
         }
+        
         out.write( "  </tbody>\n" );
         out.write( "</table>\n" );
-        
-        return nested;
     }
-    */
+    
+    /**
+     * Represents the aggregation of all paths across all views for an endpoint
+     */
+    public static class ViewSet {
+        protected List<PathSet> pathsets = new ArrayList<>();
+        
+        public ViewSet(SparqlEndpointSpec spec) {
+            for (String viewname : spec.listViewNames()) {
+                pathsets.add( new PathSet(viewname, spec.getView(viewname)) );
+            }
+            Collections.sort(pathsets);
+        }
+        
+        public PathSet longestView() {
+            return pathsets.get( 0 );
+        }
+        
+        public List<String> listPaths() {
+            return longestView().listPaths();
+        }
+        
+        public String viewDescription(String path) {
+            String description = "";
+            for (PathSet ps : pathsets) {
+                if (ps.hasPath(path)) {
+                    if (!description.isEmpty()) {
+                        description += ", ";
+                    }
+                    description += ps.viewname;
+                }
+            }
+            return description;
+        }
+        
+        public ViewEntry getEntry(String path) {
+            return longestView().getEntry(path);
+        }
+    }
+    
+    /**
+     * Represents a view with an ordered set of dotted-notation paths for it.
+     */
+    public static class PathSet implements Comparable<PathSet> {
+        protected String viewname;
+        protected ViewMap view;
+        protected Set<String> paths = new HashSet<>();
+        
+        public PathSet(String viewname, ViewMap view) {
+            this.viewname = viewname;
+            this.view = view;
+            for (ViewPath path : view.getAllPaths()) {
+                if ( !path.isEmpty()) {
+                    paths.add( path.asDotted() );
+                }
+            }
+        }
+
+        public List<String> listPaths() {
+            List<String> orderedPaths = new ArrayList<>(paths);
+            Collections.sort(orderedPaths);
+            return orderedPaths;
+        }
+        
+        public boolean hasPath(String path) {
+            return paths.contains(path);
+        }
+        
+        public ViewEntry getEntry(String path) {
+            return view.findEntry(path);
+        }
+        
+        @Override
+        public int compareTo(PathSet other) {
+            return - Integer.compare(paths.size(), other.paths.size());
+        }
+        
+    }
 }
 
