@@ -52,7 +52,7 @@ import com.epimorphics.vocabs.SKOS;
  */
 public class Doctool {
     public static final String VOCAB_SOURCE = "vocabulary";
-    public static final String VOCAB_INDEX_FILE = "index.html";
+    public static final String VOCAB_INDEX_FILE = "_index.html";
     
     protected File outputDir;
     protected App  app;
@@ -107,7 +107,7 @@ public class Doctool {
         });
         
         // Output the index
-        out.write( "<div class=\"vocab-index\">\n" );
+        out.write( "<div class=\"apidoc-vocab-index\">\n" );
         out.write( "  <ul>\n" );
         for (Statement s : terms) {
             out.write( String.format("    <li><a href=\"#definition-%s\">%s</a></li>\n", asJsonName(s), asJsonName(s)) );
@@ -118,8 +118,8 @@ public class Doctool {
         // Output the definitions
         out.write( "<div class=\"vocab\">\n" );
         for (Statement s : terms) {
-            out.write( String.format("    <div class='term' id='definition-%s'>%s (%s)</div>\n", asJsonName(s), asJsonName(s), asRDFName(s)) );
-            out.write( String.format("    <div class='definition'>%s</div>\n", asComment(s)) );
+            out.write( String.format("    <div class='apidoc-term' id='definition-%s'>%s (%s)</div>\n", asJsonName(s), asJsonName(s), asRDFName(s)) );
+            out.write( String.format("    <div class='apidoc-definition'>%s</div>\n", asComment(s)) );
         }
         out.write( "</div>\n" );
         out.close();
@@ -142,7 +142,7 @@ public class Doctool {
         getVocabulary();
         for (SparqlEndpointSpec s : api.listSpecs()) {
             System.out.println("Processing: " + s.getName());
-            FileWriter out = new FileWriter( new File(outputDir, s.getName() + ".html") );
+            FileWriter out = new FileWriter( new File(outputDir, "_" + s.getName() + ".html") );
             writeMap(out, s);
             out.close();
         }
@@ -151,7 +151,7 @@ public class Doctool {
     public void writeMap(FileWriter out, SparqlEndpointSpec spec) throws IOException {
         ViewSet viewset = new ViewSet(spec);
 
-        out.write( "<table class='table table-condensed table-bordered'>\n" );
+        out.write( "<table class='apidoc-table table table-condensed table-bordered'>\n" );
         out.write( "  <thead>\n" );
         out.write( "    <tr><th>Field</th><th>Meaning</th><th>Type</th><th>Occurs</th><th>Views</th></tr>\n" );
         out.write( "  </thead>\n" );
