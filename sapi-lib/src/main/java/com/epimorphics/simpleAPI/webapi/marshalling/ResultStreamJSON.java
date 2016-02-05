@@ -87,7 +87,7 @@ public class ResultStreamJSON implements MessageBodyWriter<ResultStream> {
         API api = results.getSpec().getAPI();
         api.startMetadata(out);
         api.writeFormats(out, results.getRequest().getFullRequestedURI(), "json");
-        condOut("limit", LimitRequestProcessor.LIMIT, results, out);
+        condOut("limit", LimitRequestProcessor.APPLIED_LIMIT, results, out);
         condOut("offset", LimitRequestProcessor.OFFSET, results, out);
         api.finishMetadata(out);        
     }

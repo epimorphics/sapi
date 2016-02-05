@@ -20,6 +20,7 @@ import com.epimorphics.simpleAPI.query.ListQueryBuilder;
  */
 public class LimitRequestProcessor extends RequestProcessorBase {
     public static final String LIMIT = "_limit";
+    public static final String APPLIED_LIMIT = "_applied_limit";
     public static final String OFFSET = "_offset";
     
     @Override
@@ -42,10 +43,17 @@ public class LimitRequestProcessor extends RequestProcessorBase {
                     offset = request.getAsLong(OFFSET);
                     request.consume(OFFSET);
                 }
+                if (limit < Long.MAX_VALUE) {
+                    request.add(APPLIED_LIMIT, Long.toString(limit));
+                    request.consume(APPLIED_LIMIT);
+                }
                 return builder.limit(limit, offset);
             } else {
                 if (lspec.getSoftLimit() != null) {
-                    return builder.limit(lspec.getSoftLimit(), 0);
+                    long limit = lspec.getSoftLimit();
+                    request.add(APPLIED_LIMIT, Long.toString(limit));
+                    request.consume(APPLIED_LIMIT);
+                    return builder.limit(limit, 0);
                 }
             }
         }
