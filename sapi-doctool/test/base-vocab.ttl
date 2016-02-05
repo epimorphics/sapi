@@ -47,6 +47,10 @@ skos:definition
     rdfs:comment "The definition of the {x}."@en;
     rdfs:range xsd:string .
     
+skos:member
+    rdfs:comment "A member of the group."@en;
+    .    
+    
 owl:sameAs 
     rdfs:comment "An alternative URI resource equivalent to this {x}."@en;
     .
