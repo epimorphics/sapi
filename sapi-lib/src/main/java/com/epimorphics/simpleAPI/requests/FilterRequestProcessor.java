@@ -41,7 +41,7 @@ public class FilterRequestProcessor implements RequestProcessor {
                         request.consume(parameter);
                         String varname = path.asVariableName();
                         ViewEntry entry = view.findEntry(path);
-                        if (entry != null) {
+                        if (entry != null && entry.isFilterable()) {
                             String type = entry.getTypeURI();
                             if (type != null) {
                                 type = spec.getPrefixes().expandPrefix(type);
@@ -76,6 +76,7 @@ public class FilterRequestProcessor implements RequestProcessor {
         if (valueBase != null && ! NameUtils.isURI(value)) {
             value = NameUtils.ensureLastSlash(valueBase) + value;
         }
+        // TODO have a configurable default language, currently this will default to "@en"
         return TypeUtil.asTypedValue(value, type);
     }
     

@@ -186,7 +186,7 @@ public class Call {
     public void checkRequestRecognized() {
         List<String> missing = request.getRemainingParameters();
         if ( ! missing.isEmpty() ) {
-            throw new WebApiException(Status.BAD_REQUEST, "Did not recognize request parameters: " + missing);
+            throw new WebApiException(Status.BAD_REQUEST, "Did not recognize request parameters " + missing + " as valid for this endpoint, incorrect endpoint?");
         }
     }
     
