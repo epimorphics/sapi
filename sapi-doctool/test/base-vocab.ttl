@@ -56,15 +56,19 @@ owl:sameAs
     .
     
 spatialrelations:easting
-    rdfs:comment "The easting of the point on the British National Grid"@en .
+    rdfs:comment "The easting of the point on the British National Grid"@en ;
+    rdfs:range xsd:integer .
     
 spatialrelations:northing
-    rdfs:comment "The easting of the point on the British National Grid"@en .
+    rdfs:comment "The easting of the point on the British National Grid"@en ;
+    rdfs:range xsd:integer .
 
 w3cgeo:lat
-    rdfs:comment "The latitude of the point in WGS84 coordinates"@en .
+    rdfs:comment "The latitude of the point in WGS84 coordinates"@en;
+    rdfs:range xsd:decimal .
 
 w3cgeo:long
-    rdfs:comment "The longitude of the point in WGS84 coordinates"@en .
+    rdfs:comment "The longitude of the point in WGS84 coordinates"@en;
+    rdfs:range xsd:decimal .
 
     
