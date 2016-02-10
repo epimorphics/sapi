@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.stream.Collectors;
 
+import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.RDFDataMgr;
@@ -42,6 +43,8 @@ import com.epimorphics.simpleAPI.results.wappers.WJSONLangString;
 import com.epimorphics.simpleAPI.results.wappers.WJSONObject;
 import com.epimorphics.simpleAPI.results.wappers.WResult;
 import com.epimorphics.simpleAPI.util.JsonComparator;
+import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.writers.CSVWriter;
 import com.epimorphics.util.Asserts;
 import com.epimorphics.webapi.test.MockUriInfo;
@@ -217,6 +220,23 @@ public class TestResultBasics {
         query = (ItemQuery) spec.getQueryBuilder( request ).build();
         result = source.query(query, new Call(spec, request) );
         assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/itemTest2.json", result.asJson()) );
+    }
+    
+    // Check problems with json name mapping and use of "-" in local names
+    @Test
+    public void testNameGuards() {
+        Call call = api.getCall("listVCardTest", new MockUriInfo("test"), null);
+        ViewMap view = call.getView();
+        ViewEntry entry = view.findEntry("address");
+        assertNotNull(entry);
+        assertEquals("address", entry.getJsonName());
+        assertEquals( "http://www.w3.org/2006/vcard/ns#extended-address", entry.getProperty().getURI() );
+        
+        JsonObject jo = ((ResultStream)call.getResults()).next().asJson();
+        jo = jo.get("site").getAsObject();
+        jo = jo.get("siteAddress").getAsObject();
+        assertEquals("3, Dovetons Drive, Williton, Taunton, Somerset, TA4 4ST", jo.get("address").getAsString().value());
+        assertEquals("Some body", jo.get("organization_name").getAsString().value());
     }
     
     private void checkEntryRoot(TreeResult result, int index) {

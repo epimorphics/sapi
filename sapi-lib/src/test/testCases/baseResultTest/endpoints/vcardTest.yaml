@@ -1,0 +1,12 @@
+name      : listVCardTest
+type      : list
+baseQuery : "?id a reg:Registration ."
+view :
+  - { prop: "skos:notation", name: "permissionNumber", comment: "The permission or registration number"}
+  - prop : "reg:site"
+    nested :
+      - prop: "org:siteAddress"
+        comment: "The address of a site for the organization" 
+        nested :
+          - { prop: "vcard:extended-address", name: "address", comment: "The full address text including postcode" }
+          - { prop: "vcard:organization-name", optional: true, comment: "The organization name to use in the address" }

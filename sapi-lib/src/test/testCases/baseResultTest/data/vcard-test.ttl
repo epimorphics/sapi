@@ -1,0 +1,58 @@
+@prefix dgu:   <http://reference.data.gov.uk/def/reference/> .
+@prefix spatialrelations: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/> .
+@prefix org:   <http://www.w3.org/ns/org#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix cab:   <http://environment.data.gov.uk/public-register/def/regime/carriers-and-brokers/> .
+@prefix time:  <http://www.w3.org/2006/time#> .
+@prefix schema-org: <http://schema.org/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix onsadmingeo: <http://statistics.data.gov.uk/def/administrative-geography/> .
+@prefix regime: <http://environment.data.gov.uk/public-register/def/regime/> .
+@prefix admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/> .
+@prefix geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix status: <http://reference.data.gov.uk/def/status/> .
+@prefix at:    <http://environment.data.gov.uk/public-register/def/applicant-type/> .
+@prefix void:  <http://rdfs.org/ns/void#> .
+@prefix intervals: <http://reference.data.gov.uk/def/intervals/> .
+@prefix qb:    <http://purl.org/linked-data/cube#> .
+@prefix postcode: <http://data.ordnancesurvey.co.uk/ontology/postcode/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix geometry: <http://data.ordnancesurvey.co.uk/ontology/geometry/> .
+@prefix reg:   <http://environment.data.gov.uk/public-register/def/registration/> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CB-VM3989BW-R002>
+        a                       reg:Registration ;
+        rdfs:label              "Registration CB/VM3989BW/R002"@en ;
+        reg:eprReferenceNumber  "CB/LE5744SV" ;
+        reg:expiryDate          "2017-06-10"^^xsd:date ;
+        reg:regime              cab:carrier-dealer ;
+        reg:register            <http://environment.data.gov.uk/public-register/waste-carriers-brokers/register> ;
+        reg:registrationDate    "2014-06-11"^^xsd:date ;
+        reg:renewalDate         "2014-06-11"^^xsd:date ;
+        reg:site                <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CB-VM3989BW-R002/site/0> ;
+        skos:notation           "CB/VM3989BW/R002" .
+
+
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CB-VM3989BW-R002/site/0>
+        rdfs:label       "Site for registration CB/VM3989BW/R002"@en ;
+        geo:location     <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CB-VM3989BW-R002/site/0/location/0> ;
+        org:siteAddress  <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CB-VM3989BW-R002/site/0/address/0> ;
+        .
+                
+<http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CB-VM3989BW-R002/site/0/address/0>
+        a                        vcard:Address ;
+        rdfs:label               "Site Address for registration CB/VM3989BW/R002"@en ;
+        postcode:postcode        <http://data.ordnancesurvey.co.uk/id/postcodeunit/TA44ST> ;
+        geo:location             <http://environment.data.gov.uk/public-register/waste-carriers-brokers/id/CB-VM3989BW-R002/site/0/location/0> ;
+        vcard:extended-address   "3, Dovetons Drive, Williton, Taunton, Somerset, TA4 4ST" ;
+        vcard:locality           "Williton, Taunton" ;
+        vcard:organization-name  "Some body" ;
+        vcard:postal-code        "TA4 4ST" ;
+        vcard:region             "Somerset" ;
+        vcard:street-address     "3, Dovetons Drive" ;
+        vcard:tel                <tel:+44-1984-631979> .

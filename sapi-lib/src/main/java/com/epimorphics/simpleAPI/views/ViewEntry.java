@@ -9,9 +9,12 @@
 
 package com.epimorphics.simpleAPI.views;
 
+import java.util.regex.Pattern;
+
 import com.epimorphics.rdfutil.RDFUtil;
 import com.epimorphics.sparql.terms.URI;
 import com.epimorphics.sparql.terms.Var;
+import com.epimorphics.util.EpiException;
 import com.epimorphics.util.NameUtils;
 
 /**
@@ -35,8 +38,13 @@ public class ViewEntry {
     
     public ViewEntry(String jsonname, URI property) {
         this.jsonname = jsonname == null ? makeJsonName(property) : jsonname;
+        if (!legalSparqlVar.matcher(this.jsonname).matches()) {
+            throw new EpiException("Illegal sparql name in view: " + jsonname);
+        }
         this.property = property;
     }
+    
+    static Pattern legalSparqlVar = Pattern.compile("[a-zA-Z0-9_]*");   // Restrictive ASCII version, could allow other unicode
     
     public ViewEntry(URI property) {
         this.jsonname = makeJsonName(property);
@@ -49,6 +57,7 @@ public class ViewEntry {
             // curie/qname format but at this stage no expansion to URI
             name = NameUtils.splitAfterLast(property.getURI(), ":");
         }
+        name = name.replace("-", "_");
         return name;
     }
     
