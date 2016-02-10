@@ -19,7 +19,11 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 
 import com.epimorphics.json.JSFullWriter;
+import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.requests.Call;
+import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.sparql.terms.URI;
 
 /**
  * A result which is stored as a real RDF (in memory) value.
@@ -52,18 +56,27 @@ public class RDFResult extends ResultBase implements Result {
     
     public TreeResult asTreeResult() {
         // TODO if there is a view should we limit the describe to that view?
-        return fromResource(root, new HashSet<>());
+        ViewMap view = call.getView();
+        if (view == null){
+            view = call.getAPI().getView(API.DEFAULT_VIEWNAME);
+        }
+        return fromResource(root, new HashSet<>(), view);
     }
 
-    protected TreeResult fromResource(Resource root, Set<Resource> seen) {
+    protected TreeResult fromResource(Resource root, Set<Resource> seen, ViewMap view) {
         seen.add(root);
         TreeResult result = new TreeResult(call, root);
         for (StmtIterator i = root.listProperties(); i.hasNext(); ) {
             Statement s = i.next();
-            String key = getCall().getAPI().getDefaultViewForURI( s.getPredicate().getURI() ).getJsonName();
+            String pURI = s.getPredicate().getURI();
+            ViewEntry pView = (view == null) ? null :  view.findEntryByURI(pURI);
+            if (pView == null) {
+                pView = new ViewEntry( new URI(pURI) );
+            }
+            String key = pView.getJsonName();
             RDFNode value = s.getObject();
             if (value.isResource() && !seen.contains(value)) {
-                result.add(key, fromResource(value.asResource(), seen));
+                result.add(key, fromResource(value.asResource(), seen, view));
             } else {
                 result.add(key,  value);
             }
