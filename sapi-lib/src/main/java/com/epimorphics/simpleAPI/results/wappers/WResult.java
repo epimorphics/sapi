@@ -31,7 +31,7 @@ import com.epimorphics.simpleAPI.views.ViewTree;
 import com.epimorphics.util.EpiException;
 
 /**
- * Wrapped result value for us in scripting enviornments, such as velocity, for HTML rendering
+ * Wrapped result value for us in scripting environments, such as velocity, for HTML rendering
  */
 public class WResult {
     protected Result result;
