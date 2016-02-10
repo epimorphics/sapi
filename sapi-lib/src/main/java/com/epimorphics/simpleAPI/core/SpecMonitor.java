@@ -34,7 +34,12 @@ public class SpecMonitor extends ConfigMonitor<ConfigItem> {
 
     @Override
     protected Collection<ConfigItem> configure(File file) {
-        return Collections.singletonList( ConfigSpecFactory.read(api, file.getPath()) );
+        ConfigItem item = ConfigSpecFactory.read(api, file.getPath());
+        if (item == null) {
+            return Collections.emptyList();
+        } else {
+            return Collections.singletonList( item );
+        }
     }
     
     @Override

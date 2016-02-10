@@ -61,8 +61,11 @@ public class ConfigSpecFactory {
         JsonValue json = null;
         if (filename.endsWith(".yaml")) {
             json = JsonUtil.asJson( new Yaml().load(is) ) ;
-        } else {
+        } else if (filename.endsWith(".json")) {
             json = JSON.parseAny(is);
+        } else {
+            // Ignore other files, useful for hiding old endpoints
+            return null;
         }
         return parse(api, filename, json);
     }
