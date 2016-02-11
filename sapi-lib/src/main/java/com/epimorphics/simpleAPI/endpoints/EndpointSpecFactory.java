@@ -43,6 +43,9 @@ public class EndpointSpecFactory {
                 if (jo.hasKey(BASE_QUERY)) {
                     lspec.setBaseQuery( JsonUtil.getStringValue(jo, BASE_QUERY) );
                 }
+                if (jo.hasKey(QUERY)) {
+                    spec.setCompleteQuery( JsonUtil.getStringValue(jo, QUERY) );
+                }
                 if (jo.hasKey(LIMIT)) {
                     lspec.setHardLimit( JsonUtil.getIntValue(jo, LIMIT, Integer.MAX_VALUE) );
                 }
