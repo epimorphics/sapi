@@ -43,6 +43,21 @@ public class WJSONArray extends ArrayList<Object> implements List<Object>{
     public boolean isTypedLiteral() {
         return false;
     }
+
+    public boolean hasValue(Object expected) {
+        return contains(expected);
+    }
+    
+    public boolean hasResourceValue(String expected) {
+        for (Object value : this) {
+            if (value instanceof WJSONObject) {
+                if ( expected.equals( ((WJSONObject)value).getURI() ) ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
     // Order independent equality for testing
     @Override

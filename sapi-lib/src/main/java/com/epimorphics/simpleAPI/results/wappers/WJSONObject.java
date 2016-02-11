@@ -85,6 +85,24 @@ public class WJSONObject {
         return false;
     }
     
+    public boolean hasValue(String key, Object expected) {
+        Object value = properties.get(key);
+        if (value instanceof WJSONArray) {
+            ((WJSONArray)value).hasValue(expected);
+        }
+        return expected.equals(value);
+    }
+
+    public boolean hasResourceValue(String key, String expected) {
+        Object value = properties.get(key);
+        if (value instanceof WJSONObject) {
+            return expected.equals( ((WJSONObject)value).getURI() );
+        } else if (value instanceof WJSONArray) {
+            return ((WJSONArray)value).hasResourceValue(expected);
+        }
+        return false;
+    }
+    
     /**
      * Return all the field names in the object, in sorted order
      */
