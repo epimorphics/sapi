@@ -52,8 +52,9 @@ public class FilterRequestProcessor implements RequestProcessor {
                             }
                             List<String> rawargs = request.get(parameter);
                             if (rawargs.size() == 1) {
-                                if (!rawargs.get(0).equals("*")) {
-                                    builder = builder.filter(varname, asValue(rawargs.get(0), type, valueBase));
+                                String arg = rawargs.get(0);
+                                if (!arg.equals("*") && !arg.isEmpty()) {
+                                    builder = builder.filter(varname, asValue(arg, type, valueBase));
                                 } else {
                                     // Wildcard filter, silently ignore
                                 }
