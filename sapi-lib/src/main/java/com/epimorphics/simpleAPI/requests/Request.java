@@ -105,6 +105,14 @@ public class Request {
     }
     
     /**
+     * Test if the parameter is present and not consumed and not null/empty
+     */
+    public boolean hasParameterValue(String parameter) {
+        List<String> values = get(parameter);
+        return ! values.isEmpty() && ! values.get(0).isEmpty();
+    }
+    
+    /**
      * Return the values for the given parameter
      */
     public List<String> get(String parameter) {
