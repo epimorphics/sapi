@@ -75,5 +75,9 @@ public class SparqlDataSource implements DataSource {
             throw new EpiException("SPARQL source given non-SPARQL query");
         }
     }
+    
+    public SparqlSource getSource() {
+        return source;
+    }
 
 }
