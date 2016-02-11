@@ -38,10 +38,10 @@ public class FilterRequestProcessor implements RequestProcessor {
                     ViewPath path = view.pathTo(parameter);
                     if (path != null) {
                         // A legal filter
-                        request.consume(parameter);
                         String varname = path.asVariableName();
                         ViewEntry entry = view.findEntry(path);
                         if (entry != null && entry.isFilterable()) {
+                            request.consume(parameter);
                             String type = entry.getTypeURI();
                             if (type != null) {
                                 type = spec.getPrefixes().expandPrefix(type);
