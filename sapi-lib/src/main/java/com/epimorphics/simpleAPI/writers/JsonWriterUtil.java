@@ -36,6 +36,7 @@ public class JsonWriterUtil {
     public static final String VALUE_FIELD = "@value";
     public static final String ID_FIELD = "@id";
     public static final String LABEL_FIELD = "label";
+    public static final String[] LABEL_FIELDS = new String[]{"prefLabel", "label", "name"};
 
 
     public static void writeResult(TreeResult result, JSFullWriter out) {

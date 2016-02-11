@@ -136,12 +136,14 @@ public class WJSONObject {
     }
     
     public Object getLabel() {
-        Object label = get(LABEL_FIELD);
-        if (label == null) {
-           String uri = getURI();
-           if (uri != null) {
-               label = RDFUtil.getLocalname(uri);
-           }
+        Object label = null;
+        for (String lf : LABEL_FIELDS) {
+            label = get(lf);
+            if (label != null) return label;
+        }
+        String uri = getURI();
+        if (uri != null) {
+            label = RDFUtil.getLocalname(uri);
         }
         if (label == null) {
             label = "[]";
