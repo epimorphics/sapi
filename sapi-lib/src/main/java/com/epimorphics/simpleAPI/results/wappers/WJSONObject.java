@@ -39,6 +39,10 @@ public class WJSONObject {
         return properties.get(key);
     }
     
+    public boolean hasKey(String key) {
+        return properties.containsKey(key);
+    }
+    
     public void put(String key, Object value) {
         properties.put(key, value);
     }
