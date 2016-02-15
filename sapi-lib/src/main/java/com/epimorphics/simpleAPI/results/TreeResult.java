@@ -299,19 +299,16 @@ public class TreeResult extends ResultBase implements Result {
     
     /**
      * Return a set of cloned trees one with each of the values at the given path.
+     * Returns a singleton containing this tree if the values are empty or there's just one.
      */
     public Collection<TreeResult> splitAt(ViewPath path) {
         Collection<Object> values = getValues(path);
-        if (values == null) {
-            return Collections.emptyList();
+        if (values == null || values.isEmpty() || values.size() == 1) {
+            return Collections.singleton( this );
         }
         Collection<TreeResult> results = new ArrayList<>( values.size() );
-        if (values.size() == 1) {
-            results.add( this );
-        } else {
-            for (Object value : values) {
-                results.add( cloneWithValue(path, value) );
-            }
+        for (Object value : values) {
+            results.add( cloneWithValue(path, value) );
         }
         return results;
     }

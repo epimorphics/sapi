@@ -79,7 +79,10 @@ public class TestResultAccess {
         assertEquals( 1, splits.size() );
         assertEquals( A, splits.iterator().next() );
         
-        assertTrue( A.splitAt( path("p.q") ).isEmpty() );
+        splits = A.splitAt( path("q.r.s") );   // Does not exist
+        assertEquals( 1, splits.size() );
+        assertEquals( A, splits.iterator().next() );
+        
     }
     
     ViewPath path(String dotted) {
