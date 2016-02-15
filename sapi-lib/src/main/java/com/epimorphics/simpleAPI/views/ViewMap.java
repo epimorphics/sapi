@@ -19,6 +19,7 @@ import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ConfigItem;
+import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.sparql.terms.TermAtomic;
@@ -74,7 +75,7 @@ public class ViewMap extends ConfigItem {
         return q.toSparqlConstruct(new Settings());
     }
     
-    public void addTreePattern(QueryShape q) {
+    public void injectTreePatternInfo(QueryShape q) {
         q.addEarlyPattern(getTree().buildPattern("id", ""));
     }
     
@@ -83,9 +84,10 @@ public class ViewMap extends ConfigItem {
      */
     public QueryShape asDescribe() {
     	Set<String> vars = new HashSet<>();
+    	GraphPattern pattern = getTree().buildPattern("id", "", vars, false);
     	QueryShape sq = new QueryShape();
-    	getTree().renderForDescribe(sq, "id", "", vars);
     	sq.addDescribeElements(list(new Var("id")));
+    	sq.addEarlyPattern(pattern);
     	for (String v: vars) sq.addDescribeElements(list(new Var(v)));
     	return sq;
     }

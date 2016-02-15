@@ -204,7 +204,7 @@ public class TestResultBasics {
         String URI = "http://localhost/example/A2";
         Request request = new Request(URI);
         ItemQuery query = (ItemQuery) spec.getQueryBuilder( request ).build();
-        Asserts.assertContains(query.toString(), URI );
+        Asserts.assertContains(query.toString(), "eg:A2" );
         
         Result result = source.query(query, new Call(spec, request) );
         assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/itemTest1.json", result.asJson()) );
@@ -220,6 +220,16 @@ public class TestResultBasics {
         query = (ItemQuery) spec.getQueryBuilder( request ).build();
         result = source.query(query, new Call(spec, request) );
         assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/itemTest2.json", result.asJson()) );
+    }
+    
+    @Test
+    public void testNestedDescribe() {
+        Request request = new Request( "http://localhost/example/reg1" );
+        EndpointSpec spec = api.getSpec("nestedDescribe");
+        assertNotNull(spec);
+        ItemQuery query = (ItemQuery) spec.getQueryBuilder( request ).build();
+        Result result = source.query(query, new Call(spec, request) );
+        assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/nestedDescribe.json", result.asJson()) );
     }
     
     // Check problems with json name mapping and use of "-" in local names

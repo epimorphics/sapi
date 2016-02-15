@@ -23,6 +23,7 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.views.ViewTree;
 import com.epimorphics.sparql.terms.URI;
 
 /**
@@ -60,10 +61,10 @@ public class RDFResult extends ResultBase implements Result {
         if (view == null){
             view = call.getAPI().getView(API.DEFAULT_VIEWNAME);
         }
-        return fromResource(root, new HashSet<>(), view);
+        return fromResource(root, new HashSet<>(), view == null ? null : view.getTree());
     }
 
-    protected TreeResult fromResource(Resource root, Set<Resource> seen, ViewMap view) {
+    protected TreeResult fromResource(Resource root, Set<Resource> seen, ViewTree view) {
         seen.add(root);
         TreeResult result = new TreeResult(call, root);
         for (StmtIterator i = root.listProperties(); i.hasNext(); ) {
@@ -76,7 +77,7 @@ public class RDFResult extends ResultBase implements Result {
             String key = pView.getJsonName();
             RDFNode value = s.getObject();
             if (value.isResource() && !seen.contains(value)) {
-                result.add(key, fromResource(value.asResource(), seen, view));
+                result.add(key, fromResource(value.asResource(), seen, pView.isNested() ? pView.getNested() : view));
             } else {
                 result.add(key,  value);
             }

@@ -1,0 +1,13 @@
+{ 
+  "@id" : "http://localhost/example/reg1" ,
+  "localAuthorityURI" : {
+      "@id" : "http://localhost/example/la1" ,
+      "localAuthority" : "Shire"
+    } ,
+  "permissionNumber" : "123" ,
+  "registrationTypeURI" : {
+      "@id" : "http://localhost/example/pt1" ,
+      "registrationType" : "test"
+    } ,
+  "site" : {"@id" : "http://localhost/example/site1" }
+}

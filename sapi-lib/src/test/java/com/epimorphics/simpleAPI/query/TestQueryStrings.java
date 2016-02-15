@@ -97,7 +97,6 @@ public class TestQueryStrings {
     @Test
     public void testQueryDoubleNested() {
         String query = api.getCall("listTestNest", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
-        System.out.println(query);        // TEMP
         assertContains(query, "SELECT * WHERE {");
         assertContains(query, "?id a skos:Concept");
         assertContains(query, "?id rdfs:label ?label");
@@ -109,5 +108,21 @@ public class TestQueryStrings {
         assertContains(query, "?narrower eg:group ?narrower_group");
         assertContains(query, "?narrower skos:narrower ?narrower_narrower ");
         assertContains(query, "?narrower_narrower rdfs:label ?narrower_narrower_label");
+    }
+    
+    @Test
+    public void testNestedDescribe() {
+        String query = api.getCall("nestedDescribe", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
+        String[] queryLines = query.split("\\n");
+        query = queryLines[ queryLines.length -1 ];  // First lines are prefixes then query all on one line
+        assertTrue( query.matches(".*DESCRIBE.* \\?id .*WHERE.*") );
+        assertTrue( query.matches(".*DESCRIBE.* \\?site .*WHERE.*") );
+        assertTrue( query.matches(".*DESCRIBE.* \\?site_siteAddress .*WHERE.*") );
+        assertTrue( query.matches(".*DESCRIBE.* \\?registrationTypeURI .*WHERE.*") );
+        assertTrue( query.matches(".*DESCRIBE.* \\?localAuthorityURI .*WHERE.*") );
+        assertContains( query, "BIND(<http://localhost/flood-monitoring/test> AS ?id)" );
+        assertContains( query, "OPTIONAL { ?id reg:site ?site .  ?site org:siteAddress ?site_siteAddress . }" );
+        assertContains( query, "?id reg:localAuthority ?localAuthorityURI ." );
+        assertContains( query, "?id reg:permitType ?registrationTypeURI ." );
     }
 }

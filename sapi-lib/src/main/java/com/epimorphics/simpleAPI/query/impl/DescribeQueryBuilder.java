@@ -9,6 +9,10 @@
 
 package com.epimorphics.simpleAPI.query.impl;
 
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
 import org.apache.jena.graph.Node;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.PrefixMapping;
@@ -42,10 +46,12 @@ public class DescribeQueryBuilder implements QueryBuilder {
     }
 
     @Override public ItemQuery build() {
-    	String queryString = query.toSparqlDescribe(new Settings());
-//    	System.err.println(">> query: " + queryString);
-//    	System.err.println(">> early: " + query.getEarly());
-//    	System.err.println(">> bound: " + query.getBindings());
+        Settings s = new Settings();
+        Set<Entry<String, String>> es = prefixes.getNsPrefixMap().entrySet();
+        for (Map.Entry<String, String> e: es) {
+            s.setPrefix(e.getKey(), e.getValue());
+        }
+    	String queryString = query.toSparqlDescribe(s);
         return new SparqlDescribeQuery
         	( prefixes == null 
         	? queryString 

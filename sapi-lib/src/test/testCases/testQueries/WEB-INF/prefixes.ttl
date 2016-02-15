@@ -10,3 +10,7 @@
 @prefix void: <http://rdfs.org/ns/void#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix time: <http://www.w3.org/2006/time#> .
+@prefix reg:       <http://environment.data.gov.uk/public-register/def/registration/> .
+@prefix vcard:     <http://www.w3.org/2006/vcard/ns#> .
+@prefix org:       <http://www.w3.org/ns/org#> .
+@prefix eg:   <http://localhost/example/> .

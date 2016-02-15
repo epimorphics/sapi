@@ -9,9 +9,19 @@
 
 package com.epimorphics.simpleAPI.views;
 
-import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.COMMENT;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.FILTERABLE;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.MULTIVALUED;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.NAME;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.NESTED;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.OPTIONAL;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.PROPERTY;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.PROP_TYPE;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.SUPPRESSID;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.VALUE_BASE;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,7 +39,6 @@ import com.epimorphics.sparql.graphpatterns.And;
 import com.epimorphics.sparql.graphpatterns.Basic;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.graphpatterns.Optional;
-import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.terms.Triple;
 import com.epimorphics.sparql.terms.URI;
 import com.epimorphics.sparql.terms.Var;
@@ -66,6 +75,10 @@ public class ViewTree implements Iterable<ViewEntry> {
     
     
     protected GraphPattern buildPattern(String var, String path) {
+        return buildPattern(var, path, new HashSet<>(), true);
+    }
+    
+    protected GraphPattern buildPattern(String var, String path, Set<String> vars, boolean includeNonNested) {
 
     	List<GraphPattern> patterns = new ArrayList<GraphPattern>();
     	
@@ -75,52 +88,36 @@ public class ViewTree implements Iterable<ViewEntry> {
         	PV pv = map.asQueryRow(path);
         	Triple t = new Triple(new Var(var), pv.property, pv.var);
         	Basic basic = new Basic(t);
-        //
+        
+        	if (map.isNested() || includeNonNested) {
+                vars.add( npath );
+        	}
+        	
 			if (map.isOptional()) {
             	if (map.isNested()) {
             		ViewTree nested = map.getNested();
-            		GraphPattern p = nested.buildPattern(npath, npath);
+            		GraphPattern p = nested.buildPattern(npath, npath, vars, includeNonNested);
             		GraphPattern both = new And(basic, p);
             		patterns.add(new Optional(both));
             	} else {
-            		patterns.add(new Optional(basic));            		
+            	    if ( includeNonNested ) {
+                        	        patterns.add(new Optional(basic));
+            	    }
             	}
             } else {
-            	patterns.add(basic);
             	if (map.isNested()) {
+                    patterns.add(basic);
                     ViewTree nested = map.getNested();
-                    patterns.add(nested.buildPattern(npath, npath));            		
+                    patterns.add(nested.buildPattern(npath, npath, vars, includeNonNested));            		
+            	} else if (includeNonNested){
+                    patterns.add(basic);
             	}
             }
         }
     	
     	return new And(patterns);    	
     }
-    
-    protected void renderForDescribe(QueryShape q, String var, String path, Set<String> vars) {
-        for (ViewEntry map : children.values()) {
-            if (map.isNested()) {
-                String jname = map.getJsonName();
-                String npath = addToPath(path, jname);
-                String nvar =  path.isEmpty() ? jname : path + "_" + jname;
-                
-                Var S = new Var(var);
-                PV pv = map.asQueryRow(path);
-                Triple t = new Triple(S, pv.property, pv.var);                
-                Basic triplePattern = new Basic(t);
-
-                if (map.isOptional()) {
-                	q.addEarlyPattern(new Optional(triplePattern));
-                } else {
-                	q.addEarlyPattern(triplePattern);
-                }
-                
-                vars.add(nvar);
-                map.getNested().renderForDescribe(q, nvar, npath, vars);
-            }
-        }
-    }
-    
+      
     /**
      * Extend a list of all paths in the tree 
      */

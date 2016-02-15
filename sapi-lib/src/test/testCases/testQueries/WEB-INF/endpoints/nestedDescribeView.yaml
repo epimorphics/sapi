@@ -1,0 +1,19 @@
+name: nestedDescribeView
+type: view
+view:
+  - { prop: "skos:notation", name: "permissionNumber"}
+  - prop : "reg:site"
+    optional: true
+    nested :
+      - prop: "org:siteAddress"
+        nested :
+          - { prop: "vcard:extended-address", name: "address" }
+          - { prop: "vcard:organization-name", optional: true }
+  - prop: "reg:localAuthority"
+    name: localAuthorityURI
+    nested:
+      - { prop: "rdfs:label", name: "localAuthority" }
+  - prop: "reg:permitType"
+    name: "registrationTypeURI"
+    nested:
+      - { prop: "rdfs:label", name: "registrationType" }

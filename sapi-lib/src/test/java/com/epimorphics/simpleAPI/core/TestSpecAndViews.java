@@ -128,7 +128,7 @@ public class TestSpecAndViews {
         ViewMap view = api.getSpec("describeTest2").getView();
         String query = view.asDescribe().toSparqlDescribe(new Settings());
         Asserts.assertContains( query, "?id <http://www.w3.org/2004/02/skos/core#narrower> ?narrower");
-        Asserts.assertContains( query, "OPTIONAL {?id <http://www.w3.org/2004/02/skos/core#related> ?related ");
+        Asserts.assertContains( query, "OPTIONAL { ?id <http://www.w3.org/2004/02/skos/core#related> ?related ");
         Asserts.assertContains( query, "?related <http://www.w3.org/2004/02/skos/core#related> ?related_related");
         String describeLine = query.split("\\{")[0];
         Asserts.assertContains( describeLine, "DESCRIBE" );

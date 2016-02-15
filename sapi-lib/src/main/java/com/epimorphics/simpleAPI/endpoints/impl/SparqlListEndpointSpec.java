@@ -32,7 +32,7 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
     @Override public QueryBuilder getQueryBuilder(String viewname) {
         ViewMap view = getView(viewname);
         QueryShape withTree = getBaseQuery().copy();
-        if (view != null) view.addTreePattern(withTree);
+        if (view != null) view.injectTreePatternInfo(withTree);
         return SparqlQueryBuilder.fromBaseQuery(withTree, getPrefixes());
     }
 
