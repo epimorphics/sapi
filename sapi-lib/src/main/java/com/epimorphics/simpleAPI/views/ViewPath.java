@@ -56,6 +56,13 @@ public class ViewPath {
     public boolean isEmpty() {
         return path.isEmpty();
     }
+    
+    /**
+     * Return true of the path is a step long
+     */
+    public boolean isSingleton() {
+        return path.size() == 1;
+    }
 
     /**
      * Remove the first element in the path (returns that first element)

@@ -47,7 +47,7 @@ public class CSVWriter {
     protected List<ViewPath> paths;
     protected OutputStream out;
     protected boolean includeID = true;
-    protected String flattenPath;
+    protected ViewPath flattenPath;
     
     public CSVWriter(OutputStream out) {
         this.out = out;
@@ -110,11 +110,25 @@ public class CSVWriter {
                     i.remove();
                 }
             }
-            flattenPath = spec.getFlattenPath();
+            String fp = spec.getFlattenPath();
+            if (fp != null) {
+                flattenPath = ViewPath.fromDotted( fp );
+            }
             writeHeaders( spec.getAPI().isFullPathsInCSVHeaders() );
         }
         
         StringBuffer buf = new StringBuffer();
+        if ( flattenPath == null) {
+            writeResult(result, buf);
+        } else {
+            for (TreeResult r : result.splitAt(flattenPath) ) {
+                writeResult(r, buf);
+            }
+        }
+        out.write( buf.toString().getBytes(ENC) );
+    }
+    
+    protected void writeResult(TreeResult result, StringBuffer buf) {
         boolean started = false;
         for (ViewPath path : paths) {
             if (started) { buf.append(SEP); } else { started = true; }
@@ -131,7 +145,6 @@ public class CSVWriter {
             }
         }
         buf.append(LINE_END);
-        out.write( buf.toString().getBytes(ENC) );
     }
     
     protected String serializeNode(RDFNode node) {

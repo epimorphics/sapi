@@ -129,9 +129,7 @@ public class TestResultBasics {
         assertTrue( checkCSV( api.getCall("listTest3", new MockUriInfo("test?_sort=@id"), null).getResults(), "list3-dot.csv", "list3-alt-dot.csv") );
         api.setFullPathsInCSVHeaders(false);
         
-        ResultOrStream results = api.getCall("listTestReg", new MockUriInfo("test?_sort=@id"), null).getResults();
-        String csv = asCSV( results );
-        System.out.println( csv );
+        assertTrue( checkCSV( api.getCall("listTestReg", new MockUriInfo("test?_sort=@id"), null).getResults(), "reglist.csv", "reglist-alt.csv") );
     }
     
     @Test

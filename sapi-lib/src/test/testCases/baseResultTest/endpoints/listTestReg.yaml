@@ -1,4 +1,5 @@
 name      : listTestReg
 type      : list
 baseQuery : "?id a reg:Permit ."
+flattenPath : "site"
 view      : "nestedDescribeView"

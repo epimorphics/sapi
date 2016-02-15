@@ -135,6 +135,27 @@ public class TreeResult extends ResultBase implements Result {
      * Return null if the path is invalid
      */
     public Set<RDFNode> get(ViewPath path) {
+        Collection<Object> leaves = getValues(path);
+        if (leaves == null) {
+            return null;
+        }
+        Set<RDFNode> results = new HashSet<>( leaves.size() );
+        for (Object v: leaves) {
+            if (v instanceof RDFNode) {
+                results.add( (RDFNode)v );
+            } else if (v instanceof TreeResult) {
+                results.add( ((TreeResult)v).getId() );
+            } else {
+                throw new EpiException("Can't happen");
+            }
+        }
+        return results;
+    }
+    
+    protected Collection<Object> getValues(ViewPath path) {
+        if (path.isEmpty()) {
+            return Collections.singleton(this);
+        }
         Set<TreeResult> next = Collections.singleton(this);
         for (Iterator<String> i = path.asList().iterator(); i.hasNext();) {
             String key = i.next();
@@ -142,18 +163,14 @@ public class TreeResult extends ResultBase implements Result {
                 next = stepDown(next, key);
                 if (next == null) return null;
             } else {
-                Set<RDFNode> leaves = new HashSet<>();
+                Set<Object> leaves = null;
                 for (TreeResult t : next) {
-                    Collection<Object> vs = t.getValues(key);
-                    if (vs == null) return null;
-                    for (Object v : vs) {
-                        if (v instanceof RDFNode) {
-                            leaves.add( (RDFNode)v );
-                        } else if (v instanceof TreeResult) {
-                            leaves.add( ((TreeResult)v).getId() );
-                        } else {
-                            throw new EpiException("Can't happen");
+                    Collection<Object> kv = t.getValues(key);
+                    if (kv != null) {
+                        if (leaves == null) {
+                            leaves = new HashSet<>();
                         }
+                        leaves.addAll( kv );
                     }
                 }
                 return leaves;
@@ -246,6 +263,57 @@ public class TreeResult extends ResultBase implements Result {
     @Override
     public Resource asResource(Model model) {
         return RDFWriterUtil.writeResult(this, model);
+    }
+    
+    /**
+     * Return a copy of the tree with the value at the path replaced with the given value.
+     * Assumes that the path has a unique location within the tree.
+     * The copy will be deep enough to enable to value substitution but no deeper.
+     */
+    public TreeResult cloneWithValue(ViewPath path, Object value) {
+        TreeResult clone = new TreeResult(call, id);
+        String firstStep = path.first();
+        for (String key : values.keySet()) {
+            Set<Object> kv = values.get(key);
+            if (key.equals(firstStep)) {
+                if ( path.isSingleton() ) {
+                    clone.add(key, value);
+                } else if (kv.size() != 1) {
+                    throw new EpiException("Non-unique path in view clone");
+                } else {
+                    Object v = kv.iterator().next();
+                    if (v instanceof TreeResult) {
+                        clone.add(key, ((TreeResult)v).cloneWithValue(path.rest(), value));
+                    } else {
+                        throw new EpiException("Path not present in view");
+                    }
+                }
+            } else {
+                for (Object v : kv) {
+                    clone.add(key, v);
+                }
+            }
+        }
+        return clone;
+    }
+    
+    /**
+     * Return a set of cloned trees one with each of the values at the given path.
+     */
+    public Collection<TreeResult> splitAt(ViewPath path) {
+        Collection<Object> values = getValues(path);
+        if (values == null) {
+            return Collections.emptyList();
+        }
+        Collection<TreeResult> results = new ArrayList<>( values.size() );
+        if (values.size() == 1) {
+            results.add( this );
+        } else {
+            for (Object value : values) {
+                results.add( cloneWithValue(path, value) );
+            }
+        }
+        return results;
     }
 
 }

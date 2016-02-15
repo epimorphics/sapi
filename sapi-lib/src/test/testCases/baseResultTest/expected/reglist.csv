@@ -1,0 +1,4 @@
+@id,permissionNumber,site,address,organization_name,localAuthority,registrationType
+http://localhost/example/reg1,123,http://localhost/example/site1,"Hobbit Hole, Somewhere","",Shire,test
+http://localhost/example/reg2,456,http://localhost/example/site3,"Hobbit Hole 3, Everywhere","",Shire,test
+http://localhost/example/reg2,456,http://localhost/example/site2,"Hobbit Hole 2, Nowhere","",Shire,test
