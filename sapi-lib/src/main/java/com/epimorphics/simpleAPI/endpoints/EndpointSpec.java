@@ -67,4 +67,10 @@ public interface EndpointSpec extends ConfigInstance {
      * Return the name of a (velocity or other) template to use for HTML rendering of this endpoint
      */
     public String getTemplateName();
+
+    /**
+     * Return a path that, if multi-valued, should
+     * force duplication of records in flat notations such as CSV
+     */
+    public String getFlattenPath();
 }

@@ -72,6 +72,9 @@ public class EndpointSpecFactory {
                         throw new EpiException("Could not parse textSearch specification, must be boolean or a string given the variable to search on");
                     }
                 }
+                if( jo.hasKey( FLATTEN_PATH ) ) {
+                    lspec.setFlattenPath( JsonUtil.getStringValue(jo, FLATTEN_PATH) );
+                }
             } else {
                 throw new EpiException("Did not recognize type of endpoint configuration " + type + " in " + filename);
             }

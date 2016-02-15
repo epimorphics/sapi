@@ -12,18 +12,34 @@
 @prefix org:   <http://www.w3.org/ns/org#> .
 
 eg:reg1
+    a reg:Permit;
     skos:notation "123" ;
     reg:site  eg:site1 ;
     reg:localAuthority eg:la1 ;
     reg:permitType eg:pt1 ;
     .
 
-eg:site1
-  vcard:extended-address "Hobbit Hole, Somewhere" .
+eg:site1 org:siteAddress eg:siteAddress1 .
+eg:siteAddress1 vcard:extended-address "Hobbit Hole, Somewhere" .
   
 eg:la1
   rdfs:label  "Shire" .
 
 eg:pt1
   rdfs:label  "test" .
+
+eg:reg2
+    a reg:Permit;
+    skos:notation "456" ;
+    reg:site  eg:site2, eg:site3 ;
+    reg:localAuthority eg:la1 ;
+    reg:permitType eg:pt1 ;
+    .
+
+eg:site2 org:siteAddress eg:siteAddress2 .
+eg:siteAddress2  vcard:extended-address "Hobbit Hole 2, Nowhere" .
+
+eg:site3 org:siteAddress eg:siteAddress3 .
+eg:siteAddress3  vcard:extended-address "Hobbit Hole 3, Everywhere" .
+
 

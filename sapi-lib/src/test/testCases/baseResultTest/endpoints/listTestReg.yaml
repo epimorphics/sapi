@@ -1,0 +1,4 @@
+name      : listTestReg
+type      : list
+baseQuery : "?id a reg:Permit ."
+view      : "nestedDescribeView"

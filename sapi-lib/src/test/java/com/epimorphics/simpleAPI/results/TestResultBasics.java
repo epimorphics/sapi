@@ -128,6 +128,10 @@ public class TestResultBasics {
         api.setFullPathsInCSVHeaders(true);
         assertTrue( checkCSV( api.getCall("listTest3", new MockUriInfo("test?_sort=@id"), null).getResults(), "list3-dot.csv", "list3-alt-dot.csv") );
         api.setFullPathsInCSVHeaders(false);
+        
+        ResultOrStream results = api.getCall("listTestReg", new MockUriInfo("test?_sort=@id"), null).getResults();
+        String csv = asCSV( results );
+        System.out.println( csv );
     }
     
     @Test
@@ -179,14 +183,15 @@ public class TestResultBasics {
         return array;
     }
     
-    protected boolean checkCSV(ResultOrStream stream, String...expectedFiles) throws IOException {
+    protected String asCSV( ResultOrStream stream ) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         CSVWriter writer = new CSVWriter(bos);
         writer.write( (ResultStream) stream);
-        String actual = bos.toString();
-        
-//        System.err.println(">> checCSV, actual:\n" + actual);
-        
+        return bos.toString();
+    }
+    
+    protected boolean checkCSV(ResultOrStream stream, String...expectedFiles) throws IOException {
+        String actual = asCSV(stream);
         for (String expectedFile : expectedFiles) {
             String expected = FileManager.get().readWholeFileAsUTF8(EXPECTED + expectedFile).replace("\n", "\r\n");
             if (actual.equals(expected)) {
@@ -229,6 +234,7 @@ public class TestResultBasics {
         assertNotNull(spec);
         ItemQuery query = (ItemQuery) spec.getQueryBuilder( request ).build();
         Result result = source.query(query, new Call(spec, request) );
+        System.out.println( result.asJson() );
         assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/nestedDescribe.json", result.asJson()) );
     }
     

@@ -9,5 +9,12 @@
       "@id" : "http://localhost/example/pt1" ,
       "registrationType" : "test"
     } ,
-  "site" : {"@id" : "http://localhost/example/site1" }
+  "site" : {
+      "@id" : "http://localhost/example/site1" ,
+      "siteAddress" : {
+          "@id" : "http://localhost/example/siteAddress1" ,
+          "address" : "Hobbit Hole, Somewhere"
+        }
+    } ,
+  "type" : {"@id" : "http://environment.data.gov.uk/public-register/def/registration/Permit" }
 }

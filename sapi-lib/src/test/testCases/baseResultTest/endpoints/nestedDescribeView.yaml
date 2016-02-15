@@ -6,14 +6,17 @@ view:
     optional: true
     nested :
       - prop: "org:siteAddress"
+        suppressID: true
         nested :
           - { prop: "vcard:extended-address", name: "address" }
           - { prop: "vcard:organization-name", optional: true }
   - prop: "reg:localAuthority"
     name: localAuthorityURI
+    suppressID: true
     nested:
       - { prop: "rdfs:label", name: "localAuthority" }
   - prop: "reg:permitType"
     name: "registrationTypeURI"
+    suppressID: true
     nested:
       - { prop: "rdfs:label", name: "registrationType" }

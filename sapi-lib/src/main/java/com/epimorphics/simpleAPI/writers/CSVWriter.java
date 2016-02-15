@@ -47,6 +47,7 @@ public class CSVWriter {
     protected List<ViewPath> paths;
     protected OutputStream out;
     protected boolean includeID = true;
+    protected String flattenPath;
     
     public CSVWriter(OutputStream out) {
         this.out = out;
@@ -109,6 +110,7 @@ public class CSVWriter {
                     i.remove();
                 }
             }
+            flattenPath = spec.getFlattenPath();
             writeHeaders( spec.getAPI().isFullPathsInCSVHeaders() );
         }
         

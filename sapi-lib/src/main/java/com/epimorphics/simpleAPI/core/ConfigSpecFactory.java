@@ -81,6 +81,7 @@ public class ConfigSpecFactory {
             ConfigItem config  = null;
             if ( TYPE_VIEW.equals(type) ) { 
                 if (jo.hasKey(MAPPING)) {
+                    // TODO Is this now legacy and could be removed?
                     config = ViewMap.parseFromJson(api, api.getPrefixes(), jo.get(MAPPING));
                 } else if (jo.hasKey(VIEW)) {
                     try {

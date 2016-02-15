@@ -9,6 +9,10 @@
 
 package com.epimorphics.simpleAPI.endpoints.impl;
 
+import static com.epimorphics.simpleAPI.core.ConfigConstants.GEO_ALGORITHM;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.GEO_PARAMETER;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.ROOT_VAR;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +33,6 @@ import com.epimorphics.simpleAPI.requests.RequestProcessor;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.util.PrefixUtils;
 
-import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
-
 /**
  * Provides some useful common methods for implementing EndpointSpecs
  * 
@@ -46,6 +48,7 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     protected JsonObject geoSearch;
     protected String textSearchRoot = ROOT_VAR;
     protected String itemName;
+    protected String flattenPath;
 
     public EndpointSpecBase(API api) {
         this.api = api;
@@ -194,7 +197,18 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
-    
-    
+
+    @Override
+    public String getFlattenPath() {
+        return flattenPath;
+    }
+
+    /**
+     * Set a comma-separated list of paths that, if multi-valued, should
+     * force duplication of records in flag notations such as CSV
+     */
+    public void setFlattenPath(String flattenPath) {
+        this.flattenPath = flattenPath;
+    }
     
 }
