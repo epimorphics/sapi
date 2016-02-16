@@ -54,7 +54,7 @@ public class EndpointsBase {
     public static  List<Variant> nonHtmlVariants;
     
     public static final String CONTENT_DISPOSITION_HEADER = "Content-Disposition";
-    public static final String CONTENT_DISPOSITION_FMT = "attachment; filename=\"%s.%s\"";
+    public static final String CONTENT_DISPOSITION_FMT = "attachment; filename=\"%s\"";
     
     static {
         Map<String,String> nonPreferred = new HashMap<>();
@@ -228,6 +228,19 @@ public class EndpointsBase {
         }
         // Let normal message body lookup decide the best rendering
         return Response.ok(entity).cacheControl(cc).build();     
+    }
+    
+    /**
+     * Return the given entity with a filename in the content disposition header.
+     * Uses defaul maxAge and default conneg (assumes the endpoint a suitable @Produces)
+     */
+    public Response respondAs(Object entity, String downloadName) {
+        CacheControl cc = new CacheControl();
+        cc.setMaxAge( (int)getAPI().getMaxAge() );
+        return Response.ok(entity)
+                .cacheControl(cc)
+                .header(CONTENT_DISPOSITION_HEADER, String.format(CONTENT_DISPOSITION_FMT, downloadName))
+                .build();     
     }
     
     /**
