@@ -21,6 +21,7 @@ import org.apache.jena.sparql.resultset.ResultSetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.epimorphics.appbase.webapi.ExtensionFilter;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.rdfutil.TypeUtil;
 import com.epimorphics.simpleAPI.core.API;
@@ -181,9 +182,10 @@ public class Call {
     }
     
     /**
-     * Check that all request parameters have been dealt with, if now treat as a bad request
+     * Check that all request parameters have been dealt with, if not treat as a bad request
      */
     public void checkRequestRecognized() {
+        request.consume( ExtensionFilter.FORMAT_PARAM );    // Handled by filter before getting to sapi
         List<String> missing = request.getRemainingParameters();
         if ( ! missing.isEmpty() ) {
             throw new WebApiException(Status.BAD_REQUEST, "Did not recognize request parameters " + missing + " as valid for this endpoint, incorrect endpoint?");

@@ -213,7 +213,7 @@ public class EndpointsBase {
         cc.setMaxAge(maxAge);
         if (entity instanceof ResultOrStream) {
             if ( ((ResultOrStream)entity).getCall().getTemplateName() == null || api.isHtmlNonDefault()) {
-                // No HTML rendering possible to perform dynamic content negotiation amongst the rest
+                // No HTML rendering possible, so perform dynamic content negotiation amongst the rest
                 Variant preferred = containerRequest.selectVariant(nonHtmlVariants);
                 if (preferred == null) {
                     if (api.isHtmlNonDefault()) {
