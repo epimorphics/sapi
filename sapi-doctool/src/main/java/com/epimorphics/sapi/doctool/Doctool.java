@@ -214,11 +214,20 @@ public class Doctool {
         }
         
         public PathSet longestView() {
-            return pathsets.get( 0 );
+            if (pathsets.isEmpty()) {
+                return null;
+            } else {
+                return pathsets.get( 0 );
+            }
         }
         
         public List<String> listPaths() {
-            return longestView().listPaths();
+            PathSet view = longestView();
+            if (view == null) {
+                return Collections.emptyList();
+            } else {
+                return longestView().listPaths();
+            }
         }
         
         public String viewDescription(String path) {
