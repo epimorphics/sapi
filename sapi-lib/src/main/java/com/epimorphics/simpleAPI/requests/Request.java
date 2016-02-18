@@ -109,7 +109,7 @@ public class Request {
      */
     public boolean hasParameterValue(String parameter) {
         List<String> values = get(parameter);
-        return ! values.isEmpty() && ! values.get(0).isEmpty();
+        return values != null &&  values.isEmpty() && ! values.get(0).isEmpty();
     }
     
     /**
