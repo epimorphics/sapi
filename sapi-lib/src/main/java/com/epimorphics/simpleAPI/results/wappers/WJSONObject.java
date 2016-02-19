@@ -18,6 +18,7 @@ import java.util.Map;
 import org.apache.jena.rdf.model.Resource;
 
 import com.epimorphics.rdfutil.RDFUtil;
+import com.epimorphics.simpleAPI.core.API;
 
 import static com.epimorphics.simpleAPI.writers.JsonWriterUtil.*;
 
@@ -94,6 +95,7 @@ public class WJSONObject {
     }
 
     public boolean hasResourceValue(String key, String expected) {
+        expected = API.get().getPrefixes().expandPrefix(expected);
         Object value = properties.get(key);
         if (value instanceof WJSONObject) {
             return expected.equals( ((WJSONObject)value).getURI() );
