@@ -41,6 +41,10 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
       <param-name>csv</param-name>
       <param-value>text/csv</param-value>
     </init-param>
+    <init-param>
+      <param-name>_format</param-name>
+      <param-value>true</param-value>
+    </init-param>
   </filter>
   
   <filter-mapping>
