@@ -56,28 +56,43 @@ public class ResultStreamSparqlSelect extends ResultStreamBase implements Result
     public boolean hasNext() {
         return nextID != null || results.hasNext();
     }
+    
+    private void step() {
+        nextRow = results.next();
+        nextID = nextRow.get("id") == null ? null : nextRow.getResource("id");
+    }
 
     @Override
     public Result next() {
         if (hasNext()) {
             try {
                 if (nextRow == null) {
-                    nextRow = results.next();
-                    nextID = nextRow.getResource("id");
+                    step();
                 }
-                TreeResult result = new TreeResult(getCall(), nextID);
-                Resource target = nextID;
-                while (nextID != null && nextID.equals(target)) {
-                    addRow(result, nextRow);
-                    if (results.hasNext()) {
-                        nextRow = results.next();
-                        nextID = nextRow.getResource("id");
-                    } else {
-                        nextID = null;
-                        close();
+                if (nextID == null) {
+                    // Non-id list, count or other random query
+                    TreeResult result = new TreeResult(getCall());
+                    for (Iterator<String> ki = nextRow.varNames(); ki.hasNext();) {
+                        String key = ki.next();
+                        result.add(key, nextRow.get(key));
                     }
+                    step();
+                    return result;
+                } else {
+                    TreeResult result = new TreeResult(getCall(), nextID);
+                    Resource target = nextID;
+                    while (nextID != null && nextID.equals(target)) {
+                        addRow(result, nextRow);
+                        if (results.hasNext()) {
+                            nextRow = results.next();
+                            nextID = nextRow.getResource("id");
+                        } else {
+                            nextID = null;
+                            close();
+                        }
+                    }
+                    return result;
                 }
-                return result;
             } catch (Exception e) {
                 // Assume exceptions are fatal and clean up higher up
                 // TODO Does java8 have better mechanisms for things like this?
