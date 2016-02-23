@@ -192,4 +192,23 @@ public class WJSONObject {
     public int hashCode() {
         return properties.hashCode();
     }
+    
+    @Override
+    public String toString() {
+        StringBuffer buf = new StringBuffer();
+        buf.append("{");
+        boolean started = false;
+        for (String key : properties.keySet()) {
+            if (started) {
+                buf.append(", ");
+            } else {
+                started = true;
+            }
+            buf.append(key);
+            buf.append(": ");
+            buf.append( properties.get(key).toString() );
+        }
+        buf.append("}");
+        return buf.toString();
+    }
 }
