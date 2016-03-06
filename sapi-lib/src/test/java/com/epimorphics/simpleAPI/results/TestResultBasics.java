@@ -21,8 +21,10 @@ import java.math.BigDecimal;
 import java.util.stream.Collectors;
 
 import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.util.FileManager;
 import org.junit.Before;
@@ -154,6 +156,14 @@ public class TestResultBasics {
                 );
         assertEquals(expected, actual);
         api.setShowLangTag(false);
+    }
+    
+    @Test
+    public void testNonIDEndpoint() {
+        ResultStream stream = (ResultStream) api.getCall("countTest", new MockUriInfo("test"), null).getResults();
+        TreeResult result = (TreeResult) stream.next();
+        Object count = result.getValues("count").iterator().next();
+        assertEquals(ResourceFactory.createTypedLiteral("6", XSDDatatype.XSDinteger), count);
     }
     
     protected WJSONObject getFirstWrapped(String spec) {

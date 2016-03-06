@@ -54,7 +54,7 @@ public class ResultStreamSparqlSelect extends ResultStreamBase implements Result
 
     @Override
     public boolean hasNext() {
-        return nextID != null || results.hasNext();
+        return nextRow != null || results.hasNext();
     }
     
     private void step() {
@@ -76,7 +76,7 @@ public class ResultStreamSparqlSelect extends ResultStreamBase implements Result
                         String key = ki.next();
                         result.add(key, nextRow.get(key));
                     }
-                    step();
+                    nextRow = null;
                     return result;
                 } else {
                     TreeResult result = new TreeResult(getCall(), nextID);
@@ -87,6 +87,7 @@ public class ResultStreamSparqlSelect extends ResultStreamBase implements Result
                             nextRow = results.next();
                             nextID = nextRow.getResource("id");
                         } else {
+                            nextRow = null;
                             nextID = null;
                             close();
                         }

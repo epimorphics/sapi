@@ -1,0 +1,10 @@
+name      : countTest 
+type      : list
+query : |
+    SELECT (COUNT(?x) as ?count) WHERE {
+        ?x a skos:Concept
+    }
+
+
+
+
