@@ -212,9 +212,8 @@ public class Request {
         String value = parameters.getFirst(parameter);
         if (value == null) return null; 
         value = value.replace("\\", "");
-        String[] words = value.split("([\\+\\-\\&\\|!\\(\\)\\{\\}\\[\\]^\"~/,]|\\s)+");
+        String[] words = value.split("([\\+\\-\\&\\|!\\(\\)\\{\\}\\[\\]^\"~/,\\.]|\\s)+");
         // Note this doesn't include ' which may need to be treated as a special case
-        // Doesn't include . because the StandardAnalyzer doesn't split on .
         
         String query = null;
         if (words.length >= 1) {
