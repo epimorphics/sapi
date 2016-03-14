@@ -21,6 +21,15 @@ import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
 public class SearchRequestProcessor implements RequestProcessor {
     public static final String P_SEARCH = "search";
     
+    protected boolean filterDistinct = false;
+    
+    /**
+     * Set to true to de-duplicate text search results (the text search run run as a subsquery with a DISTINCT modifier)
+     */
+    public void setFilterDistinct(boolean filterDistict) {
+        this.filterDistinct = filterDistict;
+    }
+    
     @Override
     public ListQueryBuilder process(Request request, ListQueryBuilder builder, EndpointSpec spec) {
         if (spec instanceof EndpointSpecBase) {
@@ -28,7 +37,11 @@ public class SearchRequestProcessor implements RequestProcessor {
             if ( request.hasAvailableParameter(P_SEARCH) && builder instanceof SparqlQueryBuilder && specbase.getTextSearchRoot() != null) {
                 String lucene = request.getAsLuceneQuery(P_SEARCH);
                 request.consume(P_SEARCH);
-                String search = String.format("?%s  <http://jena.apache.org/text#query> '%s'.", specbase.getTextSearchRoot(), lucene);
+                String root = specbase.getTextSearchRoot();
+                String search = 
+                        filterDistinct 
+                                ? String.format("{ SELECT DISTINCT ?%s WHERE {?%s  <http://jena.apache.org/text#query> '%s'} }", root, root, lucene)
+                                : String.format("?%s  <http://jena.apache.org/text#query> '%s'.", root, lucene);
                 return ((SparqlQueryBuilder)builder).inject( search );
             }
         }
