@@ -132,6 +132,8 @@ public class TestResultBasics {
         api.setFullPathsInCSVHeaders(false);
         
         assertTrue( checkCSV( api.getCall("listTestReg", new MockUriInfo("test?_sort=@id"), null).getResults(), "reglist.csv", "reglist-alt.csv") );
+        
+        assertTrue( checkCSV( api.getCall("listTest6", new MockUriInfo("test?_sort=@id"), null).getResults(), "csvMulti.csv", "csvMulti-alt.csv") );
     }
     
     @Test

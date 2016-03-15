@@ -137,11 +137,13 @@ public class CSVWriter {
                 // Optional value
                 buf.append( safeString("") );
             } else {
+                String v = "";
                 boolean multi = false;
                 for (RDFNode value : values) {
-                    if (multi) buf.append(VALUE_SEP); else multi = true;
-                    buf.append( serializeNode( (RDFNode)value ) );
+                    if (multi) v += VALUE_SEP; else multi = true;
+                    v += serializeNode( (RDFNode)value );
                 }
+                buf.append( safeString(v) );
             }
         }
         buf.append(LINE_END);
@@ -153,7 +155,7 @@ public class CSVWriter {
         } else if (node.isURIResource()) {
             return node.asResource().getURI();
         } else {
-            return safeString( node.asLiteral().getLexicalForm() );
+            return node.asLiteral().getLexicalForm();
         }
     }
     

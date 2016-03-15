@@ -1,0 +1,9 @@
+name      : listTest6
+type      : list
+baseQuery : "?id a eg:MultiTest ."
+view      :
+    - "rdfs:label"
+    - "skos:notation"
+        
+
+
