@@ -131,6 +131,7 @@ public class CSVWriter {
     protected void writeResult(TreeResult result, StringBuffer buf) {
         boolean started = false;
         for (ViewPath path : paths) {
+            if (path.isEmpty() && !includeID) continue;
             if (started) { buf.append(SEP); } else { started = true; }
             Collection<RDFNode> values = result.get(path);
             if (values == null || values.isEmpty()) {
@@ -164,7 +165,7 @@ public class CSVWriter {
         boolean started = false;
         for (ViewPath path : paths) {
             if (started) { buf.append(SEP); } else { started = true; }
-            if ( path.isEmpty() ) {
+            if ( path.isEmpty() && includeID ) {
                 buf.append( ID_COL );
             } else {
                 buf.append( safeString( showDotted ? path.asDotted() : path.last() ) );
