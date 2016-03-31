@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -61,6 +62,17 @@ public class CSVWriter {
      */
     public void setIncludeID(boolean includeID) {
         this.includeID = includeID;
+    }
+    
+    /**
+     * Override the set of paths to include in the CSV.
+     * @param vpaths array of dotted path names to put in the CSV output
+     */
+    public void setViewPaths(String[] vpaths) {
+        paths = new ArrayList<>();
+        for (String path : vpaths) {
+            paths.add( ViewPath.fromDotted(path) );
+        }
     }
     
     /**
