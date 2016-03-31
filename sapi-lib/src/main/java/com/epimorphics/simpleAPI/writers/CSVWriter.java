@@ -48,6 +48,7 @@ public class CSVWriter {
     protected OutputStream out;
     protected boolean includeID = true;
     protected ViewPath flattenPath;
+    protected boolean writtenHeaders = false;
     
     public CSVWriter(OutputStream out) {
         this.out = out;
@@ -96,9 +97,10 @@ public class CSVWriter {
      * If this is the first row it will generate a CSV header row as well.
      */
     public void write(TreeResult result) throws IOException {
+        Call call = result.getCall();
+        EndpointSpec spec = call.getEndpoint();
+
         if (paths == null) {
-            Call call = result.getCall();
-            EndpointSpec spec = call.getEndpoint();
             ViewMap viewmap = spec.getView( call.getRequest().getViewName() );
             paths = viewmap.getAllPaths();
             if (paths == null) {
@@ -114,7 +116,11 @@ public class CSVWriter {
             if (fp != null) {
                 flattenPath = ViewPath.fromDotted( fp );
             }
+        }
+        
+        if (!writtenHeaders) {
             writeHeaders( spec.getAPI().isFullPathsInCSVHeaders() );
+            writtenHeaders = true;
         }
         
         StringBuffer buf = new StringBuffer();
