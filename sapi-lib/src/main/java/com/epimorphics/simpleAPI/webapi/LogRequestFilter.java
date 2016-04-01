@@ -20,10 +20,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.util.NameUtils;
 
 /**
@@ -65,6 +67,16 @@ public class LogRequestFilter implements Filter {
 
     @Override
     public void destroy() {
+    }
+    
+    public static WebApiException badRequestException(String message) {
+        log.warn("Bad request: " + message);
+        return new WebApiException(Status.BAD_REQUEST, message);
+    }
+    
+    public static WebApiException serverErrorException(String message) {
+        log.warn("Server error: " + message);
+        return new WebApiException(Status.INTERNAL_SERVER_ERROR, message);
     }
 
 }
