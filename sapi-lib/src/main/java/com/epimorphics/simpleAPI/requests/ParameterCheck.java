@@ -55,7 +55,7 @@ public class ParameterCheck {
     
     public ParameterCheck(String parameter, boolean required) {
         this.parameter = parameter;
-        this.required = true;
+        this.required = required;
     }
     
     public static ParameterCheck fromJson(String param, JsonValue json) {
