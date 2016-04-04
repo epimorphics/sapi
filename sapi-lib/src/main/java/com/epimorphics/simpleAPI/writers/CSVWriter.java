@@ -22,6 +22,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.results.Result;
@@ -144,6 +145,17 @@ public class CSVWriter {
             }
         }
         out.write( buf.toString().getBytes(ENC) );
+    }
+    
+    /**
+     * Write just the header line. Only useful if iterating over the results 
+     * externally and want and empty result sets to include header row only. 
+     */
+    public void writeHeaders(API api) throws IOException {
+        if (!writtenHeaders) {
+            writeHeaders( api.isFullPathsInCSVHeaders() );
+            writtenHeaders = true;
+        }
     }
     
     protected void writeResult(TreeResult result, StringBuffer buf) {
