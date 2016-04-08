@@ -52,6 +52,7 @@ public class EndpointsBase {
     public static MediaType JSONLD_TYPE;
     public static MediaType RDFXML_TYPE;
     public static  List<Variant> nonHtmlVariants;
+    public static  List<Variant> htmlVariants;
     
     public static final String CONTENT_DISPOSITION_HEADER = "Content-Disposition";
     public static final String CONTENT_DISPOSITION_FMT = "attachment; filename=\"%s\"";
@@ -74,6 +75,7 @@ public class EndpointsBase {
                 RDFXML_TYPE,
                 JSONLD_TYPE,
                 CSV_TYPE).build();
+        htmlVariants = Variant.mediaTypes( MediaType.TEXT_HTML_TYPE ).build();
     }
     
     static final Logger log = LoggerFactory.getLogger( EndpointsBase.class );
@@ -222,6 +224,12 @@ public class EndpointsBase {
                         throw new WebApiException(Status.NOT_ACCEPTABLE, "Cannot provide that media type");
                     }
                 } else {
+                    return Response.ok(entity).type(preferred.getMediaType()).cacheControl(cc).build();
+                }
+            } else if ( api.isHtmlPreferred() ) {
+                // HMTL render possible and preferred, override variant processing to cope with cases like IE8
+                Variant preferred = containerRequest.selectVariant(htmlVariants);
+                if (preferred != null) {
                     return Response.ok(entity).type(preferred.getMediaType()).cacheControl(cc).build();
                 }
             }

@@ -72,6 +72,7 @@ public class API extends ComponentBase implements Startup {
     protected int  maxAge = 60;
     protected SpecMonitor monitor;
     protected boolean htmlNonDefault = false;
+    protected boolean htmlPreferred = false;;
     protected String defaultItemTemplate;
     protected String defaultListTemplate;
     
@@ -485,7 +486,7 @@ public class API extends ComponentBase implements Startup {
      * Regard HTML as supported if there's a default template or we've explicit set it is supported-but-not-default
      */
     public boolean isHtmlSupported() {
-        return defaultItemTemplate != null || defaultListTemplate != null || htmlNonDefault;
+        return defaultItemTemplate != null || defaultListTemplate != null || htmlNonDefault || htmlPreferred;
     }
     
     public boolean isHtmlNonDefault() {
@@ -499,7 +500,15 @@ public class API extends ComponentBase implements Startup {
     public void setConfigExtensions(GenericConfig configExtensions) {
         this.configExtensions = configExtensions;
     }
-    
+
+    public boolean isHtmlPreferred() {
+        return htmlPreferred;
+    }
+
+    public void setHtmlPreferred(boolean htmlPreferred) {
+        this.htmlPreferred = htmlPreferred;
+    }
+
 
     // ---- Internals -----------------------------------------------
 
