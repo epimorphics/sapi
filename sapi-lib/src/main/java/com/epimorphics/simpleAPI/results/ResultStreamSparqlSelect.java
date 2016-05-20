@@ -22,6 +22,7 @@ import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewTree;
 import com.epimorphics.util.EpiException;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.ROOT_VAR;
 
 /**
  * A ResultStream based on a streaming ResultSet from a base SPARQL query mapped
@@ -59,7 +60,7 @@ public class ResultStreamSparqlSelect extends ResultStreamBase implements Result
     
     private void step() {
         nextRow = results.next();
-        nextID = nextRow.get("id") == null ? null : nextRow.getResource("id");
+        nextID = nextRow.get(ROOT_VAR) == null ? null : nextRow.getResource(ROOT_VAR);
     }
 
     @Override
@@ -85,7 +86,7 @@ public class ResultStreamSparqlSelect extends ResultStreamBase implements Result
                         addRow(result, nextRow);
                         if (results.hasNext()) {
                             nextRow = results.next();
-                            nextID = nextRow.getResource("id");
+                            nextID = nextRow.getResource(ROOT_VAR);
                         } else {
                             nextRow = null;
                             nextID = null;
@@ -109,7 +110,7 @@ public class ResultStreamSparqlSelect extends ResultStreamBase implements Result
         if (getView() == null) {
             for (Iterator<String> vi = row.varNames(); vi.hasNext();) {
                 String var = vi.next();
-                if (!var.equals("id")) {
+                if (!var.equals(ROOT_VAR)) {
                     result.add(var, row.get(var));
                 }
             }

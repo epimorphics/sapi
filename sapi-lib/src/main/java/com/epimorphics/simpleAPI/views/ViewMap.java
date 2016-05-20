@@ -25,6 +25,7 @@ import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.sparql.terms.TermAtomic;
 import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.util.EpiException;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.ROOT_VAR;
 
 /**
  * Represents a singled configured tree view over the data which can be directly mapped to JSON.
@@ -71,12 +72,12 @@ public class ViewMap extends ConfigItem {
      */
     public String asQuery() {
     	QueryShape q = new QueryShape();
-        q.addEarlyPattern(getTree().buildPattern("id", ""));
+        q.addEarlyPattern(getTree().buildPattern(ROOT_VAR, ""));
         return q.toSparqlConstruct(new Settings());
     }
     
     public void injectTreePatternInfo(QueryShape q) {
-        q.addEarlyPattern(getTree().buildPattern("id", ""));
+        q.addEarlyPattern(getTree().buildPattern(ROOT_VAR, ""));
     }
     
     /**
@@ -84,9 +85,9 @@ public class ViewMap extends ConfigItem {
      */
     public QueryShape asDescribe() {
     	Set<String> vars = new HashSet<>();
-    	GraphPattern pattern = getTree().buildPattern("id", "", vars, false);
+    	GraphPattern pattern = getTree().buildPattern(ROOT_VAR, "", vars, false);
     	QueryShape sq = new QueryShape();
-    	sq.addDescribeElements(list(new Var("id")));
+    	sq.addDescribeElements(list(new Var(ROOT_VAR)));
     	sq.addEarlyPattern(pattern);
     	for (String v: vars) sq.addDescribeElements(list(new Var(v)));
     	return sq;
@@ -106,7 +107,7 @@ public class ViewMap extends ConfigItem {
      */
     public String asVariableName(String name) {
         if ("@id".equals(name)) {
-            return "id";
+            return ROOT_VAR;
         }
         ViewPath path = getTree().pathTo(name);
         if (path != null) {

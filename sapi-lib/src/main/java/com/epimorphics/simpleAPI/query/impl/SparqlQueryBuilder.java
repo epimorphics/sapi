@@ -65,7 +65,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
     }
     
     /**
-     * Construct a query builder from a complete query template that must incluide the inject, filter and modification markers.
+     * Construct a query builder from a complete query template that must include the inject, filter and modification markers.
      */
     public static final QueryBuilder fromTemplate(String queryTemplate) {
     	QueryShape q = new QueryShape().setTemplate(queryTemplate);
@@ -82,6 +82,10 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
         this.prefixes = prefixes;
     }
     
+    protected SparqlQueryBuilder updateQuery(QueryShape q) {
+        return new SparqlQueryBuilder(q, prefixes);
+    }
+    
     /**
      * Insert an arbitrary sparql query string before the base query element.
      * Mostly used internally in the builder but public to support legacy apps.
@@ -94,8 +98,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Insert an arbitrary sparql query string before the base query element.
      */
     public SparqlQueryBuilder inject(GraphPattern pattern) {
-        QueryShape q = query.copy().injectEarlyPattern(pattern);
-        return new SparqlQueryBuilder(q, prefixes);
+        return updateQuery( query.copy().injectEarlyPattern(pattern) );
     }
     
     /**
@@ -110,8 +113,7 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Insert an arbitrary sparql query string in the filter region of the query.
      */
     public SparqlQueryBuilder filter(GraphPattern pattern) {
-        QueryShape q = query.copy().addLaterPattern(pattern);
-        return new SparqlQueryBuilder(q, prefixes);
+        return updateQuery( query.copy().addLaterPattern(pattern) );
     }
     
     /**
@@ -119,16 +121,15 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
      * Mostly used internally in the builder but public to support legacy apps.
      */
     protected SparqlQueryBuilder modifier(String s) {
-    	QueryShape q = query.copy().addRawModifier(s);
-        return new SparqlQueryBuilder(q, prefixes);
+        return updateQuery( query.copy().addRawModifier(s) );
     }
 	
 	@Override public ListQueryBuilder filter(String shortname, RDFNode value) {
 		Var var = new Var(shortname);
 		IsExpr val = TermUtils.nodeToTerm(value);
 		Filter eq = new Filter(new Infix(var, Op.opEq, val));
-		Basic basic = new Basic(eq);		
-		return new SparqlQueryBuilder(query.copy().addLaterPattern(basic), prefixes);
+		Basic basic = new Basic(eq);	
+		return filter( basic );
 	}
 
 	@Override public ListQueryBuilder filter(String shortname,	Collection<RDFNode> values) {
@@ -139,33 +140,33 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
 			List<IsExpr> operands = new ArrayList<IsExpr>();
 			for (RDFNode value: values) operands.add(TermUtils.nodeToTerm(value));
 			IsExpr oneOf = new Infix(var, Op.opIn, new Call(Op.Tuple, operands));
-			return new SparqlQueryBuilder(query.copy().addLaterPattern(new Basic(new Filter(oneOf))), prefixes);
+			return filter( new Basic(new Filter(oneOf)) );
 		}
 	}
 	
 	@Override public ListQueryBuilder geoQuery(GeoQuery gq) {
 		QueryShape q = query.copy();
 		q.setGeoQuery(gq);
-		return new SparqlQueryBuilder(q, prefixes);
+		return updateQuery(q);
 	}
 	
 	@Override public ListQueryBuilder sort(String shortname, boolean down) {
 		Order sc = (down ? Order.DESC : Order.ASC);
-		return new SparqlQueryBuilder(query.copy().addOrder(sc, new Var(shortname)), prefixes);
+		return updateQuery( query.copy().addOrder(sc, new Var(shortname)) );
 	}
 
 	@Override public ListQueryBuilder limit(long limit, long offset) {
 		QueryShape q = query.copy();
 		q.setLimit(limit);
 		q.setOffset(offset);
-		return new SparqlQueryBuilder(q, prefixes);
+		return updateQuery(q);
 	}
 
 	@Override public ListQueryBuilder bind(String varname, RDFNode value) {
 		final Var var = new Var(varname);
 		final IsExpr val = TermUtils.nodeToTerm(value);
 		QueryShape q = query.copy().addPreBinding(new Bind(val, var));
-		return new SparqlQueryBuilder(q, prefixes);
+        return updateQuery(q);
 	}
 
     @Override public ListQuery build() {
