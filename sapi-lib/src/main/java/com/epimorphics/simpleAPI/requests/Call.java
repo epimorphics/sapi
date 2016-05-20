@@ -10,6 +10,7 @@
 package com.epimorphics.simpleAPI.requests;
 
 import java.util.List;
+import java.util.function.Function;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
@@ -97,6 +98,15 @@ public class Call {
      */
     public void setQueryBuilder(QueryBuilder builder) {
         this.builder = builder;
+    }
+    
+    /**
+     * Update the query builder corresponding to this call by applying the given transformation.
+     * Useful for programmatic endpoints that want to 
+     * inject their own processing.
+     */
+    public void updateQueryBuilder(Function<QueryBuilder, QueryBuilder> transform) {
+        this.builder = transform.apply( getQueryBuilder() );
     }
     
     /**
