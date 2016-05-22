@@ -75,6 +75,9 @@ public class EndpointSpecFactory {
                 if( jo.hasKey( FLATTEN_PATH ) ) {
                     lspec.setFlattenPath( JsonUtil.getStringValue(jo, FLATTEN_PATH) );
                 }
+                if( jo.hasKey( NESTED_SELECT ) ) {
+                    lspec.setUseNestedSelect( JsonUtil.getBooleanValue(jo, NESTED_SELECT, false) );
+                }
             } else {
                 throw new EpiException("Did not recognize type of endpoint configuration " + type + " in " + filename);
             }

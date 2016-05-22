@@ -1,0 +1,13 @@
+name      : listNestedSelect
+type      : list
+baseQuery : "?id a egn:NestTest ."
+nestedSelect : true
+view      :
+    - "rdfs:label"
+    - "rdf:type"
+    - "skos:notation"
+    - prop : "skos:narrower"
+      nested :
+        - "rdfs:label"
+        - "skos:notation"
+

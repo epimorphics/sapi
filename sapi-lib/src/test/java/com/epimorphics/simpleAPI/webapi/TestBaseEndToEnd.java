@@ -87,6 +87,11 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         checkResponseText(
                 getResponse(BASE_URL + "basetest/list?_limit=2&_sort=@id", "text/html"),
                 EXPECTED + "list-limit2-id2.html" );
+       
+        // Use of nested selects
+        checkGet("basetest/listNestedSelect?_sort=@id", EXPECTED + "listNestedSelect-base.json");
+        checkGet("basetest/listNestedSelect?filter=test&_sort=@id", EXPECTED + "listNestedSelect-filter.json");
+        checkGet("basetest/listNestedSelect?_limit=2&_sort=@id", EXPECTED + "listNestedSelect-limit2.json");
     }
     
     protected void checkGet(String url, String expectedF) {

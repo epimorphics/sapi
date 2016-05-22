@@ -72,12 +72,16 @@ public class ViewMap extends ConfigItem {
      */
     public String asQuery() {
     	QueryShape q = new QueryShape();
-        q.addEarlyPattern(getTree().buildPattern(ROOT_VAR, ""));
+        q.addEarlyPattern( asPattern() );
         return q.toSparqlConstruct(new Settings());
     }
     
+    public GraphPattern asPattern() {
+        return getTree().buildPattern(ROOT_VAR, "");
+    }
+    
     public void injectTreePatternInfo(QueryShape q) {
-        q.addEarlyPattern(getTree().buildPattern(ROOT_VAR, ""));
+        q.addEarlyPattern( asPattern() );
     }
     
     /**

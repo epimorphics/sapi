@@ -6,3 +6,4 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix api:  <http://purl.org/linked-data/api/vocab#>
 @prefix eg:   <http://localhost/example/> .
+@prefix egn:  <http://localhost/exampleNested/> .

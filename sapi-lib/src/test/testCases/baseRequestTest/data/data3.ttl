@@ -1,0 +1,37 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix egn:   <http://localhost/exampleNested/> .
+
+egn:A1 a egn:NestTest, egn:NestTestAlt;
+    rdfs:label "A1", "a1";
+    skos:notation 1;
+    egn:group "test";
+    skos:narrower egn:B1 .
+
+egn:B1 a egn:NestTestNest;
+    rdfs:label "B1";
+    skos:notation 1 .
+
+egn:A2 a egn:NestTest, egn:NestTestAlt;
+    rdfs:label "A2", "a2";
+    skos:notation 2;
+    egn:group "test";
+    skos:narrower egn:B2 .
+
+egn:B2 a egn:NestTestNest;
+    rdfs:label "B2";
+    skos:notation 2 .
+
+egn:A3 a egn:NestTest, egn:NestTestAlt;
+    rdfs:label "A3", "a3";
+    skos:notation 3;
+    skos:narrower egn:B3 .
+
+egn:B3 a egn:NestTestNest;
+    rdfs:label "B3";
+    skos:notation 3 .
+    

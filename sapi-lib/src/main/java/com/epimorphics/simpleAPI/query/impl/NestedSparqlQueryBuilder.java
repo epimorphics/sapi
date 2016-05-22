@@ -9,35 +9,20 @@
 
 package com.epimorphics.simpleAPI.query.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.simpleAPI.core.ConfigConstants;
 import com.epimorphics.simpleAPI.query.ListQuery;
-import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
-import com.epimorphics.sparql.exprs.Call;
-import com.epimorphics.sparql.exprs.Infix;
-import com.epimorphics.sparql.exprs.Op;
-import com.epimorphics.sparql.geo.GeoQuery;
-import com.epimorphics.sparql.graphpatterns.Basic;
-import com.epimorphics.sparql.graphpatterns.Bind;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.sparql.query.As;
-import com.epimorphics.sparql.query.Order;
 import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.templates.Settings;
-import com.epimorphics.sparql.terms.Filter;
-import com.epimorphics.sparql.terms.IsExpr;
-import com.epimorphics.sparql.terms.TermUtils;
 import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.util.PrefixUtils;
 
@@ -71,13 +56,19 @@ public class NestedSparqlQueryBuilder extends SparqlQueryBuilder {
     }
 
     @Override public ListQuery build() {
-        // TODO change this to use inner/outer query arrangement
+        QueryShape innerQS = query.copy();
+        innerQS.addProjection( new Var(ConfigConstants.ROOT_VAR) );
+        String inner = "{ " + innerQS.toSparqlSelect( new Settings() ) + "}";
+        
+        QueryShape outerQS = outerQuery.copy();
+        outerQS.addEarlyPattern( new GraphPatternText(inner) );
+        
         Settings s = new Settings();
         Set<Entry<String, String>> es = prefixes.getNsPrefixMap().entrySet();
         for (Map.Entry<String, String> e: es) {
             s.setPrefix(e.getKey(), e.getValue());
         }
-        String queryString = query.toSparqlSelect(s);
+        String queryString = outerQS.toSparqlSelect(s);
         String expanded = PrefixUtils.expandQuery(queryString, prefixes);
         return new SparqlSelectQuery( expanded );
     }
@@ -88,10 +79,8 @@ public class NestedSparqlQueryBuilder extends SparqlQueryBuilder {
      * @param projection the variable to project out
      * @return
      */
-    
-    // TODO drop from here?
     public String buildQueryBodyProjecting(String projection, boolean removeLimits) {
-        QueryShape qs = query.copy();
+        QueryShape qs = outerQuery.copy();
         if (removeLimits){
             qs.setLimit(-1);
             qs.setOffset(-1);

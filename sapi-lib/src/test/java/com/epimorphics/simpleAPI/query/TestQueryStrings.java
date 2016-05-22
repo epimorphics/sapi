@@ -125,4 +125,12 @@ public class TestQueryStrings {
         assertContains( query, "?id reg:localAuthority ?localAuthorityURI ." );
         assertContains( query, "?id reg:permitType ?registrationTypeURI ." );
     }
+    
+    @Test
+    public void testListViaNestedQueries() {
+        String query = api.getCall("listNestedSelect", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
+        String[] queryLines = query.split("\\n");
+        query = queryLines[ queryLines.length -1 ];  // First lines are prefixes then query all on one line
+        assertContains( query, "SELECT * WHERE { { SELECT ?id WHERE {{?id a egn:NestTest .}}} ");
+    }
 }

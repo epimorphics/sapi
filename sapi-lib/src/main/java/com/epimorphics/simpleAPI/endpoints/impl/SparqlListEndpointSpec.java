@@ -12,6 +12,7 @@ package com.epimorphics.simpleAPI.endpoints.impl;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.ListEndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.query.impl.NestedSparqlQueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.sparql.query.QueryShape;
@@ -24,6 +25,7 @@ import com.epimorphics.sparql.query.QueryShape;
 public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEndpointSpec {
     protected Long softLimit;
     protected Long hardLimit;
+    protected boolean useNestedSelect = false;
     
     public SparqlListEndpointSpec(API api) {
         super(api);
@@ -31,9 +33,19 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
 
     @Override public QueryBuilder getQueryBuilder(String viewname) {
         ViewMap view = getView(viewname);
-        QueryShape withTree = getBaseQuery().copy();
-        if (view != null) view.injectTreePatternInfo(withTree);
-        return SparqlQueryBuilder.fromBaseQuery(withTree, getPrefixes());
+        QueryShape base = getBaseQuery().copy();
+        if ( useNestedSelect ) {
+            QueryShape outerQuery = new QueryShape();
+            if (view != null) {
+                outerQuery.addLaterPattern( view.asPattern() );
+            }
+            return new NestedSparqlQueryBuilder( base, outerQuery, getPrefixes() );
+        } else {
+            if (view != null) {
+                view.injectTreePatternInfo(base);
+            }
+            return SparqlQueryBuilder.fromBaseQuery(base, getPrefixes());
+        }
     }
 
     /**
@@ -64,4 +76,16 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
         this.hardLimit = hardLimit;
     }
     
+    /**
+     * Set to true to force use of nested selects in SPARQL query creation for this endpoint
+     */
+    public void setUseNestedSelect(boolean useNestedSelect) {
+        this.useNestedSelect = useNestedSelect;
+    }
+    
+    
+    public boolean useNestedSelect() {
+        return useNestedSelect;
+    }
+        
 }

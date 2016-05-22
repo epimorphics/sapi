@@ -1,0 +1,37 @@
+{ 
+  "@context" : "http://localhost/flood-monitoring/doc/context-TBD.jsonld" ,
+  "meta" : { 
+    "publisher" : "Epimorphics.com" ,
+    "licence" : "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ,
+    "documentation" : "http://localhost/flood-monitoring/doc/api-documentation.html" ,
+    "version" : "0.1" ,
+    "comment" : "WARNING: Pre-alpha test service, data may not be up to date" ,
+    "hasFormat" : [ "http://localhost/flood-monitoring/basetest/listNestedSelect.csv?filter=test&_sort=%40id", "http://localhost/flood-monitoring/basetest/listNestedSelect.rdf?filter=test&_sort=%40id", "http://localhost/flood-monitoring/basetest/listNestedSelect.ttl?filter=test&_sort=%40id" ]
+  }
+   ,
+  "items" : [ { 
+    "@id" : "http://localhost/exampleNested/A1" ,
+    "label" : [ "A1", "a1" ] ,
+    "narrower" : { 
+      "@id" : "http://localhost/exampleNested/B1" ,
+      "label" : "B1" ,
+      "notation" : 1
+    }
+     ,
+    "notation" : 1 ,
+    "type" : [ "http://localhost/exampleNested/NestTest", "http://localhost/exampleNested/NestTestAlt" ]
+  }
+  , { 
+    "@id" : "http://localhost/exampleNested/A2" ,
+    "label" : [ "A2", "a2" ] ,
+    "narrower" : { 
+      "@id" : "http://localhost/exampleNested/B2" ,
+      "label" : "B2" ,
+      "notation" : 2
+    }
+     ,
+    "notation" : 2 ,
+    "type" : [ "http://localhost/exampleNested/NestTest", "http://localhost/exampleNested/NestTestAlt" ]
+  }
+   ]
+}

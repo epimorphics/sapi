@@ -210,5 +210,5 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     public void setFlattenPath(String flattenPath) {
         this.flattenPath = flattenPath;
     }
-    
+
 }

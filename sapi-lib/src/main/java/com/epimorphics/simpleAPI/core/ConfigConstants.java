@@ -41,6 +41,7 @@ public class ConfigConstants {
     public static final String SOFT_LIMIT = "softLimit";
     public static final String HAS_FORMAT = "hasFormat";
     public static final String FLATTEN_PATH = "flattenPath";
+    public static final String NESTED_SELECT = "nestedSelect";
     
     public static final String PROPERTY    = "prop";
     public static final String OPTIONAL    = "optional";

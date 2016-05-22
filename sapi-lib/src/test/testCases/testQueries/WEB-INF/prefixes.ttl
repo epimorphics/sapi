@@ -14,3 +14,4 @@
 @prefix vcard:     <http://www.w3.org/2006/vcard/ns#> .
 @prefix org:       <http://www.w3.org/ns/org#> .
 @prefix eg:   <http://localhost/example/> .
+@prefix egn:   <http://localhost/exampleNested/> .
