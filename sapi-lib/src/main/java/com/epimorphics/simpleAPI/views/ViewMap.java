@@ -80,6 +80,10 @@ public class ViewMap extends ConfigItem {
         return getTree().buildPattern(ROOT_VAR, "");
     }
     
+    public GraphPattern patternForPath(ViewPath path) {
+        return tree.patternForPath(path, "", ROOT_VAR);
+    }
+    
     public void injectTreePatternInfo(QueryShape q) {
         q.addEarlyPattern( asPattern() );
     }

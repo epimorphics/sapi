@@ -27,6 +27,7 @@ import com.epimorphics.simpleAPI.query.impl.SparqlSelectQuery;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
+import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.util.Asserts;
 import com.epimorphics.vocabs.SKOS;
@@ -120,6 +121,14 @@ public class TestSpecAndViews {
         Set<String> actual = new HashSet<>();
         for (ViewPath path : view.getAllPaths()) actual.add( path.asDotted() );
         assertEquals(expected, actual);
+        
+        GraphPattern pattern = view.patternForPath(ViewPath.fromDotted("foo.bar.notation"));
+        Settings s = new Settings();
+        StringBuilder buff = new StringBuilder();
+        pattern.toSparql(s, buff);
+        assertEquals(" ?id <http://environment.data.gov.uk/flood-monitoring/def/core/foo> ?foo . "
+                + " ?foo <http://environment.data.gov.uk/flood-monitoring/def/core/bar> ?foo_bar ."
+                + " ?foo_bar <http://www.w3.org/2004/02/skos/core#notation> ?foo_bar_notation .", buff.toString());
     }
     
     @Test

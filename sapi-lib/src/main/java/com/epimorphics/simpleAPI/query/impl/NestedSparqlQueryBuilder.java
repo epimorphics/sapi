@@ -9,15 +9,21 @@
 
 package com.epimorphics.simpleAPI.query.impl;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.simpleAPI.core.ConfigConstants;
 import com.epimorphics.simpleAPI.query.ListQuery;
+import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.views.ViewPath;
+import com.epimorphics.sparql.graphpatterns.And;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.sparql.query.As;
@@ -49,6 +55,23 @@ public class NestedSparqlQueryBuilder extends SparqlQueryBuilder {
         query.addLaterPattern( viewPattern );
         return new NestedSparqlQueryBuilder( baseQuery, query, prefixes );
     }
+    
+    @Override
+    public ListQueryBuilder filter(ViewPath path, ViewMap map, RDFNode value) {
+        return pathAndFilter(path, map, filterPattern(path.asVariableName(), value));
+    }
+
+    @Override
+    public ListQueryBuilder filter(ViewPath path, ViewMap map, Collection<RDFNode> values) {
+        return pathAndFilter(path, map, filterPattern(path.asVariableName(), values));
+    }
+        
+    protected ListQueryBuilder pathAndFilter(ViewPath path, ViewMap map, GraphPattern filter) {
+        GraphPattern pathPattern = map.patternForPath(path);
+        GraphPattern merged = new And( pathPattern, filter );
+        return updateQuery( query.copy().addLaterPattern(merged) );
+    }
+    
     
     @Override
     protected SparqlQueryBuilder updateQuery(QueryShape q) {

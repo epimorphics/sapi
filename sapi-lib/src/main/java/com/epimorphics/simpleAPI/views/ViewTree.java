@@ -117,6 +117,26 @@ public class ViewTree implements Iterable<ViewEntry> {
     	
     	return new And(patterns);    	
     }
+    
+    protected GraphPattern patternForPath(ViewPath path, String pathSoFar, String priorVar) {
+        String var = path.first();
+        ViewEntry entry = getEntry(var);
+        if (entry == null) {
+            throw new EpiException("Path not recognized: " + var);
+        }
+        PV pv = entry.asQueryRow(pathSoFar);
+        Triple t = new Triple(new Var(priorVar), pv.property, pv.var);
+        ViewPath rest = path.rest();
+        if (rest.isEmpty()) {
+            return new Basic(t);
+        } else {
+            ViewTree nested = entry.getNested();
+            if (nested == null) {
+                throw new EpiException("Path does not match nesting:" + path);
+            }
+            return new And( new Basic(t), nested.patternForPath(rest, addToPath(pathSoFar, var), pv.var.getName()));
+        }
+    }
       
     /**
      * Extend a list of all paths in the tree 

@@ -38,7 +38,6 @@ public class FilterRequestProcessor implements RequestProcessor {
                     ViewPath path = view.pathTo(parameter);
                     if (path != null) {
                         // A legal filter
-                        String varname = path.asVariableName();
                         ViewEntry entry = view.findEntry(path);
                         if (entry != null && entry.isFilterable()) {
                             request.consume(parameter);
@@ -54,7 +53,7 @@ public class FilterRequestProcessor implements RequestProcessor {
                             if (rawargs.size() == 1) {
                                 String arg = rawargs.get(0);
                                 if (!arg.equals("*") && !arg.isEmpty()) {
-                                    builder = builder.filter(varname, asValue(arg, type, valueBase));
+                                    builder = builder.filter(path, view, asValue(arg, type, valueBase));
                                 } else {
                                     // Wildcard filter, silently ignore
                                 }
@@ -63,7 +62,7 @@ public class FilterRequestProcessor implements RequestProcessor {
                                 for (int i = 0; i < rawargs.size(); i++) {
                                     args.add(i, asValue(rawargs.get(i), type, valueBase));
                                 }
-                                builder = builder.filter(varname, args);
+                                builder = builder.filter(path, view, args);
                             }
                         }
                     }

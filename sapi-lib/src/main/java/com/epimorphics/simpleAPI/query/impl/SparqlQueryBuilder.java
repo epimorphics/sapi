@@ -23,6 +23,8 @@ import com.epimorphics.simpleAPI.core.ConfigConstants;
 import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.sparql.exprs.Call;
 import com.epimorphics.sparql.exprs.Infix;
 import com.epimorphics.sparql.exprs.Op;
@@ -125,25 +127,43 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
     }
 	
 	@Override public ListQueryBuilder filter(String shortname, RDFNode value) {
-		Var var = new Var(shortname);
-		IsExpr val = TermUtils.nodeToTerm(value);
-		Filter eq = new Filter(new Infix(var, Op.opEq, val));
-		Basic basic = new Basic(eq);	
-		return filter( basic );
+		return filter( filterPattern(shortname, value) );
 	}
 
-	@Override public ListQueryBuilder filter(String shortname,	Collection<RDFNode> values) {
-		if (values.size() == 1) {
-			return filter(shortname, values.iterator().next());
-		} else {
-			Var var = new Var(shortname);
-			List<IsExpr> operands = new ArrayList<IsExpr>();
-			for (RDFNode value: values) operands.add(TermUtils.nodeToTerm(value));
-			IsExpr oneOf = new Infix(var, Op.opIn, new Call(Op.Tuple, operands));
-			return filter( new Basic(new Filter(oneOf)) );
-		}
+	@Override public ListQueryBuilder filter(String varname,	Collection<RDFNode> values) {
+	    return filter( filterPattern(varname, values) );
 	}
 	
+    @Override
+    public ListQueryBuilder filter(ViewPath path, ViewMap map, RDFNode value) {
+        return filter(path.asVariableName(), value);
+    }
+
+    @Override
+    public ListQueryBuilder filter(ViewPath path, ViewMap map, Collection<RDFNode> values) {
+        return filter(path.asVariableName(), values);
+    }
+    
+    protected GraphPattern filterPattern(String varname, RDFNode value) {
+        Var var = new Var( varname );
+        IsExpr val = TermUtils.nodeToTerm(value);
+        Filter eq = new Filter(new Infix(var, Op.opEq, val));
+        Basic basic = new Basic(eq);    
+        return basic;
+    }
+    
+    protected GraphPattern filterPattern(String varname, Collection<RDFNode> values) {
+        if (values.size() == 1) {
+            return filterPattern(varname, values.iterator().next() );
+        } else {
+            Var var = new Var( varname );
+            List<IsExpr> operands = new ArrayList<IsExpr>();
+            for (RDFNode value: values) operands.add(TermUtils.nodeToTerm(value));
+            IsExpr oneOf = new Infix(var, Op.opIn, new Call(Op.Tuple, operands));
+            return new Basic(new Filter(oneOf));
+        }
+    }
+    
 	@Override public ListQueryBuilder geoQuery(GeoQuery gq) {
 		QueryShape q = query.copy();
 		q.setGeoQuery(gq);
@@ -195,4 +215,6 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
         qs.addProjection(new As(new Var(ConfigConstants.ROOT_VAR), new Var(projection)));
         return qs.toSparqlSelect(new Settings());
     }
+
+
 }

@@ -13,6 +13,8 @@ import java.util.Collection;
 
 import org.apache.jena.rdf.model.RDFNode;
 
+import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.sparql.geo.GeoQuery;
 
 /**
@@ -25,13 +27,25 @@ public interface ListQueryBuilder extends QueryBuilder {
 
     /**
      * Add an equality filter constraint to the query
+     * @deprecated use ViewPath version
      */
     public ListQueryBuilder filter(String shortname, RDFNode value);
 
     /**
      * Add a one-of filter constraint to the query
+     * @deprecated use ViewPath version
      */
     public ListQueryBuilder filter(String shortname, Collection<RDFNode> values);
+
+    /**
+     * Add an equality filter constraint to the query
+     */
+    public ListQueryBuilder filter(ViewPath path, ViewMap map, RDFNode value);
+
+    /**
+     * Add a one-of filter constraint to the query
+     */
+    public ListQueryBuilder filter(ViewPath path, ViewMap map, Collection<RDFNode> values);
     
     // TODO more generalized filters?
     
