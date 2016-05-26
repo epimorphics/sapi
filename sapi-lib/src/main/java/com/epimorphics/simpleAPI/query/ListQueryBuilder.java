@@ -26,14 +26,14 @@ import com.epimorphics.sparql.geo.GeoQuery;
 public interface ListQueryBuilder extends QueryBuilder {
 
     /**
-     * Add an equality filter constraint to the query
-     * @deprecated use ViewPath version
+     * Add an equality filter constraint to the query.
+     * Use ViewPath version of the call for preference but there are situations where this is the only approach.
      */
     public ListQueryBuilder filter(String shortname, RDFNode value);
 
     /**
      * Add a one-of filter constraint to the query
-     * @deprecated use ViewPath version
+     * Use ViewPath version of the call for preference but there are situations where this is the only approach.
      */
     public ListQueryBuilder filter(String shortname, Collection<RDFNode> values);
 
