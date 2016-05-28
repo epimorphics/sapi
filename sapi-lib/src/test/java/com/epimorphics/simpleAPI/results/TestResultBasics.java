@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.atlas.json.JsonObject;
@@ -158,6 +159,15 @@ public class TestResultBasics {
                 );
         assertEquals(expected, actual);
         api.setShowLangTag(false);
+        
+        Object labels = expected.getFromPath("offspring.olabel");
+        assertTrue( labels instanceof Set<?> );
+        @SuppressWarnings("unchecked")
+        Set<Object> labelVals = (Set<Object>)labels;
+        assertTrue( labelVals.contains( "o1") );
+        assertTrue( labelVals.contains( "o2") );
+        
+        assertEquals("o1, o2", expected.getStringFromPath("offspring.olabel"));
     }
     
     @Test
@@ -244,7 +254,6 @@ public class TestResultBasics {
         assertNotNull(spec);
         ItemQuery query = (ItemQuery) spec.getQueryBuilder( request ).build();
         Result result = source.query(query, new Call(spec, request) );
-        System.out.println( result.asJson() );
         assertTrue( JsonComparator.equal("src/test/testCases/baseResultTest/expected/nestedDescribe.json", result.asJson()) );
     }
     

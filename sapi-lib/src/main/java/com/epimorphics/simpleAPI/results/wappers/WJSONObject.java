@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.jena.rdf.model.Resource;
 
@@ -147,11 +148,43 @@ public class WJSONObject {
             Object value = get(p);
             if (value instanceof WJSONObject) {
                 return ((WJSONObject)value).getFromPath(rest);
+            } else if (value instanceof WJSONArray) {
+                return ((WJSONArray)value).getFromPath(rest);
             } else {
                 return null;
             }
         } else {
             return get(path);
+        }
+    }
+    
+    /**
+     * Return flattened string representation of the values(s) from a tree path
+     */
+    public String getStringFromPath(String path) {
+        Object value = getFromPath(path);
+        if (value instanceof Set<?>) {
+            Set<?> values = (Set<?>)value;
+            List<String> strings = new ArrayList<>( values.size() );
+            for ( Object v : values ) {
+                strings.add( v.toString() );
+            }
+            Collections.sort(strings);
+            StringBuffer flat = new StringBuffer();
+            boolean started = false;
+            for (String vs : strings) {
+                if (started) {
+                    flat.append(", ");
+                } else {
+                    started = true;
+                }
+                flat.append( vs );
+            }
+            return flat.toString();
+        } else if (value != null) {
+            return value.toString();
+        } else {
+            return null;
         }
     }
     

@@ -12,6 +12,7 @@ package com.epimorphics.simpleAPI.results.wappers;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A wrapped version of a JSON Object generated from an API Result.
@@ -58,6 +59,24 @@ public class WJSONArray extends ArrayList<Object> implements List<Object>{
         }
         return false;
     }
+    
+    
+    /**
+     * Return the value indicated by a tree path.
+     * For arrays returns a set of all values
+     */
+    public Set<Object> getFromPath(String path) {
+        Set<Object> values = new HashSet<>(); 
+        for (Object v : this) {
+            if (v instanceof WJSONObject) {
+                values.add( ((WJSONObject)v).getFromPath(path) );
+            } else if (v instanceof WJSONArray){
+                values.addAll( ((WJSONArray)v).getFromPath(path) );
+            }
+        }
+        return values;
+    }
+    
     
     // Order independent equality for testing
     @Override
