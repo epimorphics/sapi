@@ -73,6 +73,20 @@ public class NestedSparqlQueryBuilder extends SparqlQueryBuilder {
     }
     
     
+    /**
+     * Insert an arbitrary sparql query string in the filter position of the outer query
+     */
+    public SparqlQueryBuilder filterOuter(String s) {
+        return filterOuter( new GraphPatternText(s) );
+    }
+    
+    /**
+     * Insert an arbitrary sparql query in the filter position of the outer query
+     */
+    public SparqlQueryBuilder filterOuter(GraphPattern pattern) {
+        return new NestedSparqlQueryBuilder(query, outerQuery.addLaterPattern(pattern), prefixes);
+    }
+    
     @Override
     protected SparqlQueryBuilder updateQuery(QueryShape q) {
         return new NestedSparqlQueryBuilder(q, outerQuery, prefixes);
