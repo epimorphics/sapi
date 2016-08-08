@@ -11,6 +11,11 @@ package com.epimorphics.simpleAPI.endpoints;
 
 import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
 
@@ -76,6 +81,27 @@ public class EndpointSpecFactory {
                     lspec.setFlattenPath( JsonUtil.getStringValue(jo, FLATTEN_PATH) );
                 }
                 if( jo.hasKey( NESTED_SELECT ) ) {
+                    lspec.setUseNestedSelect( JsonUtil.getBooleanValue(jo, NESTED_SELECT, false) );
+                }
+                if( jo.hasKey( NESTED_SELECT_VARS ) ) {
+                    List<String> nestedVars = null;
+                    JsonValue nsv = jo.get(NESTED_SELECT_VARS);
+                    if (nsv.isString()) {
+                        nestedVars = Collections.singletonList( nsv.getAsString().value() );
+                    } else if (nsv.isArray()) {
+                        nestedVars = new ArrayList<>();
+                        for (Iterator<JsonValue> i = nsv.getAsArray().iterator(); i.hasNext();) {
+                            JsonValue v = i.next();
+                            if ( v.isString() ) {
+                                nestedVars.add( v.getAsString().value() );
+                            } else {
+                                throw new EpiException("Could not parse nestedSelect vars, must be string or array of strings");
+                            }
+                        }
+                    } else {
+                        throw new EpiException("Could not parse nestedSelect vars, must be string or array of strings");
+                    }
+                    lspec.setAdditionalProjectionVars( nestedVars );
                     lspec.setUseNestedSelect( JsonUtil.getBooleanValue(jo, NESTED_SELECT, false) );
                 }
             } else {

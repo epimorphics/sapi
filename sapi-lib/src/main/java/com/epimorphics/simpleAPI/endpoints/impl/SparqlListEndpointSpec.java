@@ -9,6 +9,8 @@
 
 package com.epimorphics.simpleAPI.endpoints.impl;
 
+import java.util.List;
+
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.ListEndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
@@ -26,11 +28,12 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
     protected Long softLimit;
     protected Long hardLimit;
     protected boolean useNestedSelect = false;
+    protected List<String> additionalProjectionVars = null;
     
     public SparqlListEndpointSpec(API api) {
         super(api);
     }
-
+    
     @Override public QueryBuilder getQueryBuilder(String viewname) {
         ViewMap view = getView(viewname);
         QueryShape base = getBaseQuery().copy();
@@ -39,7 +42,7 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
             if (view != null) {
                 outerQuery.addLaterPattern( view.asPattern() );
             }
-            return new NestedSparqlQueryBuilder( base, outerQuery, getPrefixes() );
+            return new NestedSparqlQueryBuilder( base, outerQuery, getPrefixes(), additionalProjectionVars );
         } else {
             if (view != null) {
                 view.injectTreePatternInfo(base);
@@ -86,6 +89,13 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
     
     public boolean useNestedSelect() {
         return useNestedSelect;
+    }
+    
+    /**
+     * Define a set of additional variables that should be projected from a nested select
+     */
+    public void setAdditionalProjectionVars(List<String> vars) {
+        additionalProjectionVars = vars;
     }
         
 }

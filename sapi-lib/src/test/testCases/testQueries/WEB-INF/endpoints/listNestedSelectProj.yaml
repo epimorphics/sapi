@@ -1,0 +1,14 @@
+name      : listNestedSelectProj
+type      : list
+baseQuery : "?id a egn:NestTest ."
+nestedSelect : true
+nestedSelectVars: distance
+view      :
+    - "rdfs:label"
+    - "rdf:type"
+    - "skos:notation"
+    - prop : "skos:narrower"
+      nested :
+        - "rdfs:label"
+        - "skos:notation"
+

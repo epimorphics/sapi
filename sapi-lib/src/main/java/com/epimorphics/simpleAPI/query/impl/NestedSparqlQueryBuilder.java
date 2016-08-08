@@ -10,6 +10,7 @@
 package com.epimorphics.simpleAPI.query.impl;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -41,10 +42,17 @@ import com.epimorphics.util.PrefixUtils;
  */
 public class NestedSparqlQueryBuilder extends SparqlQueryBuilder {
     protected QueryShape outerQuery;
+    protected List<String> additionalProjectionVars = null;
     
     public NestedSparqlQueryBuilder(QueryShape innerQuery, QueryShape outerQuery, PrefixMapping prefixes) {
         super(innerQuery, prefixes);
         this.outerQuery = outerQuery;
+    }
+    
+    public NestedSparqlQueryBuilder(QueryShape innerQuery, QueryShape outerQuery, PrefixMapping prefixes, List<String> additionalProjectVars) {
+        super(innerQuery, prefixes);
+        this.outerQuery = outerQuery;
+        this.additionalProjectionVars = additionalProjectVars;
     }
     
     /**
@@ -65,6 +73,10 @@ public class NestedSparqlQueryBuilder extends SparqlQueryBuilder {
     public ListQueryBuilder filter(ViewPath path, ViewMap map, Collection<RDFNode> values) {
         return pathAndFilter(path, map, filterPattern(path.asVariableName(), values));
     }
+    
+    public void setAdditionalProjectionVars(List<String> vars) {
+        additionalProjectionVars = vars;
+    }
         
     protected ListQueryBuilder pathAndFilter(ViewPath path, ViewMap map, GraphPattern filter) {
         GraphPattern pathPattern = map.patternForPath(path);
@@ -84,17 +96,22 @@ public class NestedSparqlQueryBuilder extends SparqlQueryBuilder {
      * Insert an arbitrary sparql query in the filter position of the outer query
      */
     public SparqlQueryBuilder filterOuter(GraphPattern pattern) {
-        return new NestedSparqlQueryBuilder(query, outerQuery.addLaterPattern(pattern), prefixes);
+        return new NestedSparqlQueryBuilder(query, outerQuery.addLaterPattern(pattern), prefixes, additionalProjectionVars);
     }
     
     @Override
     protected SparqlQueryBuilder updateQuery(QueryShape q) {
-        return new NestedSparqlQueryBuilder(q, outerQuery, prefixes);
+        return new NestedSparqlQueryBuilder(q, outerQuery, prefixes, additionalProjectionVars);
     }
 
     @Override public ListQuery build() {
         QueryShape innerQS = query.copy();
         innerQS.addProjection( new Var(ConfigConstants.ROOT_VAR) );
+        if (additionalProjectionVars != null) {
+            for (String var : additionalProjectionVars) {
+                innerQS.addProjection( new Var(var) );
+            }
+        }
         String inner = "{ " + innerQS.toSparqlSelect( new Settings() ) + "}";
         
         QueryShape outerQS = outerQuery.copy();

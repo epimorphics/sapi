@@ -133,4 +133,12 @@ public class TestQueryStrings {
         query = queryLines[ queryLines.length -1 ];  // First lines are prefixes then query all on one line
         assertContains( query, "SELECT * WHERE { { SELECT ?id WHERE {{?id a egn:NestTest .}}} ");
     }
+    
+    @Test
+    public void testListViaNestedQueriesWithVars() {
+        String query = api.getCall("listNestedSelectProj", new MockUriInfo("test"), null).getQueryBuilder().build().toString();
+        String[] queryLines = query.split("\\n");
+        query = queryLines[ queryLines.length -1 ];  // First lines are prefixes then query all on one line
+        assertContains( query, "SELECT * WHERE { { SELECT ?id ?distance WHERE {{?id a egn:NestTest .}}} ");
+    }
 }
