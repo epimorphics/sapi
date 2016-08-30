@@ -6,7 +6,7 @@
     "documentation" : "http://localhost/flood-monitoring/doc/api-documentation.html" ,
     "version" : "0.1" ,
     "comment" : "WARNING: Pre-alpha test service, data may not be up to date" ,
-    "hasFormat" : [ "http://localhost/flood-monitoring/example/A2.csv", "http://localhost/flood-monitoring/example/A2.rdf", "http://localhost/flood-monitoring/example/A2.ttl" ]
+    "hasFormat" : [ "http://localhost/flood-monitoring/example/A2.rdf", "http://localhost/flood-monitoring/example/A2.ttl" ]
   }
    ,
   "items" : [ { 

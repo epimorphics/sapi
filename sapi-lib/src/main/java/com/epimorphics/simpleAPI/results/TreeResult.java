@@ -75,6 +75,13 @@ public class TreeResult extends ResultBase implements Result {
     }
     
     /**
+     * Return true if the result is a simple leaf result with no property values
+     */
+    public boolean isSimple() {
+        return values.isEmpty();
+    }
+    
+    /**
      * Return ordered list of keys 
      */
     public List<String> getSortedKeys() {
@@ -257,7 +264,11 @@ public class TreeResult extends ResultBase implements Result {
 
     @Override
     public Resource asResource() {
-        return asResource(ModelFactory.createDefaultModel());
+        if ( isSimple() ) {
+            return getId().asResource();
+        } else {
+            return asResource(ModelFactory.createDefaultModel());
+        }
     }
 
     @Override

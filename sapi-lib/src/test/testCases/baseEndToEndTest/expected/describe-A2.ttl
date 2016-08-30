@@ -18,7 +18,7 @@
 
 [ rdfs:comment       "WARNING: Pre-alpha test service, data may not be up to date" ;
   rdfs:seeAlso       <http://localhost/flood-monitoring/doc/api-documentation.html> ;
-  dct:hasFormat      <http://localhost/flood-monitoring/example/A2.json> , <http://localhost/flood-monitoring/example/A2.csv> , <http://localhost/flood-monitoring/example/A2.rdf> ;
+  dct:hasFormat      <http://localhost/flood-monitoring/example/A2.json> , <http://localhost/flood-monitoring/example/A2.rdf> ;
   dct:license        "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
   dct:publisher      "Epimorphics.com" ;
   owl:versionInfo    "0.1" ;

@@ -25,8 +25,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.epimorphics.json.JSFullWriter;
+import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ConfigConstants;
 import com.epimorphics.simpleAPI.results.Result;
+import com.epimorphics.simpleAPI.results.ResultOrStream;
 
 @Provider
 @Produces("application/json")
@@ -60,7 +62,7 @@ public class ResultJSON implements MessageBodyWriter<Result> {
         JSFullWriter out = new JSFullWriter(entityStream);
         out.startOutput();
         out.startObject();
-        ResultStreamJSON.writeMetadata(result, out);
+        writeMetadata(result, out);
         out.key( ConfigConstants.RESULT_ITEMS );
         out.startArray();
         try {
@@ -72,5 +74,13 @@ public class ResultJSON implements MessageBodyWriter<Result> {
             out.finishOutput();
         }
     }
+    
+    public static void writeMetadata(ResultOrStream results, JSFullWriter out) {
+        API api = results.getSpec().getAPI();
+        api.startMetadata(out);
+        api.writeFormats(out, results.getRequest().getFullRequestedURI(), "json", "csv");
+        api.finishMetadata(out);        
+    }
+    
 
 }

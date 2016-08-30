@@ -68,7 +68,7 @@ public class ResultTurtle implements MessageBodyWriter<Result> {
         Call call = result.getCall();
         model.setNsPrefixes( call.getEndpoint().getPrefixes() );
         Resource meta = model.createResource(); 
-        call.getAPI().addRDFMetadata(meta, call.getRequest().getFullRequestedURI(), "ttl");
+        call.getAPI().addRDFMetadata(meta, call.getRequest().getFullRequestedURI(), "ttl", "csv");
         meta.addProperty(FOAF.primaryTopic, root);
         return model;
     }
