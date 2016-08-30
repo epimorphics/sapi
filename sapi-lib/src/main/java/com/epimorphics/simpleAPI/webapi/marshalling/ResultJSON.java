@@ -64,14 +64,23 @@ public class ResultJSON implements MessageBodyWriter<Result> {
         out.startObject();
         writeMetadata(result, out);
         out.key( ConfigConstants.RESULT_ITEMS );
-        out.startArray();
-        try {
-            out.arrayElementProcess();
-            result.writeJson(out);
-        } finally {
-            out.finishArray();
-            out.finishObject();
-            out.finishOutput();
+        if ( result.getSpec().getAPI().isItemEndpointsReturnArrays() ) {
+            out.startArray();
+            try {
+                out.arrayElementProcess();
+                result.writeJson(out);
+            } finally {
+                out.finishArray();
+                out.finishObject();
+                out.finishOutput();
+            }
+        } else {
+            try {
+                result.writeJson(out);
+            } finally {
+                out.finishObject();
+                out.finishOutput();
+            }
         }
     }
     

@@ -77,6 +77,7 @@ public class API extends ComponentBase implements Startup {
     protected String defaultListTemplate;
     
     protected boolean showSimpleLinks = false;
+    protected boolean itemEndpointsReturnArrays = true;
     protected boolean showLang = false;
     protected String showOnlyLang;
     protected boolean fullPathsInCSVHeaders = false;
@@ -535,6 +536,18 @@ public class API extends ComponentBase implements Startup {
      */
     public void setShowSimpleLinks(boolean showSimpleLinks) {
         this.showSimpleLinks = showSimpleLinks;
+    }
+
+    public boolean isItemEndpointsReturnArrays() {
+        return itemEndpointsReturnArrays;
+    }
+
+    /**
+     * If set to true (default) then an item endpoint returns a singleton array of "items", if set to false
+     * then the item is returned directly as the value of "items", no array
+     */
+    public void setItemEndpointsReturnArrays(boolean itemEndpointsReturnArrays) {
+        this.itemEndpointsReturnArrays = itemEndpointsReturnArrays;
     }
 
     // ---- Internals -----------------------------------------------
