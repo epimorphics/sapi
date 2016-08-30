@@ -475,11 +475,20 @@ public class API extends ComponentBase implements Startup {
     }
     
     /**
-     * Set HTML support to "true" (full support with normal conneg), "false" (suppressed, no HTML render)
-     * or "nonDefault" (returned only it html is the only format accepted)
+     * Set to true to allow HTML but not at as the default. If a resource supports HTML and
+     * HTML is the only allowed variant it will be returned but otherwise if htmlPreferred is not true
+     * then the non-HTML version will be returned. Set to false to suppress HTML render.
      */
     public void setHtmlNonDefault(boolean support) {
         this.htmlNonDefault = support;
+    }
+
+    /**
+     * Set to true if HTML is preferred, so from a browser any resource which can be rendered as HTML will be
+     * @param htmlPreferred
+     */
+    public void setHtmlPreferred(boolean htmlPreferred) {
+        this.htmlPreferred = htmlPreferred;
     }
     
     /**
@@ -503,10 +512,6 @@ public class API extends ComponentBase implements Startup {
 
     public boolean isHtmlPreferred() {
         return htmlPreferred;
-    }
-
-    public void setHtmlPreferred(boolean htmlPreferred) {
-        this.htmlPreferred = htmlPreferred;
     }
 
 
