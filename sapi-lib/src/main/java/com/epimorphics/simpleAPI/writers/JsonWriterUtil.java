@@ -78,6 +78,12 @@ public class JsonWriterUtil {
 
     protected static void writeNode(ViewTree tree, ViewEntry policy, API api,
             String key, Object value, JSFullWriter writer, boolean isArrayElt) {
+        if (value instanceof TreeResult) {
+            if ( ((TreeResult)value).isSimple() && api.isShowSimpleLinks() ) {
+                // Legacy non-jsonld rendering of leaf resources
+                value = ((TreeResult)value).asResource();
+            }
+        }
         if (value instanceof Result) {
             if (isArrayElt)
                 writer.arrayElementProcess();

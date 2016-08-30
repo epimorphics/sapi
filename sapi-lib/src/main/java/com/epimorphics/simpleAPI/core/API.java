@@ -76,6 +76,7 @@ public class API extends ComponentBase implements Startup {
     protected String defaultItemTemplate;
     protected String defaultListTemplate;
     
+    protected boolean showSimpleLinks = false;
     protected boolean showLang = false;
     protected String showOnlyLang;
     protected boolean fullPathsInCSVHeaders = false;
@@ -118,7 +119,7 @@ public class API extends ComponentBase implements Startup {
         condOut(out, "comment", comment);
     }    
     
-    public void writeFormats(JSFullWriter out, String requestURI, String skipFormat) {
+    public void writeFormats(JSFullWriter out, String requestURI, String... skipFormat) {
         boolean started = false;
         for (String format : getFormats(requestURI, skipFormat)) {
             if (!started) {
@@ -133,16 +134,23 @@ public class API extends ComponentBase implements Startup {
         }
     }
     
-    protected List<String> getFormats(String requestURI, String skipFormat) {
+    protected List<String> getFormats(String requestURI, String... skipFormats) {
         List<String> formats = new ArrayList<>();
         Matcher m = URIPAT.matcher(requestURI);
         String base = m.matches() ? m.group(1) : requestURI;
         String rest = (m.matches() && m.group(3) != null) ? m.group(3) : "";
         for (String format : supportedFormats) {
-            if (skipFormat.equals(format))
-                continue;
-            String url = base + "." + format + rest;
-            formats.add(url);
+            boolean skip = false;
+            for ( String skipFormat : skipFormats ) { 
+                if (skipFormat.equals(format)) {
+                    skip = true;
+                    break;
+                }
+            }
+            if (!skip) {
+                String url = base + "." + format + rest;
+                formats.add(url);
+            }
         }
         if ( isHtmlSupported() ) {
             formats.add(base + ".html" + rest);
@@ -165,7 +173,7 @@ public class API extends ComponentBase implements Startup {
      * @param requestedURI the full URI of the request, used for generating hasFormat information
      * @param skipFormat the extension name of a format to omit from the hasFormat list
      */
-    public Resource addRDFMetadata(Resource meta, String requestedURI, String skipFormat) {
+    public Resource addRDFMetadata(Resource meta, String requestedURI, String... skipFormat) {
         condAddProperty(meta, DCTerms.publisher, publisher);
         condAddProperty(meta, DCTerms.license, licence);
         if (documentation != null) {
@@ -514,6 +522,20 @@ public class API extends ComponentBase implements Startup {
         return htmlPreferred;
     }
 
+
+    public boolean isShowSimpleLinks() {
+        return showSimpleLinks;
+    }
+
+    /**
+     * Set to true to force all leaf resources with no properties to be returned as simple
+     * URI values instead of nested <code>{ "@id:" : "uri" }</code> objects.
+     * Something of a hack to preserve legacy behaviour in some API instances.
+     * @param showSimpleLinks
+     */
+    public void setShowSimpleLinks(boolean showSimpleLinks) {
+        this.showSimpleLinks = showSimpleLinks;
+    }
 
     // ---- Internals -----------------------------------------------
 
