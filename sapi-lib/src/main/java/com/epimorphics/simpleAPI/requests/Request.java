@@ -230,6 +230,13 @@ public class Request {
     }
     
     /**
+     * Override the value of a parameter with the given singleton value
+     */
+    public void setParameter(String parameter, String value) {
+        parameters.putSingle(parameter, value);
+    }
+    
+    /**
      * Note that a parameter has been dealt with
      */
     public void consume(String parameter) {
