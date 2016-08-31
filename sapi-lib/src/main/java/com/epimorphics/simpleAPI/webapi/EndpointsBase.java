@@ -37,6 +37,8 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
+import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.results.ResultOrStream;
@@ -182,6 +184,32 @@ public class EndpointsBase {
      */
     public Response defaultResponse(String body) {
         return respondWith( getAPI().getCall(uriInfo, httprequest, body).getResults() );
+    }
+    
+    // ---- Helpers for query manipulation ---------------------------------
+    
+    /**
+     * Add a sort on the given parameter
+     */
+    public void sort(Call call, String param, boolean down) {
+        SparqlQueryBuilder builder = (SparqlQueryBuilder)call.getQueryBuilder();
+        call.setQueryBuilder( builder.sort(param, down) );
+    }
+    
+    /**
+     * Add a block of SPARQL BGP early in the query.
+     * Prefixes in the query text will be expanded 
+     */
+    public void inject(Call call, String inject) {
+        call.updateQueryBuilder( (QueryBuilder qb) -> ((SparqlQueryBuilder)qb).inject(inject) );
+    }
+  
+    /**
+     * Add a block of SPARQL BGP late in the query, especially useful for adding filters 
+     * Prefixes in the query text will be expanded 
+     */
+    public void filter(Call call, String filter) {
+        call.updateQueryBuilder( (QueryBuilder qb) -> ((SparqlQueryBuilder)qb).filter(filter) );
     }
     
     // ---- Helpers for returning results ---------------------------------
