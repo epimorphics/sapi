@@ -98,13 +98,26 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     public QueryBuilder getQueryBuilder(Request request) {    	
         QueryBuilder builder = getQueryBuilder( request.getViewName() );
         if (builder instanceof ListQueryBuilder) {
+            return builder;
+        } else {
+            return builder.bind(ConfigConstants.ROOT_VAR, ResourceFactory.createResource(request.getRequestedURI()));
+        }
+    }
+    
+    /**
+     * Finalize a query builder by running the query processors
+     * configured for this API (e.g. applying limits, generic filters, geoqueries etc)
+     */
+    @Override
+    public QueryBuilder finalizeQueryBuilder( QueryBuilder builder, Request request ) {
+        if (builder instanceof ListQueryBuilder) {
             ListQueryBuilder lbuilder = (ListQueryBuilder)builder;
             for (RequestProcessor proc : api.getRequestProcessors()) {
                 lbuilder = proc.process(request, lbuilder, this);
             }
             return lbuilder;
         } else {
-            return builder.bind(ConfigConstants.ROOT_VAR, ResourceFactory.createResource(request.getRequestedURI()));
+            return builder;
         }
     }
     

@@ -42,6 +42,13 @@ public interface EndpointSpec extends ConfigInstance {
     public QueryBuilder getQueryBuilder(Request request);
     
     /**
+     * Finalize a query builder by running the query processors
+     * configured for this API (e.g. applying limits, generic filters, geoqueries etc)
+     * against the given request parameters (some of which may have been consumed by earlier processing)
+     */
+    public QueryBuilder finalizeQueryBuilder( QueryBuilder builder, Request request );
+    
+    /**
      * Return the default view, if any, which controls formating of query results
      */
     public ViewMap getView();

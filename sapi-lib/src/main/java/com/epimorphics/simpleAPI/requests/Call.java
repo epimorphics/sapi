@@ -152,13 +152,21 @@ public class Call {
         return null;
     }
     
+    public QueryBuilder finalizeQueryBuilder( QueryBuilder qb ) {
+        return endpoint.finalizeQueryBuilder(qb, request);
+    }
+    
+    public QueryBuilder finalizeQueryBuilder( ) {
+        return finalizeQueryBuilder( getQueryBuilder() );
+    }
+    
     /**
      * Return the results for this call, it builds the query and 
      * runs it on the configured data source. Suitable for simple
      * cases where no custom processing of request or query is needed.
      */
     public ResultOrStream getResults() {
-        Query query = getQueryBuilder().build();
+        Query query = finalizeQueryBuilder().build();
         checkRequestRecognized();
         try {
             if (query instanceof ListQuery) {
