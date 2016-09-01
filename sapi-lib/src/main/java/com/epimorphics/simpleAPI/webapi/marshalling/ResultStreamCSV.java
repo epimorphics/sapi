@@ -61,6 +61,9 @@ public class ResultStreamCSV implements MessageBodyWriter<ResultStream> {
             OutputStream entityStream)
                     throws IOException, WebApplicationException {
         CSVWriter writer = new CSVWriter(entityStream);
+        if( results.getCall().getEndpoint().isSuppressID() ) {
+            writer.setIncludeID(false);
+        }
         int count = 0;
         try {
             for (Result result : results) {

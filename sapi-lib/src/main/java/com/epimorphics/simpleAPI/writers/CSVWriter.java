@@ -194,11 +194,15 @@ public class CSVWriter {
         StringBuffer buf = new StringBuffer();
         boolean started = false;
         for (ViewPath path : paths) {
-            if (started) { buf.append(SEP); } else { started = true; }
-            if ( path.isEmpty() && includeID ) {
-                buf.append( ID_COL );
+            if (started) { buf.append(SEP); }
+            if ( path.isEmpty() ) {
+                if ( includeID ) {
+                    buf.append( ID_COL );
+                    started = true;
+                }
             } else {
                 buf.append( safeString( showDotted ? path.asDotted() : path.last() ) );
+                started = true;
             }
         }
         buf.append(LINE_END);

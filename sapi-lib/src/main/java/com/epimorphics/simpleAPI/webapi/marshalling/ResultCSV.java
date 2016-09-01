@@ -60,6 +60,9 @@ public class ResultCSV implements MessageBodyWriter<Result> {
             OutputStream entityStream)
                     throws IOException, WebApplicationException {
         CSVWriter writer = new CSVWriter(entityStream);
+        if( result.getCall().getEndpoint().isSuppressID() ) {
+            writer.setIncludeID(false);
+        }
         if (result instanceof TreeResult) {
             writer.write( (TreeResult)result );
         } else {
