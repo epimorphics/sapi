@@ -239,8 +239,10 @@ public class Request {
     /**
      * Note that a parameter has been dealt with
      */
-    public void consume(String parameter) {
-        consumed.add(parameter);
+    public void consume(String... parameters) {
+        for(String parameter : parameters) {
+            consumed.add(parameter);
+        }
     }
     
     /**
