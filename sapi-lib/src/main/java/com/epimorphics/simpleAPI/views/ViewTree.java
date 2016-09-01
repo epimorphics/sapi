@@ -18,6 +18,7 @@ import static com.epimorphics.simpleAPI.core.ConfigConstants.OPTIONAL;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.PROPERTY;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.PROP_TYPE;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.SUPPRESSID;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.HIDE;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.VALUE_BASE;
 
 import java.util.ArrayList;
@@ -201,7 +202,11 @@ public class ViewTree implements Iterable<ViewEntry> {
                     }
                     if (propO.hasKey(SUPPRESSID)) {
                         boolean sid = JsonUtil.getBooleanValue(propO, SUPPRESSID, false);
-                        entry.setSuppressId(sid);
+                        entry.setHide(sid);
+                    }
+                    if (propO.hasKey(HIDE)) {
+                        boolean sid = JsonUtil.getBooleanValue(propO, HIDE, false);
+                        entry.setHide(sid);
                     }
                 }
                 tree.addChild(entry);

@@ -34,7 +34,7 @@ public class ViewEntry {
     protected String comment;
     protected ViewTree nested = null;
     protected String valueBase = null;
-    protected boolean suppressId = false;
+    protected boolean hide = false;
     
     public ViewEntry(String jsonname, URI property) {
         this.jsonname = jsonname == null ? makeJsonName(property) : jsonname;
@@ -135,12 +135,12 @@ public class ViewEntry {
     
     
 
-    public boolean isSuppressId() {
-        return suppressId;
+    public boolean isHide() {
+        return hide;
     }
 
-    public void setSuppressId(boolean suppressId) {
-        this.suppressId = suppressId;
+    public void setHide(boolean hide) {
+        this.hide = hide;
     }
 
 

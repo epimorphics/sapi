@@ -121,7 +121,7 @@ public class CSVWriter {
             }
             for (Iterator<ViewPath> i = paths.iterator(); i.hasNext();) {
                 ViewEntry entry = viewmap.findEntry(i.next());
-                if (entry != null && entry.isSuppressId()) {
+                if (entry != null && entry.isHide()) {
                     i.remove();
                 }
             }

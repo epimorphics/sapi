@@ -76,8 +76,13 @@ public interface EndpointSpec extends ConfigInstance {
     public String getTemplateName();
 
     /**
-     * Return a path that, if multi-valued, should
+     * Return a comma-separated list of paths that, if multi-valued, should
      * force duplication of records in flat notations such as CSV
      */
     public String getFlattenPath();
+    
+    /**
+     * Return true if flat notations like CSV should hide the @id of the root resource
+     */
+    public boolean isSuppressID();
 }

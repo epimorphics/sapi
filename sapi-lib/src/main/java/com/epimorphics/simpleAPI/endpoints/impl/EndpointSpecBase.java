@@ -49,6 +49,7 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     protected String textSearchRoot = ROOT_VAR;
     protected String itemName;
     protected String flattenPath;
+    protected boolean suppressID;
 
     public EndpointSpecBase(API api) {
         this.api = api;
@@ -223,5 +224,16 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     public void setFlattenPath(String flattenPath) {
         this.flattenPath = flattenPath;
     }
+
+    @Override
+    public boolean isSuppressID() {
+        return suppressID;
+    }
+
+    public void setSuppressID(boolean suppressID) {
+        this.suppressID = suppressID;
+    }
+    
+    
 
 }

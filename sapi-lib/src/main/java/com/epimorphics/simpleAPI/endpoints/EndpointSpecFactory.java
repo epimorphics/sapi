@@ -104,6 +104,9 @@ public class EndpointSpecFactory {
                     lspec.setAdditionalProjectionVars( nestedVars );
                     lspec.setUseNestedSelect( JsonUtil.getBooleanValue(jo, NESTED_SELECT, false) );
                 }
+                if( jo.hasKey( SUPPRESSID ) ) {
+                    lspec.setSuppressID( JsonUtil.getBooleanValue(jo, SUPPRESSID, false) );
+                }
             } else {
                 throw new EpiException("Did not recognize type of endpoint configuration " + type + " in " + filename);
             }
