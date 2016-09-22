@@ -41,6 +41,7 @@ import com.epimorphics.simpleAPI.requests.LimitRequestProcessor;
 import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.requests.RequestProcessor;
 import com.epimorphics.simpleAPI.requests.SortRequestProcessor;
+import com.epimorphics.simpleAPI.util.LastModified;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.sparql.terms.URI;
@@ -86,6 +87,8 @@ public class API extends ComponentBase implements Startup {
     
     protected List<RequestProcessor> requestProcessors = new ArrayList<>();
     protected List<RequestProcessor> allRequestProcessors;
+    
+    protected LastModified timestampService;
     
     // Configure built in standard request handlers here
     protected static final RequestProcessor[] standardRequestProcessors = new RequestProcessor[] {
@@ -550,6 +553,15 @@ public class API extends ComponentBase implements Startup {
         this.itemEndpointsReturnArrays = itemEndpointsReturnArrays;
     }
 
+
+    public LastModified getTimestampService() {
+        return timestampService;
+    }
+
+    public void setTimestampService(LastModified timestampService) {
+        this.timestampService = timestampService;
+    }
+    
     // ---- Internals -----------------------------------------------
 
     private void condOut(JSFullWriter out, String key, String value) {

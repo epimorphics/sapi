@@ -9,11 +9,14 @@
 
 package com.epimorphics.simpleAPI.requests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.apache.jena.rdf.model.Literal;
 import org.junit.Before;
@@ -22,8 +25,10 @@ import org.junit.Test;
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.query.DataSource;
+import com.epimorphics.simpleAPI.query.impl.SparqlDataSource;
 import com.epimorphics.simpleAPI.results.ResultStream;
 import com.epimorphics.simpleAPI.results.TreeResult;
+import com.epimorphics.simpleAPI.util.LastModified;
 
 public class TestRequestBasics {
     App app;
@@ -62,6 +67,30 @@ public class TestRequestBasics {
         assertEquals("B1", getFirstLabel("listTest2", "narrower.group", "A", "_sort", "label"));
         assertEquals("B2", getFirstLabel("listTest2", "group", "B", "notation", "2"));
         assertEquals("B2", getFirstLabel("listTest2", "group", "B", "narrower.notation", "2"));
+    }
+    
+    @Test
+    public void testTimestamp() throws InterruptedException {
+        LastModified lm = api.getTimestampService();
+        assertNotNull(lm);
+        
+        Long ts = lm.getTimestamp( (SparqlDataSource) source);
+        assertNotNull(ts);
+        SimpleDateFormat fmt = new SimpleDateFormat("dd MMM yyyy HH:mm:ss z", Locale.UK);
+        fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+        assertEquals("22 Sep 2016 20:05:05 GMT", fmt.format( new Date(ts) ) );
+        Long lastChecked = lm.lastFetched();
+        assertNotNull(lastChecked);
+        
+        Long ts2 = lm.getTimestamp( (SparqlDataSource) source);
+        assertEquals(lastChecked, lm.lastFetched());
+        assertEquals(ts, ts2);
+        
+        Thread.sleep(600);
+        ts2 = lm.getTimestamp( (SparqlDataSource) source);
+        assertTrue( lm.lastFetched() >= lastChecked + 500);
+        assertEquals(ts, ts2);
+
     }
     
     private Request makeRequest(String... args) {
