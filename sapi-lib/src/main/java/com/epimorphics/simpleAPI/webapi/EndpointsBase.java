@@ -183,7 +183,7 @@ public class EndpointsBase {
                 if (builder != null) {
                     throw new NotModifiedException(lastModified);
                 }
-            } catch (Exception e) {
+            } catch (IllegalStateException e) {
                 // Ignore and let normal processing continue
             }
         }
