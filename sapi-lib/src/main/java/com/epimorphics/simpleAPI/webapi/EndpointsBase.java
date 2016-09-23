@@ -11,6 +11,7 @@ package com.epimorphics.simpleAPI.webapi;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
@@ -38,10 +40,12 @@ import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.query.impl.SparqlDataSource;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.results.ResultOrStream;
+import com.epimorphics.simpleAPI.util.LastModified;
 
 public class EndpointsBase {
     public static final String TURTLE = "text/turtle; charset=UTF-8";
@@ -148,6 +152,7 @@ public class EndpointsBase {
      * Return a call package containing the dynamically located endpoint and the request
      */
     public Call getCall() {
+        checkLastModified();
         try {
             return getAPI().getCall(uriInfo, getRequest() );
         } catch (NotFoundException e) {
@@ -160,7 +165,42 @@ public class EndpointsBase {
      * Return a call package containing the specified endpoint and the request
      */
     public Call getCall(String endpoint) {
+        checkLastModified();
         return getAPI().getCall(endpoint, getRequest());
+    }
+    
+    /**
+     * Handle if-modified-since processing of the request has that header and
+     * if the API config supports modification timestamping. Currently only supports
+     * a global timestamp, not per-endpoint timestamps. Automatically callsed from {@link #getCall()} 
+     * so only need be directly called in special cases.
+     */
+    public void checkLastModified() {
+        Date lastModified = getLastModifedIfAvailable();
+        if (lastModified != null) {
+            try {
+                ResponseBuilder builder = containerRequest.evaluatePreconditions(lastModified);
+                if (builder != null) {
+                    throw new NotModifiedException(lastModified);
+                }
+            } catch (Exception e) {
+                // Ignore and let normal processing continue
+            }
+        }
+    }
+
+    private Date getLastModifedIfAvailable() {
+        LastModified lm = getAPI().getTimestampService();
+        if (lm != null) {
+            DataSource source = getAPI().getSource();
+            if (source instanceof SparqlDataSource) {
+                Long ts = lm.getTimestamp( (SparqlDataSource)source );
+                if (ts != null) {
+                    return new Date(ts);
+                }
+            }
+        }
+        return null;
     }
     
     // ---- Standard list endpoint handling ---------------------------------
@@ -239,8 +279,7 @@ public class EndpointsBase {
      * format the given query results according to the endpoint specification
      */
     public Response respondWith(Object entity, int maxAge) {
-        CacheControl cc = new CacheControl();
-        cc.setMaxAge(maxAge);
+        ResponseBuilder builder = startOKBuilder(entity, maxAge);
         if (entity instanceof ResultOrStream) {
             if ( ((ResultOrStream)entity).getCall().getTemplateName() == null || api.isHtmlNonDefault()) {
                 // No HTML rendering possible, so perform dynamic content negotiation amongst the rest
@@ -252,18 +291,29 @@ public class EndpointsBase {
                         throw new WebApiException(Status.NOT_ACCEPTABLE, "Cannot provide that media type");
                     }
                 } else {
-                    return Response.ok(entity).type(preferred.getMediaType()).cacheControl(cc).build();
+                    return builder.type(preferred.getMediaType()).build();
                 }
             } else if ( api.isHtmlPreferred() ) {
                 // HMTL render possible and preferred, override variant processing to cope with cases like IE8
                 Variant preferred = containerRequest.selectVariant(htmlVariants);
                 if (preferred != null) {
-                    return Response.ok(entity).type(preferred.getMediaType()).cacheControl(cc).build();
+                    return builder.type(preferred.getMediaType()).build();
                 }
             }
         }
         // Let normal message body lookup decide the best rendering
-        return Response.ok(entity).cacheControl(cc).build();     
+        return builder.build();     
+    }
+    
+    private ResponseBuilder startOKBuilder(Object entity, int maxAge) {
+        CacheControl cc = new CacheControl();
+        cc.setMaxAge(maxAge);
+        ResponseBuilder builder = Response.ok(entity).cacheControl(cc);
+        Date lastModified = getLastModifedIfAvailable();
+        if (lastModified != null) {
+            builder = builder.lastModified(lastModified);
+        }
+        return builder;
     }
     
     /**
