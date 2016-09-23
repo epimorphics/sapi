@@ -15,6 +15,8 @@ import java.util.Map;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.DCTerms;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.epimorphics.rdfutil.RDFUtil;
 import com.epimorphics.simpleAPI.query.impl.SparqlDataSource;
@@ -26,6 +28,8 @@ import com.epimorphics.simpleAPI.query.impl.SparqlDataSource;
  * Configure a default resource for getting the time stamp or can provide endpoint specific timestamp sources.
  */
 public class LastModified {
+    static final Logger log = LoggerFactory.getLogger( LastModified.class );
+    
     protected long retentionTime = 10 * 1000;
     protected String defaultTimestampResource;
     protected Map<String, LastModifiedRecord> timestamps = new HashMap<>();
@@ -92,6 +96,7 @@ public class LastModified {
                     RDFNode modified = result.next().get("modified");
                     if (modified != null) {
                         timestamp = RDFUtil.asTimestamp(modified);
+                        log.info("Last modified updated to: " + modified);
                         lastChecked = now;
                     }
                 }
