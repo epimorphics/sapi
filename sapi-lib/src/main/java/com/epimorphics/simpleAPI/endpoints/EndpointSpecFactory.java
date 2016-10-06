@@ -83,6 +83,9 @@ public class EndpointSpecFactory {
                 if( jo.hasKey( NESTED_SELECT ) ) {
                     lspec.setUseNestedSelect( JsonUtil.getBooleanValue(jo, NESTED_SELECT, false) );
                 }
+                if( jo.hasKey( DISTINCT ) ) {
+                    lspec.setUseDistinct( JsonUtil.getBooleanValue(jo, DISTINCT, false) );
+                }
                 if( jo.hasKey( NESTED_SELECT_VARS ) ) {
                     List<String> nestedVars = null;
                     JsonValue nsv = jo.get(NESTED_SELECT_VARS);

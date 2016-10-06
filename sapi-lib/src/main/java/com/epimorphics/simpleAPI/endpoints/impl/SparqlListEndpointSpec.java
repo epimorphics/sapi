@@ -17,6 +17,7 @@ import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.NestedSparqlQueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
 import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.sparql.query.Distinction;
 import com.epimorphics.sparql.query.QueryShape;
 
 /**
@@ -28,6 +29,7 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
     protected Long softLimit;
     protected Long hardLimit;
     protected boolean useNestedSelect = false;
+    protected boolean useDistinct = false;
     protected List<String> additionalProjectionVars = null;
     
     public SparqlListEndpointSpec(API api) {
@@ -37,6 +39,9 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
     @Override public QueryBuilder getQueryBuilder(String viewname) {
         ViewMap view = getView(viewname);
         QueryShape base = getBaseQuery().copy();
+        if (useDistinct) {
+            base.setDistinction(Distinction.DISTINCT);
+        }
         if ( useNestedSelect ) {
             QueryShape outerQuery = new QueryShape();
             if (view != null) {
@@ -97,5 +102,17 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
     public void setAdditionalProjectionVars(List<String> vars) {
         additionalProjectionVars = vars;
     }
+
+    public boolean isUseDistinct() {
+        return useDistinct;
+    }
+
+    /**
+     * Set to true to add a DISTINCT qualifier to the query (or the inner query in the case of a nested select) 
+     */
+    public void setUseDistinct(boolean useDistinct) {
+        this.useDistinct = useDistinct;
+    }
         
+    
 }
