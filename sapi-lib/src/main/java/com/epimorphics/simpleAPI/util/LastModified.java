@@ -90,7 +90,7 @@ public class LastModified {
         public Long getTimestamp(SparqlDataSource source) {
             long now = System.currentTimeMillis();
             if (timestamp == null || now - lastChecked > retentionTime) {
-                System.out.println("Fetching " + timestampResource);
+                log.info("Fetching " + timestampResource);
                 ResultSet result = source.getSource().select( String.format("SELECT ?modified WHERE {<%s> <%s> ?modified}", timestampResource, DCTerms.modified.getURI()) );
                 if (result.hasNext()) {
                     RDFNode modified = result.next().get("modified");
