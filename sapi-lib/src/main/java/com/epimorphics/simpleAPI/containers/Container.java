@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package containers;
+package com.epimorphics.simpleAPI.containers;
 
 import static com.epimorphics.webapi.marshalling.RDFXMLMarshaller.MIME_RDFXML;
 
