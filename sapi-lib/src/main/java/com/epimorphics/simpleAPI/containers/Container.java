@@ -57,25 +57,29 @@ public class Container extends ComponentBase {
     public static final String MIME_JSONLD = "application/ld+json";
     public static final String MIME_TURTLE = "text/turtle";
     
-    protected Property membershipProp; 
-    protected Property invMembershipProp;
-    protected Resource rootType;
+    protected String membershipProp; 
+    protected String invMembershipProp;
+    protected String rootType;
     protected String   linkGraph;
     protected Object   jsonldContext;
     protected DatasetAccessor dataAccessor;
     
+    protected Property membershipPropR; 
+    protected Property invMembershipPropR;
+    protected Resource rootTypeR;
+    
     // -- Configuration ----
     
     public void setMembershipProp(String prop) {
-        membershipProp = ResourceFactory.createProperty( expandURI(prop) );
+        membershipProp = prop; 
     }
     
     public void setInvMembershipProp(String prop) {
-        invMembershipProp = ResourceFactory.createProperty( expandURI(prop) );
+        invMembershipProp = prop;
     }
     
     public void setRootType(String ty) {
-        rootType = ResourceFactory.createResource( expandURI(ty) );
+        rootType = ty;
     }
     
     public void setLinkGraph(String linkGraph) {
@@ -90,16 +94,25 @@ public class Container extends ComponentBase {
         }
     }
 
-    public Property getMembershipProp() {
-        return membershipProp;
+    public Property getMembershipPropR() {
+        if (membershipPropR == null) {
+            membershipPropR = ResourceFactory.createProperty( expandURI(membershipProp) );
+        }
+        return membershipPropR;
     }
 
-    public Property getInvMembershipProp() {
-        return invMembershipProp;
+    public Property getInvMembershipPropR() {
+        if (invMembershipPropR == null) {
+            invMembershipPropR = ResourceFactory.createProperty( expandURI(invMembershipProp) );
+        }
+        return invMembershipPropR;
     }
 
-    public Resource getRootType() {
-        return rootType;
+    public Resource getRootTypeR() {
+        if (rootTypeR == null) {
+            rootTypeR = ResourceFactory.createProperty( expandURI(rootType) );            
+        }
+        return rootTypeR;
     }
 
     public String getLinkGraph() {
@@ -186,10 +199,10 @@ public class Container extends ComponentBase {
     }
     
     protected boolean cleanAndValidate(String baseURI, Model model) {
-        removeLinks(membershipProp, model);
-        removeLinks(invMembershipProp, model);
+        removeLinks(getMembershipPropR(), model);
+        removeLinks(getInvMembershipPropR(), model);
         Resource root = model.getResource(baseURI);
-        return rootType == null || root.hasProperty(RDF.type, rootType);
+        return rootTypeR == null || root.hasProperty(RDF.type, getRootTypeR());
     }
     
     protected void removeLinks(Property link, Model model) {
@@ -197,6 +210,5 @@ public class Container extends ComponentBase {
             model.removeAll(null, link, (RDFNode)null);
         }
     }
-
     
 }
