@@ -1,0 +1,20 @@
+{
+    "@id": "http://data.food.gov.uk/catalog/dataset/fsa-08-01",
+    "accrualPeriodicity": "R/P3M",
+    "description": "Sometimes there will be a problem with a food product that means it should not be sold.",
+    "directorate": { "@id": "http://data.food.gov.uk/codes/organisation/directorates/D02" },
+    "elements": "http://data.food.gov.uk/catalog/dataset/fsa-08-01/element/c832e929c7665eb7136ae236cac6f132",
+    "identifier": "http://data.food.gov.uk/catalog/dataset/fsa-08-01",
+    "issued": "2016-05-18",
+    "keyword": [
+      "alerts",
+      "allergy"
+    ],
+    "keywords": [
+      "http://data.food.gov.uk/catalog/keyword/alerts",
+      "http://data.food.gov.uk/catalog/keyword/allergy"
+    ],
+    "type": [
+      "http://vocab.epimorphics.com/def/catalog/Dataset"
+    ]
+}

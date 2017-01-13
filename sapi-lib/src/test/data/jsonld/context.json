@@ -1,0 +1,70 @@
+{ 
+  "dcat" : "http://www.w3.org/ns/dcat#" ,
+  "dct" : "http://purl.org/dc/terms/" ,
+  "title" : "dct:title" ,
+  "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#" ,
+  "rdfs" : "http://www.w3.org/2000/01/rdf-schema#" ,
+  "cat" : "http://vocab.epimorphics.com/def/catalog/" ,
+  "fsa-org" : "http://data.food.gov.uk/def/organisation/" ,
+  "type" : {
+      "@id" : "rdf:type" ,
+      "@type" : "@id"
+    } ,
+  "description" : "dct:description" ,
+  "identifier" : "dct:identifier" ,
+  "landingPage" : {
+      "@id" : "dcat:landingPage" ,
+      "@type" : "@id"
+    } ,
+  "temporal" : "dct:temporal" ,
+  "startDate" : {
+      "@id" : "cat:startDate" ,
+      "@type" : "xsd:date"
+    } ,
+  "endDate" : {
+      "@id" : "cat:endDate" ,
+      "@type" : "xsd:date"
+    } ,
+  "distribution" : {
+      "@id" : "dcat:distribution" ,
+      "@type" : "@id"
+    } ,
+  "downloadURL" : {
+      "@id" : "dcat:downloadURL" ,
+      "@type" : "@id"
+    } ,
+  "mediaType" : "dcat:mediaType" ,
+  "conformsTo" : {
+      "@id" : "dct:conformsTo" ,
+      "@type" : "@id"
+    } ,
+  "directorate" : {
+      "@id" : "fsa-org:directorate" ,
+      "@type" : "@id"
+    } ,
+  "dataset" : {
+      "@id" : "cat:dataset" ,
+      "@type" : "@id"
+    } ,
+  "elements" : {
+      "@id" : "cat:elements" ,
+      "@type" : "@id"
+    } ,
+  "label" : "rdfs:label" ,
+  "license" : "dct:license" ,
+  "issued" : {
+      "@id" : "dct:issued" ,
+      "@type" : "xsd:date"
+    } ,
+  "modified" : {
+      "@id" : "dct:modified" ,
+      "@type" : "xsd:date"
+    } ,
+  "accrualPeriodicity" : "dct:accrualPeriodicity" ,
+  "keyword" : "dcat:keyword" ,
+  "keywords" : {
+      "@id" : "cat:keywords" ,
+      "@type" : "@id"
+    }
+}
+  

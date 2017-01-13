@@ -1,0 +1,18 @@
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix cat:   <http://vocab.epimorphics.com/def/catalog/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix fsa-org: <http://data.food.gov.uk/def/organisation/> .
+
+<http://data.food.gov.uk/catalog/dataset/fsa-08-01>
+        a                       cat:Dataset ;
+        fsa-org:directorate     <http://data.food.gov.uk/codes/organisation/directorates/D02> ;
+        dct:accrualPeriodicity  "R/P3M" ;
+        dct:description         "Sometimes there will be a problem with a food product that means it should not be sold." ;
+        dct:identifier          "http://data.food.gov.uk/catalog/dataset/fsa-08-01" ;
+        dct:issued              "2016-05-18"^^<xsd:date> ;
+        cat:elements            <http://data.food.gov.uk/catalog/dataset/fsa-08-01/element/c832e929c7665eb7136ae236cac6f132> ;
+        cat:keywords            <http://data.food.gov.uk/catalog/keyword/alerts> , <http://data.food.gov.uk/catalog/keyword/allergy> ;
+        dcat:keyword            "allergy" , "alerts" .
+        
