@@ -96,20 +96,25 @@ public class Container extends ComponentBase {
 
     public Property getMembershipPropR() {
         if (membershipPropR == null) {
-            membershipPropR = ResourceFactory.createProperty( expandURI(membershipProp) );
+            if (membershipProp != null) {
+                membershipPropR = ResourceFactory.createProperty( expandURI(membershipProp) );
+            }
         }
         return membershipPropR;
     }
 
     public Property getInvMembershipPropR() {
         if (invMembershipPropR == null) {
-            invMembershipPropR = ResourceFactory.createProperty( expandURI(invMembershipProp) );
+            if (invMembershipProp != null) {
+                invMembershipPropR = ResourceFactory.createProperty( expandURI(invMembershipProp) );
+            }
         }
         return invMembershipPropR;
     }
 
     public Resource getRootTypeR() {
         if (rootTypeR == null) {
+            if (rootType != null) 
             rootTypeR = ResourceFactory.createProperty( expandURI(rootType) );            
         }
         return rootTypeR;
