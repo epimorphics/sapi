@@ -27,6 +27,8 @@ import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.shared.JenaException;
+import org.apache.jena.update.UpdateFactory;
+import org.apache.jena.update.UpdateRequest;
 import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
@@ -35,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.appbase.core.ComponentBase;
 import com.epimorphics.appbase.core.PrefixService;
+import com.epimorphics.appbase.data.SparqlSource;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.jsonld.JsonLDUtil;
@@ -65,8 +68,10 @@ public class Container extends ComponentBase {
     protected String rootType;
     protected String linkGraph;
     protected Object jsonldContext;
+    protected Container child;
+    protected ModelTransform transform;
     
-    protected DatasetAccessor dataAccessor;    
+    protected SparqlSource    source;
     protected Property membershipPropR; 
     protected Property invMembershipPropR;
     protected Resource rootTypeR;
@@ -96,9 +101,21 @@ public class Container extends ComponentBase {
             log.error("Failed to load jsonld context spec from " + contextfile, e);
         }
     }
+    
+    /**
+     * Optional child container. If we add a item to this container then block
+     * any children - they should be added via the child container
+     */
+    public void setChild(Container child) {
+        this.child = child;
+    }
 
     public Property getMembershipPropR() {
         return membershipPropR;
+    }
+
+    public void setTransform(ModelTransform transform) {
+        this.transform = transform;
     }
 
     public Property getInvMembershipPropR() {
@@ -116,6 +133,14 @@ public class Container extends ComponentBase {
     public Object getJsonldContext() {
         return jsonldContext;
     }
+    
+    public Container getChild() {
+        return child;
+    }
+
+    public ModelTransform getTransform() {
+        return transform;
+    }
 
     protected String expandURI(String uri) {
         PrefixService prefixes = getApp().getA(PrefixService.class);
@@ -126,11 +151,15 @@ public class Container extends ComponentBase {
         }
     }
     
-    public DatasetAccessor getDataAccessor() {
-        if (dataAccessor == null) {
-            dataAccessor = ((SparqlDataSource)getApp().getA(API.class).getSource()).getSource().getAccessor();
+    public SparqlSource getSource() {
+        if (source == null) {
+            source = ((SparqlDataSource)getApp().getA(API.class).getSource()).getSource();
         }
-        return dataAccessor;
+        return source;
+    }
+    
+    public DatasetAccessor getDataAccessor() {
+        return getSource().getAccessor();
     }
         
     // -- actions ----
@@ -147,6 +176,21 @@ public class Container extends ComponentBase {
             throw new WebApiException(Status.BAD_REQUEST , "Could not parse replacement data: " + e);
         } catch (JenaException e) {
             throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Problem updating data source: " + e);
+        }
+    }
+    
+    /**
+     * Delete the given resouce
+     */
+    public void delete(String targetPath) {
+        String baseURI = baseURI(targetPath);
+        getDataAccessor().deleteModel(baseURI);
+        if (linkGraph != null){
+            // Also need to delete any links
+            String updateStr = String.format( "DELETE WHERE { GRAPH <%s> {<%s> ?p ?v}}; DELETE WHERE { GRAPH <%s>  {?o ?q <%s>}};",
+                    linkGraph, baseURI, linkGraph, baseURI );
+            UpdateRequest update = UpdateFactory.create( updateStr );
+            getSource().update(update);
         }
     }
 
@@ -239,7 +283,13 @@ public class Container extends ComponentBase {
     protected boolean cleanAndValidate(String baseURI, Model model) {
         removeLinks(getMembershipPropR(), model);
         removeLinks(getInvMembershipPropR(), model);
+        if (child != null) {
+            removeLinks(child.getMembershipPropR(), model);
+        }        
         Resource root = model.getResource(baseURI);
+        if (transform != null) {
+            transform.transform(root);
+        }
         return rootTypeR == null || root.hasProperty(RDF.type, getRootTypeR());
     }
     
