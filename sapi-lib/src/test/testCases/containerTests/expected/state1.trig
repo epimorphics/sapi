@@ -1,0 +1,6 @@
+<http://data.food.gov.uk/catalog/dataset/ds1> {
+    <http://data.food.gov.uk/catalog/dataset/ds1>
+            a       <http://vocab.epimorphics.com/def/catalog/Dataset> ;
+            <http://purl.org/dc/terms/title>
+                    "Dataset one" .
+}

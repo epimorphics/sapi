@@ -1,0 +1,23 @@
+<http://data.food.gov.uk/catalog/dataset/ds1> {
+    <http://data.food.gov.uk/catalog/dataset/ds1>
+            a       <http://vocab.epimorphics.com/def/catalog/Dataset> ;
+            <http://purl.org/dc/terms/title>
+                    "Dataset one" .
+}
+
+<http://data.food.gov.uk/catalog/links> {
+    <http://data.food.gov.uk/catalog/dataset/ds1/element/e1>
+            <http://vocab.epimorphics.com/def/catalog/dataset>
+                    <http://data.food.gov.uk/catalog/dataset/ds1> .
+    
+    <http://data.food.gov.uk/catalog/dataset/ds1>
+            <http://vocab.epimorphics.com/def/catalog/elements>
+                    <http://data.food.gov.uk/catalog/dataset/ds1/element/e1> .
+}
+
+<http://data.food.gov.uk/catalog/dataset/ds1/element/e1> {
+    <http://data.food.gov.uk/catalog/dataset/ds1/element/e1>
+            a       <http://vocab.epimorphics.com/def/catalog/Element> ;
+            <http://purl.org/dc/terms/title>
+                    "Element one" .
+}

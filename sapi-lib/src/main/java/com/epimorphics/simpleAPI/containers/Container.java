@@ -226,7 +226,6 @@ public class Container extends ComponentBase {
             if (invMembershipPropR != null) {
                 links.add(root, invMembershipPropR, parent);
             }
-            links.write(System.out, "Turtle");
             if (!links.isEmpty()) {
                 getDataAccessor().add(linkGraph, links);
             }
