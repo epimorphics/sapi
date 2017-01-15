@@ -12,6 +12,7 @@ package com.epimorphics.simpleAPI.containers;
 import static com.epimorphics.webapi.marshalling.RDFXMLMarshaller.MIME_RDFXML;
 
 import java.io.InputStream;
+import java.util.UUID;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -22,6 +23,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.shared.JenaException;
@@ -30,13 +32,15 @@ import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.epimorphics.appbase.core.App;
 import com.epimorphics.appbase.core.ComponentBase;
 import com.epimorphics.appbase.core.PrefixService;
-import com.epimorphics.appbase.data.SparqlSource;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.jsonld.JsonLDUtil;
+import com.epimorphics.simpleAPI.query.impl.SparqlDataSource;
 import com.epimorphics.util.EpiException;
+import com.epimorphics.util.NameUtils;
 
 /**
  * Support for simplified update of RDF resources.
@@ -51,7 +55,6 @@ import com.epimorphics.util.EpiException;
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class Container extends ComponentBase {
-    
     static final Logger log = LoggerFactory.getLogger( Container.class );
     
     public static final String MIME_JSONLD = "application/ld+json";
@@ -60,10 +63,10 @@ public class Container extends ComponentBase {
     protected String membershipProp; 
     protected String invMembershipProp;
     protected String rootType;
-    protected String   linkGraph;
-    protected Object   jsonldContext;
-    protected DatasetAccessor dataAccessor;
+    protected String linkGraph;
+    protected Object jsonldContext;
     
+    protected DatasetAccessor dataAccessor;    
     protected Property membershipPropR; 
     protected Property invMembershipPropR;
     protected Resource rootTypeR;
@@ -95,28 +98,14 @@ public class Container extends ComponentBase {
     }
 
     public Property getMembershipPropR() {
-        if (membershipPropR == null) {
-            if (membershipProp != null) {
-                membershipPropR = ResourceFactory.createProperty( expandURI(membershipProp) );
-            }
-        }
         return membershipPropR;
     }
 
     public Property getInvMembershipPropR() {
-        if (invMembershipPropR == null) {
-            if (invMembershipProp != null) {
-                invMembershipPropR = ResourceFactory.createProperty( expandURI(invMembershipProp) );
-            }
-        }
         return invMembershipPropR;
     }
 
     public Resource getRootTypeR() {
-        if (rootTypeR == null) {
-            if (rootType != null) 
-            rootTypeR = ResourceFactory.createProperty( expandURI(rootType) );            
-        }
         return rootTypeR;
     }
 
@@ -139,7 +128,7 @@ public class Container extends ComponentBase {
     
     public DatasetAccessor getDataAccessor() {
         if (dataAccessor == null) {
-            dataAccessor = ((SparqlSource)getApp().getA(API.class).getSource()).getAccessor();
+            dataAccessor = ((SparqlDataSource)getApp().getA(API.class).getSource()).getSource().getAccessor();
         }
         return dataAccessor;
     }
@@ -154,6 +143,50 @@ public class Container extends ComponentBase {
             String baseURI = baseURI(targetPath);
             Model payload = getCleanModel(baseURI, hh, body);
             getDataAccessor().putModel(baseURI, payload);
+        } catch (EpiException e) {
+            throw new WebApiException(Status.BAD_REQUEST , "Could not parse replacement data: " + e);
+        } catch (JenaException e) {
+            throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Problem updating data source: " + e);
+        }
+    }
+
+    /**
+     * Add a new resource to the payload, allocating a new local UUID if necessary
+     */
+    public void add(String targetPath, HttpHeaders hh, InputStream body) {
+        try {
+            // Allocate a default ID in case the payload has an empty relative URI
+            String baseURI = baseURI(targetPath) + "/" + UUID.randomUUID();
+            Model payload = getBodyModel(baseURI, hh, body);
+            if (payload == null) {
+                throw new WebApiException(Status.NOT_ACCEPTABLE, "Replacement data in unsupported format");
+            }
+            
+            // Find the root resource which is being added
+            ResIterator i = payload.listResourcesWithProperty(RDF.type, rootTypeR);
+            if (!i.hasNext()) {
+                throw new WebApiException(Status.BAD_REQUEST, "Could not find root resource with the right type");
+            }
+            Resource root = i.next();
+            cleanAndValidate(root.getURI(), payload);
+            
+            // Upload the main model its own graph
+            getDataAccessor().putModel(root.getURI(), payload);
+            
+            // Establish the membership links if any
+            Model links = ModelFactory.createDefaultModel();
+            Resource parent = links.getResource( NameUtils.splitBeforeLast( baseURI(targetPath), "/") );
+            if (membershipPropR != null) {
+                links.add(parent, membershipPropR, root);
+            }
+            if (invMembershipPropR != null) {
+                links.add(root, invMembershipPropR, parent);
+            }
+            links.write(System.out, "Turtle");
+            if (!links.isEmpty()) {
+                getDataAccessor().add(linkGraph, links);
+            }
+            
         } catch (EpiException e) {
             throw new WebApiException(Status.BAD_REQUEST , "Could not parse replacement data: " + e);
         } catch (JenaException e) {
@@ -213,6 +246,20 @@ public class Container extends ComponentBase {
     protected void removeLinks(Property link, Model model) {
         if (link != null) {
             model.removeAll(null, link, (RDFNode)null);
+        }
+    }
+    
+    @Override
+    public void startup(App app) {
+        super.startup(app);
+        if (membershipProp != null) {
+            membershipPropR = ResourceFactory.createProperty( expandURI(membershipProp) );
+        }
+        if (invMembershipProp != null) {
+            invMembershipPropR = ResourceFactory.createProperty( expandURI(invMembershipProp) );
+        }
+        if (rootType != null) { 
+            rootTypeR = ResourceFactory.createProperty( expandURI(rootType) );            
         }
     }
     
