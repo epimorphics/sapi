@@ -70,6 +70,7 @@ public class Container extends ComponentBase {
     protected Object jsonldContext;
     protected Container child;
     protected ModelTransform transform;
+    protected boolean directParent = false;
     
     protected SparqlSource    source;
     protected Property membershipPropR; 
@@ -110,6 +111,15 @@ public class Container extends ComponentBase {
         this.child = child;
     }
 
+    /**
+     * If true then the target URI will be treated as the collection for adding children.
+     * If false (default) then the collection is one level higher (strip off last segment)
+     * Might want something more flexible here!
+     */
+    public void setDirectParent(boolean directParent) {
+        this.directParent = directParent;
+    }
+
     public Property getMembershipPropR() {
         return membershipPropR;
     }
@@ -140,6 +150,10 @@ public class Container extends ComponentBase {
 
     public ModelTransform getTransform() {
         return transform;
+    }
+
+    public boolean isDirectParent() {
+        return directParent;
     }
 
     protected String expandURI(String uri) {
@@ -180,7 +194,7 @@ public class Container extends ComponentBase {
     }
     
     /**
-     * Delete the given resouce
+     * Delete the given resource
      */
     public void delete(String targetPath) {
         String baseURI = baseURI(targetPath);
@@ -219,7 +233,11 @@ public class Container extends ComponentBase {
             
             // Establish the membership links if any
             Model links = ModelFactory.createDefaultModel();
-            Resource parent = links.getResource( NameUtils.splitBeforeLast( baseURI(targetPath), "/") );
+            String parentURI = baseURI(targetPath);
+            if ( ! isDirectParent() ) {
+                parentURI = NameUtils.splitBeforeLast( parentURI, "/");
+            }
+            Resource parent = links.getResource( parentURI );
             if (membershipPropR != null) {
                 links.add(parent, membershipPropR, root);
             }
