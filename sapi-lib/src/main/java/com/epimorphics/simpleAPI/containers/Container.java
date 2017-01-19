@@ -30,6 +30,7 @@ import org.apache.jena.shared.JenaException;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateRequest;
 import org.apache.jena.util.FileUtils;
+import org.apache.jena.util.ResourceUtils;
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -210,8 +211,9 @@ public class Container extends ComponentBase {
 
     /**
      * Add a new resource to the payload, allocating a new local UUID if necessary
+     * Return URI of new element
      */
-    public void add(String targetPath, HttpHeaders hh, InputStream body) {
+    public String add(String targetPath, HttpHeaders hh, InputStream body) {
         try {
             // Allocate a default ID in case the payload has an empty relative URI
             String baseURI = baseURI(targetPath) + "/" + UUID.randomUUID();
@@ -226,6 +228,12 @@ public class Container extends ComponentBase {
                 throw new WebApiException(Status.BAD_REQUEST, "Could not find root resource with the right type");
             }
             Resource root = i.next();
+            
+            // Treat bNodes as a request for allocation
+            if (root.isAnon()) {
+                ResourceUtils.renameResource(root, baseURI);
+                root = payload.getResource(baseURI);
+            }
             cleanAndValidate(root.getURI(), payload);
             
             // Upload the main model its own graph
@@ -247,6 +255,8 @@ public class Container extends ComponentBase {
             if (!links.isEmpty()) {
                 getDataAccessor().add(linkGraph, links);
             }
+            
+            return root.getURI();
             
         } catch (EpiException e) {
             throw new WebApiException(Status.BAD_REQUEST , "Could not parse replacement data: " + e);
