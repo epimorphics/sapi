@@ -130,6 +130,7 @@ public class TestResultBasics {
         assertTrue( checkCSV( api.getCall("listTest3", new MockUriInfo("test?_sort=@id"), null).getResults(), "list3.csv", "list3-alt.csv") );
         api.setFullPathsInCSVHeaders(true);
         assertTrue( checkCSV( api.getCall("listTest3", new MockUriInfo("test?_sort=@id"), null).getResults(), "list3-dot.csv", "list3-alt-dot.csv") );
+        assertTrue( checkCSV( api.getCall("listTest3ord", new MockUriInfo("test?_sort=@id"), null).getResults(), "list3ord.csv", "list3ord-alt.csv") );
         api.setFullPathsInCSVHeaders(false);
         
         assertTrue( checkCSV( api.getCall("listTestReg", new MockUriInfo("test?_sort=@id"), null).getResults(), "reglist.csv", "reglist-alt.csv") );
@@ -218,6 +219,7 @@ public class TestResultBasics {
                 return true;
             }
         }
+        System.out.println("Actual\n" + actual);
         return false;
     }
     

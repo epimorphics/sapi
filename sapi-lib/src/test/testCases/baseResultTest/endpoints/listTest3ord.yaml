@@ -1,0 +1,6 @@
+name      : listTest3ord
+type      : list
+baseQuery : "?id a eg:Itest ."
+view      : listTest3orderedView
+
+

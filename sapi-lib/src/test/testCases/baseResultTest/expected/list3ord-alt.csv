@@ -1,0 +1,4 @@
+id,num,name,child-num,child
+http://localhost/example/A,1,"",1C,http://localhost/example/AC
+http://localhost/example/B,2|3,"","",http://localhost/example/BC
+http://localhost/example/C,4,"","",""
