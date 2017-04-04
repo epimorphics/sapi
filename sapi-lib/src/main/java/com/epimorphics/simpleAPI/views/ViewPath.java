@@ -130,7 +130,11 @@ public class ViewPath {
      * Construct a path from a dotted-notation string
      */
     public static ViewPath fromDotted(String path) {
-        return new ViewPath( path.split("\\.") );
+        if (path.isEmpty()) {
+            return new ViewPath();
+        } else {
+            return new ViewPath( path.split("\\.") );
+        }
     }
     
     @Override
