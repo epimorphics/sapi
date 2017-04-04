@@ -115,7 +115,11 @@ public class CSVWriter {
 
         if (paths == null) {
             ViewMap viewmap = spec.getView( call.getRequest().getViewName() );
-            paths = viewmap.getAllPaths();
+            if ( viewmap.hasCsvMap() ) {
+                paths = viewmap.getCsvMap().getPaths();
+            } else {
+                paths = viewmap.getAllPaths();
+            }
             if (paths == null) {
                 throw new EpiException("Can't render tree to CSV without a view specification");
             }
@@ -132,7 +136,12 @@ public class CSVWriter {
         }
         
         if (!writtenHeaders) {
-            writeHeaders( spec.getAPI().isFullPathsInCSVHeaders() );
+            ViewMap viewmap = spec.getView( call.getRequest().getViewName() );
+            if ( viewmap.hasCsvMap() ) {
+                writeHeaders( viewmap.getCsvMap().getColumnNames() );
+            } else {
+                writeHeaders( spec.getAPI().isFullPathsInCSVHeaders() );
+            }
             writtenHeaders = true;
         }
         
@@ -207,6 +216,18 @@ public class CSVWriter {
         }
         buf.append(LINE_END);
         out.write( buf.toString().getBytes(ENC) );
+    }
+    
+    protected void writeHeaders(List<String> headers) throws IOException {
+        StringBuffer buf = new StringBuffer();
+        boolean started = false;
+        for (String header : headers) {
+            if (started) { buf.append(SEP); }
+            buf.append( safeString( header ) );
+            started = true; 
+        }
+        buf.append(LINE_END);
+        out.write( buf.toString().getBytes(ENC) );        
     }
     
     protected String safeString(String str) {

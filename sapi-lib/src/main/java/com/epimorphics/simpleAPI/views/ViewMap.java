@@ -19,6 +19,7 @@ import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ConfigItem;
+import com.epimorphics.simpleAPI.writers.CSVMap;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.templates.Settings;
@@ -35,6 +36,7 @@ public class ViewMap extends ConfigItem {
     private String viewReference;
     protected API api;
     protected List<ViewPath> allPaths;
+    protected CSVMap csvmap;
     
     public ViewMap(API api) {
         this.api = api;
@@ -63,6 +65,7 @@ public class ViewMap extends ConfigItem {
                 throw new EpiException("Cannot find view: " + viewReference);
             }
             tree = view.getTree();
+            csvmap = view.getCsvMap();
         }
         return tree;
     }
@@ -185,7 +188,19 @@ public class ViewMap extends ConfigItem {
             throw new EpiException("Illegal view specification must be a name or an array of view entries: " + list);
         }
     }
+    
+    public CSVMap getCsvMap() {
+        return csvmap;
+    }
 
+    public void setCsvMap(CSVMap csvmap) {
+        this.csvmap = csvmap;
+    }
+
+    public boolean hasCsvMap() {
+        return csvmap != null;
+    }
+    
     @Override
     public String toString() {
         return getTree().toString();

@@ -24,6 +24,7 @@ import org.yaml.snakeyaml.Yaml;
 import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpecFactory;
 import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.writers.CSVMap;
 import com.epimorphics.util.EpiException;
 import com.epimorphics.util.NameUtils;
 
@@ -91,6 +92,10 @@ public class ConfigSpecFactory {
                     }
                 } else {
                     throw new EpiException("Illegal view specification, no mapping declared: " + filename);                    
+                }
+                if (jo.hasKey(CSVMAP)) {
+                    CSVMap map = CSVMap.parseFromJson( jo.get(CSVMAP) );
+                    ((ViewMap)config).setCsvMap( map );
                 }
             } else if ( TYPE_ITEM.equals(type) || TYPE_LIST.equals(type) ) {
                 try {
