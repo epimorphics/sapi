@@ -9,24 +9,6 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
     <listener-class>com.epimorphics.appbase.core.AppConfig</listener-class>
   </listener>
 
-  <listener>
-    <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
-  </listener>
- 
-  <filter>
-    <filter-name>ShiroFilter</filter-name>
-    <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
-  </filter>
-
-  <filter-mapping>
-    <filter-name>ShiroFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-    <dispatcher>REQUEST</dispatcher> 
-    <dispatcher>FORWARD</dispatcher> 
-    <dispatcher>INCLUDE</dispatcher> 
-    <dispatcher>ERROR</dispatcher>
-  </filter-mapping>    
-
   <filter>
     <filter-name>CORS</filter-name>
     <filter-class>com.epimorphics.appbase.webapi.CorsFilter</filter-class>
@@ -48,12 +30,20 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
       <param-value>text/turtle</param-value>
     </init-param>
     <init-param>
+      <param-name>rdf</param-name>
+      <param-value>application/rdf+xml</param-value>
+    </init-param>
+     <init-param>
       <param-name>jsonld</param-name>
       <param-value>application/ld+json</param-value>
     </init-param>
     <init-param>
       <param-name>json</param-name>
       <param-value>application/json</param-value>
+    </init-param>
+    <init-param>
+      <param-name>csv</param-name>
+      <param-value>text/csv</param-value>
     </init-param>
   </filter>
   
@@ -66,27 +56,33 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
     <filter-name>VelocityFilter</filter-name>
     <filter-class>com.epimorphics.appbase.webapi.VelocityFilter</filter-class>
   </filter>
+  
+  <filter>
+    <filter-name>LogRequestFilter</filter-name>
+    <filter-class>com.epimorphics.simpleAPI.webapi.LogRequestFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>LogRequestFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
   <filter-mapping>
     <filter-name>VelocityFilter</filter-name>
-    <url-pattern>/ui/*</url-pattern>
+    <url-pattern>/view/*</url-pattern>
   </filter-mapping>
   
   <filter>
     <filter-name>Jersey Web Application</filter-name>
-    <filter-class>com.sun.jersey.spi.container.servlet.ServletContainer</filter-class>
+    <filter-class>org.glassfish.jersey.servlet.ServletContainer</filter-class>
     <init-param>
-      <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>com.epimorphics.webapi,com.epimorphics.server.webapi,com.epimorphics.dms.webapi</param-value>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>com.epimorphics.webapi,com.epimorphics.server.webapi,com.epimorphics.simpleAPI.webapi,com.epimorphics.simpleAPI.app.webapi</param-value>
     </init-param>
     <init-param>
-      <param-name>com.sun.jersey.config.feature.FilterForwardOn404</param-name>
+      <param-name>jersey.config.servlet.filter.forwardOn404</param-name>
       <param-value>true</param-value>
     </init-param>
-    <init-param>
-         <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
-         <param-value>com.sun.jersey.api.container.filter.PostReplaceFilter</param-value>
-     </init-param>
   </filter>
  
   <filter-mapping>
@@ -95,13 +91,22 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
   </filter-mapping>
  
   <welcome-file-list>
-    <welcome-file>ui/index.html</welcome-file>
+    <welcome-file>view/index.html</welcome-file>
   </welcome-file-list>
   
   <context-param>
     <param-name>AppConfig.app</param-name>
     <!-- Will initialize from first of these it finds -->
-    <param-value>/etc/dms/app.conf,/opt/dms/conf/app.conf,{webapp}/WEB-INF/app.conf</param-value>
+    <param-value>/etc/api/app.conf,/opt/sapi/app.conf,{webapp}/WEB-INF/app.conf</param-value>
   </context-param>
-  
+
+  <error-page>
+        <error-code>500</error-code>
+        <location>/error.html</location>
+  </error-page>
+  <error-page>
+        <error-code>404</error-code>
+        <location>/notfound.html</location>
+  </error-page>     
+    
 </web-app>

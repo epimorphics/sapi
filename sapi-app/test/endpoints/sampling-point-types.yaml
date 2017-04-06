@@ -1,0 +1,13 @@
+name      : list-sampling-point-types
+type      : list
+url       : "def/sampling-point-types"
+baseQuery : "?id a skos:Concept; def-sample:group [a def-sp:SamplingPointTypeGroup] ."
+view      : 
+    - { prop: "rdfs:label", type: "rdf:langString" }
+    - "rdf:type"
+    - { prop: "owl:sameAs", optional: true }
+    - { prop: "skos:notation" }
+    - prop: "def-sample:group"
+      optional: true 
+      nested:
+        - { prop: "rdfs:label", type: "rdf:langString" }

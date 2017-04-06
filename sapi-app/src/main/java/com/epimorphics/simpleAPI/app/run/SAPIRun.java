@@ -4,7 +4,7 @@
     (c) Copyright 2014 Epimorphics Limited
 */
 
-package run;
+package com.epimorphics.simpleAPI.app.run;
 
 import java.io.File;
 import java.net.URL;
@@ -21,7 +21,7 @@ public class SAPIRun {
 
         tomcat.setBaseDir(".");
 
-        String contextPath = "/dms";
+        String contextPath = "";
 
         File rootF = new File(root);
         if (!rootF.exists()) {
@@ -33,7 +33,7 @@ public class SAPIRun {
         }
 
         org.apache.catalina.Context context = tomcat.addWebapp(contextPath,  rootF.getAbsolutePath());
-        context.setConfigFile(new URL("file:src/main/webapp/META-INF/context.xml"));
+//        context.setConfigFile(new URL("file:src/main/webapp/META-INF/context.xml"));
 
         tomcat.start();
         tomcat.getServer().await();

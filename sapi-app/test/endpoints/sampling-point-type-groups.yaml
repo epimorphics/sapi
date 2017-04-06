@@ -1,0 +1,11 @@
+name      : list-sampling-point-type-groups
+type      : list
+url       : "def/sampling-point-type-groups"
+baseQuery : "?id a def-sp:SamplingPointTypeGroup ."
+view      : 
+    - { prop: "rdfs:label", type: "rdf:langString" }
+    - "rdf:type"
+    - { prop: "skos:notation" }
+    - prop: skos:member
+      nested:
+         - { prop: "rdfs:label", type: "rdf:langString" }

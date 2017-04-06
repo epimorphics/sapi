@@ -1,0 +1,1955 @@
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Z>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "EXEMPTION"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "EXEMPTION"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/ZW>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Z> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Z>
+        <http://www.w3.org/2004/02/skos/core#notation>  "Z" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/ZW> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/ZW>
+        <http://www.w3.org/2004/02/skos/core#notation>  "ZW" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE EFFLUENT (EXEMPTION)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE EFFLUENT (EXEMPTION)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Z>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "EXEMPTION"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "EXEMPTION"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/ZX>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Z> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Z>
+        <http://www.w3.org/2004/02/skos/core#notation>  "Z" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/ZX> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/ZX>
+        <http://www.w3.org/2004/02/skos/core#notation>  "ZX" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SMALL QUANTITIES OF SUBSTANCES FOR SCIENTIFIC PURPOSES (EXEMPTION)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SMALL QUANTITIES OF SUBSTANCES FOR SCIENTIFIC PURPOSES (EXEMPTION)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Z>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "EXEMPTION"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "EXEMPTION"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/ZY>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Z> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Z>
+        <http://www.w3.org/2004/02/skos/core#notation>  "Z" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/ZY> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/ZY>
+        <http://www.w3.org/2004/02/skos/core#notation>  "ZY" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "VEGETATION MANAGEMENT (EXEMPTION)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "VEGETATION MANAGEMENT (EXEMPTION)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AB>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2004/02/skos/core#notation>  "A" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AB> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AB>
+        <http://www.w3.org/2004/02/skos/core#notation>  "AB" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE - LIVESTOCK FARMING" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE - LIVESTOCK FARMING" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AC>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2004/02/skos/core#notation>  "A" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AC> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AC>
+        <http://www.w3.org/2004/02/skos/core#notation>  "AC" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE - FISH FARMING - WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE - FISH FARMING - WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AD>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2004/02/skos/core#notation>  "A" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AD> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AD>
+        <http://www.w3.org/2004/02/skos/core#notation>  "AD" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE - WATER CRESS FARMING" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE - WATER CRESS FARMING" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AE>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2004/02/skos/core#notation>  "A" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AE> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AE>
+        <http://www.w3.org/2004/02/skos/core#notation>  "AE" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE - SITE DRAINAGE" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE - SITE DRAINAGE" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AF>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2004/02/skos/core#notation>  "A" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AF> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AF>
+        <http://www.w3.org/2004/02/skos/core#notation>  "AF" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE - FISH FARMING - NOT WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE - FISH FARMING - NOT WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AZ>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2004/02/skos/core#notation>  "A" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AZ> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AZ>
+        <http://www.w3.org/2004/02/skos/core#notation>  "AZ" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE - UNSPECIFIED" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE - UNSPECIFIED" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/C1>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/C1> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/C1>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C1" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER - ESTUARY - CLASS A" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER - ESTUARY - CLASS A" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/C2>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/C2> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/C2>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C2" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER - ESTUARY - CLASS B" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER - ESTUARY - CLASS B" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/C3>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/C3> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/C3>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C3" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER - ESTUARY - CLASS C" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER - ESTUARY - CLASS C" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/C4>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/C4> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/C4>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C4" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER - ESTUARY - CLASS D" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER - ESTUARY - CLASS D" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "CA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER - DESIGNATED BATHING BEACHES" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER - DESIGNATED BATHING BEACHES" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CB>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CB> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CB>
+        <http://www.w3.org/2004/02/skos/core#notation>  "CB" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER - NON DESIGNATED BATHING BEACHES" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER - NON DESIGNATED BATHING BEACHES" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CC>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CC> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CC>
+        <http://www.w3.org/2004/02/skos/core#notation>  "CC" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER - DESIGNATED SHELLFISHERIES" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER - DESIGNATED SHELLFISHERIES" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CD>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CD> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CD>
+        <http://www.w3.org/2004/02/skos/core#notation>  "CD" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER - COASTAL SITES - NON BATHING/SHELLFISH" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER - COASTAL SITES - NON BATHING/SHELLFISH" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CE>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CE> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CE>
+        <http://www.w3.org/2004/02/skos/core#notation>  "CE" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER - ESTUARINE SITES - NON BATHING/SHELLFISH" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER - ESTUARINE SITES - NON BATHING/SHELLFISH" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CF>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CF> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CF>
+        <http://www.w3.org/2004/02/skos/core#notation>  "CF" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER - ESTUARINE SITES - CORRECTED" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER - ESTUARINE SITES - CORRECTED" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CG>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/C>
+        <http://www.w3.org/2004/02/skos/core#notation>  "C" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CG> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/CG>
+        <http://www.w3.org/2004/02/skos/core#notation>  "CG" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SALINE WATER - COMPARATIVE INLET POINT" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SALINE WATER - COMPARATIVE INLET POINT" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D>
+        <http://www.w3.org/2004/02/skos/core#notation>  "D" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "DA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS DISCHARGES - EMERGENCY DISCHARGES" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS DISCHARGES - EMERGENCY DISCHARGES" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DB>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D>
+        <http://www.w3.org/2004/02/skos/core#notation>  "D" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DB> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DB>
+        <http://www.w3.org/2004/02/skos/core#notation>  "DB" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS DISCHARGES - SWIMMING POOL WATER" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS DISCHARGES - SWIMMING POOL WATER" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DC>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D>
+        <http://www.w3.org/2004/02/skos/core#notation>  "D" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DC> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DC>
+        <http://www.w3.org/2004/02/skos/core#notation>  "DC" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS DISCHARGES - MINE/GROUNDWATER AS RAISED" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS DISCHARGES - MINE/GROUNDWATER AS RAISED" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DD>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D>
+        <http://www.w3.org/2004/02/skos/core#notation>  "D" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DD> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DD>
+        <http://www.w3.org/2004/02/skos/core#notation>  "DD" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS DISCHARGES - HIGHWAY DRAINAGE" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS DISCHARGES - HIGHWAY DRAINAGE" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DE>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D>
+        <http://www.w3.org/2004/02/skos/core#notation>  "D" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DE> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DE>
+        <http://www.w3.org/2004/02/skos/core#notation>  "DE" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS DISCHARGES - SURFACE WATER" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS DISCHARGES - SURFACE WATER" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DZ>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/D>
+        <http://www.w3.org/2004/02/skos/core#notation>  "D" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DZ> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/DZ>
+        <http://www.w3.org/2004/02/skos/core#notation>  "DZ" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS DISCHARGES - UNSPECIFIED" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS DISCHARGES - UNSPECIFIED" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/E>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS ENVIRONMENT"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS ENVIRONMENT"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/EA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/E> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/E>
+        <http://www.w3.org/2004/02/skos/core#notation>  "E" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/EA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/EA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "EA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS ENVIRONMENT - SOILS" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS ENVIRONMENT - SOILS" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/E>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS ENVIRONMENT"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS ENVIRONMENT"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/EB>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/E> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/E>
+        <http://www.w3.org/2004/02/skos/core#notation>  "E" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/EB> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/EB>
+        <http://www.w3.org/2004/02/skos/core#notation>  "EB" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS ENVIRONMENT - SEDIMENTS" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS ENVIRONMENT - SEDIMENTS" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/E>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS ENVIRONMENT"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS ENVIRONMENT"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/EZ>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/E> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/E>
+        <http://www.w3.org/2004/02/skos/core#notation>  "E" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/EZ> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/EZ>
+        <http://www.w3.org/2004/02/skos/core#notation>  "EZ" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MISCELLANEOUS ENVIRONMENT - UNSPECIFIED" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MISCELLANEOUS ENVIRONMENT - UNSPECIFIED" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F1>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F1> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F1>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F1" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "OBSOLETE (F1)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "OBSOLETE (F1)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F2>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F2> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F2>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F2" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "OBSOLETE (F2)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "OBSOLETE (F2)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F3>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F3> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F3>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F3" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "OBSOLETE (F3)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "OBSOLETE (F3)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F4>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F4> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F4>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F4" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "OBSOLETE (F4)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "OBSOLETE (F4)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F5>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F5> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F5>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F5" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "OBSOLETE (F5)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "OBSOLETE (F5)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F6>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F6> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/F6>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F6" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER - RIVERS" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER - RIVERS" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER - LAKES/PONDS/RESERVOIRS" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER - LAKES/PONDS/RESERVOIRS" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FB>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FB> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FB>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FB" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER - RIVER TRANSFER" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER - RIVER TRANSFER" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FC>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FC> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FC>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FC" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER - COMPARATIVE INLET POINTS" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER - COMPARATIVE INLET POINTS" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FD>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FD> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FD>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FD" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER - RIVER AUGMENTATION" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER - RIVER AUGMENTATION" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FE>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FE> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FE>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FE" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "OBSOLETE (FE)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "OBSOLETE (FE)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FF>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FF> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FF>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FF" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "OBSOLETE (FF)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "OBSOLETE (FF)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FG>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FG> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FG>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FG" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "OBSOLETE (FG)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "OBSOLETE (FG)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FH>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FH> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FH>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FH" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "OBSOLETE (FH)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "OBSOLETE (FH)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FI>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FI> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FI>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FI" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "OBSOLETE (FI)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "OBSOLETE (FI)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FJ>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FJ> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FJ>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FJ" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER - CANALS" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER - CANALS" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FK>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FK> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FK>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FK" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER - LAND DRAINS" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER - LAND DRAINS" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FL>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FL> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FL>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FL" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER - BATHING WATER" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER - BATHING WATER" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FZ>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/F>
+        <http://www.w3.org/2004/02/skos/core#notation>  "F" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FZ> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/FZ>
+        <http://www.w3.org/2004/02/skos/core#notation>  "FZ" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "FRESHWATER - UNSPECIFIED" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "FRESHWATER - UNSPECIFIED" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/M>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MINEWATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MINEWATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/MA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/M> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/M>
+        <http://www.w3.org/2004/02/skos/core#notation>  "M" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/MA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/MA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "MA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "MINEWATER" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "MINEWATER" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/N>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "RAINWATER"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "RAINWATER"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/NA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/N> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/N>
+        <http://www.w3.org/2004/02/skos/core#notation>  "N" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/NA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/NA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "NA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "RAINWATER" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "RAINWATER" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/P>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "POLLUTION/INVESTIGATION POINTS"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "POLLUTION/INVESTIGATION POINTS"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/PD>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/P> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/P>
+        <http://www.w3.org/2004/02/skos/core#notation>  "P" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/PD> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/PD>
+        <http://www.w3.org/2004/02/skos/core#notation>  "PD" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "POLLUTION/INVESTIGATION POINTS - DISCHARGES" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "POLLUTION/INVESTIGATION POINTS - DISCHARGES" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/P>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "POLLUTION/INVESTIGATION POINTS"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "POLLUTION/INVESTIGATION POINTS"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/PE>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/P> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/P>
+        <http://www.w3.org/2004/02/skos/core#notation>  "P" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/PE> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/PE>
+        <http://www.w3.org/2004/02/skos/core#notation>  "PE" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "POLLUTION/INVESTIGATION POINTS - ENVIRONMENT" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "POLLUTION/INVESTIGATION POINTS - ENVIRONMENT" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/P>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "POLLUTION/INVESTIGATION POINTS"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "POLLUTION/INVESTIGATION POINTS"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/PI>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/P> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/P>
+        <http://www.w3.org/2004/02/skos/core#notation>  "P" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/PI> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/PI>
+        <http://www.w3.org/2004/02/skos/core#notation>  "PI" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "POLLUTION/INVESTIGATION POINTS - WITHIN PROCESS" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "POLLUTION/INVESTIGATION POINTS - WITHIN PROCESS" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/R>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/RA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/R> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/R>
+        <http://www.w3.org/2004/02/skos/core#notation>  "R" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/RA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/RA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "RA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE - CRUDE TO FURTHER TREATMENT - WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE - CRUDE TO FURTHER TREATMENT - WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/R>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/RB>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/R> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/R>
+        <http://www.w3.org/2004/02/skos/core#notation>  "R" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/RB> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/RB>
+        <http://www.w3.org/2004/02/skos/core#notation>  "RB" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE - CRUDE TO FURTHER TREATMENT - NOT WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE - CRUDE TO FURTHER TREATMENT - NOT WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - WATER COMPANY"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - WATER COMPANY"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S>
+        <http://www.w3.org/2004/02/skos/core#notation>  "S" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "SA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - FINAL/TREATED EFFLUENT - WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - FINAL/TREATED EFFLUENT - WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - WATER COMPANY"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - WATER COMPANY"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SB>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S>
+        <http://www.w3.org/2004/02/skos/core#notation>  "S" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SB> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SB>
+        <http://www.w3.org/2004/02/skos/core#notation>  "SB" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - STW STORM OVERFLOW/STORM TANK - WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - STW STORM OVERFLOW/STORM TANK - WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - WATER COMPANY"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - WATER COMPANY"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SC>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S>
+        <http://www.w3.org/2004/02/skos/core#notation>  "S" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SC> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SC>
+        <http://www.w3.org/2004/02/skos/core#notation>  "SC" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - SEWER STORM OVERFLOW - WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - SEWER STORM OVERFLOW - WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - WATER COMPANY"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - WATER COMPANY"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SD>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S>
+        <http://www.w3.org/2004/02/skos/core#notation>  "S" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SD> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SD>
+        <http://www.w3.org/2004/02/skos/core#notation>  "SD" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - PUMPING STATION - WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - PUMPING STATION - WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - WATER COMPANY"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - WATER COMPANY"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SE>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S>
+        <http://www.w3.org/2004/02/skos/core#notation>  "S" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SE> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SE>
+        <http://www.w3.org/2004/02/skos/core#notation>  "SE" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - SLUDGE - WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - SLUDGE - WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - WATER COMPANY"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - WATER COMPANY"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SZ>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/S>
+        <http://www.w3.org/2004/02/skos/core#notation>  "S" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SZ> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/SZ>
+        <http://www.w3.org/2004/02/skos/core#notation>  "SZ" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - UNSPECIFIED - WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - UNSPECIFIED - WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2004/02/skos/core#notation>  "T" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "TA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES - PROCESS EFFLUENT - WATER COMPANY (WTW)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES - PROCESS EFFLUENT - WATER COMPANY (WTW)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TB>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2004/02/skos/core#notation>  "T" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TB> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TB>
+        <http://www.w3.org/2004/02/skos/core#notation>  "TB" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES - COOLING WATER" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES - COOLING WATER" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TC>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2004/02/skos/core#notation>  "T" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TC> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TC>
+        <http://www.w3.org/2004/02/skos/core#notation>  "TC" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES - SITE DRAINAGE" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES - SITE DRAINAGE" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TD>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2004/02/skos/core#notation>  "T" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TD> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TD>
+        <http://www.w3.org/2004/02/skos/core#notation>  "TD" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES - SITE DRAINAGE (CONTAM SURFACE WATER, NOT WASTE SIT" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES - SITE DRAINAGE (CONTAM SURFACE WATER, NOT WASTE SIT" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TE>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2004/02/skos/core#notation>  "T" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TE> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TE>
+        <http://www.w3.org/2004/02/skos/core#notation>  "TE" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES - BOILER BLOWDOWN EFFLUENT" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES - BOILER BLOWDOWN EFFLUENT" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TF>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2004/02/skos/core#notation>  "T" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TF> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TF>
+        <http://www.w3.org/2004/02/skos/core#notation>  "TF" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES - PROCESS EFFLUENT - NOT WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES - PROCESS EFFLUENT - NOT WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TG>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2004/02/skos/core#notation>  "T" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TG> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TG>
+        <http://www.w3.org/2004/02/skos/core#notation>  "TG" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES - MINERAL WORKINGS" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES - MINERAL WORKINGS" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TY>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2004/02/skos/core#notation>  "T" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TY> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TY>
+        <http://www.w3.org/2004/02/skos/core#notation>  "TY" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES - ABANDONED" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES - ABANDONED" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TZ>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2004/02/skos/core#notation>  "T" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TZ> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TZ>
+        <http://www.w3.org/2004/02/skos/core#notation>  "TZ" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES - UNSPECIFIED" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES - UNSPECIFIED" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - NOT WATER COMPANY "@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - NOT WATER COMPANY "@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U>
+        <http://www.w3.org/2004/02/skos/core#notation>  "U" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "UA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - FINAL/TREATED EFFLUENT - NOT WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - FINAL/TREATED EFFLUENT - NOT WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - NOT WATER COMPANY "@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - NOT WATER COMPANY "@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UB>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U>
+        <http://www.w3.org/2004/02/skos/core#notation>  "U" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UB> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UB>
+        <http://www.w3.org/2004/02/skos/core#notation>  "UB" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - STW STORM OVERFLOW/STORM TANK - NOT WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - STW STORM OVERFLOW/STORM TANK - NOT WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - NOT WATER COMPANY "@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - NOT WATER COMPANY "@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UC>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U>
+        <http://www.w3.org/2004/02/skos/core#notation>  "U" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UC> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UC>
+        <http://www.w3.org/2004/02/skos/core#notation>  "UC" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - SEWER STORM OVERFLOW - NOT WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - SEWER STORM OVERFLOW - NOT WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - NOT WATER COMPANY "@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - NOT WATER COMPANY "@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UD>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U>
+        <http://www.w3.org/2004/02/skos/core#notation>  "U" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UD> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UD>
+        <http://www.w3.org/2004/02/skos/core#notation>  "UD" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - PUMPING STATION - NOT WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - PUMPING STATION - NOT WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - NOT WATER COMPANY "@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - NOT WATER COMPANY "@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UE>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U>
+        <http://www.w3.org/2004/02/skos/core#notation>  "U" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UE> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UE>
+        <http://www.w3.org/2004/02/skos/core#notation>  "UE" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - SLUDGE - NOT WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - SLUDGE - NOT WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - NOT WATER COMPANY "@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - NOT WATER COMPANY "@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UZ>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/U>
+        <http://www.w3.org/2004/02/skos/core#notation>  "U" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UZ> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/UZ>
+        <http://www.w3.org/2004/02/skos/core#notation>  "UZ" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE DISCHARGES - UNSPECIFIED - NOT WATER COMPANY" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE DISCHARGES - UNSPECIFIED - NOT WATER COMPANY" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/V>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWERAGE SYSTEM DISCHARGE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWERAGE SYSTEM DISCHARGE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/VA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/V> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/V>
+        <http://www.w3.org/2004/02/skos/core#notation>  "V" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/VA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/VA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "VA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWERAGE SYSTEM DISCHARGE" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWERAGE SYSTEM DISCHARGE" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - DOMESTIC LANDFILL" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - DOMESTIC LANDFILL" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WB>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WB> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WB>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WB" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - INDUSTRIAL LANDFILL" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - INDUSTRIAL LANDFILL" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WC>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WC> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WC>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WC" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - DOMESTIC & INDUSTRIAL LANDFILL" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - DOMESTIC & INDUSTRIAL LANDFILL" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WD>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WD> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WD>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WD" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - SURFACE WATER MONITORING POINT - LANDFILL" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - SURFACE WATER MONITORING POINT - LANDFILL" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WE>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WE> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WE>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WE" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - EXTERNAL STANDING WATER (INC. PONDS & DITCHES)" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - EXTERNAL STANDING WATER (INC. PONDS & DITCHES)" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WF>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WF> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WF>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WF" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - GAS & GROUNDWATER" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - GAS & GROUNDWATER" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WG>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WG> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WG>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WG" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - GAS BOREHOLE" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - GAS BOREHOLE" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WH>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WH> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WH>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WH" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - GAS & LEACHATE" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - GAS & LEACHATE" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WI>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WI> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WI>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WI" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - INTERNAL STANDING WATER" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - INTERNAL STANDING WATER" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WJ>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WJ> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WJ>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WJ" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - LEACHATE MANAGEMENT SYSTEM" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - LEACHATE MANAGEMENT SYSTEM" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WK>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WK> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WK>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WK" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - GAS MANAGEMENT SYSTEM" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - GAS MANAGEMENT SYSTEM" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WL>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WL> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WL>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WL" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - LEACHATE BOREHOLE" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - LEACHATE BOREHOLE" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WM>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WM> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WM>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WM" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - GAS MULTILEVEL" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - GAS MULTILEVEL" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WP>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WP> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WP>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WP" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - GAS PROBE" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - GAS PROBE" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WS>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WS> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WS>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WS" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - LEACHATE SUMP" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - LEACHATE SUMP" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WV>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WV> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WV>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WV" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - GAS VENT" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - GAS VENT" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WW>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WW> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WW>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WW" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - LEACHATE WELL" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - LEACHATE WELL" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WX>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WX> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WX>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WX" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - GAS SPIKE POINT" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - GAS SPIKE POINT" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WY>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WY> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WY>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WY" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - UNSPECIFIED BOREHOLE" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - UNSPECIFIED BOREHOLE" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WZ>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WZ> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WZ>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WZ" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - UNSPECIFIED" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - UNSPECIFIED" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Y>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE & TRADE COMBINED"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE & TRADE COMBINED"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/YZ>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Y> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Y>
+        <http://www.w3.org/2004/02/skos/core#notation>  "Y" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/YZ> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/YZ>
+        <http://www.w3.org/2004/02/skos/core#notation>  "YZ" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "SEWAGE & TRADE COMBINED - UNSPECIFIED" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "SEWAGE & TRADE COMBINED - UNSPECIFIED" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Z>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "EXEMPTION"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "EXEMPTION"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/ZZ>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Z> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/Z>
+        <http://www.w3.org/2004/02/skos/core#notation>  "Z" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/ZZ> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/ZZ>
+        <http://www.w3.org/2004/02/skos/core#notation>  "ZZ" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "UNSPECIFIED" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "UNSPECIFIED" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AA>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/A>
+        <http://www.w3.org/2004/02/skos/core#notation>  "A" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AA> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/AA>
+        <http://www.w3.org/2004/02/skos/core#notation>  "AA" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "AGRICULTURE - ARABLE FARMING" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "AGRICULTURE - ARABLE FARMING" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE DISCHARGES"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE DISCHARGES"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TH>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/T>
+        <http://www.w3.org/2004/02/skos/core#notation>  "T" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TH> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/TH>
+        <http://www.w3.org/2004/02/skos/core#notation>  "TH" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "TRADE - RELEASE TO AIR" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "TRADE - RELEASE TO AIR" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WN>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WN> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WN>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WN" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - GAS & GROUNDWATER MULTI" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - GAS & GROUNDWATER MULTI" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WO>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WO> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WO>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WO" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - AIR MONITORING" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - AIR MONITORING" .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE"@en ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://environment.data.gov.uk/water-quality/def/sampling-point/SamplingPointTypeGroup> ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Collection> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE"@en .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WR>
+        <http://environment.data.gov.uk/water-quality/def/sample/group>  <http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W> .
+
+<http://environment.data.gov.uk/water-quality/def/sampling-point-type-groups/W>
+        <http://www.w3.org/2004/02/skos/core#notation>  "W" ;
+        <http://www.w3.org/2004/02/skos/core#member>  <http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WR> .
+
+<http://environment.data.gov.uk/registry/def/water-quality/sampling_point_types/WR>
+        <http://www.w3.org/2004/02/skos/core#notation>  "WR" ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>  "WASTE SITE - TREATED EFFLUENT" ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>  "WASTE SITE - TREATED EFFLUENT" .
