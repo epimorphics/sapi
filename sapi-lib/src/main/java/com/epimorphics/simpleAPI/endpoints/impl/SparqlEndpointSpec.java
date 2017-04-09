@@ -43,11 +43,14 @@ public class SparqlEndpointSpec extends EndpointSpecBase implements EndpointSpec
 
     @Override public QueryBuilder getQueryBuilder(String viewname) {
         ViewMap view = getView(viewname);
-        if (baseQuery == null) {
-        	if (view == null) baseQuery = createQueryShape();
-        	else baseQuery = view.asDescribe();
+        if (view == null) {
+            view = getView(DEFAULT_VIEWNAME);
         }
-        return new DescribeQueryBuilder(baseQuery, getPrefixes());
+        QueryShape q = baseQuery;
+        if (q == null){
+            q = view == null ? createQueryShape() : view.asDescribe();
+        }
+        return new DescribeQueryBuilder(q, getPrefixes());
     }
 
     public QueryShape getBaseQuery() {
