@@ -369,5 +369,13 @@ public class EndpointsBase {
     public Response renderResponse(String template, Object...args) {
         return respondWith( render(template, args) );
     }
+    
+    public Response errorResponse(Status status, String message) {
+        return Response
+                .status(status)
+                .entity( message)
+                .type( MediaType.TEXT_PLAIN)
+                .build();
+    }
           
 }
