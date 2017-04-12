@@ -27,6 +27,7 @@ import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.rdfutil.TypeUtil;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.query.ItemQuery;
 import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.Query;
@@ -51,6 +52,7 @@ public class Call {
     protected Request request;
     protected String templateName;
     protected QueryBuilder builder;
+    protected DataSource dataSource ;
     
     public Call(EndpointSpec endpoint, Request request) {
         this.endpoint = endpoint;
@@ -173,12 +175,12 @@ public class Call {
                 if (getTemplateName() == null) {
                     templateName = getAPI().getDefaultListTemplate();
                 }
-                return getAPI().getSource().query((ListQuery)query, this);
+                return getDataSource().query((ListQuery)query, this);
             } else {
                 if (getTemplateName() == null) {
                     templateName = getAPI().getDefaultItemTemplate();
                 }
-                return getAPI().getSource().query((ItemQuery)query, this);
+                return getDataSource().query((ItemQuery)query, this);
             }
         } catch (QueryExceptionHTTP e) {
             if (e.getResponseCode() == 503) {
@@ -215,9 +217,9 @@ public class Call {
      */
     public ResultOrStream getResults(Query query) {
         if (query instanceof ListQuery) {
-            return getAPI().getSource().query((ListQuery)query, this);
+            return getDataSource().query((ListQuery)query, this);
         } else {
-            return getAPI().getSource().query((ItemQuery)query, this);
+            return getDataSource().query((ItemQuery)query, this);
         }
     }
     
@@ -236,4 +238,22 @@ public class Call {
         this.templateName = templateName;
     }
     
+    /**
+     * @return the data source to use for the call
+     */
+    public DataSource getDataSource() {
+        if (dataSource == null) {
+            return getAPI().getSource();
+        } else {
+            return dataSource;
+        }
+    }
+    
+    /**
+     * Override the default data source.
+     * Used to enable the query endpoint to be determined dynamically based on request parameters.
+     */
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    } 
 }
