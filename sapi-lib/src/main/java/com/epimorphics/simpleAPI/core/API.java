@@ -32,15 +32,14 @@ import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.core.ComponentBase;
 import com.epimorphics.appbase.core.GenericConfig;
 import com.epimorphics.appbase.core.Startup;
+import com.epimorphics.appbase.monitor.ConfigInstance;
 import com.epimorphics.json.JSFullWriter;
-import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
+import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.requests.Call;
-import com.epimorphics.simpleAPI.requests.FilterRequestProcessor;
-import com.epimorphics.simpleAPI.requests.LimitRequestProcessor;
 import com.epimorphics.simpleAPI.requests.Request;
-import com.epimorphics.simpleAPI.requests.RequestProcessor;
-import com.epimorphics.simpleAPI.requests.SortRequestProcessor;
+import com.epimorphics.simpleAPI.sapi2.BaseEngine;
+import com.epimorphics.simpleAPI.sapi2.Sapi2ItemEndpointSpec;
 import com.epimorphics.simpleAPI.util.LastModified;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
@@ -85,19 +84,9 @@ public class API extends ComponentBase implements Startup {
     
     protected GenericConfig configExtensions = new GenericConfig();
     
-    protected List<RequestProcessor> requestProcessors = new ArrayList<>();
-    protected List<RequestProcessor> allRequestProcessors;
-    
     protected LastModified timestampService;
     
-    // Configure built in standard request handlers here
-    protected static final RequestProcessor[] standardRequestProcessors = new RequestProcessor[] {
-//            new GeoRequestProcessor(),
-//            new SearchRequestProcessor(),
-            new FilterRequestProcessor(),
-            new SortRequestProcessor(),
-            new LimitRequestProcessor()
-    };
+    protected Engine defaultEngine = new BaseEngine();
     
     // TODO review the supported formats
     public static final String[] supportedFormats = new String[]{"json", "csv", "rdf", "ttl"};
@@ -199,25 +188,25 @@ public class API extends ComponentBase implements Startup {
     
     // ---- Access to configurations ------------------------------------
 
-    public SparqlEndpointSpec getSpec(String name) {
+    public EndpointSpec getSpec(String name) {
         if (monitor != null){
-            ConfigItem item = monitor.get(name);
-            if (item instanceof SparqlEndpointSpec) {
-                return (SparqlEndpointSpec) item;
+            ConfigInstance item = monitor.get(name);
+            if (item instanceof EndpointSpec) {
+                return (EndpointSpec) item;
             }
         }
         return null;
     }
     
-    public List<SparqlEndpointSpec> listSpecs() {
-        return listConfigs(SparqlEndpointSpec.class);
+    public List<Sapi2ItemEndpointSpec> listSpecs() {
+        return listConfigs(Sapi2ItemEndpointSpec.class);
     }
     
     @SuppressWarnings("unchecked")
     private <T> List<T> listConfigs(Class<T> cls) {
         List<T> list = new ArrayList<>();
         if (monitor != null){
-            for (ConfigItem ci : monitor.getEntries()) {
+            for (ConfigInstance ci : monitor.getEntries()) {
                 if (cls.isInstance(ci)) {
                     list.add( (T) ci);
                 }
@@ -228,7 +217,7 @@ public class API extends ComponentBase implements Startup {
 
     public ViewMap getView(String name) {
         if (monitor != null){
-            ConfigItem item = monitor.get(name);
+            ConfigInstance item = monitor.get(name);
             if (item instanceof ViewMap) {
                 return (ViewMap) item;
             }
@@ -320,25 +309,17 @@ public class API extends ComponentBase implements Startup {
     public Call getCall(String endpoint, UriInfo uriInfo, HttpServletRequest servletRequest, String requestBody) {
         return getCall(endpoint, Request.from(this, uriInfo, servletRequest, requestBody));
     }
-    
-    // ---- Support for request processing handlers ------------------------------------
-    
-    public void setRequestProcessor(RequestProcessor processor) {
-        requestProcessors.add(processor);
+
+    public Engine getDefaultEngine() {
+        return defaultEngine;
     }
-    
-    public void setRequestProcessors(List<RequestProcessor> processors) {
-        requestProcessors.addAll(processors);
+
+    public void setDefaultEngine(Engine defaultEngine) {
+        this.defaultEngine = defaultEngine;
     }
-    
-    public List<RequestProcessor> getRequestProcessors() {
-        if (allRequestProcessors == null) {
-            allRequestProcessors = new ArrayList<>( requestProcessors );
-            for (RequestProcessor proc : standardRequestProcessors) {
-                allRequestProcessors.add(proc);
-            }
-        }
-        return allRequestProcessors;
+
+    public Engine getEngine(String name) {
+        return getApp().getComponentAs(name, Engine.class);
     }
     
     // ---- Monitor configurations ------------------------------------

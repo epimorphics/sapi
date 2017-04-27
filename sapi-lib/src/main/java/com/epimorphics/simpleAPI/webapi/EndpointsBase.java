@@ -37,7 +37,6 @@ import com.epimorphics.appbase.templates.VelocityRender;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
-import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlDataSource;
@@ -45,6 +44,7 @@ import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.results.ResultOrStream;
+import com.epimorphics.simpleAPI.sapi2.Sapi2ItemEndpointSpec;
 import com.epimorphics.simpleAPI.util.LastModified;
 
 public class EndpointsBase {
@@ -156,7 +156,7 @@ public class EndpointsBase {
         try {
             return getAPI().getCall(uriInfo, getRequest() );
         } catch (NotFoundException e) {
-            EndpointSpec defaultEndpoint = new SparqlEndpointSpec(getAPI());
+            EndpointSpec defaultEndpoint = new Sapi2ItemEndpointSpec(getAPI());
             return new Call(defaultEndpoint, getRequest());
         }
     }

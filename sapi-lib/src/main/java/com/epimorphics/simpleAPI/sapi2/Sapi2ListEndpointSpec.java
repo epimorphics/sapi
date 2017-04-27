@@ -7,7 +7,7 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.endpoints.impl;
+package com.epimorphics.simpleAPI.sapi2;
 
 import java.util.List;
 
@@ -25,20 +25,20 @@ import com.epimorphics.sparql.query.QueryShape;
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEndpointSpec {
+public class Sapi2ListEndpointSpec extends Sapi2BaseEndpointSpec implements ListEndpointSpec {
     protected Long softLimit;
     protected Long hardLimit;
     protected boolean useNestedSelect = false;
     protected boolean useDistinct = false;
     protected List<String> additionalProjectionVars = null;
     
-    public SparqlListEndpointSpec(API api) {
+    public Sapi2ListEndpointSpec(API api) {
         super(api);
     }
     
     @Override public QueryBuilder getQueryBuilder(String viewname) {
         ViewMap view = getView(viewname);
-        QueryShape base = getBaseQuery().copy();
+        QueryShape base = getBaseQuery(); // .copy(); no longer needed because base query is dynamically generated
         if (useDistinct) {
             base.setDistinction(Distinction.DISTINCT);
         }
@@ -113,6 +113,5 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
     public void setUseDistinct(boolean useDistinct) {
         this.useDistinct = useDistinct;
     }
-        
     
 }

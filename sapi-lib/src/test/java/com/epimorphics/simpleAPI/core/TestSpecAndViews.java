@@ -21,9 +21,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.epimorphics.appbase.core.App;
-import com.epimorphics.simpleAPI.endpoints.impl.SparqlListEndpointSpec;
 import com.epimorphics.simpleAPI.query.Query;
 import com.epimorphics.simpleAPI.query.impl.SparqlSelectQuery;
+import com.epimorphics.simpleAPI.sapi2.Sapi2ListEndpointSpec;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
@@ -48,7 +48,7 @@ public class TestSpecAndViews {
     @Test
     public void testEndpointsExist() {
         assertNotNull( api.getSpec("listTest") );
-        SparqlListEndpointSpec spec = (SparqlListEndpointSpec) api.getSpec("listTest");
+        Sapi2ListEndpointSpec spec = (Sapi2ListEndpointSpec) api.getSpec("listTest");
         assertEquals(10, spec.getSoftLimit().longValue());
         assertEquals(100, spec.getHardLimit().longValue());
         Query query = spec.getQueryBuilder().build();
