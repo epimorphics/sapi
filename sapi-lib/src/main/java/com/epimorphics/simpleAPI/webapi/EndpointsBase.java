@@ -46,6 +46,8 @@ import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.results.ResultOrStream;
 import com.epimorphics.simpleAPI.sapi2.Sapi2ItemEndpointSpec;
 import com.epimorphics.simpleAPI.util.LastModified;
+import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.views.ViewPath;
 
 public class EndpointsBase {
     public static final String TURTLE = "text/turtle; charset=UTF-8";
@@ -233,7 +235,13 @@ public class EndpointsBase {
      */
     public void sort(Call call, String param, boolean down) {
         SparqlQueryBuilder builder = (SparqlQueryBuilder)call.getQueryBuilder();
-        call.setQueryBuilder( builder.sort(param, down) );
+        ViewMap view = call.getView();
+        ViewPath path = view.getTree().pathTo(param);
+        if (path != null) {
+            call.setQueryBuilder( builder.sort(path, view, down) );
+        } else {
+            throw new WebApiException(Status.BAD_REQUEST, "Did not recognize parameter to sort on: " + param);
+        }
     }
     
     /**

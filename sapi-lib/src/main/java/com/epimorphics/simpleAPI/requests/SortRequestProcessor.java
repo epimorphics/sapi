@@ -14,6 +14,8 @@ import javax.ws.rs.core.Response.Status;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
+import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.views.ViewPath;
 
 /**
  * Handle _sort directive, allows "." path notation to sorting on
@@ -36,11 +38,13 @@ public class SortRequestProcessor extends RequestProcessorBase {
                     down = true;
                     sort = sort.substring(1).trim();
                 }
-                String sortVar = spec.getView( request.getViewName() ).asVariableName(sort);
-                if (sortVar == null) {
+                ViewMap view = spec.getView( request.getViewName() );
+                ViewPath path = view.getTree().pathTo(sort);
+                if (path != null) {
+                    builder = builder.sort(path, view, down);
+                } else {
                     throw new WebApiException(Status.BAD_REQUEST, "Did not recognize parameter to sort on: " + sort);
                 }
-                builder = builder.sort( sortVar, down );
             }
             request.consume(SORT);
             return builder;

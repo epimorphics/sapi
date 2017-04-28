@@ -28,7 +28,7 @@ import com.epimorphics.sparql.query.QueryShape;
 public class Sapi2ListEndpointSpec extends Sapi2BaseEndpointSpec implements ListEndpointSpec {
     protected Long softLimit;
     protected Long hardLimit;
-    protected boolean useNestedSelect = false;
+    protected boolean useNestedSelect = true;
     protected boolean useDistinct = false;
     protected List<String> additionalProjectionVars = null;
     

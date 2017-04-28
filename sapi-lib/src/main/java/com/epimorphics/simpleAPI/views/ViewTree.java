@@ -236,6 +236,10 @@ public class ViewTree implements Iterable<ViewEntry> {
      * Returns null if this is not a legal path
      */
     public ViewPath pathTo(String name) {
+        if (name.equals("@id")) {
+            // Special case to handle root path
+            return new ViewPath();
+        }
         if (name.contains(".")) {
             // Full dotted path
             ViewPath path = new ViewPath(name.split("\\."));

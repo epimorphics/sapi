@@ -51,8 +51,15 @@ public interface ListQueryBuilder extends QueryBuilder {
     
     /**
      * Add a sort directive to the query
+     * 
      */
     public ListQueryBuilder sort(String shortname, boolean down);
+    
+    /**
+     * Add a sort directive to the query
+     * Use ViewPath version of the call for preference but there are situations where this is the only approach.
+     */
+    public ListQueryBuilder sort(ViewPath path, ViewMap map, boolean down);
     
     /**
      * Set a paging window on the query results

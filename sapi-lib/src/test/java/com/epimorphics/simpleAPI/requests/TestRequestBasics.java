@@ -59,6 +59,7 @@ public class TestRequestBasics {
         assertEquals("B5", getFirstLabel("listTest2", "_sort", "-label"));
         assertEquals("A5", getFirstLabel("listTest2", "_sort", "group", "_sort", "-label"));
         assertEquals("B1", getFirstLabel("listTest2", "_sort", "narrower.label"));
+        assertEquals("A5", getFirstLabel("listTest2", "_sort", "-narrower.label"));
     }
     
     @Test
@@ -67,6 +68,15 @@ public class TestRequestBasics {
         assertEquals("B1", getFirstLabel("listTest2", "narrower.group", "A", "_sort", "label"));
         assertEquals("B2", getFirstLabel("listTest2", "group", "B", "notation", "2"));
         assertEquals("B2", getFirstLabel("listTest2", "group", "B", "narrower.notation", "2"));
+    }
+    
+    @Test
+    public void testNested() {
+        assertEquals(10, getAndCount("listTest2nested"));
+        assertEquals("A1", getFirstLabel("listTest2nested", "_sort", "label"));
+        assertEquals("B5", getFirstLabel("listTest2nested", "_sort", "-label"));
+        assertEquals("B1", getFirstLabel("listTest2nested", "_sort", "narrower.label"));
+        assertEquals("A5", getFirstLabel("listTest2nested", "_sort", "-narrower.label"));
     }
     
     @Test

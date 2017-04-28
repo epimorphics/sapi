@@ -174,6 +174,10 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
 		Order sc = (down ? Order.DESC : Order.ASC);
 		return updateQuery( query.copy().addOrder(sc, new Var(shortname)) );
 	}
+	
+	@Override public ListQueryBuilder sort(ViewPath path, ViewMap map, boolean down) {
+	    return sort(path.asVariableName(), down);
+	}
 
 	@Override public ListQueryBuilder limit(long limit, long offset) {
 		QueryShape q = query.copy();
