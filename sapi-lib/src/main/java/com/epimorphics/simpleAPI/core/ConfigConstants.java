@@ -57,6 +57,11 @@ public class ConfigConstants {
     public static final String SUPPRESSID  = "suppressID";
     public static final String HIDE        = "hide";
     
+    public static final String CLASS       = "class";
+    public static final String CLASSES     = "classes";
+    public static final String URI         = "uri";
+    public static final String PROPERTIES  = "properties";
+    
     public static final String GEO           = "geoSearch";
     public static final String GEO_PARAMETER = "parameter";
     public static final String GEO_ALGORITHM = "algorithm";

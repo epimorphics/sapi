@@ -11,6 +11,7 @@ package com.epimorphics.simpleAPI.views;
 
 import static com.epimorphics.simpleAPI.core.ConfigConstants.COMMENT;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.FILTERABLE;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.HIDE;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.MULTIVALUED;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.NAME;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.NESTED;
@@ -18,7 +19,6 @@ import static com.epimorphics.simpleAPI.core.ConfigConstants.OPTIONAL;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.PROPERTY;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.PROP_TYPE;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.SUPPRESSID;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.HIDE;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.VALUE_BASE;
 
 import java.util.ArrayList;
@@ -34,8 +34,7 @@ import org.apache.jena.atlas.json.JsonValue;
 import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.json.JsonUtil;
-import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.views.ViewEntry.PV;
+import com.epimorphics.simpleAPI.views.PropertySpec.PV;
 import com.epimorphics.sparql.graphpatterns.And;
 import com.epimorphics.sparql.graphpatterns.Basic;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
@@ -46,31 +45,82 @@ import com.epimorphics.sparql.terms.Var;
 import com.epimorphics.util.EpiException;
 
 /**
- * Represents a hierarchical view over a set of RDF resources, to support mapping to JSON.
- * The root of the tree is a ViewMap
+ * Information on a class in the model. May be an actual RDFS class (with URI and shortname)
+ * or may be an anonymous nested class showing the substructure to be found/rendered for a 
+ * parent property spec. The order of properties in the original yaml are preserved and used
+ * for rendering.
+ * <p>
+ * Replaces ViewSpec in Sapi2.
+ * </p>
  */
-public class ViewTree implements Iterable<ViewEntry> {
-    protected Map<String, ViewEntry> children = new LinkedHashMap<>();
+public class ClassSpec implements Iterable<PropertySpec> {
+    protected URI uri;
+    protected String jsonname;
+    protected Map<String, PropertySpec> children = new LinkedHashMap<>();
     
-    public ViewTree() {
+    /**
+     * Construct an anonymous class
+     */
+    public ClassSpec() {
+    }
+    
+    /**
+     * Construct a class with default shortname
+     */
+    public ClassSpec(URI uri) {
+        this( PropertySpec.makeJsonName(uri), uri);
+    }
+    
+    /**
+     * Construct a class with explict shortname
+     */
+    public ClassSpec(String name, URI uri) {
+        this.uri = uri;
+        this.jsonname = name;
+    }
+    
+    public ClassSpec clone() {
+        return new ClassSpec(jsonname, uri);
+    }
+    
+    public ClassSpec deepclone() {
+        ClassSpec clone = clone();
+        for (PropertySpec p : children.values()) {
+            clone.addChild( p.deepclone() );
+        }
+        return clone;
     }
 
-    // TODO constructor to deep clone an existing tree?
+    public URI getUri() {
+        return uri;
+    }
+
+    public void setUri(URI uri) {
+        this.uri = uri;
+    }
+
+    public String getJsonName() {
+        return jsonname;
+    }
+
+    public void setJsonName(String jsonname) {
+        this.jsonname = jsonname;
+    }
     
-    public void addChild(ViewEntry entry) {
+    public void addChild(PropertySpec entry) {
         children.put(entry.getJsonName(), entry);
     }
 
     @Override
-    public Iterator<ViewEntry> iterator() {
+    public Iterator<PropertySpec> iterator() {
         return children.values().iterator();
     }
 
-    public List<ViewEntry> getChildren() {
+    public List<PropertySpec> getChildren() {
         return new ArrayList<>(children.values());
     }
     
-    public ViewEntry getEntry(String shortname) {
+    public PropertySpec getEntry(String shortname) {
         return children.get(shortname);
     }
     
@@ -83,7 +133,7 @@ public class ViewTree implements Iterable<ViewEntry> {
 
     	List<GraphPattern> patterns = new ArrayList<GraphPattern>();
     	
-    	for (ViewEntry map : children.values()) {
+    	for (PropertySpec map : children.values()) {
             String jname = map.getJsonName();
             String npath = addToPath(path, jname);
         	PV pv = map.asQueryRow(path);
@@ -96,7 +146,7 @@ public class ViewTree implements Iterable<ViewEntry> {
         	
 			if (map.isOptional()) {
             	if (map.isNested()) {
-            		ViewTree nested = map.getNested();
+            		ClassSpec nested = map.getNested();
             		GraphPattern p = nested.buildPattern(npath, npath, vars, includeNonNested);
             		GraphPattern both = new And(basic, p);
             		patterns.add(new Optional(both));
@@ -108,7 +158,7 @@ public class ViewTree implements Iterable<ViewEntry> {
             } else {
             	if (map.isNested()) {
                     patterns.add(basic);
-                    ViewTree nested = map.getNested();
+                    ClassSpec nested = map.getNested();
                     patterns.add(nested.buildPattern(npath, npath, vars, includeNonNested));            		
             	} else if (includeNonNested){
                     patterns.add(basic);
@@ -121,7 +171,7 @@ public class ViewTree implements Iterable<ViewEntry> {
     
     protected GraphPattern patternForPath(ViewPath path, String pathSoFar, String priorVar) {
         String var = path.first();
-        ViewEntry entry = getEntry(var);
+        PropertySpec entry = getEntry(var);
         if (entry == null) {
             throw new EpiException("Path not recognized: " + var);
         }
@@ -131,7 +181,7 @@ public class ViewTree implements Iterable<ViewEntry> {
         if (rest.isEmpty()) {
             return new Basic(t);
         } else {
-            ViewTree nested = entry.getNested();
+            ClassSpec nested = entry.getNested();
             if (nested == null) {
                 throw new EpiException("Path does not match nesting:" + path);
             }
@@ -143,7 +193,7 @@ public class ViewTree implements Iterable<ViewEntry> {
      * Extend a list of all paths in the tree 
      */
     protected void collectPaths(ViewPath parent, List<ViewPath> paths) {
-        for (ViewEntry map : children.values()) {
+        for (PropertySpec map : children.values()) {
             paths.add( parent.withAdd(map.getJsonName()) );
             if (map.isNested()) {
                 map.getNested().collectPaths(parent.withAdd(map.getJsonName()), paths);
@@ -159,22 +209,22 @@ public class ViewTree implements Iterable<ViewEntry> {
         }
     }
 
-    public static ViewTree parseFromJson(API api, PrefixMapping prefixes, JsonValue list) {
-        ViewTree tree = new ViewTree();
+    public static ClassSpec parseFromJson(PrefixMapping prefixes, JsonValue list) {
+        ClassSpec tree = new ClassSpec();
         if (list.isArray()) {
             for (Iterator<JsonValue> pi = list.getAsArray().iterator(); pi.hasNext(); ) {
-                ViewEntry entry = null;
+                PropertySpec entry = null;
                 JsonValue prop = pi.next();
                 if (prop.isString()) {
                     String p = prop.getAsString().value();
                     if (prefixes != null) p = prefixes.expandPrefix(p);
-                    entry = new ViewEntry( new URI(p) );
+                    entry = new PropertySpec( new URI(p) );
                 } else if (prop.isObject()) {
                     JsonObject propO = prop.getAsObject();
                     String p = JsonUtil.getStringValue(propO, PROPERTY);
                     if (prefixes != null) p = prefixes.expandPrefix(p);
                     String name = JsonUtil.getStringValue(propO, NAME);
-                    entry = new ViewEntry(name, new URI(p));
+                    entry = new PropertySpec(name, new URI(p));
                     if (propO.hasKey(OPTIONAL)) {
                         entry.setOptional( JsonUtil.getBooleanValue(propO, OPTIONAL, false) );
                     }
@@ -182,7 +232,7 @@ public class ViewTree implements Iterable<ViewEntry> {
                         entry.setMultivalued( JsonUtil.getBooleanValue(propO, MULTIVALUED, false) );
                     }
                     if (propO.hasKey(NESTED)) {
-                        ViewTree nested = parseFromJson(api, prefixes, propO.get(NESTED) );
+                        ClassSpec nested = parseFromJson(prefixes, propO.get(NESTED) );
                         entry.setNested(nested);                        
                     }
                     if (propO.hasKey(FILTERABLE)) {
@@ -223,7 +273,7 @@ public class ViewTree implements Iterable<ViewEntry> {
     }
     
     protected StringBuffer print(StringBuffer buf, String indent) {
-        for (ViewEntry child : this) {
+        for (PropertySpec child : this) {
             child.print(buf, indent);
             buf.append("\n");
         }
@@ -255,12 +305,12 @@ public class ViewTree implements Iterable<ViewEntry> {
     }
     
     protected ViewPath pathTo(String name, ViewPath path) {
-        for (ViewEntry child : this) {
+        for (PropertySpec child : this) {
             if (child.getJsonName().equals(name)) {
                 return path.withAdd(name);
             }
         }
-        for (ViewEntry child : this) {
+        for (PropertySpec child : this) {
             if (child.isNested()) {
                 ViewPath fullPath = child.getNested().pathTo(name, path.withAdd(child.getJsonName()));
                 if (fullPath != null) {
@@ -274,15 +324,15 @@ public class ViewTree implements Iterable<ViewEntry> {
     /**
      * Locate an entry which matches a property URI, breadth first search
      */
-    public ViewEntry findEntryByURI(String uri) {
-        for (ViewEntry child : this) {
+    public PropertySpec findEntryByURI(String uri) {
+        for (PropertySpec child : this) {
             if (child.getProperty().getURI().equals(uri)) {
                 return child;
             }
         }
-        for (ViewEntry child : this) {
+        for (PropertySpec child : this) {
             if (child.isNested()) {
-                ViewEntry entry = child.getNested().findEntryByURI(uri);
+                PropertySpec entry = child.getNested().findEntryByURI(uri);
                 if (entry != null) {
                     return entry;
                 }
@@ -294,12 +344,12 @@ public class ViewTree implements Iterable<ViewEntry> {
     /**
      * Return a view entry based on a path of short names, or null if it is not specified in the view.
      */
-    public ViewEntry findEntry(ViewPath path) {
+    public PropertySpec findEntry(ViewPath path) {
         if (path.isEmpty()) {
             return null;
         } else {
             String elt = path.first();
-            ViewEntry first = children.get(elt);
+            PropertySpec first = children.get(elt);
             if (first == null) {
                 return null;
             } else {

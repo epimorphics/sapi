@@ -1,0 +1,62 @@
+prefixes:
+  org:   http://www.w3.org/ns/org#
+  skos:  http://www.w3.org/2004/02/skos/core#
+  vcard: http://www.w3.org/2006/vcard/ns#
+
+properties:
+  - prop:  rdf:type
+    multi: true
+    type:  rdf:Resource
+    
+  - prop:  rdfs:label
+    type:  xsd:string
+    optional: true
+
+  - prop:  skos:prefLabel
+    type:  xsd:string
+    optional: true
+
+  - prop:  skos:broader
+    type:  xsd:Concept
+    optional: true
+
+classes:
+  - class: org:Organization
+    properties:
+      - "rdf:type"
+      - "rdfs:label"
+      - { prop: "org:classification", type: "skos:Concept"}
+      - { prop: "org:hasMember", multi: true, type: "foaf:Agent" }
+      - { prop: "org:hasSite", type: "org:Site" }
+      - prop: "org:classification"
+        name: testNest
+        nested:
+          - "rdfs:label"
+          - "skos:notation"
+          
+  - class: "skos:Concept"
+    properties:
+      - "rdf:type"
+      - "skos:prefLabel"
+      - "skos:notation"
+      - { prop: "skos:broader", type: "skos:Concept" }
+      
+  - class: "foaf:Agent"
+    properties:
+      - "rdf:type"
+      - "foaf:name"
+      
+  - class: "org:Site"
+    properties:
+      - "rdf:type"
+      - "rdfs:label"
+      - { prop: "org:siteAddress", type: "vcard:Address" }
+      
+  - class: "vcard:Address"
+    properties:
+      - vcard:street-address
+      - vcard:locality
+      - vcard:postal-code
+
+  
+   

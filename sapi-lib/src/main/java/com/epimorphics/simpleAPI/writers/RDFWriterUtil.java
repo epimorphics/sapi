@@ -17,9 +17,9 @@ import org.apache.jena.rdf.model.Resource;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.results.TreeResult;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
-import com.epimorphics.simpleAPI.views.ViewTree;
+import com.epimorphics.simpleAPI.views.ClassSpec;
 import com.epimorphics.util.EpiException;
 
 /**
@@ -38,10 +38,10 @@ public class RDFWriterUtil {
         return writeResult(result, view.getTree(), spec.getAPI(), model);
     }
     
-    protected static Resource writeResult(TreeResult result, ViewTree tree, API api, Model model) {
+    protected static Resource writeResult(TreeResult result, ClassSpec tree, API api, Model model) {
         Resource root = result.getId().inModel(model).asResource();
         for (String key : result.getKeys()) {
-            ViewEntry entry = tree.getEntry(key);
+            PropertySpec entry = tree.getEntry(key);
             Property prop = model.createProperty( entry.getProperty().getURI() );
             for (Object value : result.getValues(key)) {
                 if (value instanceof TreeResult) {

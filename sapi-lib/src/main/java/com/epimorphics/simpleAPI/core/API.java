@@ -41,7 +41,7 @@ import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.sapi2.BaseEngine;
 import com.epimorphics.simpleAPI.sapi2.Sapi2ItemEndpointSpec;
 import com.epimorphics.simpleAPI.util.LastModified;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.sparql.terms.URI;
 import com.epimorphics.util.NameUtils;
@@ -232,24 +232,24 @@ public class API extends ComponentBase implements Startup {
     /**
      * Return the default specification for how to render a given property.
      */
-    public ViewEntry getDefaultViewForURI(String uri) {
+    public PropertySpec getDefaultViewForURI(String uri) {
         ViewMap defview = getView(DEFAULT_VIEWNAME);
         if (defview != null) {
             return defview.findEntryByURI(uri);
         } else {
-            return new ViewEntry(new URI(uri));
+            return new PropertySpec(new URI(uri));
         }
     }
 
     /**
      * Return the default specification for how to render a given short name
      */
-    public ViewEntry getDefaultViewFor(String name) {
+    public PropertySpec getDefaultViewFor(String name) {
         ViewMap defview = getView(DEFAULT_VIEWNAME);
         if (defview != null) {
             return defview.findEntry(name);
         } else {
-            return new ViewEntry(name, null);
+            return new PropertySpec(name, null);
         }
     }
     

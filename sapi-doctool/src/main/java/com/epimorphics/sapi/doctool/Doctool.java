@@ -31,7 +31,7 @@ import com.epimorphics.appbase.data.SparqlSource;
 import com.epimorphics.rdfutil.RDFUtil;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.sapi2.Sapi2ItemEndpointSpec;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.util.NameUtils;
@@ -158,7 +158,7 @@ public class Doctool {
         out.write( "  <tbody>\n" );
 
         for (String path : viewset.listPaths()) {
-            ViewEntry entry = viewset.getEntry(path);
+            PropertySpec entry = viewset.getEntry(path);
             Resource prop = vocabulary.getResource( vocabulary.expandPrefix( entry.getProperty().getURI() ) );
             String meaning = entry.getComment();
             if (meaning == null) {
@@ -243,7 +243,7 @@ public class Doctool {
             return description;
         }
         
-        public ViewEntry getEntry(String path) {
+        public PropertySpec getEntry(String path) {
             return longestView().getEntry(path);
         }
     }
@@ -276,7 +276,7 @@ public class Doctool {
             return paths.contains(path);
         }
         
-        public ViewEntry getEntry(String path) {
+        public PropertySpec getEntry(String path) {
             return view.findEntry(path);
         }
         

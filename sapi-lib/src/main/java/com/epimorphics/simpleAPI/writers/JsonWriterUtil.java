@@ -20,9 +20,9 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.TreeResult;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
-import com.epimorphics.simpleAPI.views.ViewTree;
+import com.epimorphics.simpleAPI.views.ClassSpec;
 
 /**
  * Serialize a result as JSON. Assumes that the shape of the result matches the
@@ -45,7 +45,7 @@ public class JsonWriterUtil {
         writeResult(result, view == null ? null : view.getTree(), spec.getAPI(), out);
     }
     
-    protected static void writeResult(TreeResult result, ViewTree tree, API api, JSFullWriter out) {
+    protected static void writeResult(TreeResult result, ClassSpec tree, API api, JSFullWriter out) {
         out.startObject();
         String id = result.getStringID();
         if (id != null) {
@@ -53,7 +53,7 @@ public class JsonWriterUtil {
         }
         for (String key : result.getSortedKeys()) {
             List<Object> values = result.getSortedValues(key);
-            ViewEntry policy = null;
+            PropertySpec policy = null;
             if (tree != null) {
                 policy = tree.getEntry(key);
             }
@@ -76,7 +76,7 @@ public class JsonWriterUtil {
     }
 
 
-    protected static void writeNode(ViewTree tree, ViewEntry policy, API api,
+    protected static void writeNode(ClassSpec tree, PropertySpec policy, API api,
             String key, Object value, JSFullWriter writer, boolean isArrayElt) {
         if (value instanceof TreeResult) {
             if ( ((TreeResult)value).isSimple() && api.isShowSimpleLinks() ) {
@@ -89,9 +89,9 @@ public class JsonWriterUtil {
                 writer.arrayElementProcess();
             else
                 writer.key(key);
-            ViewTree ntree = null;
+            ClassSpec ntree = null;
             if (tree != null) {
-                ViewEntry entry = tree.getEntry(key);
+                PropertySpec entry = tree.getEntry(key);
                 if (entry != null) {
                     ntree = entry.getNested();
                 }

@@ -24,7 +24,7 @@ import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.query.Query;
 import com.epimorphics.simpleAPI.query.impl.SparqlSelectQuery;
 import com.epimorphics.simpleAPI.sapi2.Sapi2ListEndpointSpec;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
@@ -65,7 +65,7 @@ public class TestSpecAndViews {
         assertNotNull( view );
         
         assertEquals( "view-test", view.getName() );
-        List<ViewEntry> children = view.getTree().getChildren();
+        List<PropertySpec> children = view.getTree().getChildren();
         assertEquals(4, children.size());
         checkEntry(children.get(0), "severity",  RT + "severity",  false, false, false,  true);
         checkEntry(children.get(1), "message",   RT + "message",   false,  true, false,  true);
@@ -78,7 +78,7 @@ public class TestSpecAndViews {
         checkEntry(children.get(1), "county",    RT + "county",      false, false, false, true);
     }
     
-    private void checkEntry(ViewEntry entry, String json, String prop, boolean nested, boolean optional, boolean multi, boolean filterable) {
+    private void checkEntry(PropertySpec entry, String json, String prop, boolean nested, boolean optional, boolean multi, boolean filterable) {
         assertEquals(json, entry.getJsonName());
         assertEquals(prop, entry.getProperty().getURI());
         assertEquals(nested, entry.isNested());
@@ -147,7 +147,7 @@ public class TestSpecAndViews {
         Asserts.assertContains( describeLine, "?related_related");
     }
     
-    private void simpleCheckEntry(ViewEntry entry, String json, String prop, boolean nested) {
+    private void simpleCheckEntry(PropertySpec entry, String json, String prop, boolean nested) {
         assertEquals(json, entry.getJsonName());
         assertEquals(prop, entry.getProperty().getURI());
         assertEquals(nested, entry.isNested());

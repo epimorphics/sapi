@@ -1,0 +1,21 @@
+prefixes:
+  ex: http://example.com/
+  
+properties:
+  - ex:label
+  - {prop: "rdf:type", name: "mytype", optional: true, filterable: false, multi: true, valueBase: "http://example.com/base/", comment: "hello"}
+  
+classes:
+  - class: ex:MyClass
+    name:  myClass
+    properties:
+      - "rdf:type"
+  - class: ex:MyClass2
+    properties:
+      - prop: "rdf:type"
+        name: "otherType"
+        multi: false
+        nested:
+          - "rdfs:label"
+
+      

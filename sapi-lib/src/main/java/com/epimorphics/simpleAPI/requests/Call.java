@@ -33,7 +33,7 @@ import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.Query;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.results.ResultOrStream;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.util.NameUtils;
@@ -134,7 +134,7 @@ public class Call {
             if (path != null) {
                 // A legal filter
                 request.consume(parameter);
-                ViewEntry entry = view.findEntry(path);
+                PropertySpec entry = view.findEntry(path);
                 if (entry != null) {
                     String type = entry.getTypeURI();
                     if (type != null) {

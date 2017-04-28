@@ -17,7 +17,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import com.epimorphics.rdfutil.TypeUtil;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.util.NameUtils;
@@ -38,7 +38,7 @@ public class FilterRequestProcessor implements RequestProcessor {
                     ViewPath path = view.pathTo(parameter);
                     if (path != null) {
                         // A legal filter
-                        ViewEntry entry = view.findEntry(path);
+                        PropertySpec entry = view.findEntry(path);
                         if (entry != null && entry.isFilterable()) {
                             request.consume(parameter);
                             String type = entry.getTypeURI();

@@ -32,7 +32,7 @@ import static com.epimorphics.simpleAPI.core.ConfigConstants.ROOT_VAR;
  * Represents a singled configured tree view over the data which can be directly mapped to JSON.
  */
 public class ViewMap extends ConfigItem {
-    private ViewTree tree;
+    private ClassSpec tree;
     private String viewReference;
     protected API api;
     protected List<ViewPath> allPaths;
@@ -42,7 +42,7 @@ public class ViewMap extends ConfigItem {
         this.api = api;
     }
     
-    public ViewMap(API api, ViewTree tree) {
+    public ViewMap(API api, ClassSpec tree) {
         this.tree = tree;
         this.api = api;
     }
@@ -58,7 +58,7 @@ public class ViewMap extends ConfigItem {
     
     // TODO constructor to clone an existing tree/map?
     
-    public ViewTree getTree() {
+    public ClassSpec getTree() {
         if (tree == null) {
             ViewMap view = api.getView(viewReference);
             if (view == null) {
@@ -133,7 +133,7 @@ public class ViewMap extends ConfigItem {
      * If the property name is unambiguous then it will be located anywhere in the tree,
      * otherwise use an explicit "p.q.r" notation. Any "_" characters in the names will be handled.
      */
-    public ViewEntry findEntry(String name) {
+    public PropertySpec findEntry(String name) {
         ViewPath path = getTree().pathTo(name);
         if (path != null) {
             return getTree().findEntry(path);
@@ -145,14 +145,14 @@ public class ViewMap extends ConfigItem {
     /**
      * Find the ViewEntry for a property URI
      */
-    public ViewEntry findEntryByURI(String uri) {
+    public PropertySpec findEntryByURI(String uri) {
         return getTree().findEntryByURI(uri);
     }
     
     /**
      * Retrieve the view entry via a full path description
      */
-    public ViewEntry findEntry(ViewPath path) {
+    public PropertySpec findEntry(ViewPath path) {
         return getTree().findEntry(path);
     }
     
@@ -183,7 +183,7 @@ public class ViewMap extends ConfigItem {
             return new ViewMap(api, list.getAsString().value());
         } else if (list.isArray()) {
             // Inline view specification
-            return new ViewMap(api, ViewTree.parseFromJson(api, prefixes, list) );
+            return new ViewMap(api, ClassSpec.parseFromJson(prefixes, list) );
         } else {
             throw new EpiException("Illegal view specification must be a name or an array of view entries: " + list);
         }

@@ -1,0 +1,9 @@
+Class 
+  classification(<http://www.w3.org/ns/org#classification>) filterable
+    Class null(<http://www.w3.org/2004/02/skos/core#Concept>)
+      prefLabel(<http://www.w3.org/2004/02/skos/core#prefLabel>) filterable optional
+      notation(<http://www.w3.org/2004/02/skos/core#notation>) filterable
+      broader(<http://www.w3.org/2004/02/skos/core#broader>) filterable optional
+        Class null(<http://www.w3.org/2004/02/skos/core#Concept>)
+          prefLabel(<http://www.w3.org/2004/02/skos/core#prefLabel>) filterable optional
+          notation(<http://www.w3.org/2004/02/skos/core#notation>) filterable

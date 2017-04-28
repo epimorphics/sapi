@@ -18,9 +18,9 @@ import org.apache.jena.rdf.model.Resource;
 
 import com.epimorphics.appbase.data.ClosableResultSet;
 import com.epimorphics.simpleAPI.requests.Call;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
-import com.epimorphics.simpleAPI.views.ViewTree;
+import com.epimorphics.simpleAPI.views.ClassSpec;
 import com.epimorphics.util.EpiException;
 import static com.epimorphics.simpleAPI.core.ConfigConstants.ROOT_VAR;
 
@@ -119,8 +119,8 @@ public class ResultStreamSparqlSelect extends ResultStreamBase implements Result
         }
     }
     
-    private void addTree(TreeResult result, ViewTree tree, QuerySolution row, String path) {
-        for (ViewEntry ve : tree) {
+    private void addTree(TreeResult result, ClassSpec tree, QuerySolution row, String path) {
+        for (PropertySpec ve : tree) {
             String key = ve.getJsonName();
             String npath = path.isEmpty() ? key : path + "_" + key;
             RDFNode value = row.get( npath );

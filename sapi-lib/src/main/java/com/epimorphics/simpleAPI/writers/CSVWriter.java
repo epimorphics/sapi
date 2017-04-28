@@ -28,7 +28,7 @@ import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.ResultStream;
 import com.epimorphics.simpleAPI.results.TreeResult;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.util.EpiException;
@@ -124,7 +124,7 @@ public class CSVWriter {
                 throw new EpiException("Can't render tree to CSV without a view specification");
             }
             for (Iterator<ViewPath> i = paths.iterator(); i.hasNext();) {
-                ViewEntry entry = viewmap.findEntry(i.next());
+                PropertySpec entry = viewmap.findEntry(i.next());
                 if (entry != null && entry.isHide()) {
                     i.remove();
                 }

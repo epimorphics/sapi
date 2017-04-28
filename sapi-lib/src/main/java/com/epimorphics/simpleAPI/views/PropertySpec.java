@@ -21,7 +21,7 @@ import com.epimorphics.util.NameUtils;
  * Represents view information for a single property within the context of some ViewMap.
  * Provides a short ("jsonname") for each property.
  */
-public class ViewEntry {
+public class PropertySpec {
 	
     protected String jsonname;
     
@@ -32,11 +32,11 @@ public class ViewEntry {
     protected boolean filterable = true;
     protected String typeURI;
     protected String comment;
-    protected ViewTree nested = null;
+    protected ClassSpec nested = null;
     protected String valueBase = null;
     protected boolean hide = false;
     
-    public ViewEntry(String jsonname, URI property) {
+    public PropertySpec(String jsonname, URI property) {
         this.jsonname = jsonname == null ? makeJsonName(property) : jsonname;
         if (!legalSparqlVar.matcher(this.jsonname).matches()) {
             throw new EpiException("Illegal sparql name in view: " + jsonname);
@@ -46,7 +46,7 @@ public class ViewEntry {
     
     static Pattern legalSparqlVar = Pattern.compile("[a-zA-Z0-9_]*");   // Restrictive ASCII version, could allow other unicode
     
-    public ViewEntry(URI property) {
+    public PropertySpec(URI property) {
         this.jsonname = makeJsonName(property);
         this.property = property;
     }
@@ -61,6 +61,46 @@ public class ViewEntry {
         return name;
     }
     
+    /**
+     * Shallow clone only
+     */
+    public PropertySpec clone() {
+        PropertySpec ps = new PropertySpec(jsonname, property);
+        ps.optional = optional;
+        ps.multivalued = multivalued;
+        ps.filterable = filterable;
+        ps.typeURI = typeURI;
+        ps.comment = comment;
+        ps.valueBase = valueBase;
+        ps.hide = hide;
+        ps.nested = nested;
+        return ps;
+    }
+    
+    /**
+     * Clone nested classes as well
+     */
+    public PropertySpec deepclone() {
+        PropertySpec clone = clone();
+        if (nested != null) {
+            clone.nested = nested.deepclone();
+        }
+        return clone;
+    }
+    
+    /**
+     * Shallow clone filling in nested from Model.
+     * If model is null then does no expansion.
+     */
+//    public PropertySpec cloneWithClosure(ModelSpec model) {
+//        PropertySpec ps = clone();
+//        if (nested == null && model != null) {
+//            String rangeURI = ps.getTypeURI();
+//            ps.setNested( model.getClassSpec( rangeURI ) );
+//        }
+//        return ps;
+//    }
+
     public URI getProperty() {
         return property;
     }
@@ -113,11 +153,11 @@ public class ViewEntry {
         return nested != null;
     }
     
-    public ViewTree getNested() {
+    public ClassSpec getNested() {
         return nested;
     }
 
-    public void setNested(ViewTree nested) {
+    public void setNested(ClassSpec nested) {
         this.nested = nested;
     }
     
@@ -164,7 +204,7 @@ public class ViewEntry {
     /**
      * Return a view entry based on a path of short names, or null if it is not specified in the view
      */
-    public ViewEntry findEntry(ViewPath path) {
+    public PropertySpec findEntry(ViewPath path) {
         if (path.isEmpty()) {
             return this;
         } else if (isNested()) {

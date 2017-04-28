@@ -21,9 +21,9 @@ import org.apache.jena.rdf.model.StmtIterator;
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.requests.Call;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
-import com.epimorphics.simpleAPI.views.ViewTree;
+import com.epimorphics.simpleAPI.views.ClassSpec;
 import com.epimorphics.sparql.terms.URI;
 
 /**
@@ -64,15 +64,15 @@ public class RDFResult extends ResultBase implements Result {
         return fromResource(root, new HashSet<>(), view == null ? null : view.getTree());
     }
 
-    protected TreeResult fromResource(Resource root, Set<Resource> seen, ViewTree view) {
+    protected TreeResult fromResource(Resource root, Set<Resource> seen, ClassSpec view) {
         seen.add(root);
         TreeResult result = new TreeResult(call, root);
         for (StmtIterator i = root.listProperties(); i.hasNext(); ) {
             Statement s = i.next();
             String pURI = s.getPredicate().getURI();
-            ViewEntry pView = (view == null) ? null :  view.findEntryByURI(pURI);
+            PropertySpec pView = (view == null) ? null :  view.findEntryByURI(pURI);
             if (pView == null) {
-                pView = new ViewEntry( new URI(pURI) );
+                pView = new PropertySpec( new URI(pURI) );
             }
             String key = pView.getJsonName();
             RDFNode value = s.getObject();

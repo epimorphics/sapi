@@ -46,7 +46,7 @@ import com.epimorphics.simpleAPI.results.wappers.WJSONObject;
 import com.epimorphics.simpleAPI.results.wappers.WResult;
 import com.epimorphics.simpleAPI.sapi2.Sapi2ListEndpointSpec;
 import com.epimorphics.simpleAPI.util.JsonComparator;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.writers.CSVWriter;
 import com.epimorphics.util.Asserts;
@@ -264,7 +264,7 @@ public class TestResultBasics {
     public void testNameGuards() {
         Call call = api.getCall("listVCardTest", new MockUriInfo("test"), null);
         ViewMap view = call.getView();
-        ViewEntry entry = view.findEntry("address");
+        PropertySpec entry = view.findEntry("address");
         assertNotNull(entry);
         assertEquals("address", entry.getJsonName());
         assertEquals( "http://www.w3.org/2006/vcard/ns#extended-address", entry.getProperty().getURI() );
