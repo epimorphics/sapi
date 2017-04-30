@@ -30,6 +30,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import com.epimorphics.appbase.monitor.ConfigInstance;
 import com.epimorphics.json.JsonUtil;
+import com.epimorphics.simpleAPI.views.ModelSpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.writers.CSVMap;
 import com.epimorphics.util.EpiException;
@@ -103,6 +104,13 @@ public class ConfigSpecFactory {
                 if (jo.hasKey(CSVMAP)) {
                     CSVMap map = CSVMap.parseFromJson( jo.get(CSVMAP) );
                     ((ViewMap)config).setCsvMap( map );
+                }
+                
+            } else if ( TYPE_VIEW.equals(type) ) {
+                try {
+                    config = ModelSpec.parseFromJson(api.getPrefixes(), json);
+                } catch (EpiException e) {
+                    throw new EpiException("Problem parsing " + filename + ": " + e.getMessage());
                 }
                 
             } else if ( TYPE_ITEM.equals(type) || TYPE_LIST.equals(type) ) {

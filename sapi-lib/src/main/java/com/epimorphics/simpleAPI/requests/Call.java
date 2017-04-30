@@ -136,7 +136,7 @@ public class Call {
                 request.consume(parameter);
                 PropertySpec entry = view.findEntry(path);
                 if (entry != null) {
-                    String type = entry.getTypeURI();
+                    String type = entry.getRange();
                     if (type != null) {
                         type = endpoint.getPrefixes().expandPrefix(type);
                     }

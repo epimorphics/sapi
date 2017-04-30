@@ -32,34 +32,34 @@ public class TestProjection {
         assertEquals(expected, p.toString());
     }
     
-//    @Test
-//    public void testFullViewExtraction() {
-//        ModelSpec model = TestSpecParse.loadModel("src/test/specTests/orgExample.yaml");
-//        ViewSpec view = ViewSpec.projectFrom(model, "org:Site");
-//        assertEquals( expected("src/test/specTests/site-expected.txt"), view.toString() );
-//        
-//        view = ViewSpec.projectFrom(model, "org:Organization");
-//        assertEquals( expected("src/test/specTests/org-expected.txt"), view.toString() );
-//    }
-//    
-//    @Test
-//    public void testProjections() {
-//        ModelSpec model = TestSpecParse.loadModel("src/test/specTests/orgExample.yaml");
-//        doTestProjection(model, "org:Site", "label,siteAddress(locality,postal_code)", "src/test/specTests/site-project-expected.txt");
-//        ViewSpec orgView = doTestProjection(model, "org:Organization", "label,classification(prefLabel,notation),hasMember(name)", "src/test/specTests/org-project-expected.txt");
-//        doTestProjection(model, "org:Organization", "classification(prefLabel,notation,broader(prefLabel,notation))", "src/test/specTests/concept-project-expected.txt");
-//        doTestProjection(model, "org:Organization", "label,classification.*", "src/test/specTests/org-wildcard1-expected.txt");
-//        
-//        ViewSpec projected = orgView.project( new Projection("classification.prefLabel,hasMember.*") );
-//        assertEquals( expected("src/test/specTests/org-project-expected2.txt").trim(), projected.toString().trim());
-//    }
-//
-//    private ViewSpec doTestProjection(ModelSpec model, String classURI, String projection, String expected) {
-//        Projection p = new Projection(projection);
-//        ViewSpec view = ViewSpec.project(model, classURI, p);
-//        assertEquals( expected(expected).trim(), view.toString().trim());
-//        return view;
-//    }
+    @Test
+    public void testFullViewExtraction() {
+        ModelSpec model = TestSpecParse.loadModel("src/test/specTests/orgExample.yaml");
+        ClassSpec view = model.projectClass("org:Site");
+        assertEquals( expected("src/test/specTests/site-expected.txt"), view.toString() );
+        
+        view = model.projectClass("org:Organization");
+        assertEquals( expected("src/test/specTests/org-expected.txt"), view.toString() );
+    }
+    
+    @Test
+    public void testProjections() {
+        ModelSpec model = TestSpecParse.loadModel("src/test/specTests/orgExample.yaml");
+        doTestProjection(model, "org:Site", "label,siteAddress(locality,postal_code)", "src/test/specTests/site-project-expected.txt");
+        ClassSpec orgView = doTestProjection(model, "org:Organization", "label,classification(prefLabel,notation),hasMember(name)", "src/test/specTests/org-project-expected.txt");
+        doTestProjection(model, "org:Organization", "classification(prefLabel,notation,broader(prefLabel,notation))", "src/test/specTests/concept-project-expected.txt");
+        doTestProjection(model, "org:Organization", "label,classification.*", "src/test/specTests/org-wildcard1-expected.txt");
+        
+        ClassSpec projected = orgView.project(model, new Projection("classification.prefLabel,hasMember.*") );
+        assertEquals( expected("src/test/specTests/org-project-expected2.txt").trim(), projected.toString().trim());
+    }
+
+    private ClassSpec doTestProjection(ModelSpec model, String classURI, String projection, String expected) {
+        Projection p = new Projection(projection);
+        ClassSpec view = model.projectClass(classURI, p);
+        assertEquals( expected(expected).trim(), view.toString().trim());
+        return view;
+    }
     
     private String expected(String filename) {
         return FileManager.get().readWholeFileAsUTF8(filename);

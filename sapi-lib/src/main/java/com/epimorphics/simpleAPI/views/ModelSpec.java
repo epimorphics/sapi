@@ -10,6 +10,7 @@
 package com.epimorphics.simpleAPI.views;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import org.apache.jena.atlas.json.JsonValue;
 import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.json.JsonUtil;
+import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ConfigItem;
 import com.epimorphics.sparql.terms.URI;
 import com.epimorphics.util.EpiException;
@@ -96,7 +98,7 @@ public class ModelSpec extends ConfigItem {
                 JsonValue properties = jo.get(PROPERTIES);
                 if (properties.isArray()) {
                     for (JsonValue j : properties.getAsArray()) {
-                        PropertySpec ps = PropertySpec.parseFromJson(prefixes, j);
+                        PropertySpec ps = PropertySpec.parseFromJson(model, j);
                         model.addProperty(ps);
                     }
                 } else {
@@ -107,7 +109,7 @@ public class ModelSpec extends ConfigItem {
                 JsonValue classes = jo.get(CLASSES);
                 if (classes.isArray()) {
                     for (JsonValue j : classes.getAsArray()) {
-                        ClassSpec cs = ClassSpec.parseFromJson(prefixes, j);
+                        ClassSpec cs = ClassSpec.parseFromJson(model, j);
                         model.addClassSpec(cs);
                     }
                 } else {
@@ -122,4 +124,46 @@ public class ModelSpec extends ConfigItem {
             throw new EpiException("Model spec must be an object: " + json);
         }
     }
+
+
+    /**
+     * Create a view starting from the given root class (may be a curi) showing only those
+     * properties in the projection. The projection can unfold recursion so this is not
+     * the same as creating a default view then filtering it by a projection.
+     */
+    public ClassSpec projectClass(String rootURI, Projection projection) {
+        ClassSpec root = getClassSpec(rootURI);
+        if (root == null) return null;
+        return root.project(this, projection.getRoot());
+    }
+    
+    /**
+     * Create a view starting from the given root class (may be a curi) showing all properties in the model.
+     * Blocks recursion.
+     */
+    public ClassSpec projectClass(String rootClassURI) {
+        ClassSpec rootClass = getClassSpec(rootClassURI);
+        if (rootClass == null) return null;
+        ClassSpec view = new ClassSpec();
+        view.setJsonName( rootClass.getJsonName() );
+        view.setUri( rootClass.getUri() );
+        view.addClosure(this, rootClass, new HashSet<>());
+        return view;
+    }
+    
+    /**
+     * Create a view of this model starting from the given root class and following the projection
+     */
+    public ViewMap projectView(API api, String rootURI, Projection projection) {
+        return new ViewMap(api, projectClass(rootURI, projection));
+    }
+    
+    /**
+     * Create a view of this model starting from the given root class and showing all properties in the model
+     */
+    public ViewMap projectView(API api, String rootURI) {
+        return new ViewMap(api, projectClass(rootURI));
+    }
+
 }
+

@@ -9,17 +9,7 @@
 
 package com.epimorphics.simpleAPI.views;
 
-import static com.epimorphics.simpleAPI.core.ConfigConstants.COMMENT;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.FILTERABLE;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.HIDE;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.MULTIVALUED;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.NAME;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.NESTED;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.OPTIONAL;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.PROPERTY;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.PROP_TYPE;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.SUPPRESSID;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.VALUE_BASE;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,7 +21,6 @@ import java.util.Set;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
-import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.views.PropertySpec.PV;
@@ -208,63 +197,118 @@ public class ClassSpec implements Iterable<PropertySpec> {
             return path + "_" + jname.replace("_", "__");
         }
     }
-
-    public static ClassSpec parseFromJson(PrefixMapping prefixes, JsonValue list) {
-        ClassSpec tree = new ClassSpec();
-        if (list.isArray()) {
-            for (Iterator<JsonValue> pi = list.getAsArray().iterator(); pi.hasNext(); ) {
-                PropertySpec entry = null;
-                JsonValue prop = pi.next();
-                if (prop.isString()) {
-                    String p = prop.getAsString().value();
-                    if (prefixes != null) p = prefixes.expandPrefix(p);
-                    entry = new PropertySpec( new URI(p) );
-                } else if (prop.isObject()) {
-                    JsonObject propO = prop.getAsObject();
-                    String p = JsonUtil.getStringValue(propO, PROPERTY);
-                    if (prefixes != null) p = prefixes.expandPrefix(p);
-                    String name = JsonUtil.getStringValue(propO, NAME);
-                    entry = new PropertySpec(name, new URI(p));
-                    if (propO.hasKey(OPTIONAL)) {
-                        entry.setOptional( JsonUtil.getBooleanValue(propO, OPTIONAL, false) );
-                    }
-                    if (propO.hasKey(MULTIVALUED)) {
-                        entry.setMultivalued( JsonUtil.getBooleanValue(propO, MULTIVALUED, false) );
-                    }
-                    if (propO.hasKey(NESTED)) {
-                        ClassSpec nested = parseFromJson(prefixes, propO.get(NESTED) );
-                        entry.setNested(nested);                        
-                    }
-                    if (propO.hasKey(FILTERABLE)) {
-                        entry.setFilterable( JsonUtil.getBooleanValue(propO, FILTERABLE, true) );
-                    }
-                    if (propO.hasKey(PROP_TYPE)) {
-                        String ty = JsonUtil.getStringValue(propO, PROP_TYPE);
-                        entry.setTypeURI( ty );  // Unexpanded prefix, have to delay expansion until runtime structure is built
-                    }
-                    if (propO.hasKey(COMMENT)) {
-                        String comment = JsonUtil.getStringValue(propO, COMMENT);
-                        entry.setComment(comment);
-                    }
-                    if (propO.hasKey(VALUE_BASE)) {
-                        String vb = JsonUtil.getStringValue(propO, VALUE_BASE);
-                        entry.setValueBase(vb);
-                    }
-                    if (propO.hasKey(SUPPRESSID)) {
-                        boolean sid = JsonUtil.getBooleanValue(propO, SUPPRESSID, false);
-                        entry.setHide(sid);
-                    }
-                    if (propO.hasKey(HIDE)) {
-                        boolean sid = JsonUtil.getBooleanValue(propO, HIDE, false);
-                        entry.setHide(sid);
+    
+    /**
+     * Copy the whole property tree defined by root into this view, expanding any non-nested
+     * property whose type is part of the model
+     */
+    protected void addClosure(ModelSpec model, ClassSpec root, Set<String> seen) {
+        for (PropertySpec ps : root) {
+            PropertySpec pc = ps.deepclone();
+            addChild(pc);
+            if ( ps.getNested() == null ) {
+                String rangeURI = ps.getRange();
+                if ( !seen.contains(rangeURI) ) {
+                    ClassSpec range = model.getClassSpec( rangeURI );
+                    if (range != null) {
+                        ClassSpec nested = range.clone();
+                        Set<String> nseen = new HashSet<>( seen );
+                        nseen.add(rangeURI);
+                        nested.addClosure(model, range, nseen);
+                        pc.setNested(nested);
                     }
                 }
-                tree.addChild(entry);
             }
-        } else {
-            throw new EpiException("Illegal JSON mapping spec, value must be an array of mapping specifications");
         }
-        return tree;
+    }
+    
+    /**
+     * Create a copy of the property tree that matches the given projection.
+     * Will expand any non-nested properties as part of the projection.
+     */
+    public ClassSpec project(ModelSpec model, Projection projection) {
+        return project(model, projection.getRoot());
+    }
+    
+    /**
+     * Create a copy of the property tree that matches the given projection.
+     */
+    public ClassSpec project(Projection projection) {
+        return project(null, projection.getRoot());
+    }
+
+    protected ClassSpec project(ModelSpec model, Projection.Node projection) {
+        ClassSpec cs = clone();
+        for (Projection.Node p : projection.getChildren()) {
+            if (p.isWildcard()) {
+                for( PropertySpec ps : this) {
+                    cs.addChild( project(model, ps, p) );
+                }
+            } else {
+                PropertySpec ps = getByJsonName( p.getName() );
+                if (ps == null) {
+                    throw new EpiException("Property " + p.getName() + " not found in class " + cs.getUri());
+                }
+                cs.addChild( project(model, ps, p) );
+            }
+        }
+        return cs;
+    }
+    
+    private static PropertySpec project(ModelSpec model, PropertySpec prop, Projection.Node p) {
+        PropertySpec ps = prop.cloneWithClosure(model);
+        if (p.hasChildren()) {
+            ClassSpec nested = ps.getNested();
+            if (nested == null) {
+                throw new EpiException("No expansion found for " + ps);
+            }
+            ps.setNested( nested.project(model, p) );
+        } else {
+            ps.nested = null;
+        }
+        return ps;
+    }
+    
+    /**
+     * Parse a JSON definition of the spec in the context of some overall
+     * ModelSpec which supplies default property context and prefixes
+     */
+    public static ClassSpec parseFromJson(ModelSpec model, JsonValue json) {
+        if (json.isObject()) {
+            JsonObject jo = json.getAsObject();
+            ClassSpec cs = jo.hasKey(PROPERTIES) ? parseInline(model, jo.get(PROPERTIES)) : null;
+            if ( jo.hasKey(NAME) ) {
+                cs.setJsonName( JsonUtil.getStringValue(jo, NAME) );
+            }
+            if ( jo.hasKey(CLASS) ) {
+                String uri = JsonUtil.getStringValue(jo, CLASS);
+                uri = model.getPrefixes().expandPrefix(uri);
+                cs.setUri( new URI(uri) );
+            }
+            return cs;
+        } else if (json.isArray()) {
+            return parseInline(model, json);
+        } else {
+            // TODO might handle names as references with late binding into model?
+            throw new EpiException("Class references not yet supported (or broken class definition): " + json);
+        }
+    }
+    
+    /**
+     * Parse inline verison of the spec which is just the list of property definitions,
+     * with no URI or name
+     */
+    public static ClassSpec parseInline(ModelSpec model, JsonValue json) {
+        if (json.isArray()) {
+            ClassSpec cs = new ClassSpec();
+            for (Iterator<JsonValue> pi = json.getAsArray().iterator(); pi.hasNext(); ) {
+                PropertySpec ps = PropertySpec.parseFromJson(model, pi.next());
+                cs.addChild(ps);
+            }
+            return cs;
+        } else {
+            throw new EpiException("Class properties need to be an array: " + json);
+        }
     }
     
     @Override
@@ -273,11 +317,25 @@ public class ClassSpec implements Iterable<PropertySpec> {
     }
     
     protected StringBuffer print(StringBuffer buf, String indent) {
-        for (PropertySpec child : this) {
-            child.print(buf, indent);
+        buf.append(indent);
+        buf.append("Class ");
+        if (uri != null) {
+            buf.append( String.format("%s(%s)", jsonname, uri.toString()) );
+        }
+        buf.append("\n");
+        String nested = indent + "  ";
+        for (PropertySpec child : getChildren()) {
+            child.print(buf, nested);
             buf.append("\n");
         }
         return buf;
+    }
+    
+    /**
+     * Get the property with the given short name (does not support paths)
+     */
+    public PropertySpec getByJsonName(String name) {
+        return children.get(name);
     }
     
     /**

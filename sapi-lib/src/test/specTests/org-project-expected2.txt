@@ -1,4 +1,4 @@
-Class 
+Class null(<http://www.w3.org/ns/org#Organization>)
   classification(<http://www.w3.org/ns/org#classification>) filterable
     Class null(<http://www.w3.org/2004/02/skos/core#Concept>)
       prefLabel(<http://www.w3.org/2004/02/skos/core#prefLabel>) filterable optional

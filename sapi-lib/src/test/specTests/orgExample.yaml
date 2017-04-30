@@ -1,3 +1,6 @@
+type:    model
+name:    orgExample
+
 prefixes:
   org:   http://www.w3.org/ns/org#
   skos:  http://www.w3.org/2004/02/skos/core#

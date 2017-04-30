@@ -176,7 +176,7 @@ public class Doctool {
             }
             meaning = meaning.replace("{x}", itemName);
             
-            String type = entry.getTypeURI();
+            String type = entry.getRange();
             if (type == null) {
                 Resource typeR = RDFUtil.getResourceValue(prop, RDFS.range);
                 if (typeR != null && typeR.isURIResource()) {

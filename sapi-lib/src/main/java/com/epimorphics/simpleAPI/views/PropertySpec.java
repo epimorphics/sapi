@@ -9,8 +9,14 @@
 
 package com.epimorphics.simpleAPI.views;
 
+import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
+
 import java.util.regex.Pattern;
 
+import org.apache.jena.atlas.json.JsonObject;
+import org.apache.jena.atlas.json.JsonValue;
+
+import com.epimorphics.json.JsonUtil;
 import com.epimorphics.rdfutil.RDFUtil;
 import com.epimorphics.sparql.terms.URI;
 import com.epimorphics.sparql.terms.Var;
@@ -30,7 +36,7 @@ public class PropertySpec {
     protected boolean optional = false;
     protected boolean multivalued = false;
     protected boolean filterable = true;
-    protected String typeURI;
+    protected String range;
     protected String comment;
     protected ClassSpec nested = null;
     protected String valueBase = null;
@@ -69,7 +75,7 @@ public class PropertySpec {
         ps.optional = optional;
         ps.multivalued = multivalued;
         ps.filterable = filterable;
-        ps.typeURI = typeURI;
+        ps.range = range;
         ps.comment = comment;
         ps.valueBase = valueBase;
         ps.hide = hide;
@@ -92,14 +98,14 @@ public class PropertySpec {
      * Shallow clone filling in nested from Model.
      * If model is null then does no expansion.
      */
-//    public PropertySpec cloneWithClosure(ModelSpec model) {
-//        PropertySpec ps = clone();
-//        if (nested == null && model != null) {
-//            String rangeURI = ps.getTypeURI();
-//            ps.setNested( model.getClassSpec( rangeURI ) );
-//        }
-//        return ps;
-//    }
+    public PropertySpec cloneWithClosure(ModelSpec model) {
+        PropertySpec ps = clone();
+        if (nested == null && model != null) {
+            String rangeURI = ps.getRange();
+            ps.setNested( model.getClassSpec( rangeURI ) );
+        }
+        return ps;
+    }
 
     public URI getProperty() {
         return property;
@@ -107,6 +113,10 @@ public class PropertySpec {
 
     public void setProperty(URI property) {
         this.property = property;
+    }
+    
+    public void setJsonName(String name) {
+        this.jsonname = name;
     }
 
     public boolean isOptional() {
@@ -133,12 +143,12 @@ public class PropertySpec {
         this.filterable = filterable;
     }
 
-    public String getTypeURI() {
-        return typeURI;
+    public String getRange() {
+        return range;
     }
 
-    public void setTypeURI(String typeURI) {
-        this.typeURI = typeURI;
+    public void setRange(String typeURI) {
+        this.range = typeURI;
     }
 
     public String getComment() {
@@ -235,4 +245,64 @@ public class PropertySpec {
         return buf;
     }
     
+    /**
+     * Parse a JSON definition of the spec in the context of some overall
+     * ModelSpec which supplies default property context and prefixes
+     */
+    public static PropertySpec parseFromJson(ModelSpec model, JsonValue prop) {
+        if (prop.isString()) {
+            return model.getOrCreateProperty( prop.getAsString().value() );
+
+        } else if (prop.isObject()) {
+            JsonObject propO = prop.getAsObject();
+            String p = JsonUtil.getStringValue(propO, PROPERTY);
+            PropertySpec ps = model.getOrCreateProperty(p);
+            if (propO.hasKey(NAME)) {
+                ps.setJsonName( JsonUtil.getStringValue(propO, NAME) );
+            }
+            if (propO.hasKey(OPTIONAL)) {
+                ps.setOptional( JsonUtil.getBooleanValue(propO, OPTIONAL, false) );
+            }
+            if (propO.hasKey(MULTIVALUED)) {
+                ps.setMultivalued( JsonUtil.getBooleanValue(propO, MULTIVALUED, false) );
+            }
+            if (propO.hasKey(NESTED)) {
+                ClassSpec nested = ClassSpec.parseInline(model, propO.get(NESTED) );
+                ps.setNested(nested);                        
+            }
+            if (propO.hasKey(FILTERABLE)) {
+                ps.setFilterable( JsonUtil.getBooleanValue(propO, FILTERABLE, true) );
+            }
+            if (propO.hasKey(PROP_TYPE)) {
+                String ty = JsonUtil.getStringValue(propO, PROP_TYPE);
+                ps.setRange( model.getPrefixes().expandPrefix(ty) );
+                // TODO - used to have to delay prefix expansion, why?
+            }
+            if (propO.hasKey(RANGE) || propO.hasKey(PROP_TYPE)) {
+                String ty = JsonUtil.getStringValue(propO, RANGE, JsonUtil.getStringValue(propO, PROP_TYPE));
+                ps.setRange( model.getPrefixes().expandPrefix(ty) );
+                // TODO - used to have to delay prefix expansion, why?
+            }
+            if (propO.hasKey(COMMENT)) {
+                String comment = JsonUtil.getStringValue(propO, COMMENT);
+                ps.setComment(comment);
+            }
+            if (propO.hasKey(VALUE_BASE)) {
+                String vb = JsonUtil.getStringValue(propO, VALUE_BASE);
+                ps.setValueBase(vb);
+            }
+            if (propO.hasKey(SUPPRESSID)) {
+                boolean sid = JsonUtil.getBooleanValue(propO, SUPPRESSID, false);
+                ps.setHide(sid);
+            }
+            if (propO.hasKey(HIDE)) {
+                boolean sid = JsonUtil.getBooleanValue(propO, HIDE, false);
+                ps.setHide(sid);
+            }
+            return ps;
+        } else {
+            throw new EpiException("PropertySpec must be a string or object: " + prop);
+        }
+    }
+        
 }

@@ -183,7 +183,7 @@ public class ViewMap extends ConfigItem {
             return new ViewMap(api, list.getAsString().value());
         } else if (list.isArray()) {
             // Inline view specification
-            return new ViewMap(api, ClassSpec.parseFromJson(prefixes, list) );
+            return new ViewMap(api, ClassSpec.parseFromJson( new ModelSpec(prefixes), list) );
         } else {
             throw new EpiException("Illegal view specification must be a name or an array of view entries: " + list);
         }
@@ -205,4 +205,14 @@ public class ViewMap extends ConfigItem {
     public String toString() {
         return getTree().toString();
     }
+    
+    /**
+     * Filter a view retaining only those properties in the projection 
+     */
+    public ViewMap project(Projection projection) {
+        ViewMap map = new ViewMap(api, tree.project(projection) );
+        map.setCsvMap(csvmap);
+        return map;
+    }
+        
 }

@@ -19,6 +19,7 @@ public class ConfigConstants {
     public static final String TYPE_ITEM = "item";
     public static final String TYPE_LIST = "list";
     public static final String TYPE_VIEW = "view";
+    public static final String TYPE_MODEL = "model";
     public static final String NAME      = "name";
     public static final String ITEM_NAME = "itemName";   // Supports documentation
     
@@ -53,6 +54,7 @@ public class ConfigConstants {
     public static final String COMMENT     = "comment";
     public static final String FILTERABLE  = "filterable";
     public static final String PROP_TYPE   = "type";
+    public static final String RANGE       = "range";   // Alias for type
     public static final String VALUE_BASE  = "valueBase";
     public static final String SUPPRESSID  = "suppressID";
     public static final String HIDE        = "hide";
