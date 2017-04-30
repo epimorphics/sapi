@@ -53,6 +53,7 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     protected Engine engine;
 
     public EndpointSpecBase(API api) {
+        super();
         this.api = api;
     }
     

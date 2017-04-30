@@ -9,6 +9,8 @@
 
 package com.epimorphics.simpleAPI.core;
 
+import static com.epimorphics.simpleAPI.core.ConfigConstants.DEFAULT_MODEL;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -41,6 +43,7 @@ import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.sapi2.BaseEngine;
 import com.epimorphics.simpleAPI.sapi2.Sapi2ItemEndpointSpec;
 import com.epimorphics.simpleAPI.util.LastModified;
+import com.epimorphics.simpleAPI.views.ModelSpec;
 import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.sparql.terms.URI;
@@ -224,7 +227,7 @@ public class API extends ComponentBase implements Startup {
         }
         return null;
     }
-    
+     
     public List<ViewMap> listViews() {
         return listConfigs(ViewMap.class);
     }
@@ -262,6 +265,45 @@ public class API extends ComponentBase implements Startup {
         }
     }
     
+    public ModelSpec getModel(String name) {
+        if (monitor != null){
+            ConfigInstance item = monitor.get(name);
+            if (item instanceof ModelSpec) {
+                return (ModelSpec) item;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Get the default ModelSpec which is either the only one or one explicitly
+     * called "defaultModel"
+     */
+    public ModelSpec getModel() {
+        if (monitor != null) {
+            ModelSpec model = null;
+            ModelSpec defModel = null;
+            boolean singleModel = true;
+            
+            for (ModelSpec m : listConfigs(ModelSpec.class)) {
+                if (m != null) {
+                    singleModel = false;
+                } else {
+                    model = m;
+                }
+                if (DEFAULT_MODEL.equals(m.getName())) {
+                    defModel = m;
+                }
+            }
+            if (defModel != null) {
+                return defModel;
+            } else if (singleModel) {
+                return model;
+            }
+        }
+        return null;
+    }
+ 
     /**
      * Set up a call based on a simple GET request. Looks up the endpoint in the 
      * register of templates and extracts the request parameters.

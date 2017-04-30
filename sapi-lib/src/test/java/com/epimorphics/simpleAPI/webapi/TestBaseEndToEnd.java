@@ -32,6 +32,7 @@ import org.junit.Test;
 import com.epimorphics.appbase.webapi.testing.TomcatTestBase;
 import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.util.JsonComparator;
+import com.epimorphics.util.FileUtil;
 
 public class TestBaseEndToEnd extends TomcatTestBase {
     static final String EXPECTED = "src/test/testCases/baseEndToEndTest/expected/";
@@ -47,13 +48,28 @@ public class TestBaseEndToEnd extends TomcatTestBase {
     }
 
     @Test
-    public void testEndToEnd() throws IOException {
+    public void testEndToEnd() throws IOException, InterruptedException {
+        
+        // Model-based views
+        checkGet("default/listModelView?_view=testModel&_sort=@id&_limit=2",  EXPECTED + "listModelView.json");
+        checkGet("default/listModelView?_view=testModel2&_sort=@id&_limit=2", EXPECTED + "listModelView2.json");
+        checkGet("default/listModelView?_view=testViewProject&_sort=@id&_limit=2", EXPECTED + "listViewProject.json");
+
         checkGet("basetest/list?_limit=2&_sort=label", EXPECTED + "list-limit2.json");
         checkGet("basetest/list?_limit=2&_sort=@id", EXPECTED + "list-limit2-id.json");
         checkGet("basetest/list?group=B&_limit=2&_sort=label", EXPECTED + "list-filterB-limit2.json");
         
         checkGet("basetest/list?_view=compact&_limit=2&_sort=label", EXPECTED + "list-compact-limit2.json");
         checkGet("basetest/list?_view=expanded&_limit=2&_sort=label", EXPECTED + "list-expanded-limit2.json");
+        
+        // Check dynamic detection of view spec changes
+        try {
+            FileUtil.copyResource("src/test/testCases/baseRequestTest/alt-endpoints/viewCompact-reduced.yaml", "src/test/testCases/baseRequestTest/endpoints/viewCompact.yaml");
+            Thread.sleep(2000); // Fragile but change should normally be detected within this window
+            checkGet("basetest/list?_view=compact&_limit=2&_sort=label", EXPECTED + "list-compact-limit2-reduced.json");
+        } finally {
+            FileUtil.copyResource("src/test/testCases/baseRequestTest/alt-endpoints/viewCompact-orig.yaml", "src/test/testCases/baseRequestTest/endpoints/viewCompact.yaml");
+        }
         
         checkGet("default/test3?_sort=label", EXPECTED + "list-default-test3.json");
         checkGet("default/test4/B?_sort=label", EXPECTED + "list-default-test4-B.json");

@@ -38,6 +38,7 @@ public class ModelSpec extends ConfigItem {
     protected Map<String, ClassSpec> classes = new LinkedHashMap<>();
     
     public ModelSpec(PrefixMapping prefixes) {
+        super();
         this.prefixes = prefixes;
     }
     

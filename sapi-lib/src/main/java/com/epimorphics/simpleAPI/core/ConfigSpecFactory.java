@@ -9,14 +9,7 @@
 
 package com.epimorphics.simpleAPI.core;
 
-import static com.epimorphics.simpleAPI.core.ConfigConstants.CSVMAP;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.MAPPING;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.NAME;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE_ITEM;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE_LIST;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE_VIEW;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEW;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -106,7 +99,7 @@ public class ConfigSpecFactory {
                     ((ViewMap)config).setCsvMap( map );
                 }
                 
-            } else if ( TYPE_VIEW.equals(type) ) {
+            } else if ( TYPE_MODEL.equals(type) ) {
                 try {
                     config = ModelSpec.parseFromJson(api.getPrefixes(), json);
                 } catch (EpiException e) {

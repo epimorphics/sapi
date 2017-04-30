@@ -75,4 +75,8 @@ public class ConfigConstants {
     
     public static final String ROOT_VAR    = "id";
     
+    public static final String DEFAULT_MODEL    = "defaultModel";
+    public static final String MVIEW_PROJECTION = "projection";
+    public static final String MVIEW_MODEL      = "model";
+    public static final String MVIEW_CLASS      = "class";
 }

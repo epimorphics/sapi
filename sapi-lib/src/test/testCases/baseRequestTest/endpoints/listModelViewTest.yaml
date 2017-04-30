@@ -1,0 +1,15 @@
+name      : listModelView
+type      : list
+url       : "default/listModelView"
+baseQuery : "?id a skos:Concept ."
+views :
+  testModel:
+    class      : "skos:Concept"
+    projection : notation,label
+  testModel2:
+    model      : defaultModel
+    class      : "skos:Concept"
+    projection : notation,label,narrower.label
+  testViewProject:
+    view       : compactView
+    projection : label,group

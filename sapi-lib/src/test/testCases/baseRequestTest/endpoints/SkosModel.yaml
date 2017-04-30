@@ -1,0 +1,35 @@
+type:    model
+name:    defaultModel
+
+prefixes:
+  skos:  http://www.w3.org/2004/02/skos/core#
+  eg:   http://localhost/example/
+  
+properties:
+  - prop:  rdf:type
+    multi: true
+    type:  rdf:Resource
+    
+  - prop:  rdfs:label
+    type:  xsd:string
+    optional: true
+
+  - prop:  skos:prefLabel
+    type:  xsd:string
+    optional: true
+
+  - prop:  skos:broader
+    type:  xsd:Concept
+    optional: true
+
+classes:
+  - class: "skos:Concept"
+    properties:
+      - "rdf:type"
+      - "rdfs:label"
+      - "skos:prefLabel"
+      - "skos:notation"
+      - { prop: "skos:narrower", type: "skos:Concept" }
+      - eg:group
+
+      
