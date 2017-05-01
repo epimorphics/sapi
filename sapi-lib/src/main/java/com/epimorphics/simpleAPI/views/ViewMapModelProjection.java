@@ -40,6 +40,11 @@ public class ViewMapModelProjection extends ViewMap {
             }
             tree = projection == null ? model.projectClass(baseClass) : model.projectClass(baseClass, projection);
             reference = model;
+            if (tree == null) {
+                throw new EpiException( String.format("Could not find view for model: %s, class %s",
+                        modelReference == null ? "defaultModel" : modelReference,
+                                baseClass) );
+            }
         }
         return tree;
     }
