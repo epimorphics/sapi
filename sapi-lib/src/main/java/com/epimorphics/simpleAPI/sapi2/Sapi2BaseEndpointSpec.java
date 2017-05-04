@@ -9,6 +9,9 @@
 
 package com.epimorphics.simpleAPI.sapi2;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.NotFoundException;
 
 import com.epimorphics.simpleAPI.core.API;
@@ -23,6 +26,7 @@ public abstract class Sapi2BaseEndpointSpec extends EndpointSpecBase implements 
     protected String baseQueryString;
     protected String completeQueryString;
     protected Transform transform;
+    protected Map<String, String> aliases = new HashMap<>();
     
 //    protected QueryShape baseQuery;
 
@@ -93,5 +97,14 @@ public abstract class Sapi2BaseEndpointSpec extends EndpointSpecBase implements 
         } catch (IllegalAccessException e) {
             throw new RuntimeException("could not access class " + className);
         }
+    }
+    
+    @Override
+    public Map<String, String> getAliases() {
+        return aliases;
+    }
+    
+    public void addAlias(String from, String to) {
+        aliases.put(from, to);
     }
 }

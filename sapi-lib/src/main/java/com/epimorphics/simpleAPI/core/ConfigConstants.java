@@ -46,6 +46,7 @@ public class ConfigConstants {
     public static final String NESTED_SELECT = "nestedSelect";
     public static final String NESTED_SELECT_VARS = "nestedSelectVars";
     public static final String DISTINCT    = "distinct"; 
+    public static final String ALIAS       = "alias"; 
     
     public static final String PROPERTY    = "prop";
     public static final String OPTIONAL    = "optional";

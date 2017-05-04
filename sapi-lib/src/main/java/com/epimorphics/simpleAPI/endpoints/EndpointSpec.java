@@ -9,6 +9,8 @@
 
 package com.epimorphics.simpleAPI.endpoints;
 
+import java.util.Map;
+
 import org.apache.jena.shared.PrefixMapping;
 
 import com.epimorphics.appbase.monitor.ConfigInstance;
@@ -85,4 +87,9 @@ public interface EndpointSpec extends ConfigInstance {
      * Return true if flat notations like CSV should hide the @id of the root resource
      */
     public boolean isSuppressID();
+    
+    /**
+     * Return any aliases for query parameters (e.g. to shorten complex path filters)
+     */
+    public Map<String, String> getAliases();
 }

@@ -9,33 +9,13 @@
 
 package com.epimorphics.simpleAPI.sapi2;
 
-import static com.epimorphics.simpleAPI.core.ConfigConstants.BASE_QUERY;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.DISTINCT;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.FLATTEN_PATH;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.GEO;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.ITEM_NAME;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.LIMIT;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.NESTED_SELECT;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.NESTED_SELECT_VARS;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.PREFIXES;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.QUERY;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.ROOT_VAR;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.SOFT_LIMIT;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.SUPPRESSID;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TEMPLATE;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TEXT_SEARCH;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TRANSFORM;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE_ITEM;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.TYPE_LIST;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.URL;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEW;
-import static com.epimorphics.simpleAPI.core.ConfigConstants.VIEWS;
+import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
@@ -46,6 +26,7 @@ import com.epimorphics.simpleAPI.core.Engine;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.requests.AliasRequestProcessor;
 import com.epimorphics.simpleAPI.requests.FilterRequestProcessor;
 import com.epimorphics.simpleAPI.requests.LimitRequestProcessor;
 import com.epimorphics.simpleAPI.requests.Request;
@@ -63,6 +44,7 @@ public class BaseEngine implements Engine {
     protected static final RequestProcessor[] standardRequestProcessors = new RequestProcessor[] {
 //            new GeoRequestProcessor(),
 //            new SearchRequestProcessor(),
+            new AliasRequestProcessor(),
             new FilterRequestProcessor(),
             new SortRequestProcessor(),
             new LimitRequestProcessor()
@@ -209,6 +191,19 @@ public class BaseEngine implements Engine {
         if (jo.hasKey(ITEM_NAME)) {
             spec.setItemName( JsonUtil.getStringValue(jo, ITEM_NAME) );
         }        
+       
+        if (jo.hasKey(ALIAS)) {
+            JsonValue jv = jo.get(ALIAS);
+            if (jv.isObject()) {
+                @SuppressWarnings("unchecked")
+                Map<String,String> aliases = (Map<String, String>) JsonUtil.fromJson(jv);
+                for (Map.Entry<String, String> map : aliases.entrySet()) {
+                    spec.addAlias(map.getKey(), map.getValue());
+                }
+            } else {
+                throw new EpiException("Alias should be specified as a json object (treated as a map from key to value)");
+            }
+        }
     }
 
     @Override
