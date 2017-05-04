@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResourceFactory;
 
 import com.epimorphics.rdfutil.TypeUtil;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
@@ -73,11 +74,17 @@ public class FilterRequestProcessor implements RequestProcessor {
     }
     
     private static RDFNode asValue(String value, String type, String valueBase) {
-        if (valueBase != null && ! NameUtils.isURI(value)) {
-            value = NameUtils.ensureLastSlash(valueBase) + value;
+        boolean isIRI = NameUtils.isURI(value);
+        if (!isIRI && valueBase != null) { 
+            value = valueBase + value;
+            isIRI = true;
         }
-        // TODO have a configurable default language, currently this will default to "@en"
-        return TypeUtil.asTypedValue(value, type);
+        if (isIRI) {
+            return ResourceFactory.createResource(value);
+        } else {
+            // TODO have a configurable default language, currently this will default to "@en"
+            return TypeUtil.asTypedValue(value, type);
+        }
     }
     
 }
