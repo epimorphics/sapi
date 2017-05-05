@@ -13,6 +13,7 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.DescribeQueryBuilder;
+import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.sparql.query.QueryShape;
 
@@ -25,13 +26,13 @@ public class Sapi2ItemEndpointSpec extends Sapi2BaseEndpointSpec implements Endp
         super(api);
     }
 
-    @Override public QueryBuilder getQueryBuilder(String viewname) {
+    @Override public QueryBuilder getQueryBuilder(String viewname, Request request) {
         ViewMap view = getView(viewname);
         if (view == null) {
             view = getView(DEFAULT_VIEWNAME);
         }
         
-        QueryShape q = (hasExplicitQuery() || view == null) ? getBaseQuery() : view.asDescribe();
+        QueryShape q = (hasExplicitQuery() || view == null) ? getBaseQuery(request) : view.asDescribe();
 
         return new DescribeQueryBuilder(q, getPrefixes());
     }

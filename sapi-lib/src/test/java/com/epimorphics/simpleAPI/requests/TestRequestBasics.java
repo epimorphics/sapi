@@ -78,6 +78,12 @@ public class TestRequestBasics {
         assertEquals("B1", getFirstLabel("listTest2nested", "_sort", "narrower.label"));
         assertEquals("A5", getFirstLabel("listTest2nested", "_sort", "-narrower.label"));
     }
+
+    @Test
+    public void testTemplate() {
+        assertEquals(1, getAndCount("listTestTemplate", "num", "1"));
+        assertEquals(0, getAndCount("listTestTemplate", "num", "9"));
+    }
     
     @Test
     public void testTimestamp() throws InterruptedException {

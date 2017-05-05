@@ -18,6 +18,8 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.endpoints.impl.EndpointSpecBase;
 import com.epimorphics.simpleAPI.queryTransforms.AppTransforms;
+import com.epimorphics.simpleAPI.requests.Request;
+import com.epimorphics.simpleAPI.util.TemplateUtil;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.query.Transform;
@@ -33,8 +35,8 @@ public abstract class Sapi2BaseEndpointSpec extends EndpointSpecBase implements 
     public Sapi2BaseEndpointSpec(API api) {
         super(api);
     }
-    public QueryShape getBaseQuery() {
-        return createQueryShape();
+    public QueryShape getBaseQuery(Request request) {
+        return createQueryShape(request);
     }
     
     public void setBaseQuery(String baseQueryString) {
@@ -49,7 +51,7 @@ public abstract class Sapi2BaseEndpointSpec extends EndpointSpecBase implements 
         Create a QueryShape for this endpoint spec, copying into it the
         transforms from the apptransforms component of this app.
     */
-    protected QueryShape createQueryShape() {
+    protected QueryShape createQueryShape(Request request) {
         QueryShape q = new QueryShape();
         if (api != null) {
             AppTransforms at = api.getApp().getComponentAs("apptransforms", AppTransforms.class);
@@ -57,9 +59,9 @@ public abstract class Sapi2BaseEndpointSpec extends EndpointSpecBase implements 
         }
         
         if (completeQueryString != null) {
-            q.setTemplate(completeQueryString);
+            q.setTemplate( instantiateTemplate(completeQueryString, request) );
         } else if (baseQueryString != null) {
-            q.addEarlyPattern(new GraphPatternText(baseQueryString));
+            q.addEarlyPattern(new GraphPatternText( instantiateTemplate(baseQueryString, request) ));
         }
         
         if (api != null) {
@@ -71,6 +73,14 @@ public abstract class Sapi2BaseEndpointSpec extends EndpointSpecBase implements 
             q.getTransforms().add(transform);
         }
         return q;       
+    }
+    
+    protected String instantiateTemplate(String template, Request request) {
+        if (TemplateUtil.isTemplate(template)) {
+            return TemplateUtil.instatiateTemplate(template, request);
+        } else {
+            return template;
+        }
     }
     
     protected boolean hasExplicitQuery() {

@@ -100,10 +100,15 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
         return getQueryBuilder(DEFAULT_VIEWNAME);
     }
     
+
+    @Override public QueryBuilder getQueryBuilder(String view) {
+        return getQueryBuilder(view, null);
+    }
+    
     @Override
     public QueryBuilder getQueryBuilder(Request request) {   
         
-        QueryBuilder builder = getQueryBuilder( request.getViewName() );
+        QueryBuilder builder = getQueryBuilder( request.getViewName(), request );
         if (builder instanceof ListQueryBuilder) {
             return builder;
         } else {
@@ -111,7 +116,7 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
         }
     }
     
-    abstract public QueryBuilder getQueryBuilder(String name);
+    abstract public QueryBuilder getQueryBuilder(String name, Request request);
     
     /**
      * Finalize a query builder by running the query processors

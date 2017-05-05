@@ -16,6 +16,7 @@ import com.epimorphics.simpleAPI.endpoints.ListEndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.NestedSparqlQueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
+import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.sparql.query.Distinction;
 import com.epimorphics.sparql.query.QueryShape;
@@ -36,9 +37,9 @@ public class Sapi2ListEndpointSpec extends Sapi2BaseEndpointSpec implements List
         super(api);
     }
     
-    @Override public QueryBuilder getQueryBuilder(String viewname) {
+    @Override public QueryBuilder getQueryBuilder(String viewname, Request request) {
         ViewMap view = getView(viewname);
-        QueryShape base = getBaseQuery(); // .copy(); no longer needed because base query is dynamically generated
+        QueryShape base = getBaseQuery(request);
         if (useDistinct) {
             base.setDistinction(Distinction.DISTINCT);
         }

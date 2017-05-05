@@ -1,0 +1,10 @@
+name      : listTestTemplate
+type      : list
+baseQuery : "?id a skos:Concept ; rdfs:label 'A${num}'"
+view      :
+    - "rdfs:label"
+    - "skos:notation"
+    - "eg:group"
+limit: 8
+softLimit: 4
+
