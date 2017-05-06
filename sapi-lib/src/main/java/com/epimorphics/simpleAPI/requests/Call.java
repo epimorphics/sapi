@@ -10,6 +10,7 @@
 package com.epimorphics.simpleAPI.requests;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import javax.ws.rs.NotFoundException;
@@ -57,6 +58,7 @@ public class Call {
     public Call(EndpointSpec endpoint, Request request) {
         this.endpoint = endpoint;
         this.request = request;
+        initBindings();
     }
     
     public Call(API api, String endpointName, Request request) {
@@ -65,6 +67,15 @@ public class Call {
             throw new NotFoundException("Could not locate endpoint specification: " + endpointName);
         }
         this.request = request;
+        initBindings();
+    }
+    
+    protected void initBindings() {
+        for( Map.Entry<String, String> binding : endpoint.getBindings().entrySet() ) {
+            if ( ! request.hasParameter(binding.getKey()) ) {
+                request.add(binding.getKey(), binding.getValue());
+            }
+        }
     }
     
     public String toString() {

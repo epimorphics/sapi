@@ -1,6 +1,8 @@
 name      : listTestTemplate
 type      : list
 baseQuery : "?id a skos:Concept ; rdfs:label 'B${num}'"
+bindings:
+   num : 2
 view      :
     - "rdfs:label"
     - "skos:notation"

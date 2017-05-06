@@ -82,7 +82,14 @@ public class TestRequestBasics {
     @Test
     public void testTemplate() {
         assertEquals(1, getAndCount("listTestTemplate", "num", "1"));
+        assertEquals("B1", getFirstLabel("listTestTemplate", "num", "1"));
         assertEquals(0, getAndCount("listTestTemplate", "num", "9"));
+    }
+
+    @Test
+    public void testBindings() {
+        assertEquals("B2", getFirstLabel("listTestTemplate"));
+        assertEquals("B1", getFirstLabel("listTestTemplate", "num", "1"));
     }
     
     @Test

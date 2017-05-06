@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonValue;
@@ -58,15 +59,23 @@ public class BaseEngine implements Engine {
             String type =  JsonUtil.getStringValue(jo, TYPE, TYPE_ITEM);
             
             if (TYPE_ITEM.equals(type)) {
-                Sapi2ItemEndpointSpec spec = new Sapi2ItemEndpointSpec(api);
-                parseCommonParameters(api, spec, jo);
-                return spec;
+                try {
+                    Sapi2ItemEndpointSpec spec = new Sapi2ItemEndpointSpec(api);
+                    parseCommonParameters(api, spec, jo);
+                    return spec;
+                } catch (Exception e) {
+                    throw new EpiException("Problem parsing: " + filename + ": " + e.getMessage());
+                }
 
             } else if (TYPE_LIST.equals(type)) {
-                Sapi2ListEndpointSpec spec = new Sapi2ListEndpointSpec(api);
-                parseListParameters(api, spec, jo);
-                parseCommonParameters(api, spec, jo);
-                return spec;
+                try {
+                    Sapi2ListEndpointSpec spec = new Sapi2ListEndpointSpec(api);
+                    parseListParameters(api, spec, jo);
+                    parseCommonParameters(api, spec, jo);
+                    return spec;
+                } catch (Exception e) {
+                    throw new EpiException("Problem parsing: " + filename + ": " + e.getMessage());
+                }
 
             } else {
                 throw new EpiException("Did not recognize type of endpoint configuration " + type + " in " + filename);
@@ -140,7 +149,34 @@ public class BaseEngine implements Engine {
         }
         if( jo.hasKey( SUPPRESSID ) ) {
             lspec.setSuppressID( JsonUtil.getBooleanValue(jo, SUPPRESSID, false) );
-        }        
+        } 
+        
+        if (jo.hasKey(PROCESSORS)) {
+            JsonValue jv = jo.get(PROCESSORS);
+            List<String> processors = new ArrayList<>();
+            if (jv.isString()) {
+                processors.add( jv.getAsString().value() );
+            } else if (jv.isArray()) {
+                for (JsonValue v : jv.getAsArray()) {
+                    if (v.isString()) {
+                        processors.add( v.getAsString().value() );
+                    } else {
+                        throw new EpiException("Processors should be string or array of strings");
+                    }
+                }
+            } else {
+                throw new EpiException("Processors should be string or array of strings");
+                
+            }
+            for (String processor : processors) {
+                RequestProcessor rp = api.getApp().getComponentAs(processor, RequestProcessor.class);
+                if (rp == null) {
+                    throw new EpiException("Can't find request processsor: " + processor);
+                }
+                lspec.addRequestProcessor(rp);
+            }
+        }
+
     }
 
     
@@ -204,14 +240,34 @@ public class BaseEngine implements Engine {
                 throw new EpiException("Alias should be specified as a json object (treated as a map from key to value)");
             }
         }
+        
+        if (jo.hasKey(BINDINGS)) {
+            JsonValue jv = jo.get(BINDINGS);
+            if (jv.isObject()) {
+                for( Entry<String, JsonValue> b : jv.getAsObject().entrySet() ) {
+                    JsonValue value = b.getValue();
+                    if (value.isString()) {
+                        spec.addBinding(b.getKey(), value.getAsString().value());
+                    } else if (value.isNumber()) {
+                        spec.addBinding(b.getKey(), value.getAsNumber().value().toString());
+                    } else {
+                        throw new EpiException("Binding value must be a string");
+                    }
+                }
+            } else {
+                throw new EpiException("Bindings should be a json object (treated as a map from parameter to value)");
+            }
+        }
     }
 
     @Override
     public QueryBuilder finalizeQueryBuilder(Request request, QueryBuilder builder, EndpointSpec spec) {
         if (spec instanceof Sapi2ListEndpointSpec) {
             ListQueryBuilder lbuilder = (ListQueryBuilder)builder;
+            for (RequestProcessor proc : ((Sapi2ListEndpointSpec)spec).getRequestProcessors()) {
+                lbuilder = proc.process(request, lbuilder, spec);
+            }
             for (RequestProcessor proc : getRequestProcessors()) {
-                // TODO allow per-engine request processors
                 lbuilder = proc.process(request, lbuilder, spec);
             }
             return lbuilder;

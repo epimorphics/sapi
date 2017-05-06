@@ -51,7 +51,8 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     protected String flattenPath;
     protected boolean suppressID;
     protected Engine engine;
-
+    protected Map<String, String> bindings = new HashMap<>();
+    
     public EndpointSpecBase(API api) {
         super();
         this.api = api;
@@ -250,4 +251,12 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
         this.engine = engine;
     }
     
+    @Override
+    public Map<String, String> getBindings() {
+        return bindings;
+    }
+    
+    public void addBinding(String key, String value) {
+        bindings.put(key, value);
+    }
 }

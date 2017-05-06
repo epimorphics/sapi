@@ -10,4 +10,9 @@ Nested select is default
 
 Aliases filter
 
-Template filter?
+Template handling
+
+Per-endpoint processors
+
+Per-endpoint bindings
+

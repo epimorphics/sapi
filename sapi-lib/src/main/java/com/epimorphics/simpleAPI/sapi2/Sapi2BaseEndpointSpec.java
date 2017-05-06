@@ -9,7 +9,9 @@
 
 package com.epimorphics.simpleAPI.sapi2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.NotFoundException;
@@ -19,6 +21,7 @@ import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.endpoints.impl.EndpointSpecBase;
 import com.epimorphics.simpleAPI.queryTransforms.AppTransforms;
 import com.epimorphics.simpleAPI.requests.Request;
+import com.epimorphics.simpleAPI.requests.RequestProcessor;
 import com.epimorphics.simpleAPI.util.TemplateUtil;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
 import com.epimorphics.sparql.query.QueryShape;
@@ -46,7 +49,7 @@ public abstract class Sapi2BaseEndpointSpec extends EndpointSpecBase implements 
     public void setCompleteQuery(String completeQueryString) {
         this.completeQueryString = completeQueryString;
     }
-    
+  
     /**
         Create a QueryShape for this endpoint spec, copying into it the
         transforms from the apptransforms component of this app.
