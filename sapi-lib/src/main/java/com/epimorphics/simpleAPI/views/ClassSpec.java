@@ -24,10 +24,13 @@ import org.apache.jena.atlas.json.JsonValue;
 
 import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.views.PropertySpec.PV;
+import com.epimorphics.sparql.exprs.Infix;
+import com.epimorphics.sparql.exprs.Op;
 import com.epimorphics.sparql.graphpatterns.And;
 import com.epimorphics.sparql.graphpatterns.Basic;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.graphpatterns.Optional;
+import com.epimorphics.sparql.terms.Filter;
 import com.epimorphics.sparql.terms.Triple;
 import com.epimorphics.sparql.terms.URI;
 import com.epimorphics.sparql.terms.Var;
@@ -153,6 +156,12 @@ public class ClassSpec implements Iterable<PropertySpec> {
                     patterns.add(basic);
             	}
             }
+			
+			if ( ! map.getExcludedValues().isEmpty() ) {
+			    for (String exclude : map.getExcludedValues()) {
+			        patterns.add( new Basic( new Filter( new Infix(pv.var, Op.opNe, new URI(exclude)) ) ) );
+			    }
+			}
         }
     	
     	return new And(patterns);    	

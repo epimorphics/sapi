@@ -11,6 +11,8 @@ package com.epimorphics.simpleAPI.views;
 
 import static com.epimorphics.simpleAPI.core.ConfigConstants.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.jena.atlas.json.JsonObject;
@@ -41,6 +43,7 @@ public class PropertySpec {
     protected ClassSpec nested = null;
     protected String valueBase = null;
     protected boolean hide = false;
+    protected List<String> excludedValues = new ArrayList<String>();
     
     public PropertySpec(String jsonname, URI property) {
         this.jsonname = jsonname == null ? makeJsonName(property) : jsonname;
@@ -151,6 +154,14 @@ public class PropertySpec {
         this.range = typeURI;
     }
 
+    public void addExcludedValue(String value) {
+        excludedValues.add(value);
+    }
+    
+    public List<String> getExcludedValues() {
+        return excludedValues;
+    }
+    
     public String getComment() {
         return comment;
     }
@@ -298,6 +309,10 @@ public class PropertySpec {
             if (propO.hasKey(HIDE)) {
                 boolean sid = JsonUtil.getBooleanValue(propO, HIDE, false);
                 ps.setHide(sid);
+            }
+            if (propO.hasKey(EXCLUDE)) {
+                String ex = JsonUtil.getStringValue(propO, EXCLUDE);
+                ps.addExcludedValue( model.getPrefixes().expandPrefix(ex) );
             }
             return ps;
         } else {

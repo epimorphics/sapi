@@ -9,7 +9,9 @@
 
 package com.epimorphics.simpleAPI.requests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +20,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.apache.jena.atlas.json.JsonValue;
 import org.apache.jena.rdf.model.Literal;
 import org.junit.Before;
 import org.junit.Test;
@@ -91,6 +94,28 @@ public class TestRequestBasics {
         assertEquals("B2", getFirstLabel("listTestTemplate"));
         assertEquals("B1", getFirstLabel("listTestTemplate", "num", "1"));
     }
+    
+    @Test
+    public void testExclusion() {
+        assertEquals(2, numTypesFirst("list-with-no-exclusion", "notation", "1"));
+        assertEquals(1, numTypesFirst("list-with-exclusion", "notation", "1"));
+    }
+    
+    private int numTypesFirst(String endpoint, String...args) {
+        ResultStream stream = get(endpoint, makeRequest(args));
+        assertTrue( stream.hasNext() );
+        JsonValue jv =  stream.next().asJson();
+        assertTrue( jv.isObject() );
+        jv = jv.getAsObject().get("type");
+        if (jv == null) {
+            return 0;
+        } else if (jv.isArray()) {
+            return jv.getAsArray().size();
+        } else {
+            return 1;
+        }
+    }
+
     
     @Test
     public void testTimestamp() throws InterruptedException {
