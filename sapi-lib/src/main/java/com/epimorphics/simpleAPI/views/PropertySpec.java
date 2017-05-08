@@ -83,6 +83,7 @@ public class PropertySpec {
         ps.valueBase = valueBase;
         ps.hide = hide;
         ps.nested = nested;
+        ps.excludedValues = excludedValues;  // Not mutuable via normal API so structure share should be safe
         return ps;
     }
     
@@ -249,6 +250,14 @@ public class PropertySpec {
         if (multivalued) buf.append(" multi");
         if (valueBase != null) buf.append(" base(" + valueBase + ")");
         if (comment != null) buf.append(" '" + comment + "'");
+        if ( ! excludedValues.isEmpty() ) {
+            buf.append(" excludeValues(");
+            for( String ex : excludedValues ) {
+                buf.append(ex);
+                buf.append(" ");
+            }
+            buf.append(")");
+        }
         if (isNested()) {
             buf.append("\n");
             nested.print(buf, indent + "  ");
@@ -311,8 +320,16 @@ public class PropertySpec {
                 ps.setHide(sid);
             }
             if (propO.hasKey(EXCLUDE)) {
-                String ex = JsonUtil.getStringValue(propO, EXCLUDE);
-                ps.addExcludedValue( model.getPrefixes().expandPrefix(ex) );
+                JsonValue jv = propO.get(EXCLUDE);
+                if (jv.isString()) {
+                    String ex = jv.getAsString().value();
+                    ps.addExcludedValue( model.getPrefixes().expandPrefix(ex) );
+                } else if (jv.isArray()) {
+                    for (JsonValue v : jv.getAsArray()) {
+                        String ex = v.getAsString().value();
+                        ps.addExcludedValue( model.getPrefixes().expandPrefix(ex) );
+                    }
+                }
             }
             return ps;
         } else {
