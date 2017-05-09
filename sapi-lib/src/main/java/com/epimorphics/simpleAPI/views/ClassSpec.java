@@ -144,7 +144,7 @@ public class ClassSpec implements Iterable<PropertySpec> {
             		patterns.add(new Optional(both));
             	} else {
             	    if ( includeNonNested ) {
-                        	        patterns.add(new Optional(basic));
+            	        patterns.add(new Optional(basic));
             	    }
             	}
             } else {
@@ -157,7 +157,7 @@ public class ClassSpec implements Iterable<PropertySpec> {
             	}
             }
 			
-			if ( ! map.getExcludedValues().isEmpty() ) {
+			if ( includeNonNested && ! map.getExcludedValues().isEmpty() ) {
 			    for (String exclude : map.getExcludedValues()) {
 			        patterns.add( new Basic( new Filter( new Infix(pv.var, Op.opNe, new URI(exclude)) ) ) );
 			    }

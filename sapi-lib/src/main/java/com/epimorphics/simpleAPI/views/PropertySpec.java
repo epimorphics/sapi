@@ -83,7 +83,7 @@ public class PropertySpec {
         ps.valueBase = valueBase;
         ps.hide = hide;
         ps.nested = nested;
-        ps.excludedValues = excludedValues;  // Not mutuable via normal API so structure share should be safe
+        ps.excludedValues = new ArrayList<>( excludedValues );
         return ps;
     }
     
