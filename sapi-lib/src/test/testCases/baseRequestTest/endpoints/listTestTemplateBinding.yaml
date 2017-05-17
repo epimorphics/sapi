@@ -1,4 +1,4 @@
-name      : listTestTemplate
+name      : listTestTemplateBinding
 type      : list
 baseQuery : "?id a skos:Concept ; rdfs:label 'B${num}'"
 bindings:

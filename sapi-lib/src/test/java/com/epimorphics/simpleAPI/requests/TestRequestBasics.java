@@ -91,8 +91,8 @@ public class TestRequestBasics {
 
     @Test
     public void testBindings() {
-        assertEquals("B2", getFirstLabel("listTestTemplate"));
-        assertEquals("B1", getFirstLabel("listTestTemplate", "num", "1"));
+        assertEquals("B2", getFirstLabel("listTestTemplateBinding"));
+        assertEquals("B1", getFirstLabel("listTestTemplateBinding", "num", "1"));
     }
     
     @Test
