@@ -48,6 +48,7 @@ import com.epimorphics.simpleAPI.sapi2.Sapi2ItemEndpointSpec;
 import com.epimorphics.simpleAPI.util.LastModified;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
+import com.epimorphics.sparql.graphpatterns.GraphPattern;
 
 public class EndpointsBase {
     public static final String TURTLE = "text/turtle; charset=UTF-8";
@@ -257,6 +258,22 @@ public class EndpointsBase {
      * Prefixes in the query text will be expanded 
      */
     public void filter(Call call, String filter) {
+        call.updateQueryBuilder( (QueryBuilder qb) -> ((SparqlQueryBuilder)qb).filter(filter) );
+    }
+    
+    /**
+     * Add a block of SPARQL BGP early in the query.
+     * Prefixes in the query text will be expanded 
+     */
+    public void inject(Call call, GraphPattern inject) {
+        call.updateQueryBuilder( (QueryBuilder qb) -> ((SparqlQueryBuilder)qb).inject(inject) );
+    }
+  
+    /**
+     * Add a block of SPARQL BGP late in the query, especially useful for adding filters 
+     * Prefixes in the query text will be expanded 
+     */
+    public void filter(Call call, GraphPattern filter) {
         call.updateQueryBuilder( (QueryBuilder qb) -> ((SparqlQueryBuilder)qb).filter(filter) );
     }
     
