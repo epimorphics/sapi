@@ -23,6 +23,7 @@ import com.epimorphics.simpleAPI.requests.Request;
 public class TemplateUtil {
 
     public static final Pattern VAR_PATTERN = Pattern.compile("\\$\\{[^}]*\\}");
+    public static final String URI_VAR = "uri";
     
     public static String instatiateTemplate(String template, Request request) {
         Matcher m = VAR_PATTERN.matcher(template);
@@ -30,7 +31,11 @@ public class TemplateUtil {
         while (m.find()) {
             String found = m.group(0);
             String var = found.substring(2, found.length() - 1);
-            m.appendReplacement(sb, request.getFirst(var));
+            if ( URI_VAR.equals(var) ) {
+                m.appendReplacement(sb, request.getRequestedURI());
+            } else {
+                m.appendReplacement(sb, request.getFirst(var));
+            }
             request.consume(var);
         }
         m.appendTail(sb);
