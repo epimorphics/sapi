@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MultivaluedMap;
@@ -44,8 +46,8 @@ public class Request {
     
     public static final String BINDING_KEY_URI = "uri";   // base URI as a string
     public static final String BINDING_KEY_URL = "url";   // full URL, with query, as a builder
+    public static final String BINDING_KEY_ROOT = "root";   // server-relative root URI based on configured base not context path so works behind a proxy
     public static final String BINDING_KEY_REQUEST = "request";
-    public static final String BINDING_KEY_BASEURI = "baseURI";
     
     protected String requestedURI;
     protected String fullRequestedURI;
@@ -311,7 +313,6 @@ public class Request {
                 safeAddRenderBinding(parameter, values);
             }
         }
-        safeAddRenderBinding(BINDING_KEY_URI, getRequestedURI());
         return bindings;
     }
     
@@ -337,32 +338,45 @@ public class Request {
         String requestedURI = api.getBaseURI() + uriInfo.getPath();
         Request request = new Request(requestedURI, uriInfo.getQueryParameters());
         request.addAll(uriInfo.getPathParameters());
-        if (servletRequest != null) {
-            request.addRenderBinding(BINDING_KEY_REQUEST, servletRequest);
-            String fullURL = servletRequest.getRequestURI();
-            if ( servletRequest.getQueryString() != null ) {
-                fullURL += "?" + servletRequest.getQueryString();
-            }
-            request.addRenderBinding(BINDING_KEY_URL, new URLBuilder(fullURL));
-        }
-        String baseURI = api.getBaseURI();
-        if (uriInfo != null && uriInfo.getBaseUri() != null) {
-            String requestBase = uriInfo.getBaseUri().toString();
-            if ( requestBase.contains("http://localhost") ) {
-                // Use configured base URI unless the request is a localhost (for which we assume this is a test situation)
-                baseURI = requestBase;
-            }
-        }
-        request.addRenderBinding(BINDING_KEY_BASEURI, baseURI);
         
         String rawRequest = uriInfo.getRequestUri().toString();
         if (rawRequest.contains("?")) {
             String query = rawRequest.substring( rawRequest.indexOf('?') );
             request.setFullRequestedURI( requestedURI + query );
         }        
+
+        // Set up URL  bindings for html rendering support
+        
+        // The full requested URI plus all query
+        request.addRenderBinding(BINDING_KEY_URI, requestedURI);
+        
+        // The server-relative root, as configured by API so works even if proxied to different context path
+        String root = asLocal( api.getBaseURI() );
+        request.addRenderBinding(BINDING_KEY_ROOT, root);
+        
+        // The raw servlet request
+        if (servletRequest != null) {
+            request.addRenderBinding(BINDING_KEY_REQUEST, servletRequest);
+            String url = asLocal(requestedURI);
+            if ( servletRequest.getQueryString() != null ) {
+                url += "?" + servletRequest.getQueryString();
+            }
+            request.addRenderBinding(BINDING_KEY_URL, new URLBuilder(url));
+        }
+        
         return request;
     }
 
+    protected static Pattern BASEPATTERN = Pattern.compile("https?://[^/]*(/.*)");
+    protected static String asLocal(String uri) {
+        Matcher m = BASEPATTERN.matcher( uri );
+        if (m.matches()) {
+            return m.group(1);
+        } else {
+            return uri;
+        }
+    }
+    
     /**
      * Construct a request object a jersey call plus a json object (probably passed in to a POST request).
      * Assumes no nesting of the json object
