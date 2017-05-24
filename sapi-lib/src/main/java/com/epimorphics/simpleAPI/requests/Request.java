@@ -34,6 +34,7 @@ import com.epimorphics.appbase.templates.URLBuilder;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.util.NameUtils;
 
 /**
  * Encapsulates a query request, whether from query parameters, path parameters
@@ -352,6 +353,7 @@ public class Request {
         
         // The server-relative root, as configured by API so works even if proxied to different context path
         String root = asLocal( api.getBaseURI() );
+        root = root.substring(0, root.length()-1);
         request.addRenderBinding(BINDING_KEY_ROOT, root);
         
         // The raw servlet request
