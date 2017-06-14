@@ -39,6 +39,7 @@ import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.query.impl.NestedSparqlQueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlDataSource;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
 import com.epimorphics.simpleAPI.requests.Call;
@@ -252,13 +253,24 @@ public class EndpointsBase {
     public void inject(Call call, String inject) {
         call.updateQueryBuilder( (QueryBuilder qb) -> ((SparqlQueryBuilder)qb).inject(inject) );
     }
-  
+    
     /**
      * Add a block of SPARQL BGP late in the query, especially useful for adding filters 
      * Prefixes in the query text will be expanded 
      */
     public void filter(Call call, String filter) {
         call.updateQueryBuilder( (QueryBuilder qb) -> ((SparqlQueryBuilder)qb).filter(filter) );
+    }
+    
+    /**
+     * Add a block of SPARQL BGP late in the outer query, useful for retrieving
+     * additional values
+     */
+    public void extendQuery(Call call, String query) {
+        call.updateQueryBuilder( (QueryBuilder qb) -> 
+          qb instanceof NestedSparqlQueryBuilder 
+                  ? ((NestedSparqlQueryBuilder)qb).filterOuter(query)
+                  :  ((SparqlQueryBuilder)qb).filter(query) );
     }
     
     /**
