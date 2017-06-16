@@ -98,6 +98,9 @@ public class ConfigSpecFactory {
                     CSVMap map = CSVMap.parseFromJson( jo.get(CSVMAP) );
                     ((ViewMap)config).setCsvMap( map );
                 }
+                if (jo.hasKey(GEOM_PROP)) {
+                    ((ViewMap)config).setGeometryProp( JsonUtil.getStringValue(jo, GEOM_PROP));
+                }
                 
             } else if ( TYPE_MODEL.equals(type) ) {
                 try {

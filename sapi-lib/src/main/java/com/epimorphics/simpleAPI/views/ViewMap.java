@@ -38,6 +38,7 @@ public class ViewMap extends ConfigItem {
     protected API api;
     protected List<ViewPath> allPaths;
     protected CSVMap csvmap;
+    protected String geometryProp;
     
     public ViewMap(API api) {
         super();
@@ -206,6 +207,14 @@ public class ViewMap extends ConfigItem {
         return csvmap != null;
     }
     
+    public String getGeometryProp() {
+        return geometryProp;
+    }
+
+    public void setGeometryProp(String geometryProp) {
+        this.geometryProp = geometryProp;
+    }
+
     @Override
     public String toString() {
         return getTree().toString();
