@@ -114,6 +114,9 @@ public class GeojsonWriter {
     
     protected String getGeometry(TreeResult result) {
         Set<RDFNode> geoms = result.get( geometryPath );
+        if (geoms == null) {
+            throw new EpiException("No geometry available for geojson rendering");
+        }
         if (geoms.size() != 1) {
             throw new EpiException("Failed to find unambiguous geometry in result");
         }
