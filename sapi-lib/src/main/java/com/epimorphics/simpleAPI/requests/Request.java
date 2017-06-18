@@ -34,7 +34,6 @@ import com.epimorphics.appbase.templates.URLBuilder;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
-import com.epimorphics.util.NameUtils;
 
 /**
  * Encapsulates a query request, whether from query parameters, path parameters

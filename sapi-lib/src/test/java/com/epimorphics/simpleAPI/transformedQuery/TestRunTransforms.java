@@ -59,7 +59,7 @@ public class TestRunTransforms {
         
         ListQuery query = geoQB.geoQuery(x).build();
 		
-        String queryString = query.toString();
+        // String queryString = query.toString();
         // System.err.println(">> query:\n" + queryString);
 		
 		ResultStream stream = source.query(query, new Call(endpoint, null));
