@@ -178,18 +178,24 @@ public class ViewMap extends ConfigItem {
         } else if (list.isObject()) {
             // Model/project reference cases
             JsonObject jo = list.getAsObject();
+            ViewMap view = null;
             if (jo.hasKey(VIEW) && jo.hasKey(MVIEW_PROJECTION)) {
                 String viewReference = JsonUtil.getStringValue(jo, VIEW);
                 String projection = JsonUtil.getStringValue(jo, MVIEW_PROJECTION);
-                return new ViewMapProjection(api, viewReference, projection);
+                view = new ViewMapProjection(api, viewReference, projection);
             } else if (jo.hasKey(MVIEW_MODEL) || jo.hasKey(MVIEW_CLASS)) {
                 String modelReference = JsonUtil.getStringValue(jo, MVIEW_MODEL);
                 String baseClass = JsonUtil.getStringValue(jo, MVIEW_CLASS);
                 String projection = JsonUtil.getStringValue(jo, MVIEW_PROJECTION);
-                return new ViewMapModelProjection(api, modelReference, baseClass, projection);
+                view = new ViewMapModelProjection(api, modelReference, baseClass, projection);
             } else {
                 throw new EpiException("Could now parse model/view reference: " + list);
             }
+            if (jo.hasKey(GEOM_PROP)) {
+                view.setGeometryProp( JsonUtil.getStringValue(jo, GEOM_PROP));
+            }
+            return view;
+            
         } else {
             throw new EpiException("Illegal view specification must be a name or an array of view entries: " + list);
         }
