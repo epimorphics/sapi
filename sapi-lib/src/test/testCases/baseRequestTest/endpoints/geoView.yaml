@@ -1,0 +1,10 @@
+name: geoview
+type: view
+view      :
+    - "rdfs:label"
+    - "skos:notation"
+    - prop: "egG:nested"
+      nested:
+        - "rdfs:label"
+    - "egG:geometry"
+geometryProp : "geometry"

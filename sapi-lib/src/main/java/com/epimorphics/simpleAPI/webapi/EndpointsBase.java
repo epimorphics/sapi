@@ -55,11 +55,13 @@ public class EndpointsBase {
     public static final String TURTLE = "text/turtle; charset=UTF-8";
     public static final String CSV = "text/csv; charset=UTF-8";
     public static final String JSONLD = "application/ld+json";
+    public static final String GEO_JSON = "application/geo+json";
     public static final String RDFXML = "application/rdf+xml";
     
     public static MediaType TURTLE_TYPE;
     public static MediaType CSV_TYPE;
     public static MediaType JSONLD_TYPE;
+    public static MediaType GEO_JSON_TYPE;
     public static MediaType RDFXML_TYPE;
     public static  List<Variant> nonHtmlVariants;
     public static  List<Variant> htmlVariants;
@@ -77,6 +79,7 @@ public class EndpointsBase {
         TURTLE_TYPE = new MediaType("text", "turtle", nonPreferredUTF8);
         CSV_TYPE    = new MediaType("text", "csv", nonPreferredUTF8);
         JSONLD_TYPE = new MediaType("application", "ld+json", nonPreferred);
+        GEO_JSON_TYPE = new MediaType("application", "geo+json", nonPreferredUTF8);
         RDFXML_TYPE = new MediaType("application", "rdf+xml", nonPreferred);
         
         nonHtmlVariants = Variant.mediaTypes(
@@ -84,6 +87,7 @@ public class EndpointsBase {
                 TURTLE_TYPE,
                 RDFXML_TYPE,
                 JSONLD_TYPE,
+                GEO_JSON_TYPE,
                 CSV_TYPE).build();
         htmlVariants = Variant.mediaTypes( MediaType.TEXT_HTML_TYPE ).build();
     }

@@ -98,64 +98,65 @@ public class JsonWriterUtil {
             }
             writeResult((TreeResult)value, ntree, api, writer);
         } else if (value instanceof RDFNode) {
-            RDFNode n = (RDFNode) value;
-            if (n.isURIResource()) {
-                String uri = n.asResource().getURI();
-                if (isArrayElt) {
-                    writer.arrayElement(uri);
-                } else {
-                    writer.pair(key, uri);
-                }
-                // if (isArrayElt) writer.arrayElementProcess(); else
-                // writer.key(key);
-                // writer.startObject();
-                // if (n.isURIResource()) {
-                // writer.pair("@id", n.asResource().getURI());
-                // }
-                // writer.finishObject();
+            writeSimpleNode(key, (RDFNode)value, writer, api, isArrayElt);
+        }
+    }
+    
+    /**
+     * Write simplified flattened version of a key/node pair.
+     * Used in cases where we have no format spec and are just writing leaf values.
+     * Silently rites nothing in cases where there's not legal or reasonable JSON representation.
+     */
+    public static void writeSimpleNode(String key, RDFNode n, JSFullWriter writer, API api, boolean isArrayElt) {
+        if (n.isURIResource()) {
+            String uri = n.asResource().getURI();
+            if (isArrayElt) {
+                writer.arrayElement(uri);
             } else {
-                Literal l = n.asLiteral();
-                String lex = l.getLexicalForm();
-                if (l.getDatatype() == null || l.getDatatypeURI().equals(RDF.langString.getURI())) {
-                    String lang = l.getLanguage();
-                    if (lang == null || lang.isEmpty() || !api.isShowLangTag()) {
-                        if (isArrayElt)
-                            writer.arrayElement(lex);
-                        else
-                            writer.pair(key, lex);
-                    } else {
-                        if (isArrayElt)
-                            writer.arrayElementProcess();
-                        else
-                            writer.key(key);
-                        writer.startObject();
-                        writer.pair(VALUE_FIELD, lex);
-                        writer.pair(LANGUAGE_FIELD, lang);
-                        writer.finishObject();
-                    }
+                writer.pair(key, uri);
+            }
+        } else {
+            Literal l = n.asLiteral();
+            String lex = l.getLexicalForm();
+            if (l.getDatatype() == null || l.getDatatypeURI().equals(RDF.langString.getURI())) {
+                String lang = l.getLanguage();
+                if (lang == null || lang.isEmpty() || !api.isShowLangTag()) {
+                    if (isArrayElt)
+                        writer.arrayElement(lex);
+                    else
+                        writer.pair(key, lex);
                 } else {
-                    Object jv = l.getValue();
-                    if (jv instanceof Number) {
-                        if (lex.equals("NaN") || lex.contains("INF")) {
-                            // legal in RDF and XSD but not legal in JSON, omit
-                        } else {
-                            if (isArrayElt)
-                                writer.arrayElement((Number) jv);
-                            else
-                                writer.pair(key, (Number) jv);
-                        }
-                    } else if (jv instanceof Boolean) {
-                        if (isArrayElt)
-                            writer.arrayElement((Boolean) jv);
-                        else
-                            writer.pair(key, (Boolean) jv);
+                    if (isArrayElt)
+                        writer.arrayElementProcess();
+                    else
+                        writer.key(key);
+                    writer.startObject();
+                    writer.pair(VALUE_FIELD, lex);
+                    writer.pair(LANGUAGE_FIELD, lang);
+                    writer.finishObject();
+                }
+            } else {
+                Object jv = l.getValue();
+                if (jv instanceof Number) {
+                    if (lex.equals("NaN") || lex.contains("INF")) {
+                        // legal in RDF and XSD but not legal in JSON, omit
                     } else {
-                        // TODO handle other typed literals
                         if (isArrayElt)
-                            writer.arrayElement(lex);
+                            writer.arrayElement((Number) jv);
                         else
-                            writer.pair(key, lex);
+                            writer.pair(key, (Number) jv);
                     }
+                } else if (jv instanceof Boolean) {
+                    if (isArrayElt)
+                        writer.arrayElement((Boolean) jv);
+                    else
+                        writer.pair(key, (Boolean) jv);
+                } else {
+                    // TODO handle other typed literals
+                    if (isArrayElt)
+                        writer.arrayElement(lex);
+                    else
+                        writer.pair(key, lex);
                 }
             }
         }

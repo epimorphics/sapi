@@ -33,7 +33,7 @@ public class ViewMapReference extends ViewMap {
                 throw new EpiException("Cannot find view: " + viewReference);
             }
             tree = view.getTree();
-            csvmap = view.getCsvMap();
+            initFrom(view);
             reference = view;
         }
         return tree;

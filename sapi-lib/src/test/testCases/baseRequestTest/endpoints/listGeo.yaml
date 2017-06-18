@@ -1,0 +1,9 @@
+name      : listGeo
+type      : list
+baseQuery : "?id a egG:GeoTest ."
+views      :
+  default : geoview 
+  csv     : geoview-csv
+        
+
+

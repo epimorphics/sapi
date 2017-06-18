@@ -49,7 +49,6 @@ public class TestBaseEndToEnd extends TomcatTestBase {
 
     @Test
     public void testEndToEnd() throws IOException, InterruptedException {
-        
         // Model-based views
         checkGet("default/listModelView?_view=testModel&_sort=@id&_limit=2",  EXPECTED + "listModelView.json");
         checkGet("default/listModelView?_view=testModel2&_sort=@id&_limit=2", EXPECTED + "listModelView2.json");
@@ -109,6 +108,15 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         checkGet("basetest/listNestedSelect?filter=test&_sort=@id", EXPECTED + "listNestedSelect-filter.json");
         checkGet("basetest/listNestedSelect?_limit=2&_sort=@id", EXPECTED + "listNestedSelect-limit2.json");
         checkGet("basetest/listNestedSelect?narrower.notation=3&_sort=@id", EXPECTED + "listNestedSelect-filterGeneric.json");
+        
+        // GeoJSON serialization
+        checkResponseText(
+                getResponse(BASE_URL + "basetest/listGeo?_sort=@id", "application/geo+json"),
+                EXPECTED + "listGeo.json");
+        checkResponseText(
+                getResponse(BASE_URL + "basetest/listGeo?_view=csv&_sort=@id", "application/geo+json"),
+                EXPECTED + "listGeo-csv.json");
+        
     }
     
     protected void checkGet(String url, String expectedF) {

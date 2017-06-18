@@ -82,7 +82,7 @@ public class ViewMap extends ConfigItem {
         q.addEarlyPattern( asPattern() );
     }
     
-    /**
+    /**geometryProp
      * Return a SPARQL describe query which describes the neste elements in the tree
      */
     public QueryShape asDescribe() {
@@ -225,8 +225,15 @@ public class ViewMap extends ConfigItem {
      */
     public ViewMap project(Projection projection) {
         ViewMap map = new ViewMap(api, tree.project(projection) );
-        map.setCsvMap(csvmap);
+        map.initFrom(this);
         return map;
     }
-        
+     
+    /**
+     * Initialize values in a view from a separate view
+     */
+    public void initFrom(ViewMap view) {
+        this.csvmap = view.getCsvMap();
+        this.geometryProp = view.getGeometryProp();
+    }
 }

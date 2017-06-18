@@ -82,7 +82,18 @@ public class TestResultAccess {
         splits = A.splitAt( path("q.r.s") );   // Does not exist
         assertEquals( 1, splits.size() );
         assertEquals( A, splits.iterator().next() );
-        
+    }
+    
+    @Test
+    public void testCloneWithOmission() {
+        TreeResult B = tree("B"); B.add("t", lit("a")); B.add("u", lit("b"));
+        TreeResult A = tree("A"); A.add("r", B); A.add("s", lit("c"));
+
+        TreeResult Aminus = A.cloneWithout( ViewPath.fromDotted("r.t"));
+        assertEquals("{@id:http://localhost/test/A r = {@id:http://localhost/test/B u = b } , s = c }", Aminus.toString());
+
+        TreeResult Aminus2 = A.cloneWithout( ViewPath.fromDotted("r"));
+        assertEquals("{@id:http://localhost/test/A s = c }", Aminus2.toString());
     }
     
     ViewPath path(String dotted) {

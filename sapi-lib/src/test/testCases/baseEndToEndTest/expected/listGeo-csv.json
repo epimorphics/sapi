@@ -1,0 +1,21 @@
+{ 
+  "type" : "FeatureCollection" ,
+  "features" : [ { 
+    "type" : "Feature" ,
+    "geometry" : {"type": "LineString", "coordinates": [[100.0, 0.0],[102.0, 1.0],[104.0, 0.0]]} ,
+    "properties" : { 
+      "name" : "A" ,
+      "sub" : "A nested"
+    }
+  }
+  , { 
+    "type" : "Feature" ,
+    "geometry" : {"type": "LineString", "coordinates": [[104.0, 0.0],[102.0, -1.0],[100.0, 0.0]]} ,
+    "properties" : { 
+      "name" : "B" ,
+      "sub" : "B nested"
+    }
+  }
+   ]
+}
+
