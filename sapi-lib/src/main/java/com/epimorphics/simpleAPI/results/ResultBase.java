@@ -36,6 +36,13 @@ public abstract class ResultBase implements Result {
     public Call getCall() {
         return call;
     }
+    
+    /**
+     * Allows results from one call to masquerade as if from another.
+     */
+    public void setCall(Call call) {
+        this.call = call;
+    }
 
     @Override
     public EndpointSpec getSpec() {
