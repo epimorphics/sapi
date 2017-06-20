@@ -9,8 +9,11 @@
 
 package com.epimorphics.simpleAPI.requests;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -34,6 +37,8 @@ import com.epimorphics.appbase.templates.URLBuilder;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.util.EpiException;
+import com.epimorphics.util.NameUtils;
 
 /**
  * Encapsulates a query request, whether from query parameters, path parameters
@@ -48,6 +53,8 @@ public class Request {
     public static final String BINDING_KEY_URL = "url";   // full URL, with query, as a builder
     public static final String BINDING_KEY_ROOT = "root";   // server-relative root URI based on configured base not context path so works behind a proxy
     public static final String BINDING_KEY_REQUEST = "request";
+    
+    public static final int MAX_FILENAME_LENGTH = 128;
     
     protected String requestedURI;
     protected String fullRequestedURI;
@@ -330,6 +337,72 @@ public class Request {
         }
         return viewname;
     }
+    
+    /**
+     * Return a representation of the request suitable for use in a file name for naming downloads.
+     */
+    public String asFilename() {
+        List<String> parameters = new ArrayList<>( getParameters() );
+        Collections.sort(parameters);
+        StringBuffer fn = new StringBuffer();
+        boolean started = false;
+        for (String p : parameters) {
+            boolean skip = false;
+            if ( p.startsWith("_") ) {
+                skip = true;
+                // Mostly ignore this but some special cases to let through
+                for (String ok : ALLOWED_PARAMS) {
+                    if (ok.equals(p) ) {
+                        skip = false;
+                        break;
+                    }
+                }
+            }
+            if (skip) continue;
+
+            if (started) {
+                fn.append("-");
+            } else {
+                started = true;
+            }
+            fn.append(p);
+            List<String> values = new ArrayList<>( get(p) );
+            Collections.sort(values);
+            for (String value : values) {
+                fn.append("-");
+                fn.append( NameUtils.safeName(value) );
+            }
+        }
+        
+        // If too long replace by a digest
+        String filename = fn.toString();
+        if (filename.length() > MAX_FILENAME_LENGTH) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.update( filename.getBytes() );
+                byte[] byteData = md.digest();
+                StringBuffer hexString = new StringBuffer();
+                for (int i=0; i<byteData.length; i++) {
+                    String hex=Integer.toHexString( 0xff & byteData[i] );
+                    if( hex.length()==1 ) hexString.append('0');
+                    hexString.append(hex);
+                }
+                filename = hexString.toString();
+            } catch (NoSuchAlgorithmException e) {
+                // can't happen
+                throw new EpiException(e);
+            }
+        }
+        
+        // Prepend the request final segment
+        String base = NameUtils.stripLastSlash(requestedURI);
+        int split = base.lastIndexOf('/');
+        if (split != -1) {
+            base = base.substring(split+1);
+        }
+        return base + "-" + filename;
+    }
+    protected static final String[] ALLOWED_PARAMS = { "_view", "_limit", "_offset"};
 
     /**
      * Construct a request object from the URI, query and path parameters in a jersey call

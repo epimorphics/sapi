@@ -84,6 +84,7 @@ public class API extends ComponentBase implements Startup {
     protected boolean showLang = false;
     protected String showOnlyLang;
     protected boolean fullPathsInCSVHeaders = false;
+    protected boolean generateCSVfilenames = false;
     
     protected GenericConfig configExtensions = new GenericConfig();
     
@@ -585,7 +586,16 @@ public class API extends ComponentBase implements Startup {
         this.timestampService = timestampService;
     }
     
+    
     // ---- Internals -----------------------------------------------
+
+    public boolean isGenerateCSVfilenames() {
+        return generateCSVfilenames;
+    }
+
+    public void setGenerateCSVfilenames(boolean generateCSVfilenames) {
+        this.generateCSVfilenames = generateCSVfilenames;
+    }
 
     private void condOut(JSFullWriter out, String key, String value) {
         if (value != null) {
