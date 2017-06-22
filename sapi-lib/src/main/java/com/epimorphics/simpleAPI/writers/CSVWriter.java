@@ -115,9 +115,9 @@ public class CSVWriter {
 
         if (paths == null) {
             ViewMap viewmap = spec.getView( call.getRequest().getViewName() );
-            if ( viewmap.hasCsvMap() ) {
+            if ( viewmap != null && viewmap.hasCsvMap() ) {
                 paths = viewmap.getCsvMap().getPaths();
-            } else {
+            } else if (viewmap != null){
                 paths = viewmap.getAllPaths();
             }
             if (paths == null) {
