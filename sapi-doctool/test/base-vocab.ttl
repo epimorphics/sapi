@@ -23,6 +23,18 @@ dct:description
     rdfs:comment "A textual description of the {x}."@en ;
     rdfs:range xsd:string .
 
+dct:title
+    rdfs:comment "Title for the {x}."@en ;
+    rdfs:range xsd:string .
+
+dct:created
+    rdfs:comment "The date and time the {x} was created."@en ;
+    rdfs:range xsd:dateTime .
+
+dct:created
+    rdfs:comment "The date and time the {x} was last modified."@en ;
+    rdfs:range xsd:dateTime .
+
 rdfs:label
     rdfs:comment "A name for the {x}."@en ;
     rdfs:range xsd:string .

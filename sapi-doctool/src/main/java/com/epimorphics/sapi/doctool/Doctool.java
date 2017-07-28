@@ -186,7 +186,7 @@ public class Doctool {
             if (type == null) {
                 type = "";
             } else if (type.equals("rdf:PlainLiteral")) {
-                type = "string";
+                type = "string (with language)";
             }
             String occurs = entry.isOptional() ? "optional" : "";
             if (entry.isMultivalued()) {
