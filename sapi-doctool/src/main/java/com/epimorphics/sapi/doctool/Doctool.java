@@ -30,7 +30,7 @@ import com.epimorphics.appbase.core.App;
 import com.epimorphics.appbase.data.SparqlSource;
 import com.epimorphics.rdfutil.RDFUtil;
 import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.sapi2.Sapi2ItemEndpointSpec;
+import com.epimorphics.simpleAPI.sapi2.Sapi2BaseEndpointSpec;
 import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
@@ -140,7 +140,7 @@ public class Doctool {
     
     public void generateDataTables() throws IOException {
         getVocabulary();
-        for (Sapi2ItemEndpointSpec s : api.listSpecs()) {
+        for (Sapi2BaseEndpointSpec s : api.listSpecs()) {
             System.out.println("Processing: " + s.getName());
             FileWriter out = new FileWriter( new File(outputDir, "_" + s.getName() + ".html") );
             writeMap(out, s);
@@ -148,7 +148,7 @@ public class Doctool {
         }
     }
     
-    public void writeMap(FileWriter out, Sapi2ItemEndpointSpec spec) throws IOException {
+    public void writeMap(FileWriter out, Sapi2BaseEndpointSpec spec) throws IOException {
         ViewSet viewset = new ViewSet(spec);
 
         out.write( "<table class='apidoc-table table table-condensed table-bordered'>\n" );
@@ -185,8 +185,13 @@ public class Doctool {
             }
             if (type == null) {
                 type = "";
-            } else if (type.equals("rdf:PlainLiteral")) {
-                type = "string (with language)";
+            } else {
+                type = vocabulary.shortForm( type );
+            }
+            if (type.equals("rdf:PlainLiteral")) {
+                type = "string";
+            } else if (type.equals("rdf:langString")) {
+                type = "string (langauge specific)";
             }
             String occurs = entry.isOptional() ? "optional" : "";
             if (entry.isMultivalued()) {
@@ -206,7 +211,7 @@ public class Doctool {
     public static class ViewSet {
         protected List<PathSet> pathsets = new ArrayList<>();
         
-        public ViewSet(Sapi2ItemEndpointSpec spec) {
+        public ViewSet(Sapi2BaseEndpointSpec spec) {
             for (String viewname : spec.listViewNames()) {
                 pathsets.add( new PathSet(viewname, spec.getView(viewname)) );
             }

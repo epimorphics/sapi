@@ -41,7 +41,7 @@ import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.sapi2.BaseEngine;
-import com.epimorphics.simpleAPI.sapi2.Sapi2ItemEndpointSpec;
+import com.epimorphics.simpleAPI.sapi2.Sapi2BaseEndpointSpec;
 import com.epimorphics.simpleAPI.util.LastModified;
 import com.epimorphics.simpleAPI.views.ModelSpec;
 import com.epimorphics.simpleAPI.views.PropertySpec;
@@ -202,8 +202,8 @@ public class API extends ComponentBase implements Startup {
         return null;
     }
     
-    public List<Sapi2ItemEndpointSpec> listSpecs() {
-        return listConfigs(Sapi2ItemEndpointSpec.class);
+    public List<Sapi2BaseEndpointSpec> listSpecs() {
+        return listConfigs(Sapi2BaseEndpointSpec.class);
     }
     
     @SuppressWarnings("unchecked")

@@ -31,7 +31,7 @@ dct:created
     rdfs:comment "The date and time the {x} was created."@en ;
     rdfs:range xsd:dateTime .
 
-dct:created
+dct:modified
     rdfs:comment "The date and time the {x} was last modified."@en ;
     rdfs:range xsd:dateTime .
 
