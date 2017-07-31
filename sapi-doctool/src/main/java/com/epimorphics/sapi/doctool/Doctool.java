@@ -191,7 +191,7 @@ public class Doctool {
             if (type.equals("rdf:PlainLiteral")) {
                 type = "string";
             } else if (type.equals("rdf:langString")) {
-                type = "string (langauge specific)";
+                type = "string (language specific)";
             }
             String occurs = entry.isOptional() ? "optional" : "";
             if (entry.isMultivalued()) {
