@@ -207,7 +207,7 @@ public class API extends ComponentBase implements Startup {
     }
     
     @SuppressWarnings("unchecked")
-    private <T> List<T> listConfigs(Class<T> cls) {
+    public <T> List<T> listConfigs(Class<T> cls) {
         List<T> list = new ArrayList<>();
         if (monitor != null){
             for (ConfigInstance ci : monitor.getEntries()) {
