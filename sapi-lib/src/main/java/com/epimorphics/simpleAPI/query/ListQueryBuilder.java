@@ -47,6 +47,11 @@ public interface ListQueryBuilder extends QueryBuilder {
      */
     public ListQueryBuilder filter(ViewPath path, ViewMap map, Collection<RDFNode> values);
     
+    /**
+     * Add an exists filter constraint to the query
+     */
+    public ListQueryBuilder filterExists(ViewPath path, ViewMap map, boolean exists);
+    
     // TODO more generalized filters?
     
     /**

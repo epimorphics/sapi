@@ -16,7 +16,9 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -29,9 +31,11 @@ import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.query.impl.SparqlDataSource;
+import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.ResultStream;
 import com.epimorphics.simpleAPI.results.TreeResult;
 import com.epimorphics.simpleAPI.util.LastModified;
+import com.epimorphics.util.TestUtil;
 
 public class TestRequestBasics {
     App app;
@@ -71,6 +75,13 @@ public class TestRequestBasics {
         assertEquals("B1", getFirstLabel("listTest2", "narrower.group", "A", "_sort", "label"));
         assertEquals("B2", getFirstLabel("listTest2", "group", "B", "notation", "2"));
         assertEquals("B2", getFirstLabel("listTest2", "group", "B", "narrower.notation", "2"));
+    }
+    
+    @Test
+    public void testExistsFilter() {
+        TestUtil.testArray( getStringValues("list-exists-test", "notation", "_sort", "notation"), new String[]{"1", "2", "3"});
+        TestUtil.testArray( getStringValues("list-exists-test", "notation", "exists-group", "true", "_sort", "notation"), new String[]{"1", "2"});
+        TestUtil.testArray( getStringValues("list-exists-test", "notation", "exists-group", "false", "_sort", "notation"), new String[]{"3"});
     }
     
     @Test
@@ -176,5 +187,16 @@ public class TestRequestBasics {
         TreeResult first = (TreeResult) stream.iterator().next();
         Literal label = (Literal) first.getValues("label").iterator().next();
         return label.getLexicalForm();
+    }
+    
+    private List<String> getStringValues(String endpointName, String prop, String... args) {
+        ResultStream stream = get(endpointName, makeRequest(args));
+        List<String> labels = new ArrayList<>();
+        for (Result r : stream) {
+            TreeResult t = (TreeResult)r;
+            Literal l = (Literal) t.getValues(prop).iterator().next();
+            labels.add( l.getLexicalForm() );
+        }
+        return labels;
     }
 }

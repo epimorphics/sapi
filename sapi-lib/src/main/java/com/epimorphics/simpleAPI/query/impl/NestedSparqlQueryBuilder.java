@@ -27,6 +27,7 @@ import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.sparql.graphpatterns.And;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
+import com.epimorphics.sparql.graphpatterns.Optional;
 import com.epimorphics.sparql.query.As;
 import com.epimorphics.sparql.query.Order;
 import com.epimorphics.sparql.query.QueryShape;
@@ -73,6 +74,13 @@ public class NestedSparqlQueryBuilder extends SparqlQueryBuilder {
     @Override
     public ListQueryBuilder filter(ViewPath path, ViewMap map, Collection<RDFNode> values) {
         return pathAndFilter(path, map, filterPattern(path.asVariableName(), values));
+    }
+    
+    @Override
+    public ListQueryBuilder filterExists(ViewPath path, ViewMap map, boolean mustExist) {
+        GraphPattern pathPattern = new Optional( map.patternForPath(path) );
+        GraphPattern merged = new And( pathPattern, filterExistsPattern( path.asVariableName(), mustExist ) );
+        return updateQuery( query.copy().addLaterPattern(merged) );
     }
     
     public void setAdditionalProjectionVars(List<String> vars) {

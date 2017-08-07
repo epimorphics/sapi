@@ -1,0 +1,10 @@
+name      : list-exists-test 
+type      : list
+baseQuery : "?id a egn:NestTest ."
+nestedSelect : true
+view      :
+    - "rdf:type"
+    - "skos:notation"
+    - { "prop": "egn:group", optional: true }
+ 
+

@@ -143,6 +143,19 @@ public class SparqlQueryBuilder implements ListQueryBuilder {
     public ListQueryBuilder filter(ViewPath path, ViewMap map, Collection<RDFNode> values) {
         return filter(path.asVariableName(), values);
     }
+        
+    @Override
+    public ListQueryBuilder filterExists(ViewPath path, ViewMap map, boolean mustExist) {
+        return filter( filterExistsPattern( path.asVariableName(), mustExist ) );
+    }
+    
+    protected GraphPattern filterExistsPattern(String varname, boolean mustExist) {
+        String filterSpec =
+                mustExist ? String.format("FILTER(bound(?%s))", varname)
+                          : String.format("FILTER(!bound(?%s))", varname);
+        return new GraphPatternText(filterSpec);
+    }
+
     
     protected GraphPattern filterPattern(String varname, RDFNode value) {
         Var var = new Var( varname );
