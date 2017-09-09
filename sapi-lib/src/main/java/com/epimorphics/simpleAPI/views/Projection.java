@@ -96,19 +96,19 @@ public class Projection {
         
         protected String parsePath(StringTokenizer tokens) {
             if (tokens.hasMoreTokens()) {
-                String next = tokens.nextToken();
+                String next = tokens.nextToken().trim();
                 if (isDelim(next)) {
                     throw new EpiException("Illegal path");
                 } else {
                     Node child = getOrAddChild(next);
                     if (tokens.hasMoreTokens()) {
-                        next = tokens.nextToken();
+                        next = tokens.nextToken().trim();
                         if (next.equals(".")) {
                             next = child.parsePath(tokens);
                         } else if (next.equals("(")) {
                             next = child.parseSeq(tokens);
                             if (next == null || !next.equals(")")) throw new EpiException("Illegal path");
-                            next = (tokens.hasMoreTokens()) ? tokens.nextToken() : null;
+                            next = (tokens.hasMoreTokens()) ? tokens.nextToken().trim() : null;
                         }
                         return next;
                     }

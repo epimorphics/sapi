@@ -24,6 +24,7 @@ public class TestProjection {
         doParseTest("p.q.r",            "p.\n  q.\n    r\n");
         doParseTest("p.r,p(s,t.z),f.g", "p.\n  r\n  s\n  t.\n    z\nf.\n  g\n");
         doParseTest("p(r,a),p(s,t.z)",  "p.\n  r\n  a\n  s\n  t.\n    z\n");
+        doParseTest("p(r,a), p(s,t.z)",  "p.\n  r\n  a\n  s\n  t.\n    z\n");
     }
     
     private void doParseTest(String path, String expected) {
