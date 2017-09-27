@@ -95,10 +95,10 @@ public class GeojsonWriter {
         for (CSVMap.Entry entry : csvmap.getColumns()) {
             String key = entry.getHeader();
             Set<RDFNode> values = result.get( ViewPath.fromDotted(entry.getPath()) );
-            int size = values.size();
+            int size = values == null ? 0 : values.size();
             if (size == 0) {
                 // skip;
-            } if (size == 1) {
+            } else if (size == 1) {
                 RDFNode n = values.iterator().next();
                 JsonWriterUtil.writeSimpleNode(key, n, out, api, false);
             } else {
