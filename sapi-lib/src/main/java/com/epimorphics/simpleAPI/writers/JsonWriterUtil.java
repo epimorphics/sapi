@@ -11,9 +11,12 @@ package com.epimorphics.simpleAPI.writers;
 
 import java.util.List;
 
+import org.apache.jena.atlas.logging.Log;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.RDF;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.core.API;
@@ -31,6 +34,7 @@ import com.epimorphics.simpleAPI.views.ClassSpec;
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class JsonWriterUtil {
+    static final Logger log = LoggerFactory.getLogger( JsonWriterUtil.class );
 
     public static final String LANGUAGE_FIELD = "@language";
     public static final String VALUE_FIELD = "@value";
@@ -136,7 +140,12 @@ public class JsonWriterUtil {
                     writer.finishObject();
                 }
             } else {
-                Object jv = l.getValue();
+                Object jv = null;
+                try {
+                    jv = l.getValue();
+                } catch (Exception e) {
+                    log.warn("Error deserializing RDF object, defaulting to lexical form", e);
+                }
                 if (jv instanceof Number) {
                     if (lex.equals("NaN") || lex.contains("INF")) {
                         // legal in RDF and XSD but not legal in JSON, omit

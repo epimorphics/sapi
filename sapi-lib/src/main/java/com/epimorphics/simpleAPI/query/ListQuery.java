@@ -10,7 +10,7 @@
 package com.epimorphics.simpleAPI.query;
 
 /**
- * Base abstraction for an Lisdt query, might be a SPARQL describe or a NoSQL retrieve
+ * Base abstraction for a List query, might be a SPARQL describe or a NoSQL retrieve
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
