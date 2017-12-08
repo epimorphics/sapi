@@ -1,0 +1,5 @@
+name: compactView
+type: view
+view :
+    - "rdfs:label"
+    - "skos:notation"

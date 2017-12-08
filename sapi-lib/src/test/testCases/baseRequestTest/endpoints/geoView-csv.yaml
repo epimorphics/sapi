@@ -1,0 +1,13 @@
+name: geoview-csv
+type: view
+csvmap:
+  - "name" : "label"
+  - "sub" : "nested.label"
+view      :
+    - "rdfs:label"
+    - "skos:notation"
+    - prop: "egG:nested"
+      nested:
+        - "rdfs:label"
+    - "egG:geometry"
+geometryProp : "geometry"

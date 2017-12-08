@@ -306,8 +306,40 @@ public class TreeResult extends ResultBase implements Result {
             }
         }
         return clone;
-    }
+    }  
     
+    /**
+     * Return a copy of the tree with the value at the path omitted.
+     * Assumes that the path has a unique location within the tree.
+     * The copy will be deep enough to enable to value substitution but no deeper.
+     */
+    public TreeResult cloneWithout(ViewPath path) {
+        TreeResult clone = new TreeResult(call, id);
+        String firstStep = path.first();
+        for (String key : values.keySet()) {
+            Set<Object> kv = values.get(key);
+            if (key.equals(firstStep)) {
+                if ( path.isSingleton() ) {
+                    // Omit
+                } else if (kv.size() != 1) {
+                    throw new EpiException("Non-unique path in view clone");
+                } else {
+                    Object v = kv.iterator().next();
+                    if (v instanceof TreeResult) {
+                        clone.add(key, ((TreeResult)v).cloneWithout(path.rest()));
+                    } else {
+                        throw new EpiException("Path not present in view");
+                    }
+                }
+            } else {
+                for (Object v : kv) {
+                    clone.add(key, v);
+                }
+            }
+        }
+        return clone;
+    }
+
     /**
      * Return a set of cloned trees one with each of the values at the given path.
      * Returns a singleton containing this tree if the values are empty or there's just one.

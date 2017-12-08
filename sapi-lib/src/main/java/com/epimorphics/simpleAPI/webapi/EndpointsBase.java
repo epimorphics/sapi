@@ -37,25 +37,31 @@ import com.epimorphics.appbase.templates.VelocityRender;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
-import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.query.impl.NestedSparqlQueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlDataSource;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.simpleAPI.results.ResultOrStream;
+import com.epimorphics.simpleAPI.sapi2.Sapi2ItemEndpointSpec;
 import com.epimorphics.simpleAPI.util.LastModified;
+import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.views.ViewPath;
+import com.epimorphics.sparql.graphpatterns.GraphPattern;
 
 public class EndpointsBase {
     public static final String TURTLE = "text/turtle; charset=UTF-8";
     public static final String CSV = "text/csv; charset=UTF-8";
     public static final String JSONLD = "application/ld+json";
+    public static final String GEO_JSON = "application/geo+json";
     public static final String RDFXML = "application/rdf+xml";
     
     public static MediaType TURTLE_TYPE;
     public static MediaType CSV_TYPE;
     public static MediaType JSONLD_TYPE;
+    public static MediaType GEO_JSON_TYPE;
     public static MediaType RDFXML_TYPE;
     public static  List<Variant> nonHtmlVariants;
     public static  List<Variant> htmlVariants;
@@ -73,6 +79,7 @@ public class EndpointsBase {
         TURTLE_TYPE = new MediaType("text", "turtle", nonPreferredUTF8);
         CSV_TYPE    = new MediaType("text", "csv", nonPreferredUTF8);
         JSONLD_TYPE = new MediaType("application", "ld+json", nonPreferred);
+        GEO_JSON_TYPE = new MediaType("application", "geo+json", nonPreferredUTF8);
         RDFXML_TYPE = new MediaType("application", "rdf+xml", nonPreferred);
         
         nonHtmlVariants = Variant.mediaTypes(
@@ -80,6 +87,7 @@ public class EndpointsBase {
                 TURTLE_TYPE,
                 RDFXML_TYPE,
                 JSONLD_TYPE,
+                GEO_JSON_TYPE,
                 CSV_TYPE).build();
         htmlVariants = Variant.mediaTypes( MediaType.TEXT_HTML_TYPE ).build();
     }
@@ -156,7 +164,7 @@ public class EndpointsBase {
         try {
             return getAPI().getCall(uriInfo, getRequest() );
         } catch (NotFoundException e) {
-            EndpointSpec defaultEndpoint = new SparqlEndpointSpec(getAPI());
+            EndpointSpec defaultEndpoint = new Sapi2ItemEndpointSpec(getAPI());
             return new Call(defaultEndpoint, getRequest());
         }
     }
@@ -233,7 +241,13 @@ public class EndpointsBase {
      */
     public void sort(Call call, String param, boolean down) {
         SparqlQueryBuilder builder = (SparqlQueryBuilder)call.getQueryBuilder();
-        call.setQueryBuilder( builder.sort(param, down) );
+        ViewMap view = call.getView();
+        ViewPath path = view.getTree().pathTo(param);
+        if (path != null) {
+            call.setQueryBuilder( builder.sort(path, view, down) );
+        } else {
+            throw new WebApiException(Status.BAD_REQUEST, "Did not recognize parameter to sort on: " + param);
+        }
     }
     
     /**
@@ -243,12 +257,39 @@ public class EndpointsBase {
     public void inject(Call call, String inject) {
         call.updateQueryBuilder( (QueryBuilder qb) -> ((SparqlQueryBuilder)qb).inject(inject) );
     }
-  
+    
     /**
      * Add a block of SPARQL BGP late in the query, especially useful for adding filters 
      * Prefixes in the query text will be expanded 
      */
     public void filter(Call call, String filter) {
+        call.updateQueryBuilder( (QueryBuilder qb) -> ((SparqlQueryBuilder)qb).filter(filter) );
+    }
+    
+    /**
+     * Add a block of SPARQL BGP late in the outer query, useful for retrieving
+     * additional values
+     */
+    public void extendQuery(Call call, String query) {
+        call.updateQueryBuilder( (QueryBuilder qb) -> 
+          qb instanceof NestedSparqlQueryBuilder 
+                  ? ((NestedSparqlQueryBuilder)qb).filterOuter(query)
+                  :  ((SparqlQueryBuilder)qb).filter(query) );
+    }
+    
+    /**
+     * Add a block of SPARQL BGP early in the query.
+     * Prefixes in the query text will be expanded 
+     */
+    public void inject(Call call, GraphPattern inject) {
+        call.updateQueryBuilder( (QueryBuilder qb) -> ((SparqlQueryBuilder)qb).inject(inject) );
+    }
+  
+    /**
+     * Add a block of SPARQL BGP late in the query, especially useful for adding filters 
+     * Prefixes in the query text will be expanded 
+     */
+    public void filter(Call call, GraphPattern filter) {
         call.updateQueryBuilder( (QueryBuilder qb) -> ((SparqlQueryBuilder)qb).filter(filter) );
     }
     

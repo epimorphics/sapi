@@ -47,12 +47,24 @@ public interface ListQueryBuilder extends QueryBuilder {
      */
     public ListQueryBuilder filter(ViewPath path, ViewMap map, Collection<RDFNode> values);
     
+    /**
+     * Add an exists filter constraint to the query
+     */
+    public ListQueryBuilder filterExists(ViewPath path, ViewMap map, boolean exists);
+    
     // TODO more generalized filters?
     
     /**
      * Add a sort directive to the query
+     * 
      */
     public ListQueryBuilder sort(String shortname, boolean down);
+    
+    /**
+     * Add a sort directive to the query
+     * Use ViewPath version of the call for preference but there are situations where this is the only approach.
+     */
+    public ListQueryBuilder sort(ViewPath path, ViewMap map, boolean down);
     
     /**
      * Set a paging window on the query results

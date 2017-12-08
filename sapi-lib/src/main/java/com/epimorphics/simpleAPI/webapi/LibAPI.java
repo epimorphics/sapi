@@ -10,7 +10,9 @@
 package com.epimorphics.simpleAPI.webapi;
 
 import javax.json.JsonArray;
+import javax.json.JsonNumber;
 import javax.json.JsonObject;
+import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -71,6 +73,15 @@ public class LibAPI extends ComponentBase implements LibPlugin {
                 result.add( asWJSON(v) );
             }
             return result;
+        } else if ( value instanceof JsonNumber ) {
+            JsonNumber num = (JsonNumber)value;
+            if (num.isIntegral()) {
+                return num.longValue();
+            } else {
+                return num.bigDecimalValue();
+            }
+        } else if ( value instanceof JsonString ) {
+            return ((JsonString)value).getString();
         } else {
             return value;
         }

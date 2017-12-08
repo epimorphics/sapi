@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResourceFactory;
 
 import com.epimorphics.rdfutil.TypeUtil;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.util.NameUtils;
@@ -38,10 +39,10 @@ public class FilterRequestProcessor implements RequestProcessor {
                     ViewPath path = view.pathTo(parameter);
                     if (path != null) {
                         // A legal filter
-                        ViewEntry entry = view.findEntry(path);
+                        PropertySpec entry = view.findEntry(path);
                         if (entry != null && entry.isFilterable()) {
                             request.consume(parameter);
-                            String type = entry.getTypeURI();
+                            String type = entry.getRange();
                             if (type != null) {
                                 type = spec.getPrefixes().expandPrefix(type);
                             }
@@ -73,11 +74,17 @@ public class FilterRequestProcessor implements RequestProcessor {
     }
     
     private static RDFNode asValue(String value, String type, String valueBase) {
-        if (valueBase != null && ! NameUtils.isURI(value)) {
-            value = NameUtils.ensureLastSlash(valueBase) + value;
+        boolean isIRI = NameUtils.isURI(value);
+        if (!isIRI && valueBase != null) { 
+            value = valueBase + value;
+            isIRI = true;
         }
-        // TODO have a configurable default language, currently this will default to "@en"
-        return TypeUtil.asTypedValue(value, type);
+        if (isIRI) {
+            return ResourceFactory.createResource(value);
+        } else {
+            // TODO have a configurable default language, currently this will default to "@en"
+            return TypeUtil.asTypedValue(value, type);
+        }
     }
     
 }

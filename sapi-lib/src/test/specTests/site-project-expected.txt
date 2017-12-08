@@ -1,0 +1,7 @@
+Class null(<http://www.w3.org/ns/org#Site>)
+  label(<http://www.w3.org/2000/01/rdf-schema#label>) filterable optional
+  siteAddress(<http://www.w3.org/ns/org#siteAddress>) filterable
+    Class null(<http://www.w3.org/2006/vcard/ns#Address>)
+      locality(<http://www.w3.org/2006/vcard/ns#locality>) filterable
+      postal_code(<http://www.w3.org/2006/vcard/ns#postal-code>) filterable
+

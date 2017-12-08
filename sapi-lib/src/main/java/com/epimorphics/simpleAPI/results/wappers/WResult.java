@@ -25,9 +25,9 @@ import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.results.RDFResult;
 import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.TreeResult;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
-import com.epimorphics.simpleAPI.views.ViewTree;
+import com.epimorphics.simpleAPI.views.ClassSpec;
 import com.epimorphics.util.EpiException;
 
 /**
@@ -68,12 +68,12 @@ public class WResult {
         return wrap(result, view == null ? null : view.getTree(), spec.getAPI());
     }
     
-    protected static WJSONObject wrap(TreeResult result, ViewTree tree, API api) {
+    protected static WJSONObject wrap(TreeResult result, ClassSpec tree, API api) {
         WJSONObject w = new WJSONObject();
         w.put(ID_FIELD, result.getStringID());
         for (String key : result.getKeys()) {
             List<Object> values = result.getSortedValues(key);
-            ViewEntry policy = null;
+            PropertySpec policy = null;
             if (tree != null) {
                 policy = tree.getEntry(key);
             }
@@ -95,11 +95,11 @@ public class WResult {
     }
 
 
-    protected static Object wrap(ViewTree tree, ViewEntry policy, API api, String key, Object value) {
+    protected static Object wrap(ClassSpec tree, PropertySpec policy, API api, String key, Object value) {
         if (value instanceof Result) {
-            ViewTree ntree = null;
+            ClassSpec ntree = null;
             if (tree != null) {
-                ViewEntry entry = tree.getEntry(key);
+                PropertySpec entry = tree.getEntry(key);
                 if (entry != null) {
                     ntree = entry.getNested();
                 }

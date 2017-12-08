@@ -7,3 +7,4 @@
 @prefix api:  <http://purl.org/linked-data/api/vocab#>
 @prefix eg:   <http://localhost/example/> .
 @prefix egn:  <http://localhost/exampleNested/> .
+@prefix egG:  <http://localhost/exampleGeo/> .

@@ -1,0 +1,8 @@
+name      : list-with-no-exclusion 
+type      : list
+baseQuery : "?id a egn:NestTest ."
+nestedSelect : true
+view      :
+    - "rdf:type"
+    - "skos:notation"
+

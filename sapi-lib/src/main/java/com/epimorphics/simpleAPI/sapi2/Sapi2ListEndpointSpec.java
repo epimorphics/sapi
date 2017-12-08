@@ -7,8 +7,9 @@
  *
  *****************************************************************/
 
-package com.epimorphics.simpleAPI.endpoints.impl;
+package com.epimorphics.simpleAPI.sapi2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.epimorphics.simpleAPI.core.API;
@@ -16,6 +17,8 @@ import com.epimorphics.simpleAPI.endpoints.ListEndpointSpec;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.NestedSparqlQueryBuilder;
 import com.epimorphics.simpleAPI.query.impl.SparqlQueryBuilder;
+import com.epimorphics.simpleAPI.requests.Request;
+import com.epimorphics.simpleAPI.requests.RequestProcessor;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.sparql.query.Distinction;
 import com.epimorphics.sparql.query.QueryShape;
@@ -25,20 +28,21 @@ import com.epimorphics.sparql.query.QueryShape;
  * 
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
-public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEndpointSpec {
+public class Sapi2ListEndpointSpec extends Sapi2BaseEndpointSpec implements ListEndpointSpec {
     protected Long softLimit;
     protected Long hardLimit;
-    protected boolean useNestedSelect = false;
+    protected boolean useNestedSelect = true;
     protected boolean useDistinct = false;
     protected List<String> additionalProjectionVars = null;
+    protected List<RequestProcessor> requestProcessors = new ArrayList<>();
     
-    public SparqlListEndpointSpec(API api) {
+    public Sapi2ListEndpointSpec(API api) {
         super(api);
     }
     
-    @Override public QueryBuilder getQueryBuilder(String viewname) {
+    @Override public QueryBuilder getQueryBuilder(String viewname, Request request) {
         ViewMap view = getView(viewname);
-        QueryShape base = getBaseQuery().copy();
+        QueryShape base = getBaseQuery(request);
         if (useDistinct) {
             base.setDistinction(Distinction.DISTINCT);
         }
@@ -113,6 +117,16 @@ public class SparqlListEndpointSpec extends SparqlEndpointSpec implements ListEn
     public void setUseDistinct(boolean useDistinct) {
         this.useDistinct = useDistinct;
     }
-        
     
+    /**
+     * Local endpoint-specific request processor
+     */
+    public void addRequestProcessor(RequestProcessor processor) {
+        requestProcessors.add(processor);
+    }
+
+    public List<RequestProcessor> getRequestProcessors() {
+        return requestProcessors;
+    }
+          
 }

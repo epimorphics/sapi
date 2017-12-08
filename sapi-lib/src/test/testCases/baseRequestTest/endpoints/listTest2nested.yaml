@@ -1,0 +1,21 @@
+name      : listTest2nested
+type      : list
+baseQuery : "?id a skos:Concept ."
+template  : test.vm
+nestedSelect : true
+views :
+  default :
+    - "rdfs:label"
+    - "skos:notation"
+    - "eg:group"
+    - prop : "skos:narrower"
+      valueBase : "http://localhost/example/"
+      nested :
+        - "rdfs:label"
+        - "skos:notation"
+        - "eg:group"
+  compact : compactView
+  expanded : expandedView
+ 
+ 
+

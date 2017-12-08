@@ -9,6 +9,8 @@
 
 package com.epimorphics.simpleAPI.core;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import com.epimorphics.appbase.monitor.ConfigInstance;
 
 /**
@@ -17,8 +19,15 @@ import com.epimorphics.appbase.monitor.ConfigInstance;
  * @author <a href="mailto:dave@epimorphics.com">Dave Reynolds</a>
  */
 public class ConfigItem implements ConfigInstance {
+    protected static AtomicLong versionCount = new AtomicLong(0);
+    
     protected String name;
+    protected long version;
 
+    public ConfigItem() {
+        version = versionCount.incrementAndGet();
+    }
+    
     @Override
     public String getName() {
         return name;
@@ -28,4 +37,11 @@ public class ConfigItem implements ConfigInstance {
         this.name = name;
     }
     
+    public long getVersion() {
+        return version;
+    }
+    
+    public boolean hasChangedFrom(ConfigItem current) {
+        return current == null || version != current.getVersion();
+    }
 }

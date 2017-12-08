@@ -18,13 +18,14 @@ import java.util.Map;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.UriInfo;
 
+import com.epimorphics.appbase.monitor.ConfigInstance;
 import com.epimorphics.appbase.monitor.ConfigMonitor;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.Request;
 import com.epimorphics.webapi.dispatch.TemplateSet;
 
-public class SpecMonitor extends ConfigMonitor<ConfigItem> {
+public class SpecMonitor extends ConfigMonitor<ConfigInstance> {
     protected API api;
     protected TemplateSet<EndpointSpec> endpoints = new TemplateSet<>();
     
@@ -33,8 +34,8 @@ public class SpecMonitor extends ConfigMonitor<ConfigItem> {
     }
 
     @Override
-    protected Collection<ConfigItem> configure(File file) {
-        ConfigItem item = ConfigSpecFactory.read(api, file.getPath());
+    protected Collection<ConfigInstance> configure(File file) {
+        ConfigInstance item = ConfigSpecFactory.read(api, file.getPath());
         if (item == null) {
             return Collections.emptyList();
         } else {
@@ -43,7 +44,7 @@ public class SpecMonitor extends ConfigMonitor<ConfigItem> {
     }
     
     @Override
-    protected void doAddEntry(ConfigItem entry) {
+    protected void doAddEntry(ConfigInstance entry) {
         super.doAddEntry(entry);
         if (entry instanceof EndpointSpec) {
             EndpointSpec ep = (EndpointSpec)entry;
@@ -54,7 +55,7 @@ public class SpecMonitor extends ConfigMonitor<ConfigItem> {
     }
 
     @Override
-    protected void doRemoveEntry(ConfigItem entry) {
+    protected void doRemoveEntry(ConfigInstance entry) {
         super.doRemoveEntry(entry);
         if (entry instanceof EndpointSpec) {
             EndpointSpec ep = (EndpointSpec)entry;

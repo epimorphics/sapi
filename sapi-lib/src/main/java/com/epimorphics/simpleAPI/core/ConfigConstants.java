@@ -19,6 +19,7 @@ public class ConfigConstants {
     public static final String TYPE_ITEM = "item";
     public static final String TYPE_LIST = "list";
     public static final String TYPE_VIEW = "view";
+    public static final String TYPE_MODEL = "model";
     public static final String NAME      = "name";
     public static final String ITEM_NAME = "itemName";   // Supports documentation
     
@@ -29,6 +30,7 @@ public class ConfigConstants {
     public static final String VIEW      = "view";
     public static final String VIEWS     = "views";
     public static final String CSVMAP    = "csvmap";
+    public static final String GEOM_PROP = "geometryProp";
     
     public static final String TEMPLATE  = "template";
     
@@ -45,6 +47,9 @@ public class ConfigConstants {
     public static final String NESTED_SELECT = "nestedSelect";
     public static final String NESTED_SELECT_VARS = "nestedSelectVars";
     public static final String DISTINCT    = "distinct"; 
+    public static final String ALIAS       = "alias"; 
+    public static final String PROCESSORS  = "processors"; 
+    public static final String BINDINGS    = "bindings"; 
     
     public static final String PROPERTY    = "prop";
     public static final String OPTIONAL    = "optional";
@@ -53,9 +58,16 @@ public class ConfigConstants {
     public static final String COMMENT     = "comment";
     public static final String FILTERABLE  = "filterable";
     public static final String PROP_TYPE   = "type";
+    public static final String RANGE       = "range";   // Alias for type
     public static final String VALUE_BASE  = "valueBase";
     public static final String SUPPRESSID  = "suppressID";
     public static final String HIDE        = "hide";
+    public static final String EXCLUDE     = "excludeValue";
+    
+    public static final String CLASS       = "class";
+    public static final String CLASSES     = "classes";
+    public static final String URI         = "uri";
+    public static final String PROPERTIES  = "properties";
     
     public static final String GEO           = "geoSearch";
     public static final String GEO_PARAMETER = "parameter";
@@ -68,4 +80,8 @@ public class ConfigConstants {
     
     public static final String ROOT_VAR    = "id";
     
+    public static final String DEFAULT_MODEL    = "defaultModel";
+    public static final String MVIEW_PROJECTION = "projection";
+    public static final String MVIEW_MODEL      = "model";
+    public static final String MVIEW_CLASS      = "class";
 }

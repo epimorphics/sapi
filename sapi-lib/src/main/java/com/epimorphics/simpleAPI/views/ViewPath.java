@@ -11,7 +11,7 @@ package com.epimorphics.simpleAPI.views;
 
 import java.util.LinkedList;
 import java.util.List;
-
+import static com.epimorphics.simpleAPI.core.ConfigConstants.ROOT_VAR;
 import static java.util.stream.Collectors.*;
 
 /**
@@ -115,6 +115,9 @@ public class ViewPath {
      * Return the path as a variable name in a query using "_" to join path elements and "__" to escape "_" in segment names
      */
     public String asVariableName() {
+        if (isEmpty()) {
+            return ROOT_VAR;
+        }
         return path.stream().map(s -> s.replace("_", "__")).collect(joining("_"));
     }
     

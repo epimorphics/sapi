@@ -9,14 +9,19 @@
 
 package com.epimorphics.simpleAPI.requests;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MultivaluedMap;
@@ -32,6 +37,8 @@ import com.epimorphics.appbase.templates.URLBuilder;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.util.EpiException;
+import com.epimorphics.util.NameUtils;
 
 /**
  * Encapsulates a query request, whether from query parameters, path parameters
@@ -44,8 +51,10 @@ public class Request {
     
     public static final String BINDING_KEY_URI = "uri";   // base URI as a string
     public static final String BINDING_KEY_URL = "url";   // full URL, with query, as a builder
+    public static final String BINDING_KEY_ROOT = "root";   // server-relative root URI based on configured base not context path so works behind a proxy
     public static final String BINDING_KEY_REQUEST = "request";
-    public static final String BINDING_KEY_BASEURI = "baseURI";
+    
+    public static final int MAX_FILENAME_LENGTH = 128;
     
     protected String requestedURI;
     protected String fullRequestedURI;
@@ -311,7 +320,6 @@ public class Request {
                 safeAddRenderBinding(parameter, values);
             }
         }
-        safeAddRenderBinding(BINDING_KEY_URI, getRequestedURI());
         return bindings;
     }
     
@@ -329,6 +337,72 @@ public class Request {
         }
         return viewname;
     }
+    
+    /**
+     * Return a representation of the request suitable for use in a file name for naming downloads.
+     */
+    public String asFilename() {
+        List<String> parameters = new ArrayList<>( getParameters() );
+        Collections.sort(parameters);
+        StringBuffer fn = new StringBuffer();
+        boolean started = false;
+        for (String p : parameters) {
+            boolean skip = false;
+            if ( p.startsWith("_") ) {
+                skip = true;
+                // Mostly ignore this but some special cases to let through
+                for (String ok : ALLOWED_PARAMS) {
+                    if (ok.equals(p) ) {
+                        skip = false;
+                        break;
+                    }
+                }
+            }
+            if (skip) continue;
+
+            if (started) {
+                fn.append("-");
+            } else {
+                started = true;
+            }
+            fn.append(p);
+            List<String> values = new ArrayList<>( get(p) );
+            Collections.sort(values);
+            for (String value : values) {
+                fn.append("-");
+                fn.append( NameUtils.safeName(value) );
+            }
+        }
+        
+        // If too long replace by a digest
+        String filename = fn.toString();
+        if (filename.length() > MAX_FILENAME_LENGTH) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.update( filename.getBytes() );
+                byte[] byteData = md.digest();
+                StringBuffer hexString = new StringBuffer();
+                for (int i=0; i<byteData.length; i++) {
+                    String hex=Integer.toHexString( 0xff & byteData[i] );
+                    if( hex.length()==1 ) hexString.append('0');
+                    hexString.append(hex);
+                }
+                filename = hexString.toString();
+            } catch (NoSuchAlgorithmException e) {
+                // can't happen
+                throw new EpiException(e);
+            }
+        }
+        
+        // Prepend the request final segment
+        String base = NameUtils.stripLastSlash(requestedURI);
+        int split = base.lastIndexOf('/');
+        if (split != -1) {
+            base = base.substring(split+1);
+        }
+        return base + "-" + filename;
+    }
+    protected static final String[] ALLOWED_PARAMS = { "_view", "_limit", "_offset"};
 
     /**
      * Construct a request object from the URI, query and path parameters in a jersey call
@@ -337,32 +411,46 @@ public class Request {
         String requestedURI = api.getBaseURI() + uriInfo.getPath();
         Request request = new Request(requestedURI, uriInfo.getQueryParameters());
         request.addAll(uriInfo.getPathParameters());
-        if (servletRequest != null) {
-            request.addRenderBinding(BINDING_KEY_REQUEST, servletRequest);
-            String fullURL = servletRequest.getRequestURI();
-            if ( servletRequest.getQueryString() != null ) {
-                fullURL += "?" + servletRequest.getQueryString();
-            }
-            request.addRenderBinding(BINDING_KEY_URL, new URLBuilder(fullURL));
-        }
-        String baseURI = api.getBaseURI();
-        if (uriInfo != null && uriInfo.getBaseUri() != null) {
-            String requestBase = uriInfo.getBaseUri().toString();
-            if ( requestBase.contains("http://localhost") ) {
-                // Use configured base URI unless the request is a localhost (for which we assume this is a test situation)
-                baseURI = requestBase;
-            }
-        }
-        request.addRenderBinding(BINDING_KEY_BASEURI, baseURI);
         
         String rawRequest = uriInfo.getRequestUri().toString();
         if (rawRequest.contains("?")) {
             String query = rawRequest.substring( rawRequest.indexOf('?') );
             request.setFullRequestedURI( requestedURI + query );
         }        
+
+        // Set up URL  bindings for html rendering support
+        
+        // The full requested URI plus all query
+        request.addRenderBinding(BINDING_KEY_URI, requestedURI);
+        
+        // The server-relative root, as configured by API so works even if proxied to different context path
+        String root = asLocal( api.getBaseURI() );
+        root = root.substring(0, root.length()-1);
+        request.addRenderBinding(BINDING_KEY_ROOT, root);
+        
+        // The raw servlet request
+        if (servletRequest != null) {
+            request.addRenderBinding(BINDING_KEY_REQUEST, servletRequest);
+            String url = asLocal(requestedURI);
+            if ( servletRequest.getQueryString() != null ) {
+                url += "?" + servletRequest.getQueryString();
+            }
+            request.addRenderBinding(BINDING_KEY_URL, new URLBuilder(url));
+        }
+        
         return request;
     }
 
+    protected static Pattern BASEPATTERN = Pattern.compile("https?://[^/]*(/.*)");
+    protected static String asLocal(String uri) {
+        Matcher m = BASEPATTERN.matcher( uri );
+        if (m.matches()) {
+            return m.group(1);
+        } else {
+            return uri;
+        }
+    }
+    
     /**
      * Construct a request object a jersey call plus a json object (probably passed in to a POST request).
      * Assumes no nesting of the json object

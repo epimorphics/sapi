@@ -34,7 +34,6 @@ import org.junit.Test;
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
-import com.epimorphics.simpleAPI.endpoints.impl.SparqlListEndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.query.ItemQuery;
 import com.epimorphics.simpleAPI.query.ListQuery;
@@ -45,8 +44,9 @@ import com.epimorphics.simpleAPI.results.wappers.WJSONArray;
 import com.epimorphics.simpleAPI.results.wappers.WJSONLangString;
 import com.epimorphics.simpleAPI.results.wappers.WJSONObject;
 import com.epimorphics.simpleAPI.results.wappers.WResult;
+import com.epimorphics.simpleAPI.sapi2.Sapi2ListEndpointSpec;
 import com.epimorphics.simpleAPI.util.JsonComparator;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.writers.CSVWriter;
 import com.epimorphics.util.Asserts;
@@ -69,7 +69,7 @@ public class TestResultBasics {
 
     @Test
     public void testSimpleResultStream() {
-        SparqlListEndpointSpec spec = (SparqlListEndpointSpec) api.getSpec("listTest1");
+        Sapi2ListEndpointSpec spec = (Sapi2ListEndpointSpec) api.getSpec("listTest1");
         assertNotNull(spec);
         assertNotNull(spec.getQueryBuilder());
         assertNotNull(spec.getView());
@@ -85,7 +85,7 @@ public class TestResultBasics {
         assertFalse( stream.hasNext() );
         
         // Case with nesting
-        spec = (SparqlListEndpointSpec) api.getSpec("listTest2");
+        spec = (Sapi2ListEndpointSpec) api.getSpec("listTest2");
         assertNotNull(spec);
         builder = (ListQueryBuilder) spec.getQueryBuilder();
         query = builder.sort("notation", false).build();
@@ -264,7 +264,7 @@ public class TestResultBasics {
     public void testNameGuards() {
         Call call = api.getCall("listVCardTest", new MockUriInfo("test"), null);
         ViewMap view = call.getView();
-        ViewEntry entry = view.findEntry("address");
+        PropertySpec entry = view.findEntry("address");
         assertNotNull(entry);
         assertEquals("address", entry.getJsonName());
         assertEquals( "http://www.w3.org/2006/vcard/ns#extended-address", entry.getProperty().getURI() );

@@ -1,0 +1,9 @@
+Class null(<http://www.w3.org/ns/org#Organization>)
+  classification(<http://www.w3.org/ns/org#classification>) filterable
+    Class null(<http://www.w3.org/2004/02/skos/core#Concept>)
+      prefLabel(<http://www.w3.org/2004/02/skos/core#prefLabel>) filterable optional
+
+  hasMember(<http://www.w3.org/ns/org#hasMember>) filterable multi
+    Class null(<http://xmlns.com/foaf/0.1/Agent>)
+      name(<http://xmlns.com/foaf/0.1/name>) filterable
+

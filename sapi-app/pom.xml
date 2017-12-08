@@ -10,7 +10,7 @@
     <dependency>
     	<groupId>com.epimorphics</groupId>
       <artifactId>sapi-lib</artifactId>
-      <version>2.2.0</version>
+      <version>3.1.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -39,7 +39,7 @@
   <parent>
 	  <groupId>com.epimorphics</groupId>
     <artifactId>sapi</artifactId>
-    <version>2.2.0</version>
+    <version>3.1.0-SNAPSHOT</version>
   </parent>
 
 </project>

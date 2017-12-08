@@ -27,7 +27,9 @@ import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.sparql.graphpatterns.And;
 import com.epimorphics.sparql.graphpatterns.GraphPattern;
 import com.epimorphics.sparql.graphpatterns.GraphPatternText;
+import com.epimorphics.sparql.graphpatterns.Optional;
 import com.epimorphics.sparql.query.As;
+import com.epimorphics.sparql.query.Order;
 import com.epimorphics.sparql.query.QueryShape;
 import com.epimorphics.sparql.templates.Settings;
 import com.epimorphics.sparql.terms.Var;
@@ -74,6 +76,13 @@ public class NestedSparqlQueryBuilder extends SparqlQueryBuilder {
         return pathAndFilter(path, map, filterPattern(path.asVariableName(), values));
     }
     
+    @Override
+    public ListQueryBuilder filterExists(ViewPath path, ViewMap map, boolean mustExist) {
+        GraphPattern pathPattern = new Optional( map.patternForPath(path) );
+        GraphPattern merged = new And( pathPattern, filterExistsPattern( path.asVariableName(), mustExist ) );
+        return updateQuery( query.copy().addLaterPattern(merged) );
+    }
+    
     public void setAdditionalProjectionVars(List<String> vars) {
         additionalProjectionVars = vars;
     }
@@ -84,6 +93,15 @@ public class NestedSparqlQueryBuilder extends SparqlQueryBuilder {
         return updateQuery( query.copy().addLaterPattern(merged) );
     }
     
+    @Override public ListQueryBuilder sort(ViewPath path, ViewMap map, boolean down) {
+        Order sc = (down ? Order.DESC : Order.ASC);
+        QueryShape q = query.copy().addOrder(sc, new Var(path.asVariableName()));
+        if ( ! path.isEmpty() ) {
+            GraphPattern pathPattern = map.patternForPath(path);
+            q.addLaterPattern(pathPattern);
+        }
+        return updateQuery( q );
+    }
     
     /**
      * Insert an arbitrary sparql query string in the filter position of the outer query

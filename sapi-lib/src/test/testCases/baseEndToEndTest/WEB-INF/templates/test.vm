@@ -1,7 +1,6 @@
 Test template
 uri = $uri
 _sort = $_sort
-baseURI = $baseURI
 #foreach($result in $results)
   #set($result = $result.asJson())
 Resource: $result.uRI

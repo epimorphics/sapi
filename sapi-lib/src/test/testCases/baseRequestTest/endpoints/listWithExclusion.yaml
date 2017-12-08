@@ -1,0 +1,8 @@
+name      : list-with-exclusion 
+type      : list
+baseQuery : "?id a egn:NestTest ."
+nestedSelect : true
+view      :
+    - {prop: "rdf:type", excludeValue: "egn:NestTestAlt"}
+    - "skos:notation"
+

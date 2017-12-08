@@ -9,6 +9,8 @@
 
 package com.epimorphics.simpleAPI.core;
 
+import static com.epimorphics.simpleAPI.core.ConfigConstants.DEFAULT_MODEL;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -32,17 +34,17 @@ import com.epimorphics.appbase.core.AppConfig;
 import com.epimorphics.appbase.core.ComponentBase;
 import com.epimorphics.appbase.core.GenericConfig;
 import com.epimorphics.appbase.core.Startup;
+import com.epimorphics.appbase.monitor.ConfigInstance;
 import com.epimorphics.json.JSFullWriter;
-import com.epimorphics.simpleAPI.endpoints.impl.SparqlEndpointSpec;
+import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.DataSource;
 import com.epimorphics.simpleAPI.requests.Call;
-import com.epimorphics.simpleAPI.requests.FilterRequestProcessor;
-import com.epimorphics.simpleAPI.requests.LimitRequestProcessor;
 import com.epimorphics.simpleAPI.requests.Request;
-import com.epimorphics.simpleAPI.requests.RequestProcessor;
-import com.epimorphics.simpleAPI.requests.SortRequestProcessor;
+import com.epimorphics.simpleAPI.sapi2.BaseEngine;
+import com.epimorphics.simpleAPI.sapi2.Sapi2BaseEndpointSpec;
 import com.epimorphics.simpleAPI.util.LastModified;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.ModelSpec;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.sparql.terms.URI;
 import com.epimorphics.util.NameUtils;
@@ -82,22 +84,13 @@ public class API extends ComponentBase implements Startup {
     protected boolean showLang = false;
     protected String showOnlyLang;
     protected boolean fullPathsInCSVHeaders = false;
+    protected boolean generateCSVfilenames = false;
     
     protected GenericConfig configExtensions = new GenericConfig();
     
-    protected List<RequestProcessor> requestProcessors = new ArrayList<>();
-    protected List<RequestProcessor> allRequestProcessors;
-    
     protected LastModified timestampService;
     
-    // Configure built in standard request handlers here
-    protected static final RequestProcessor[] standardRequestProcessors = new RequestProcessor[] {
-//            new GeoRequestProcessor(),
-//            new SearchRequestProcessor(),
-            new FilterRequestProcessor(),
-            new SortRequestProcessor(),
-            new LimitRequestProcessor()
-    };
+    protected Engine defaultEngine = new BaseEngine();
     
     // TODO review the supported formats
     public static final String[] supportedFormats = new String[]{"json", "csv", "rdf", "ttl"};
@@ -199,25 +192,25 @@ public class API extends ComponentBase implements Startup {
     
     // ---- Access to configurations ------------------------------------
 
-    public SparqlEndpointSpec getSpec(String name) {
+    public EndpointSpec getSpec(String name) {
         if (monitor != null){
-            ConfigItem item = monitor.get(name);
-            if (item instanceof SparqlEndpointSpec) {
-                return (SparqlEndpointSpec) item;
+            ConfigInstance item = monitor.get(name);
+            if (item instanceof EndpointSpec) {
+                return (EndpointSpec) item;
             }
         }
         return null;
     }
     
-    public List<SparqlEndpointSpec> listSpecs() {
-        return listConfigs(SparqlEndpointSpec.class);
+    public List<Sapi2BaseEndpointSpec> listSpecs() {
+        return listConfigs(Sapi2BaseEndpointSpec.class);
     }
     
     @SuppressWarnings("unchecked")
-    private <T> List<T> listConfigs(Class<T> cls) {
+    public <T> List<T> listConfigs(Class<T> cls) {
         List<T> list = new ArrayList<>();
         if (monitor != null){
-            for (ConfigItem ci : monitor.getEntries()) {
+            for (ConfigInstance ci : monitor.getEntries()) {
                 if (cls.isInstance(ci)) {
                     list.add( (T) ci);
                 }
@@ -228,14 +221,14 @@ public class API extends ComponentBase implements Startup {
 
     public ViewMap getView(String name) {
         if (monitor != null){
-            ConfigItem item = monitor.get(name);
+            ConfigInstance item = monitor.get(name);
             if (item instanceof ViewMap) {
                 return (ViewMap) item;
             }
         }
         return null;
     }
-    
+     
     public List<ViewMap> listViews() {
         return listConfigs(ViewMap.class);
     }
@@ -243,24 +236,24 @@ public class API extends ComponentBase implements Startup {
     /**
      * Return the default specification for how to render a given property.
      */
-    public ViewEntry getDefaultViewForURI(String uri) {
+    public PropertySpec getDefaultViewForURI(String uri) {
         ViewMap defview = getView(DEFAULT_VIEWNAME);
         if (defview != null) {
             return defview.findEntryByURI(uri);
         } else {
-            return new ViewEntry(new URI(uri));
+            return new PropertySpec(new URI(uri));
         }
     }
 
     /**
      * Return the default specification for how to render a given short name
      */
-    public ViewEntry getDefaultViewFor(String name) {
+    public PropertySpec getDefaultViewFor(String name) {
         ViewMap defview = getView(DEFAULT_VIEWNAME);
         if (defview != null) {
             return defview.findEntry(name);
         } else {
-            return new ViewEntry(name, null);
+            return new PropertySpec(name, null);
         }
     }
     
@@ -273,6 +266,45 @@ public class API extends ComponentBase implements Startup {
         }
     }
     
+    public ModelSpec getModel(String name) {
+        if (monitor != null){
+            ConfigInstance item = monitor.get(name);
+            if (item instanceof ModelSpec) {
+                return (ModelSpec) item;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Get the default ModelSpec which is either the only one or one explicitly
+     * called "defaultModel"
+     */
+    public ModelSpec getModel() {
+        if (monitor != null) {
+            ModelSpec model = null;
+            ModelSpec defModel = null;
+            boolean singleModel = true;
+            
+            for (ModelSpec m : listConfigs(ModelSpec.class)) {
+                if (m != null) {
+                    singleModel = false;
+                } else {
+                    model = m;
+                }
+                if (DEFAULT_MODEL.equals(m.getName())) {
+                    defModel = m;
+                }
+            }
+            if (defModel != null) {
+                return defModel;
+            } else if (singleModel) {
+                return model;
+            }
+        }
+        return null;
+    }
+ 
     /**
      * Set up a call based on a simple GET request. Looks up the endpoint in the 
      * register of templates and extracts the request parameters.
@@ -320,25 +352,17 @@ public class API extends ComponentBase implements Startup {
     public Call getCall(String endpoint, UriInfo uriInfo, HttpServletRequest servletRequest, String requestBody) {
         return getCall(endpoint, Request.from(this, uriInfo, servletRequest, requestBody));
     }
-    
-    // ---- Support for request processing handlers ------------------------------------
-    
-    public void setRequestProcessor(RequestProcessor processor) {
-        requestProcessors.add(processor);
+
+    public Engine getDefaultEngine() {
+        return defaultEngine;
     }
-    
-    public void setRequestProcessors(List<RequestProcessor> processors) {
-        requestProcessors.addAll(processors);
+
+    public void setDefaultEngine(Engine defaultEngine) {
+        this.defaultEngine = defaultEngine;
     }
-    
-    public List<RequestProcessor> getRequestProcessors() {
-        if (allRequestProcessors == null) {
-            allRequestProcessors = new ArrayList<>( requestProcessors );
-            for (RequestProcessor proc : standardRequestProcessors) {
-                allRequestProcessors.add(proc);
-            }
-        }
-        return allRequestProcessors;
+
+    public Engine getEngine(String name) {
+        return getApp().getComponentAs(name, Engine.class);
     }
     
     // ---- Monitor configurations ------------------------------------
@@ -562,7 +586,16 @@ public class API extends ComponentBase implements Startup {
         this.timestampService = timestampService;
     }
     
+    
     // ---- Internals -----------------------------------------------
+
+    public boolean isGenerateCSVfilenames() {
+        return generateCSVfilenames;
+    }
+
+    public void setGenerateCSVfilenames(boolean generateCSVfilenames) {
+        this.generateCSVfilenames = generateCSVfilenames;
+    }
 
     private void condOut(JSFullWriter out, String key, String value) {
         if (value != null) {

@@ -10,6 +10,7 @@
 package com.epimorphics.simpleAPI.requests;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import javax.ws.rs.NotFoundException;
@@ -33,7 +34,7 @@ import com.epimorphics.simpleAPI.query.ListQuery;
 import com.epimorphics.simpleAPI.query.Query;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.results.ResultOrStream;
-import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.util.NameUtils;
@@ -57,6 +58,7 @@ public class Call {
     public Call(EndpointSpec endpoint, Request request) {
         this.endpoint = endpoint;
         this.request = request;
+        initBindings();
     }
     
     public Call(API api, String endpointName, Request request) {
@@ -65,6 +67,15 @@ public class Call {
             throw new NotFoundException("Could not locate endpoint specification: " + endpointName);
         }
         this.request = request;
+        initBindings();
+    }
+    
+    protected void initBindings() {
+        for( Map.Entry<String, String> binding : endpoint.getBindings().entrySet() ) {
+            if ( ! request.hasParameter(binding.getKey()) ) {
+                request.add(binding.getKey(), binding.getValue());
+            }
+        }
     }
     
     public String toString() {
@@ -134,9 +145,9 @@ public class Call {
             if (path != null) {
                 // A legal filter
                 request.consume(parameter);
-                ViewEntry entry = view.findEntry(path);
+                PropertySpec entry = view.findEntry(path);
                 if (entry != null) {
-                    String type = entry.getTypeURI();
+                    String type = entry.getRange();
                     if (type != null) {
                         type = endpoint.getPrefixes().expandPrefix(type);
                     }

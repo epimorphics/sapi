@@ -25,11 +25,11 @@ import com.epimorphics.json.JsonUtil;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.core.ConfigConstants;
 import com.epimorphics.simpleAPI.core.ConfigItem;
+import com.epimorphics.simpleAPI.core.Engine;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
 import com.epimorphics.simpleAPI.query.ListQueryBuilder;
 import com.epimorphics.simpleAPI.query.QueryBuilder;
 import com.epimorphics.simpleAPI.requests.Request;
-import com.epimorphics.simpleAPI.requests.RequestProcessor;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.util.PrefixUtils;
 
@@ -50,8 +50,11 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     protected String itemName;
     protected String flattenPath;
     protected boolean suppressID;
-
+    protected Engine engine;
+    protected Map<String, String> bindings = new HashMap<>();
+    
     public EndpointSpecBase(API api) {
+        super();
         this.api = api;
     }
     
@@ -94,10 +97,19 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
         return views.keySet();
     }
 
+    @Override public QueryBuilder getQueryBuilder() {
+        return getQueryBuilder(DEFAULT_VIEWNAME);
+    }
+    
+
+    @Override public QueryBuilder getQueryBuilder(String view) {
+        return getQueryBuilder(view, null);
+    }
     
     @Override
-    public QueryBuilder getQueryBuilder(Request request) {    	
-        QueryBuilder builder = getQueryBuilder( request.getViewName() );
+    public QueryBuilder getQueryBuilder(Request request) {   
+        
+        QueryBuilder builder = getQueryBuilder( request.getViewName(), request );
         if (builder instanceof ListQueryBuilder) {
             return builder;
         } else {
@@ -105,21 +117,15 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
         }
     }
     
+    abstract public QueryBuilder getQueryBuilder(String name, Request request);
+    
     /**
      * Finalize a query builder by running the query processors
      * configured for this API (e.g. applying limits, generic filters, geoqueries etc)
      */
     @Override
     public QueryBuilder finalizeQueryBuilder( QueryBuilder builder, Request request ) {
-        if (builder instanceof ListQueryBuilder) {
-            ListQueryBuilder lbuilder = (ListQueryBuilder)builder;
-            for (RequestProcessor proc : api.getRequestProcessors()) {
-                lbuilder = proc.process(request, lbuilder, this);
-            }
-            return lbuilder;
-        } else {
-            return builder;
-        }
+        return getEngine().finalizeQueryBuilder(request, builder, this  );
     }
     
     /**
@@ -233,7 +239,24 @@ public abstract class EndpointSpecBase extends ConfigItem implements EndpointSpe
     public void setSuppressID(boolean suppressID) {
         this.suppressID = suppressID;
     }
-    
-    
 
+    public Engine getEngine() {
+        if (engine == null) {
+            engine = api.getDefaultEngine();
+        }
+        return engine;
+    }
+
+    public void setEngine(Engine engine) {
+        this.engine = engine;
+    }
+    
+    @Override
+    public Map<String, String> getBindings() {
+        return bindings;
+    }
+    
+    public void addBinding(String key, String value) {
+        bindings.put(key, value);
+    }
 }
