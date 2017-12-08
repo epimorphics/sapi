@@ -9,10 +9,15 @@
 
 package com.epimorphics.simpleAPI.webapi.marshalling;
 
+import static com.epimorphics.simpleAPI.webapi.EndpointsBase.CONTENT_DISPOSITION_FMT;
+import static com.epimorphics.simpleAPI.webapi.EndpointsBase.CONTENT_DISPOSITION_HEADER;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -26,11 +31,15 @@ import org.slf4j.LoggerFactory;
 
 import com.epimorphics.json.JSFullWriter;
 import com.epimorphics.simpleAPI.core.API;
+import com.epimorphics.simpleAPI.query.DataSource;
+import com.epimorphics.simpleAPI.query.impl.SparqlDataSource;
+import com.epimorphics.simpleAPI.requests.Call;
 import com.epimorphics.simpleAPI.requests.LimitRequestProcessor;
 import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.ResultOrStream;
 import com.epimorphics.simpleAPI.results.ResultStream;
 import com.epimorphics.simpleAPI.results.TreeResult;
+import com.epimorphics.simpleAPI.util.LastModified;
 import com.epimorphics.simpleAPI.writers.GeojsonWriter;
 
 @Provider
@@ -55,13 +64,34 @@ public class ResultStreamGeoJSON implements MessageBodyWriter<ResultStream> {
             Annotation[] annotations, MediaType mediaType) {
         return -1;
     }
-
+    
+    public static void injectFilename(ResultOrStream result, MultivaluedMap<String, Object> httpHeaders) {
+        Call call = result.getCall();
+        API api = call.getAPI();
+        if ( api.isGenerateCSVfilenames() ) {
+            String filename = call.getRequest().asFilename();
+            LastModified lm = api.getTimestampService();
+            if (lm != null) {
+                DataSource source = api.getSource();
+                if (source instanceof SparqlDataSource) {
+                    Long ts = lm.getTimestamp( (SparqlDataSource)source );
+                    if (ts != null) {
+                        filename += "-lastmod-" + new SimpleDateFormat("yyyyMMdd-HHmm").format( new Date(ts) );
+                    }
+                }
+            }
+            filename += ".geojson";
+            httpHeaders.add(CONTENT_DISPOSITION_HEADER, String.format(CONTENT_DISPOSITION_FMT, filename));    
+        }
+    }
+    
     @Override
     public void writeTo(ResultStream results, Class<?> type, Type genericType,
             Annotation[] annotations, MediaType mediaType,
             MultivaluedMap<String, Object> httpHeaders,
             OutputStream entityStream)
                     throws IOException, WebApplicationException {
+        injectFilename(results, httpHeaders);
         JSFullWriter out = new JSFullWriter(entityStream);
         GeojsonWriter writer = new GeojsonWriter(out);
         int count = 0;

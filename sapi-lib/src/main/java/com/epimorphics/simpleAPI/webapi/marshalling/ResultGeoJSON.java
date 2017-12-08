@@ -60,6 +60,7 @@ public class ResultGeoJSON implements MessageBodyWriter<Result> {
             MultivaluedMap<String, Object> httpHeaders,
             OutputStream entityStream)
                     throws IOException, WebApplicationException {
+        ResultStreamGeoJSON.injectFilename(result, httpHeaders);
         JSFullWriter out = new JSFullWriter(entityStream);
         GeojsonWriter writer = new GeojsonWriter(out);
         if (! (result instanceof TreeResult) ) {

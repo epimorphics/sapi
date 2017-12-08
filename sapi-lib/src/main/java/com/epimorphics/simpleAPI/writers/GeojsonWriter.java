@@ -102,6 +102,7 @@ public class GeojsonWriter {
                 RDFNode n = values.iterator().next();
                 JsonWriterUtil.writeSimpleNode(key, n, out, api, false);
             } else {
+                out.key(key);
                 out.startArray();
                 for (RDFNode n : values) {
                     JsonWriterUtil.writeSimpleNode(key, n, out, api, true);
