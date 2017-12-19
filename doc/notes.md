@@ -3,7 +3,7 @@
 ## Query construction cases
 
 Item endpoint
-Construct request API by removing context name and add base URI
+Construct request API by removing context name and register base URI
 
    * describe request URI (default)
 
@@ -37,7 +37,7 @@ List endpoint:
 
 ### Request URI -> query
 
-For item URI remove context name add base URI.
+For item URI remove context name register base URI.
 Expand to query (default describe, custom describe from config, construct)
 
 For list URI extract parameters from request (Jersey, general template)
