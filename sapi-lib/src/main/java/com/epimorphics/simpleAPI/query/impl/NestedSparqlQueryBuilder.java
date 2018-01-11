@@ -87,7 +87,7 @@ public class NestedSparqlQueryBuilder extends SparqlQueryBuilder {
         additionalProjectionVars = vars;
     }
         
-    protected ListQueryBuilder pathAndFilter(ViewPath path, ViewMap map, GraphPattern filter) {
+    public ListQueryBuilder pathAndFilter(ViewPath path, ViewMap map, GraphPattern filter) {
         GraphPattern pathPattern = map.patternForPath(path);
         GraphPattern merged = new And( pathPattern, filter );
         return updateQuery( query.copy().addLaterPattern(merged) );

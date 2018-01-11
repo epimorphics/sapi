@@ -85,6 +85,16 @@ public class TestRequestBasics {
     }
     
     @Test
+    public void testRangeFilter() {
+        TestUtil.testArray( getStringValues("listTest2", "notation", "group", "A", "minEx-notation", "2",  "_sort", "notation"), new String[] {"3", "4", "5"} );
+        TestUtil.testArray( getStringValues("listTest2", "notation", "group", "A", "min-notation", "2",  "_sort", "notation"), new String[] {"2", "3", "4", "5"} );
+        TestUtil.testArray( getStringValues("listTest2", "notation", "group", "A", "maxEx-notation", "2",  "_sort", "notation"), new String[] {"1"} );
+        TestUtil.testArray( getStringValues("listTest2", "notation", "group", "A", "max-notation", "2",  "_sort", "notation"), new String[] {"1", "2"} );
+
+        TestUtil.testArray( getStringValues("listTest2", "notation", "minEx-narrower.notation", "2",  "_sort", "notation"), new String[] {"3", "4", "5"} );
+    }
+    
+    @Test
     public void testNested() {
         assertEquals(10, getAndCount("listTest2nested"));
         assertEquals("A1", getFirstLabel("listTest2nested", "_sort", "label"));
