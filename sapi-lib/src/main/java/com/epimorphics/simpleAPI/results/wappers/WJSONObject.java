@@ -229,6 +229,7 @@ public class WJSONObject {
     @Override
     public String toString() {
         StringBuffer buf = new StringBuffer();
+        Object o = null;
         buf.append("{");
         boolean started = false;
         for (String key : properties.keySet()) {
@@ -239,7 +240,7 @@ public class WJSONObject {
             }
             buf.append(key);
             buf.append(": ");
-            buf.append( properties.get(key).toString() );
+            buf.append( (o = properties.get(key))==null ? "null" : o.toString() );
         }
         buf.append("}");
         return buf.toString();
