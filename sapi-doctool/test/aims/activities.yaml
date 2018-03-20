@@ -1,0 +1,9 @@
+name       : activitiesEndpoint
+type       : list
+url        : /asset-management/id/maintenance-activity
+query      : "?id a am-maint:Activity."
+textSearch: true
+view:
+  class:      "am-maint:Activity"
+  projection: "*,maintainedAsset(label,assetType,assetSubType),status.prefLabel,programme.label,activityType.prefLabel,activitySubType.prefLabel,hasRfcc.prefLabel,area.label,westminsterConstituency.label"
+

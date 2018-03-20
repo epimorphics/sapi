@@ -1,0 +1,154 @@
+type:    model
+name:    defaultModel
+
+prefixes:
+  rt:      http://environment.data.gov.uk/flood-monitoring/def/core/
+  core:    http://environment.data.gov.uk/reference/def/core/
+  skos:    http://www.w3.org/2004/02/skos/core#
+  geo:     http://www.w3.org/2003/01/geo/wgs84_pos#
+  xsd:     http://www.w3.org/2001/XMLSchema#
+  rdfs:    http://www.w3.org/2000/01/rdf-schema#
+  owl:     http://www.w3.org/2002/07/owl#
+  rdf:     http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  op:      http://environment.data.gov.uk/reference/def/op/
+  local:   http://localhost/def/
+  spatialrelations: http://data.ordnancesurvey.co.uk/ontology/spatialrelations/
+  am-core:   http://environment.data.gov.uk/asset-management/def/core/
+  def-eaorg: http://environment.data.gov.uk/water-quality/def/ea-org/
+  am-maint:  http://environment.data.gov.uk/asset-management/def/maintenance/
+  admingeo:  http://data.ordnancesurvey.co.uk/ontology/admingeo/
+  pg:       http://postgres.epimorphics.com/spatial#
+
+properties:
+  - prop:  rdf:type
+    multi: true
+    type:  rdf:Resource
+
+classes:
+  - class: "am-core:Asset"
+    properties:
+      - { prop: "rdfs:label", optional: true }
+      - { prop: "skos:notation", optional: true }
+      - { prop: "am-core:assetType", optional: true, type: "skos:Concept", valueBase: "http://environment.data.gov.uk/asset-management/def/core/" }
+      - { prop: "am-core:assetSubType", optional: true, type: "skos:Concept", valueBase: "http://environment.data.gov.uk/asset-management/def/core/" }
+      - { prop: "def-eaorg:area", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:primaryPurpose", optional: true, type: "skos:Concept", valueBase: "http://environment.data.gov.uk/asset-management/def/core/purpose/" }
+      - { prop: "am-core:secondaryPurpose", optional: true, type: "skos:Concept", multi: true, valueBase: "http://environment.data.gov.uk/asset-management/def/core/purpose/" }
+      - { prop: "am-core:bank", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:protectionType", optional: true, type: "skos:Concept", valueBase: "http://environment.data.gov.uk/asset-management/def/core/protection-type/" }
+      - { prop: "am-core:assetStartDate", optional: true, type: "xsd:date" }
+
+      - { prop: "am-core:managementUnit", optional: true, type: "am-core:ManagementUnit", valueBase: "http://environment.data.gov.uk/asset-management/id/management-unit"  }
+
+      - { prop: "am-core:targetCondition", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:actualCondition", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:calculatedCondition", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:worstCondition", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:manualOverrideCondition", optional: true, type: "skos:Concept" }
+
+      - { prop: "am-core:recommendation", optional: true }
+      - { prop: "am-core:urgency", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:lastInspectionDate", optional: true,  type: "xsd:date" }
+      - { prop: "am-core:yearLastRefurbished", optional: true, type: "xsd:year" }
+
+      - { prop: "am-core:assetLength", optional: true, type: "xsd:decimal" }
+      - { prop: "am-core:currentSop", optional: true, type: "xsd:decimal" }
+      - { prop: "am-core:designSop", optional: true, type: "xsd:decimal" }
+      - { prop: "am-core:currentSopDate", optional: true,  type: "xsd:date"  }
+      - { prop: "am-core:designUcl", optional: true, type: "xsd:decimal" }
+      - { prop: "am-core:actualUcl", optional: true, type: "xsd:decimal" }
+      - { prop: "am-core:designDcl", optional: true, type: "xsd:decimal" }
+      - { prop: "am-core:actualDcl", optional: true, type: "xsd:decimal" }
+      - { prop: "am-core:effectiveCl", optional: true, type: "xsd:decimal" }
+      - { prop: "am-core:toeLevel", optional: true, type: "xsd:decimal" }
+      - { prop: "am-core:invertLevel", optional: true, type: "xsd:decimal" }
+      - { prop: "am-core:structureHeight", optional: true, type: "xsd:decimal" }
+
+      - { prop: "am-core:spatialQualityFlag", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:designSopDqf", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:inspectionDataQualityFlag", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:includeInFloodMap", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:actualUclDqf", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:actualDclDqf", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:effectiveClDqf", optional: true, type: "skos:Concept" }
+      - { prop: "am-core:dataOwnerAssetRef", optional: true }
+      - { prop: "am-core:managementGroup", optional: true }
+#      - { prop: "am-maint:maintenanceActivity", optional: true, type: "am-maint:Activity", multi: true }
+      - { prop: "am-maint:maintenanceActivity", optional: true, type: "local:SimplifiedActivity", multi: true }
+      - prop: "admingeo:westminsterConstituency"
+        optional: true
+        nested:
+          - "rdfs:label"
+      - { prop: "am-core:geometry", external: true }
+
+  - class: "am-core:ManagementUnit"
+    properties:
+      - "rdfs:label"
+      - "skos:notation"
+      - { prop: "am-core:frmsId", optiona: true }
+      - { prop: "def-eaorg:area", optional: true, type: "skos:Concept" }
+
+  - class: "local:SimplifiedActivity"
+    properties:
+      - { prop: "am-maint:activityType", type: "skos:Concept", valueBase: "http://environment.data.gov.uk/asset-management/def/maintenance/activity-type/" }
+      - { prop: "am-maint:activitySubType", type: "skos:Concept", optional: true, valueBase: "http://environment.data.gov.uk/asset-management/def/maintenance/activity-type/" }
+      - { prop: "am-maint:activityDetail" }
+      - { prop: "am-maint:plannedStartMonth", optional: true, type: "xsd:gYearMonth" }
+      - { prop: "am-maint:plannedFinishMonth", optional: true, type: "xsd:gYearMonth" }
+      - { prop: "am-maint:actualStartMonth", optional: true, type: "xsd:gYearMonth" }
+      - { prop: "am-maint:actualFinishMonth", optional: true, type: "xsd:gYearMonth" }
+
+  - class: "am-maint:Activity"
+    properties:
+      - { prop: "am-maint:programme", optional: true, type:  "am-maint:Programme" }
+      - { prop: "skos:notation", optional: true }
+      - { prop: "am-maint:maintainedAsset", multi: true, type: "am-core:Asset", valueBase: "http://environment.data.gov.uk/asset-management/id/asset/" }
+      - { prop: "am-maint:status", type: "skos:Concept", optional: true }
+      - { prop: "am-maint:activityType", type: "skos:Concept", valueBase: "http://environment.data.gov.uk/asset-management/def/maintenance/activity-type/" }
+      - { prop: "am-maint:activitySubType", type: "skos:Concept", optional: true, valueBase: "http://environment.data.gov.uk/asset-management/def/maintenance/activity-type/" }
+      - { prop: "am-maint:activityDetail" }
+
+      - { prop: "am-maint:plannedStartMonth", optional: true, type: "xsd:gYearMonth" }
+      - { prop: "am-maint:plannedStartQuarter", optional: true }
+      - { prop: "am-maint:plannedFinishMonth", optional: true, type: "xsd:gYearMonth" }
+      - { prop: "am-maint:plannedFinishQuarter", optional: true }
+      - { prop: "am-maint:actualStartMonth", optional: true, type: "xsd:gYearMonth" }
+      - { prop: "am-maint:actualStartQuarter", optional: true }
+      - { prop: "am-maint:actualFinishMonth", optional: true, type: "xsd:gYearMonth" }
+      - { prop: "am-maint:actualFinishQuarter", optional: true }
+
+      - { prop: "am-maint:hasRfcc", optional: true, type: "skos:Concept" }
+      - { prop: "def-eaorg:area", optional: true, type: "skos:Concept" }
+      - prop: "admingeo:westminsterConstituency"
+        optional: true
+        nested:
+          - "rdfs:label"
+
+  - class: "am-maint:Programme"
+    properties:
+      - "rdfs:label"
+      - { prop: "am-maint:hasRfcc", optional: true, type: "skos:Concept" }
+      - { prop: "def-eaorg:area", optional: true, type: "skos:Concept" }
+      - prop: "admingeo:westminsterConstituency"
+        optional: true
+        nested:
+          - "rdfs:label"
+
+  - class: skos:Concept
+    properties:
+      - { prop: "skos:prefLabel", optional: true }
+      - { prop: "rdfs:label", optional: true }
+      - { prop: "skos:notation", optional: true }
+      - { prop: "dct:description", optional: true }
+      - { prop: "rdfs:comment", optional: true }
+      - { prop: "skos:broader", optional: true, type: "skos:Concept" }
+      - { prop: "skos:narrower", optional: true, type: "skos:Concept" }
+
+  - class: local:Area
+    properties:
+      - { prop: "rdf:type", multi: true }
+      - { prop: "skos:prefLabel", optional: true }
+      - { prop: "rdfs:label" }
+      - { prop: "skos:notation", optional: true }
+      - { prop: "dct:description", optional: true }
+

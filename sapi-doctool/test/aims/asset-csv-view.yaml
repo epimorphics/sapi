@@ -1,0 +1,40 @@
+name: asset-csv-view
+type: view
+view:
+  class:      "am-core:Asset"
+  projection: "label,notation,assetType.prefLabel,assetSubType.prefLabel,area.label,primaryPurpose.prefLabel,secondaryPurpose.prefLabel,bank.prefLabel,protectionType.label,assetStartDate,managementUnit.label,targetCondition.prefLabel,actualCondition.prefLabel,calculatedCondition.prefLabel,worstCondition.prefLabel,manualOverrideCondition.prefLabel,recommendation,urgency.prefLabel,lastInspectionDate,yearLastRefurbished,assetLength,currentSop,designSop,designUcl,actualUcl,designDcl,actualDcl,effectiveCl,toeLevel,invertLevel,structureHeight,geometry,maintenanceActivity(activityType,activitySubType,activityDetail)"
+csvmap:
+  - label               : label
+  - notation            : notation
+  - assetType           : "assetType.prefLabel"
+  - assetSubType        : "assetSubType.prefLabel"
+  - area                : "area.label"
+  - primaryPurpose      : "primaryPurpose.prefLabel"
+  - secondaryPurpose    : "secondaryPurpose.prefLabel"
+  - bank                : "bank.prefLabel"
+  - protectionType      : "protectionType.label"
+  - assetStartDate      : assetStartDate
+  - managementUnit      : "managementUnit.label"
+  - targetCondition     : "targetCondition.prefLabel"
+  - actualCondition     : "actualCondition.prefLabel"
+  - calculatedCondition : "calculatedCondition.prefLabel"
+  - worstCondition      : "worstCondition.prefLabel"
+  - manualOverrideCondition : "manualOverrideCondition.prefLabel"
+  - recommendation      : recommendation
+  - urgency             : "urgency.prefLabel"
+  - lastInspectionDate  : lastInspectionDate
+  - yearLastRefurbished : yearLastRefurbished
+  - assetLength         : assetLength
+  - currentSop          : currentSop
+  - designSop           : designSop
+  - designUcl           : designUcl
+  - actualUcl           : actualUcl
+  - designDcl           : designDcl
+  - actualDcl           : actualDcl
+  - effectiveCl         : effectiveCl
+  - toeLevel            : toeLevel
+  - invertLevel         : invertLevel
+  - structureHeight     : structureHeight
+  - spatialQualityFlag  : spatialQualityFlag
+  - dataOwnerAssetRef   : dataOwnerAssetRef
+  - westminsterConstituency : westminsterConstituency.label

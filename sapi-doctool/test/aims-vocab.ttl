@@ -1,0 +1,1397 @@
+@prefix :      <http://environment.data.gov.uk/asset-management/source/def/maintenance/> .
+@prefix qudt:  <http://qudt.org/schema/qudt#> .
+@prefix reg-areas: <http://environment.data.gov.uk/registry/def/ea-organization/ea_areas/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix am-core: <http://environment.data.gov.uk/asset-management/def/core/> .
+@prefix am-core-crest-dq: <http://environment.data.gov.uk/asset-management/def/core/crest-level-data-quality/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix spatialrelations: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix id-activity: <http://environment.data.gov.uk/asset-management/id/maintenance-activity/> .
+@prefix qb:    <http://purl.org/linked-data/cube#> .
+@prefix def-eaorg: <http://environment.data.gov.uk/water-quality/def/ea-org/> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix am-core-sq: <http://environment.data.gov.uk/asset-management/def/core/spatial-quality/> .
+@prefix am-maint-status: <http://environment.data.gov.uk/asset-management/def/maintenance/status/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/> .
+@prefix am-core-sop-dq: <http://environment.data.gov.uk/asset-management/def/core/sop-data-quality/> .
+@prefix void:  <http://rdfs.org/ns/void#> .
+@prefix src:   <http://environment.data.gov.uk/asset-management/source/def/spatial-quality.ttl> .
+@prefix org:   <http://www.w3.org/ns/org#> .
+@prefix am-maint-at: <http://environment.data.gov.uk/asset-management/def/maintenance/activity-type/> .
+@prefix w3cgeo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix refset: <http://environment.data.gov.uk/reference/set/> .
+@prefix am-core-condition: <http://environment.data.gov.uk/asset-management/def/core/condition/> .
+@prefix am-maint: <http://environment.data.gov.uk/asset-management/def/maintenance/> .
+@prefix am-core-inspection-dq: <http://environment.data.gov.uk/asset-management/def/core/inspection-data-quality/> .
+@prefix core:  <http://environment.data.gov.uk/reference/def/core/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+am-core:designSop  a   owl:DatatypeProperty ;
+        rdfs:comment   "The Standard of Protection (1:n) that the asset was designed to provide"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Design Standard of Protection"@en ;
+        rdfs:range     xsd:decimal ;
+        skos:notation  "Design SoP" .
+
+am-core:actualDclDqf  a  owl:ObjectProperty ;
+        rdfs:comment   "The data quality flag for the actual downstream crest level. Refer to OI 57_06"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Actual Downstream Crest Level Quality Indicator"@en ;
+        rdfs:range     am-core-crest-dq:CrestLevelDataQuality ;
+        skos:notation  "Actual DCL DQF" .
+
+am-core:Breakwater  a      am-core:AssetType , skos:Concept ;
+        rdfs:comment       "Provides coastal erosion protection and may provide a secondary function as a quay."@en ;
+        rdfs:label         "Breakwater"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:notation      "breakwater" ;
+        skos:prefLabel     "Breakwater"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core-sop-dq:  a   owl:Ontology ;
+        owl:imports  <http://www.w3.org/2004/02/skos/core> .
+
+am-core:StillingBasin
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A structure that reduces the water velocity before it passes further downstream."@en ;
+        rdfs:label      "Stilling Basin"@en ;
+        skos:broader    am-core:Structure ;
+        skos:notation   "stilling_basin" ;
+        skos:prefLabel  "Stilling Basin"@en .
+
+am-core:targetCondition
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The target condition of the asset – Refer to OI 026_08"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Target Condition"@en ;
+        rdfs:range     am-core-condition:Condition ;
+        skos:notation  "Target Condition" .
+
+am-core:Cliff  a        am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Cliffs that are found along the coast can perform a flood defence and/or erosion protection function."@en ;
+        rdfs:label      "Cliff"@en ;
+        skos:broader    am-core:Defence ;
+        skos:notation   "cliff" ;
+        skos:prefLabel  "Cliff"@en .
+
+am-core-condition:level_5
+        a                  am-core-condition:Condition , skos:Concept ;
+        rdfs:comment       "Severe defects resulting in complete performance failure" ;
+        rdfs:isDefinedBy   <http://environment.data.gov.uk/asset-management/source/def/condition.ttl> ;
+        rdfs:label         "Very Poor"@en ;
+        skos:inScheme      am-core-condition:scheme ;
+        skos:notation      "5" ;
+        skos:prefLabel     "Very Poor"@en ;
+        skos:topConceptOf  am-core-condition:scheme .
+
+am-core:actualUcl  a   owl:DatatypeProperty ;
+        rdfs:comment   "The actual upstream crest level"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Actual Upstream Crest Level"@en ;
+        rdfs:range     xsd:decimal ;
+        skos:notation  "Actual UCL" .
+
+am-core:assetLength  a  owl:DatatypeProperty ;
+        rdfs:comment   "The length of the asset calculated from its geometry"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Length of a linear geometry"@en ;
+        rdfs:range     xsd:decimal ;
+        skos:notation  "Asset Length" .
+
+am-core:ControlStructureSite
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Where the main purpose of the assets in the site is to alter the flow of water in the channel."@en ;
+        rdfs:label      "Control Structure Site"@en ;
+        skos:broader    am-core:Site ;
+        skos:notation   "control_structure_site" ;
+        skos:prefLabel  "Control Structure Site"@en .
+
+am-core-inspection-dq:
+        a            owl:Ontology ;
+        owl:imports  <http://www.w3.org/2004/02/skos/core> .
+
+am-core:Buoy  a         am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Floats on the surface of the water and is anchored to the bed of the sea or river. It may be lighted or unlighted."@en ;
+        rdfs:label      "Buoy"@en ;
+        skos:broader    am-core:AidToNavigation ;
+        skos:notation   "buoy" ;
+        skos:prefLabel  "Buoy"@en .
+
+am-core-sq:  a       owl:Ontology ;
+        owl:imports  <http://www.w3.org/2004/02/skos/core> .
+
+am-core:FishPass  a     am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Found at weirs and control gates to enable fish to get past these obstructions"@en ;
+        rdfs:label      "Fishpass"@en ;
+        skos:broader    am-core:Structure ;
+        skos:notation   "fish_pass" ;
+        skos:prefLabel  "Fishpass"@en .
+
+am-core:SaltMarsh  a    am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A natural part of the coastal environment that have an effect on water management. Salt marshes lie just above the usual high tide line, though may be covered by exceptionally high tides."@en ;
+        rdfs:label      "Saltmarsh"@en ;
+        skos:broader    am-core:Land ;
+        skos:notation   "salt_marsh" ;
+        skos:prefLabel  "Saltmarsh"@en .
+
+am-core:frmsUniqueId  a  owl:DatatypeProperty ;
+        rdfs:comment   "Unique Id of the Asset System"@en ;
+        rdfs:domain    am-core:ManagementUnit ;
+        rdfs:label     "Unique Id"@en ;
+        rdfs:range     xsd:string ;
+        skos:notation  "FRMS Unique Id" .
+
+am-core:currentSopDate
+        a              owl:DatatypeProperty ;
+        rdfs:comment   "The date the Current Standard of Protection was appraised"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Date the Current SoP was recorded"@en ;
+        rdfs:range     xsd:date ;
+        skos:notation  "Current SOP Date" , "Current SoP Date" .
+
+am-core-inspection-dq:InspectionDataQuality
+        a                owl:Class ;
+        rdfs:comment     "A SKOS Concept subclass for inspection data quality levels."@en ;
+        rdfs:label       "Inspection Data Quality Level"@en ;
+        rdfs:subClassOf  skos:Concept .
+
+am-core:Signal  a       am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Provides traffic control or fog warnings."@en ;
+        rdfs:label      "Signal"@en ;
+        skos:broader    am-core:AidToNavigation ;
+        skos:notation   "signal" ;
+        skos:prefLabel  "Signal"@en .
+
+am-core-sop-dq:SopDataQuality
+        a                owl:Class ;
+        rdfs:comment     "A SKOS Concept subclass for standard-of-protection (SOP) data quality levels."@en ;
+        rdfs:label       "Standard Of Protection Data Quality Level"@en ;
+        rdfs:subClassOf  skos:Concept .
+
+am-core:Screen  a       am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Used to collect debris and/or prevent access to culverts, outfalls, channels etc."@en ;
+        rdfs:label      "Screen"@en ;
+        skos:broader    am-core:Structure ;
+        skos:notation   "screen" ;
+        skos:prefLabel  "Screen"@en .
+
+am-maint:programme  a  rdf:Property ;
+        rdfs:comment  "The maintenance programme associated with an maintenance activity"@en ;
+        rdfs:label    "maintenance programme"@en .
+
+am-core-crest-dq:level_3
+        a                  am-core-crest-dq:CrestLevelDataQuality , skos:Concept ;
+        rdfs:label         "Suspect"@en ;
+        skos:inScheme      am-core-crest-dq:scheme ;
+        skos:notation      3 ;
+        skos:prefLabel     "Suspect"@en ;
+        skos:topConceptOf  am-core-crest-dq:scheme .
+
+am-core-sq:level_2  a      am-core-sq:SpatialQuality , skos:Concept ;
+        rdfs:label         "Adequate"@en ;
+        skos:inScheme      am-core-sq:scheme ;
+        skos:notation      2 ;
+        skos:prefLabel     "Adequate"@en ;
+        skos:topConceptOf  am-core-sq:scheme .
+
+am-maint:plannedStartQuarter
+        a             owl:DatatypeProperty ;
+        rdfs:comment  "The quarter in which a maintenance activity is planned to start."@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "planned start quarter"@en ;
+        rdfs:range    xsd:string .
+
+am-core:OpenChannel  a  am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A channel that is not culverted"@en ;
+        rdfs:label      "Open Channel"@en ;
+        skos:broader    am-core:Channel ;
+        skos:notation   "open_channel" ;
+        skos:prefLabel  "Open Channel"@en .
+
+am-core:Abutment  a     am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A structure that supports the end of a major structure such as those at the Thames Barrier or other larger than usual structures."@en ;
+        rdfs:label      "Abutment"@en ;
+        skos:broader    am-core:MajorCivils ;
+        skos:notation   "abutment" ;
+        skos:prefLabel  "Abutment"@en .
+
+am-core-condition:level_0
+        a                  am-core-condition:Condition , skos:Concept ;
+        rdfs:isDefinedBy   <http://environment.data.gov.uk/asset-management/source/def/condition.ttl> ;
+        rdfs:label         "Condition level 0"@en ;
+        skos:inScheme      am-core-condition:scheme ;
+        skos:notation      "0" ;
+        skos:prefLabel     "Condition level 0"@en ;
+        skos:topConceptOf  am-core-condition:scheme .
+
+am-core:FloodMapInclusion
+        a                owl:Class ;
+        rdfs:comment     "A subclass of skos:Concept for indicating flood map inclusion assessment outcomes."@en ;
+        rdfs:label       "Flood Map Inclusion"@en ;
+        rdfs:subClassOf  skos:Concept .
+
+am-core:DemountableDefence
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A temporary defence that is brought to, or stored on, site and erected when necessary to form a flood defence."@en ;
+        rdfs:label      "Demountable"@en ;
+        skos:broader    am-core:Defence ;
+        skos:notation   "demountable_defence" ;
+        skos:prefLabel  "Demountable"@en .
+
+am-core:ChannelCrossing
+        a                  am-core:AssetType , skos:Concept ;
+        rdfs:comment       "An asset that allows access across a channel"@en ;
+        rdfs:label         "Channel Crossing"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:narrower      am-core:UtilityServices , am-core:Bridge ;
+        skos:notation      "channel_crossing" ;
+        skos:prefLabel     "Channel Crossing"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core:actualUclDqf  a  owl:ObjectProperty ;
+        rdfs:comment   "The data quality flag for the actual upstream crest level. Refer to OI 57_06"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Actual Upstream Crest Level Quality Indicator"@en ;
+        rdfs:range     am-core-crest-dq:CrestLevelDataQuality ;
+        skos:notation  "Actual UCL DQF" .
+
+am-core:CentralPier  a  am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A structure between two banks to support a screen, stoplogs, gate etc. A central pier in a major structure such as those at the Thames Barrier or other larger than usual structures."@en ;
+        rdfs:label      "Central Pier"@en ;
+        skos:broader    am-core:MajorCivils ;
+        skos:notation   "central_pier" ;
+        skos:prefLabel  "Central Pier"@en .
+
+am-core-sop-dq:scheme
+        a                   skos:ConceptScheme ;
+        rdfs:comment        "A SKOS Concept Scheme for standard-of-protection (SOP) data quality levels."@en ;
+        rdfs:label          "SOP data quality level scheme"@en ;
+        skos:hasTopConcept  am-core-sop-dq:level_1 , am-core-sop-dq:level_6 , am-core-sop-dq:level_3 , am-core-sop-dq:level_2 , am-core-sop-dq:level_4 , am-core-sop-dq:level_5 ;
+        skos:prefLabel      "SOP data quality level scheme"@en .
+
+am-core:recommendation
+        a              owl:DatatypeProperty ;
+        rdfs:comment   "The inspectors recommendations from the asset inspection"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Recommendation for Action"@en ;
+        rdfs:range     xsd:string ;
+        skos:notation  "Recommendation" .
+
+am-core-inspection-dq:level_2
+        a                  am-core-inspection-dq:InspectionDataQuality , skos:Concept ;
+        rdfs:label         "Adequate"@en ;
+        skos:inScheme      am-core-inspection-dq:scheme ;
+        skos:notation      2 ;
+        skos:prefLabel     "Adequate"@en ;
+        skos:topConceptOf  am-core-inspection-dq:scheme .
+
+am-core-crest-dq:  a  owl:Ontology ;
+        owl:imports  <http://www.w3.org/2004/02/skos/core> .
+
+am-core:ComplexCulvert
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A covered channel to convey water below ground level, whose cross section is made of different materials"@en ;
+        rdfs:label      "Complex Culvert"@en ;
+        skos:broader    am-core:Channel ;
+        skos:notation   "complex_culvert" ;
+        skos:prefLabel  "Complex Culvert"@en .
+
+am-core:Bridge  a       am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A structure that allows road, rail, pedestrian or farm access over a channel. This also includes aqueducts."@en ;
+        rdfs:label      "Bridge"@en ;
+        skos:broader    am-core:ChannelCrossing ;
+        skos:notation   "bridge" ;
+        skos:prefLabel  "Bridge"@en .
+
+am-core-sop-dq:level_2
+        a                  am-core-sop-dq:SopDataQuality , skos:Concept ;
+        rdfs:label         "Adequate"@en ;
+        skos:inScheme      am-core-sop-dq:scheme ;
+        skos:notation      2 ;
+        skos:prefLabel     "Adequate"@en ;
+        skos:topConceptOf  am-core-sop-dq:scheme .
+
+am-maint:maintenanceActivity
+        a             rdf:Property ;
+        rdfs:comment  "An open domained property that can be used to make reference to a maintenance activity."@en ;
+        rdfs:label    "maintenance activity"@en ;
+        rdfs:range    am-maint:Activity .
+
+am-core-inspection-dq:scheme
+        a                   skos:ConceptScheme ;
+        rdfs:comment        "A SKOS Concept Scheme for inspection data quality levels."@en ;
+        rdfs:label          "Inspection data quality levels scheme"@en ;
+        skos:hasTopConcept  am-core-inspection-dq:level_1 , am-core-inspection-dq:level_2 , am-core-inspection-dq:level_3 , am-core-inspection-dq:level_4 , am-core-inspection-dq:level_5 ;
+        skos:prefLabel      "Inspection data quality levels scheme"@en .
+
+am-maint:Activity  a  owl:Class ;
+        rdfs:comment  "Scheduled asset maintenance activities"@en ;
+        rdfs:label    "Maintenance Activity"@en .
+
+am-maint:ActivityStatus
+        a             owl:Class ;
+        rdfs:comment  "A subclass of skos:Concept for maintenance activity status codes."@en ;
+        rdfs:label    "Maintenance Activity Status"@en .
+
+am-core:assetId  a     owl:DatatypeProperty ;
+        rdfs:comment   "The Unique Id for the Asset within AIMS Inventory"@en , "The unique identifier of an asset"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Asset Id"@en , "Unique Id of Asset"@en ;
+        rdfs:range     xsd:string ;
+        skos:notation  "Asset ID" , "Asset_ID" .
+
+am-core:SimpleCulvert
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A covered channel or large pipe to convey water below ground level, whose cross section is made of the same material throughout"@en ;
+        rdfs:label      "Simple Culvert"@en ;
+        skos:broader    am-core:Channel ;
+        skos:notation   "simple_culvert" ;
+        skos:prefLabel  "Simple Culvert"@en .
+
+am-core:shape  a       rdf:Property ;
+        rdfs:comment   "The geometry of the Asset in a bespoke format"@en ;
+        rdfs:label     "Geometry"@en ;
+        skos:notation  "Shape" .
+
+am-core:Outfall  a      am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A small surface water drain that discharges into a watercourse or the sea. It can also include larger flapped outfalls where a small watercourse flows under a defence and thence into a larger watercourse or the sea."@en ;
+        rdfs:label      "Outfall"@en ;
+        skos:broader    am-core:Structure ;
+        skos:notation   "outfall" ;
+        skos:prefLabel  "Outfall"@en .
+
+am-core:ProtectionType
+        a             owl:Class ;
+        rdfs:comment  "A subclass of skos:Concept for indicating the type of protection provided by an Asset."@en ;
+        rdfs:label    "Protection Type."@en .
+
+am-core:inspectionDataQualityFlag
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The inspection data quality. Refer to OI 57_06"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Quality Indicator for Inspection Data"@en ;
+        rdfs:range     am-core-inspection-dq:InspectionDataQuality ;
+        skos:notation  "Inspection Data Quality Flag" .
+
+am-core:manualOverrideCondition
+        a              owl:ObjectProperty ;
+        rdfs:comment   "Has the calculated condition been overridden?"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Manual Override Condition"@en ;
+        rdfs:range     am-core-condition:Condition ;
+        skos:notation  "Manual Override Condition" .
+
+am-core:ManagementGroup
+        a             owl:Class ;
+        rdfs:comment  "A class for Management Groups typically associated with the management of Assets"@en ;
+        rdfs:label    "Management Group"@en .
+
+am-core-sq:level_5  a      am-core-sq:SpatialQuality , skos:Concept ;
+        rdfs:label         "Missing"@en ;
+        skos:inScheme      am-core-sq:scheme ;
+        skos:notation      5 ;
+        skos:prefLabel     "Missing"@en ;
+        skos:topConceptOf  am-core-sq:scheme .
+
+am-core-condition:level_3
+        a                  am-core-condition:Condition , skos:Concept ;
+        rdfs:comment       "Defects that could reduce performance of the asset"@en ;
+        rdfs:isDefinedBy   <http://environment.data.gov.uk/asset-management/source/def/condition.ttl> ;
+        rdfs:label         "Fair"@en ;
+        skos:inScheme      am-core-condition:scheme ;
+        skos:notation      "3" ;
+        skos:prefLabel     "Fair"@en ;
+        skos:topConceptOf  am-core-condition:scheme .
+
+am-core:Harbour  a      am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Grouping of assets located within harbour or port."@en ;
+        rdfs:label      "Harbour"@en ;
+        skos:broader    am-core:Site ;
+        skos:notation   "harbour" ;
+        skos:prefLabel  "Harbour"@en .
+
+am-core:Structure  a       skos:Concept , am-core:AssetType ;
+        rdfs:comment       "An asset used to control the flow of water"@en ;
+        rdfs:label         "Structure"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:narrower      am-core:FishPass , am-core:Jetty , am-core:ControlGate , am-core:StillingBasin , am-core:Spillway , am-core:InChannelStoplogs , am-core:InspectionChamber , am-core:Outfall , am-core:DrawOffTower , am-core:Hydrobrake , am-core:Screen , am-core:Weir ;
+        skos:notation      "structure" ;
+        skos:prefLabel     "Structure"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core:InChannelStoplogs
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Control the flow in a channel by means of adjustable barriers (stoplogs)."@en ;
+        rdfs:label      "In Channel Stoplogs"@en ;
+        skos:broader    am-core:Structure ;
+        skos:notation   "in_channel_stoplogs" ;
+        skos:prefLabel  "In Channel Stoplogs"@en .
+
+am-core:Urgency  a    owl:Class ;
+        rdfs:comment  "A subclass of skos:Concept for indicating the urgency associated with recommendations arising from Asset inspections."@en ;
+        rdfs:label    "Urgency"@en .
+
+am-core:Dunes  a        am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Dunes that are found along the coast can provide a flood defence and/or erosion protection function."@en ;
+        rdfs:label      "Dunes"@en ;
+        skos:broader    am-core:Defence ;
+        skos:notation   "dunes" ;
+        skos:prefLabel  "Dunes"@en .
+
+am-core:effectiveCl  a  owl:DatatypeProperty ;
+        rdfs:comment   "The lowest crest level along a coastal defence"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Effective Crest Level"@en ;
+        rdfs:range     xsd:decimal ;
+        skos:notation  "Effective CL" .
+
+am-core-inspection-dq:level_5
+        a                  am-core-inspection-dq:InspectionDataQuality , skos:Concept ;
+        rdfs:label         "Unchecked"@en ;
+        skos:inScheme      am-core-inspection-dq:scheme ;
+        skos:notation      5 ;
+        skos:prefLabel     "Unchecked"@en ;
+        skos:topConceptOf  am-core-inspection-dq:scheme .
+
+am-core:yearLastRefurbished
+        a              owl:DatatypeProperty ;
+        rdfs:comment   "The year the asset was last refurbished"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Year Asset was last refurbished"@en ;
+        rdfs:range     xsd:gYear ;
+        skos:notation  "Year Last Refurbished" .
+
+am-core:effectiveClDqf
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The data quality flag for the effective crest level. Refer to OI 57_06"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Effective Crest Level Quality Indicator"@en ;
+        rdfs:range     am-core-crest-dq:CrestLevelDataQuality ;
+        skos:notation  "Effective CL DQF" .
+
+am-core:AssetType-type-scheme
+        rdfs:comment        "A SKOS Concept Scheme for the Asset Type Hierarchy."@en ;
+        rdfs:type           skos:ConceptScheme ;
+        skos:hasTopConcept  am-core:Breakwater , am-core:MajorCivils , am-core:AidToNavigation , am-core:Steps , am-core:Building , am-core:ChannelCrossing , am-core:BeachStructure , am-core:Site , am-core:Channel , am-core:Instrument , am-core:Structure , am-core:Slipway , am-core:Groyne , am-core:Defence , am-core:Land , am-core:Ramp .
+
+am-core-sop-dq:level_5
+        a                  am-core-sop-dq:SopDataQuality , skos:Concept ;
+        rdfs:label         "Missing"@en ;
+        skos:inScheme      am-core-sop-dq:scheme ;
+        skos:notation      5 ;
+        skos:prefLabel     "Missing"@en ;
+        skos:topConceptOf  am-core-sop-dq:scheme .
+
+am-core:invertLevel  a  owl:DatatypeProperty ;
+        rdfs:comment   "The invert level of the culvert or pipe"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Invert Level"@en ;
+        rdfs:range     xsd:decimal ;
+        skos:notation  "Invert Level" .
+
+am-core:Slipway  a         am-core:AssetType , skos:Concept ;
+        rdfs:comment       "A structure that allows access into the sea or other body of water from a beach or a quayside."@en ;
+        rdfs:label         "Slipway"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:notation      "slipway" ;
+        skos:prefLabel     "Slipway"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core-crest-dq:CrestLevelDataQuality
+        a                owl:Class ;
+        rdfs:comment     "A SKOS Concept subclass for inspection data quality levels."@en ;
+        rdfs:label       "Crest Level Data Quality"@en ;
+        rdfs:subClassOf  skos:Concept .
+
+am-maint:Programme  a  owl:Class ;
+        rdfs:comment  "A class for Maintenance Programmes"@en ;
+        rdfs:label    "Maintenance Programme"@en .
+
+am-core:UtilityServices
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A structure that allows a utility service to cross a channel. This can be either above or below the channel."@en ;
+        rdfs:label      "Utility Services"@en ;
+        skos:broader    am-core:ChannelCrossing ;
+        skos:notation   "utility_services" ;
+        skos:prefLabel  "Utility Services"@en .
+
+am-core:AmenitySite  a  am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Grouping of assets located within a site for leisure and amenity purposes."@en ;
+        rdfs:label      "Amenity Site"@en ;
+        skos:broader    am-core:Site ;
+        skos:notation   "amenity_site" ;
+        skos:prefLabel  "Amenity Site"@en .
+
+am-core:PassiveMonitoringInstrument
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Passive monitoring instruments provide functions such as a water level gaugeboard or maximum level recorder."@en ;
+        rdfs:label      "Passive Monitoring"@en ;
+        skos:broader    am-core:Instrument ;
+        skos:notation   "passive_monitoring_instrument" ;
+        skos:prefLabel  "Passive Monitoring"@en .
+
+am-core:AssetType  a     owl:Class ;
+        rdfs:comment     "A subclass of SKOS Concept for asset types."@en ;
+        rdfs:subClassOf  skos:Concept .
+
+am-core:Jetty  a        am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A structure that projects into the water in fluvial and coastal environments."@en ;
+        rdfs:label      "Jetty"@en ;
+        skos:broader    am-core:Structure ;
+        skos:notation   "jetty" ;
+        skos:prefLabel  "Jetty"@en .
+
+am-core:Land  a            skos:Concept , am-core:AssetType ;
+        rdfs:comment       "An area of land that is involved in water management."@en ;
+        rdfs:label         "Land"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:narrower      am-core:SaltMarsh , am-core:Mudflats , am-core:Washland ;
+        skos:notation      "land" ;
+        skos:prefLabel     "Land"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core-crest-dq:level_1
+        a                  am-core-crest-dq:CrestLevelDataQuality , skos:Concept ;
+        rdfs:label         "Good"@en ;
+        skos:inScheme      am-core-crest-dq:scheme ;
+        skos:notation      1 ;
+        skos:prefLabel     "Good"@en ;
+        skos:topConceptOf  am-core-crest-dq:scheme .
+
+am-core:TidalBarrier  a  am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Where the main purpose of the assets in the site is to provide protection from high tides."@en ;
+        rdfs:label      "Tidal Barrier"@en ;
+        skos:broader    am-core:Site ;
+        skos:notation   "tidal_barrier" ;
+        skos:prefLabel  "Tidal Barrier"@en .
+
+am-core:Purpose  a       owl:Class ;
+        rdfs:comment     "TBD" , "A subclass of skos:Concept for indicating asset purposes."@en ;
+        rdfs:label       "TBD" , "Purpose"@en ;
+        rdfs:subClassOf  skos:Concept ;
+        skos:prefLabel   "Purpose"@en .
+
+am-core:Weir  a         am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A weir crosses a channel to increase the upstream water level."@en ;
+        rdfs:label      "Weir"@en ;
+        skos:broader    am-core:Structure ;
+        skos:notation   "weir" ;
+        skos:prefLabel  "Weir"@en .
+
+am-maint:ActivityType
+        a             owl:Class ;
+        rdfs:comment  "A subclass of skos:Concept for maintenance activity type codes"@en ;
+        rdfs:label    "Maintenance Activity Type"@en .
+
+am-core:ActiveMonitoringInstrument
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Active monitoring instruments provide functions such as the sensing of water levels at a gauging station"@en ;
+        rdfs:label      "Active Monitoring"@en ;
+        skos:broader    am-core:Instrument ;
+        skos:notation   "active_monitoring_instrument" ;
+        skos:prefLabel  "Active Monitoring"@en .
+
+am-maint:status  a    owl:ObjectProperty ;
+        rdfs:comment  "A subclass of skos:Concept for maintenance activity status codes"@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "status"@en ;
+        rdfs:range    am-maint:ActivityStatus .
+
+am-core-condition:Condition
+        a                 owl:Class ;
+        rdfs:comment      "A SKOS Concept subclass for asset condition levels."@en ;
+        rdfs:isDefinedBy  <http://environment.data.gov.uk/asset-management/source/def/condition.ttl> ;
+        rdfs:label        "Asset Condition Levels"@en ;
+        rdfs:subClassOf   skos:Concept .
+
+am-core:PumpHouse  a    am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A building that houses pumps and the facilities necessary to support their operation"@en ;
+        rdfs:label      "Pump House"@en ;
+        skos:broader    am-core:Building ;
+        skos:notation   "pump_house" ;
+        skos:prefLabel  "Pump House"@en .
+
+am-core-sq:scheme  a        skos:ConceptScheme ;
+        rdfs:comment        "A SKOS Concept Scheme for spatial quality levels."@en ;
+        rdfs:label          "Spatial Quality levels scheme"@en ;
+        skos:hasTopConcept  am-core-sq:level_6 , am-core-sq:level_2 , am-core-sq:level_3 , am-core-sq:level_1 , am-core-sq:level_4 , am-core-sq:level_5 ;
+        skos:prefLabel      "Spatial Quality levels scheme"@en .
+
+am-core:toeLevel  a    owl:DatatypeProperty ;
+        rdfs:comment   "The toe level at the exposed face. Refer to OI 144_07"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Toe Level"@en ;
+        rdfs:range     xsd:decimal ;
+        skos:notation  "Toe Level" .
+
+am-maint:activityDetail
+        a             owl:DatatypeProperty ;
+        rdfs:comment  "activity details"@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "activity details"@en ;
+        rdfs:range    xsd:string .
+
+am-maint:actualStartMonth
+        a             owl:DatatypeProperty ;
+        rdfs:comment  "The actual month in which a maintenance activity started"@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "actual start month"@en ;
+        rdfs:range    xsd:gYearMonth .
+
+am-core:objectId  a    owl:DatatypeProperty ;
+        rdfs:comment   "The Unique Id of the Asset"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Object Id"@en ;
+        rdfs:range     xsd:string ;
+        skos:notation  "Object ID" .
+
+am-core:Defence  a         skos:Concept , am-core:AssetType ;
+        rdfs:comment       "An asset that provides flood defence or coastal protection functions"@en ;
+        rdfs:label         "Defence"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:narrower      am-core:Quay , am-core:FloodGate , am-core:Beach , am-core:BarrierBeach , am-core:DemountableDefence , am-core:Embankment , am-core:Promenade , am-core:HighGround , am-core:Cliff , am-core:BridgeAbutment , am-core:Dunes , am-core:Wall ;
+        skos:notation      "defence" ;
+        skos:prefLabel     "Defence"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core:Wall  a         am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A raised structure used in the fluvial, tidal and coastal environments for flood defence and/or erosion protection. Also covers walls used in dam structures."@en ;
+        rdfs:label      "Wall"@en ;
+        skos:broader    am-core:Defence ;
+        skos:notation   "wall" ;
+        skos:prefLabel  "Wall"@en .
+
+am-core:Instrument  a      am-core:AssetType , skos:Concept ;
+        rdfs:comment       "An asset used to measure water level and flow"@en ;
+        rdfs:label         "Instrument"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:narrower      am-core:ActiveMonitoringInstrument , am-core:PassiveMonitoringInstrument ;
+        skos:notation      "instrument" ;
+        skos:prefLabel     "Instrument"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core:protectionType
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The type of protection the asset gives"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Primary type of Protetion"@en ;
+        rdfs:range     am-core:ProtectionType ;
+        skos:notation  "Protection Type" .
+
+am-maint:RegionalFloodCommittee
+        a             owl:Class ;
+        rdfs:comment  "A class of for Regional Flood and Coastal Committees"@en ;
+        rdfs:label    "Regional Flood and Coastal Committee"@en .
+
+am-core:ManagementUnit
+        a             owl:Class ;
+        rdfs:comment  "A class for Management Units associated with the management of an Asset. Management Units may variously be referred to as: Asset Systems - groups of assets formed on a hydrological basis which may also be assigned FRMS codes; or Inspection Units - groups of assets formed to aid in the scheduling of asset inspections."@en ;
+        rdfs:label    "Management Unit"@en .
+
+am-maint:plannedFinishMonth
+        a             owl:DatatypeProperty ;
+        rdfs:comment  "The month in which a maintenance activity is planned to finsih."@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "planned finish month"@en ;
+        rdfs:range    xsd:gYearMonth .
+
+am-maint:maintainedAsset
+        a             rdf:Property ;
+        rdfs:comment  "The asset(s) maintained by a maintenance activity"@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "maintained asset(s)"@en ;
+        rdfs:range    am-core:Asset .
+
+am-core-sq:SpatialQuality
+        a                owl:Class ;
+        rdfs:comment     "A SKOS Concept subclass for spatial quality levels."@en ;
+        rdfs:label       "Standard Of Protection Data Quality Level"@en ;
+        rdfs:subClassOf  skos:Concept .
+
+am-core:designDcl  a   owl:DatatypeProperty ;
+        rdfs:comment   "The designed downstream crest level"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Design Downstream Crest Level"@en ;
+        rdfs:range     xsd:decimal ;
+        skos:notation  "Design DCL" .
+
+am-maint:plannedFinishQuarter
+        a             owl:DatatypeProperty ;
+        rdfs:comment  "The quarter in which a maintenance activity is planned to finish"@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "planned finish quarter"@en ;
+        rdfs:range    xsd:string .
+
+am-core:lastInspectionDate
+        a              owl:DatatypeProperty ;
+        rdfs:comment   "The date of the most recent inspection"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Date of Last Inspection"@en ;
+        rdfs:range     xsd:date ;
+        skos:notation  "Last Inspection Date" .
+
+am-core:structureHeight
+        a              owl:DatatypeProperty ;
+        rdfs:comment   "The total height of the structure, taken from ground level to its highest tangible point"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Structure Height"@en ;
+        rdfs:range     xsd:decimal ;
+        skos:notation  "Structure Height" .
+
+am-core:Beach  a        am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Beaches that are found along the coast can provide a flood defence and/or erosion protection function."@en ;
+        rdfs:label      "Beach"@en ;
+        skos:broader    am-core:Defence ;
+        skos:notation   "beach" ;
+        skos:prefLabel  "Beach"@en .
+
+am-core:Ramp  a            am-core:AssetType , skos:Concept ;
+        rdfs:comment       "A means of access to the top of a beach."@en ;
+        rdfs:label         "Ramp"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:notation      "ramp" ;
+        skos:prefLabel     "Ramp"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core:Bank  a          owl:Class ;
+        rdfs:comment     "A subclass of skos:Concept for indicating the (channel) bank associated with an Asset."@en ;
+        rdfs:label       "Bank"@en ;
+        rdfs:subClassOf  skos:Concept .
+
+am-core:Asset  a      owl:Class ;
+        rdfs:comment  "A top level class for managed assets."@en ;
+        rdfs:label    "Asset"@en .
+
+am-core:managementGroup
+        a              owl:ObjectProperty ;
+        rdfs:comment   "Group who has the responsibility to maintain the data associated with the Aset in the system"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "EA Group managing the asset"@en ;
+        rdfs:range     am-core:ManagementGroup ;
+        skos:notation  "Management Group" .
+
+am-core-crest-dq:level_4
+        a                  am-core-crest-dq:CrestLevelDataQuality , skos:Concept ;
+        rdfs:label         "Poor"@en ;
+        skos:inScheme      am-core-crest-dq:scheme ;
+        skos:notation      4 ;
+        skos:prefLabel     "Poor"@en ;
+        skos:topConceptOf  am-core-crest-dq:scheme .
+
+am-core-sq:level_3  a      am-core-sq:SpatialQuality , skos:Concept ;
+        rdfs:label         "Suspect"@en ;
+        skos:inScheme      am-core-sq:scheme ;
+        skos:notation      3 ;
+        skos:prefLabel     "Suspect"@en ;
+        skos:topConceptOf  am-core-sq:scheme .
+
+am-core-condition:level_1
+        a                  am-core-condition:Condition , skos:Concept ;
+        rdfs:comment       "Cosmetic defects that will have no effect on performance"@en ;
+        rdfs:isDefinedBy   <http://environment.data.gov.uk/asset-management/source/def/condition.ttl> ;
+        rdfs:label         "Very Good"@en ;
+        skos:inScheme      am-core-condition:scheme ;
+        skos:notation      "1" ;
+        skos:prefLabel     "Very Good"@en ;
+        skos:topConceptOf  am-core-condition:scheme .
+
+am-core:secondaryPurpose
+        a             owl:DatatypeProperty ;
+        rdfs:comment  "The secondary purpose of the asset if it has one, i.e.: an incidental purpose"@en ;
+        rdfs:domain   am-core:Asset ;
+        rdfs:label    "Secondary Purpose of the Asset"@en ;
+        rdfs:range    xsd:string .
+
+am-core:ReservoirSite
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Where the main purpose of the assets in the site is to store water."@en ;
+        rdfs:label      "Reservoir Site"@en ;
+        skos:broader    am-core:Site ;
+        skos:notation   "reservoir_site" ;
+        skos:prefLabel  "Reservoir Site"@en .
+
+am-core:  a          owl:Ontology ;
+        owl:imports  am-core-condition: , am-core-crest-dq: , am-core-inspection-dq: , am-core-sop-dq: , am-core-sq: , <http://www.w3.org/2004/02/skos/core> .
+
+am-maint:actualFinishQuarter
+        a             owl:DatatypeProperty ;
+        rdfs:comment  "The calendar quarter in which an activity actually finished."@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "actual finish quarter"@en ;
+        rdfs:range    xsd:string .
+
+am-core:FloodGate  a    am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A flood gate forms part of a flood defence, usually to provide access through the defences."@en ;
+        rdfs:label      "Flood Gate"@en ;
+        skos:broader    am-core:Defence ;
+        skos:notation   "flood_gate" ;
+        skos:prefLabel  "Flood Gate"@en .
+
+am-maint:activitySubType
+        a             owl:ObjectProperty ;
+        rdfs:comment  "Maintentance activity sub-type"@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "Maintenance activity sub-type"@en ;
+        rdfs:range    am-maint:ActivityType .
+
+am-core:LockComplex  a  am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Grouping of assets located within a major lock site or a series of locks."@en ;
+        rdfs:label      "Lock Complex"@en ;
+        skos:broader    am-core:Site ;
+        skos:notation   "lock_complex" ;
+        skos:prefLabel  "Lock Complex"@en .
+
+am-core:Channel  a         am-core:AssetType , skos:Concept ;
+        rdfs:comment       "An asset that conveys water"@en ;
+        rdfs:label         "Channel"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:narrower      am-core:ComplexCulvert , am-core:OpenChannel , am-core:SimpleCulvert ;
+        skos:notation      "channel" ;
+        skos:prefLabel     "Channel"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core-inspection-dq:level_3
+        a                  am-core-inspection-dq:InspectionDataQuality , skos:Concept ;
+        rdfs:label         "Suspect"@en ;
+        skos:inScheme      am-core-inspection-dq:scheme ;
+        skos:notation      3 ;
+        skos:prefLabel     "Suspect"@en ;
+        skos:topConceptOf  am-core-inspection-dq:scheme .
+
+am-core:Quay  a         am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A quay has a primary function as a landing place for shipping, but it also provides a line of defence."@en ;
+        rdfs:label      "Quay"@en ;
+        skos:broader    am-core:Defence ;
+        skos:notation   "quay" ;
+        skos:prefLabel  "Quay"@en .
+
+am-core:ErosionProtection
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Where the main purpose of the assets in the site is protect from coastal erosion."@en ;
+        rdfs:label      "Erosion Protection"@en ;
+        skos:broader    am-core:Site ;
+        skos:notation   "erosion_protection" ;
+        skos:prefLabel  "Erosion Protection"@en .
+
+am-core:Mudflats  a     am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A natural part of the coastal environment that have an effect on water management. Mudflats are usually covered at high tide."@en ;
+        rdfs:label      "Mudflats"@en ;
+        skos:broader    am-core:Land ;
+        skos:notation   "mudflats" ;
+        skos:prefLabel  "Mudflats"@en .
+
+am-core-condition:level_9
+        a                  am-core-condition:Condition , skos:Concept ;
+        rdfs:comment       "Not set"@en ;
+        rdfs:isDefinedBy   <http://environment.data.gov.uk/asset-management/source/def/condition.ttl> ;
+        rdfs:label         "Not set"@en ;
+        skos:inScheme      am-core-condition:scheme ;
+        skos:notation      "9" ;
+        skos:prefLabel     "Not set"@en ;
+        skos:topConceptOf  am-core-condition:scheme .
+
+am-core:ControlGate  a  am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A control gate can be adjusted to alter the flow of water in a channel. This includes penstocks, sluice gates, mitre gates, sector gates and radial gates."@en ;
+        rdfs:label      "Control Gate"@en ;
+        skos:broader    am-core:Structure ;
+        skos:notation   "control_gate" ;
+        skos:prefLabel  "Control Gate"@en .
+
+am-core:assetType  a   owl:ObjectProperty ;
+        rdfs:comment   "The generic type of Asset"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Class of Asset"@en ;
+        rdfs:range     am-core:AssetType ;
+        skos:notation  "Asset Type" .
+
+am-core-sop-dq:level_3
+        a                  am-core-sop-dq:SopDataQuality , skos:Concept ;
+        rdfs:label         "Suspect"@en ;
+        skos:inScheme      am-core-sop-dq:scheme ;
+        skos:notation      3 ;
+        skos:prefLabel     "Suspect"@en ;
+        skos:topConceptOf  am-core-sop-dq:scheme .
+
+am-core-condition:  a  owl:Ontology ;
+        owl:imports  <http://www.w3.org/2004/02/skos/core> .
+
+am-core:calculatedCondition
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The condition of the asset calculated from the element weightings and conditions configuration"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Calculated Condition"@en ;
+        rdfs:range     am-core-condition:Condition ;
+        skos:notation  "Calculated Condition" .
+
+am-core:DrawOffTower  a  am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Removes water from a reservoir and diverts it elsewhere."@en ;
+        rdfs:label      "Draw-Off Tower"@en ;
+        skos:broader    am-core:Structure ;
+        skos:notation   "draw-off_tower" ;
+        skos:prefLabel  "Draw-Off Tower"@en .
+
+am-core:currentSop  a  owl:DatatypeProperty ;
+        rdfs:comment   "The Standard of Protection (1:n) that the asset currently provides, if known"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Current Standard of Protection"@en ;
+        rdfs:range     xsd:decimal ;
+        skos:notation  "Current SoP" .
+
+am-core:Spillway  a     am-core:AssetType , skos:Concept ;
+        rdfs:comment    "An overflow in a reservoir, flood storage area, or along defences"@en ;
+        rdfs:label      "Spillway"@en ;
+        skos:broader    am-core:Structure ;
+        skos:notation   "spillway" ;
+        skos:prefLabel  "Spillway"@en .
+
+am-core:BarrierBeach  a  am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Barrier beaches found extending from the coast can perform a flood defence and/or erosion protection function."@en ;
+        rdfs:label      "Barrier Beach"@en ;
+        skos:broader    am-core:Defence ;
+        skos:notation   "barrier_beach" ;
+        skos:prefLabel  "Barrier Beach"@en .
+
+am-core-sq:level_6  a      am-core-sq:SpatialQuality , skos:Concept ;
+        rdfs:label         "Unchecked"@en ;
+        skos:inScheme      am-core-sq:scheme ;
+        skos:notation      6 ;
+        skos:prefLabel     "Unchecked"@en ;
+        skos:topConceptOf  am-core-sq:scheme .
+
+am-core:hasRfcc  a    owl:ObjectProperty ;
+        rdfs:comment  "An associated Regional Flood and Coastal Committee (RFCC)."@en ;
+        rdfs:label    "has RFCC"@en .
+
+am-core:assetStartDate
+        a              owl:DatatypeProperty ;
+        rdfs:comment   "The date the asset became operational"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Date Asset was operational"@en ;
+        rdfs:range     xsd:date ;
+        skos:notation  "Asset Start Date" .
+
+am-core-condition:level_4
+        a                  am-core-condition:Condition , skos:Concept ;
+        rdfs:comment       "Defects that would significantly reduce the performance of the asset. Further investigation needed"@en ;
+        rdfs:isDefinedBy   <http://environment.data.gov.uk/asset-management/source/def/condition.ttl> ;
+        rdfs:label         "Poor"@en ;
+        skos:inScheme      am-core-condition:scheme ;
+        skos:notation      "4" ;
+        skos:prefLabel     "Poor"@en ;
+        skos:topConceptOf  am-core-condition:scheme .
+
+am-core:managementUnit
+        a             owl:ObjectProperty ;
+        rdfs:comment  "Management Unit associated with an Asset"@en ;
+        rdfs:domain   am-core:Asset ;
+        rdfs:label    "management unit"@en ;
+        rdfs:range    am-core:ManagementUnit .
+
+am-core:assetSubType  a  owl:ObjectProperty ;
+        rdfs:comment   "The specific sub type of asset"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Sub-class of Asset"@en ;
+        rdfs:range     am-core:AssetType ;
+        skos:notation  "Asset Sub Type" .
+
+am-core:spatialQualityFlag
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The data quality flag for the spatial position of the asset. Refer to OI 57_06"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Spatial Data Quality Indicator"@en ;
+        rdfs:range     am-core-sq:SpatialQuality ;
+        skos:notation  "Spatial Quality Flag" .
+
+am-core:actualCondition
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The actual condition of the Asset"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Actual Condition"@en ;
+        rdfs:range     am-core-condition:Condition ;
+        skos:notation  "Actual Condition" .
+
+am-core:eaWaterManagementArea
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The EA Area responsible for the Asset"@en ;
+        rdfs:label     "Ea Operational Area"@en ;
+        skos:notation  "EA Water Management Area" .
+
+am-core:actualDcl  a   owl:DatatypeProperty ;
+        rdfs:comment   "The actual downstream crest level"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Actual Downstream Crest Level"@en ;
+        rdfs:range     xsd:decimal ;
+        skos:notation  "Actual DCL" .
+
+am-core:shapeLength  a  owl:DatatypeProperty ;
+        rdfs:comment   "The length of the asset calculated from its geometry"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Length of a linear geometry"@en ;
+        rdfs:range     xsd:decimal ;
+        skos:notation  "Shape_Length" .
+
+am-maint:actualStartQuarter
+        a             owl:DatatypeProperty ;
+        rdfs:comment  "The quarter in which a maintenance activity was actually started"@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "actual start quarter"@en ;
+        rdfs:range    xsd:string .
+
+am-core:BeachStructure
+        a                  am-core:AssetType , skos:Concept ;
+        rdfs:comment       "Assets used to protect the coast from erosion or provide access."@en ;
+        rdfs:label         "Beach Structure"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:notation      "beach_structure" ;
+        skos:prefLabel     "Beach Structure"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core:primaryPurpose
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The main purpose of the asset, i.e.: the reason it was constructed (a natural asset may have an asset management purpose)"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Primary Purpose of the Asset"@en ;
+        rdfs:range     am-core:Purpose ;
+        skos:notation  "Primary Purpose" .
+
+am-core:Groyne  a          am-core:AssetType , skos:Concept ;
+        rdfs:comment       "A linear structure extending from the shore into the water that provides coastal erosion protection on beaches."@en ;
+        rdfs:label         "Groyne"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:notation      "groyne" ;
+        skos:prefLabel     "Groyne"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core:worstCondition
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The worst condition taken from the list of element conditions of the asset"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Worst Condition"@en ;
+        rdfs:range     am-core-condition:Condition ;
+        skos:notation  "Worst Condition" .
+
+am-core-sop-dq:level_6
+        a                  am-core-sop-dq:SopDataQuality , skos:Concept ;
+        rdfs:label         "Unchecked"@en ;
+        skos:inScheme      am-core-sop-dq:scheme ;
+        skos:notation      6 ;
+        skos:prefLabel     "Unchecked"@en ;
+        skos:topConceptOf  am-core-sop-dq:scheme .
+
+am-core:Beacon  a       am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Attached directly to the bed of the sea or a river and may be lighted or unlighted."@en ;
+        rdfs:label      "Beacon"@en ;
+        skos:broader    am-core:AidToNavigation ;
+        skos:notation   "beacon" ;
+        skos:prefLabel  "Beacon"@en .
+
+am-core:BridgeAbutment
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A bridge abutment that ties into flood defences to act as a defence."@en ;
+        rdfs:label      "Bridge Abutment"@en ;
+        skos:broader    am-core:Defence ;
+        skos:notation   "bridge_abutment" ;
+        skos:prefLabel  "Bridge Abutment"@en .
+
+am-core:Steps  a           am-core:AssetType , skos:Concept ;
+        rdfs:comment       "A means of access to a beach."@en ;
+        rdfs:label         "Steps"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:notation      "steps" ;
+        skos:prefLabel     "Steps"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core:Dolphin  a      am-core:AssetType , skos:Concept ;
+        rdfs:comment    "In the marine or fluvial environment, a dolphin provides a fixing point for signage / information or a mooring point"@en ;
+        rdfs:label      "Dolphin"@en ;
+        skos:broader    am-core:AidToNavigation ;
+        skos:notation   "dolphin" ;
+        skos:prefLabel  "Dolphin"@en .
+
+am-core-crest-dq:level_2
+        a                  am-core-crest-dq:CrestLevelDataQuality , skos:Concept ;
+        rdfs:label         "Adequate"@en ;
+        skos:inScheme      am-core-crest-dq:scheme ;
+        skos:notation      2 ;
+        skos:prefLabel     "Adequate"@en ;
+        skos:topConceptOf  am-core-crest-dq:scheme .
+
+am-core-sq:level_1  a      am-core-sq:SpatialQuality , skos:Concept ;
+        rdfs:label         "Good"@en ;
+        skos:inScheme      am-core-sq:scheme ;
+        skos:notation      1 ;
+        skos:prefLabel     "Good"@en ;
+        skos:topConceptOf  am-core-sq:scheme .
+
+am-core:MonitoringSite
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Where the main purpose of the assets in the site is to measure water level and flow."@en ;
+        rdfs:label      "Monitoring Site"@en ;
+        skos:broader    am-core:Site ;
+        skos:notation   "monitoring_site" ;
+        skos:prefLabel  "Monitoring Site"@en .
+
+:       a            owl:Ontology ;
+        owl:imports  am-core: .
+
+am-core:frmsId  a      owl:DatatypeProperty ;
+        rdfs:comment   "Unique Id of the Asset System"@en ;
+        rdfs:domain    am-core:ManagementUnit ;
+        rdfs:label     "Unique Id"@en ;
+        rdfs:range     xsd:string ;
+        skos:notation  "FRMS ID" .
+
+am-core:Site  a            am-core:AssetType , skos:Concept ;
+        rdfs:comment       "A grouping together of individual assets that can be considered as parts of a single site with a high level purpose."@en ;
+        rdfs:label         "Site"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:narrower      am-core:Harbour , am-core:ReservoirSite , am-core:ControlStructureSite , am-core:GeneralSite , am-core:LockComplex , am-core:ErosionProtection , am-core:AmenitySite , am-core:MonitoringSite , am-core:PumpingStationCompound , am-core:TidalBarrier ;
+        skos:notation      "site" ;
+        skos:prefLabel     "Site"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core:assetMaintainer
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The organisation or individual recognised to be the maintainer of the asset"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Asset Maintainer"@en ;
+        skos:notation  "Asset Maintainer" .
+
+am-core:PumpingStationCompound
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Grouping of assets located within the grounds of a pumping station."@en ;
+        rdfs:label      "Pumping Station Compound"@en ;
+        skos:broader    am-core:Site ;
+        skos:notation   "pumping_station_compound" ;
+        skos:prefLabel  "Pumping Station Compound"@en .
+
+am-maint:plannedStartMonth
+        a             owl:DatatypeProperty ;
+        rdfs:comment  "The month in which a maintenance activity is planned to start"@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "planned start month"@en ;
+        rdfs:range    xsd:gYearMonth .
+
+am-core:Washland  a     am-core:AssetType , skos:Concept ;
+        rdfs:comment    "An area of land that is used for flood storage including reservoirs and lakes."@en ;
+        rdfs:label      "Washland"@en ;
+        skos:broader    am-core:Land ;
+        skos:notation   "washland" ;
+        skos:prefLabel  "Washland"@en .
+
+am-core:Building  a        am-core:AssetType , skos:Concept ;
+        rdfs:comment       "An asset that is used to provide shelter for equipment, storage or personnel"@en ;
+        rdfs:label         "Building"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:narrower      am-core:PumpHouse ;
+        skos:notation      "building" ;
+        skos:prefLabel     "Building"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core:Embankment  a   am-core:AssetType , skos:Concept ;
+        rdfs:comment    "An earthen structure used in the fluvial, tidal and coastal environments for flood defence and/or erosion protection. Also covers embankments used in dam structures."@en ;
+        rdfs:label      "Embankment"@en ;
+        skos:broader    am-core:Defence ;
+        skos:notation   "embankment" ;
+        skos:prefLabel  "Embankment"@en .
+
+am-core-inspection-dq:level_1
+        a                  am-core-inspection-dq:InspectionDataQuality , skos:Concept ;
+        rdfs:label         "Good"@en ;
+        skos:inScheme      am-core-inspection-dq:scheme ;
+        skos:notation      1 ;
+        skos:prefLabel     "Good"@en ;
+        skos:topConceptOf  am-core-inspection-dq:scheme .
+
+am-core:includeInFloodMap
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The Floodmap inclusion assessment. Refer to Floodmap Guidance"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Include in Flood Map"@en ;
+        rdfs:range     am-core:FloodMapInclusion ;
+        skos:notation  "Include in Flood Map" .
+
+am-core:HighGround  a   am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Covers all other extents along water courses that are not defined as any other Defence Asset Type. It covers situations where the only defence is the ground itself."@en ;
+        rdfs:label      "High Ground"@en ;
+        skos:broader    am-core:Defence ;
+        skos:notation   "high_ground" ;
+        skos:prefLabel  "High Ground"@en .
+
+am-core-sop-dq:level_1
+        a                  am-core-sop-dq:SopDataQuality , skos:Concept ;
+        rdfs:label         "Good"@en ;
+        skos:inScheme      am-core-sop-dq:scheme ;
+        skos:notation      1 ;
+        skos:prefLabel     "Good"@en ;
+        skos:topConceptOf  am-core-sop-dq:scheme .
+
+am-core:managementUnitId
+        a              owl:DatatypeProperty ;
+        rdfs:comment   "The code for the asset system. For example, EA FRMS should follow the format FR/XX/SXXX"@en ;
+        rdfs:domain    am-core:ManagementUnit ;
+        rdfs:label     "Unique Asset System Code"@en ;
+        rdfs:range     xsd:string ;
+        skos:notation  "Management Unit Id (Code)"@en .
+
+am-maint:activityType
+        a             owl:ObjectProperty ;
+        rdfs:comment  "Maintenance activity type"@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "Maintenance activity type"@en ;
+        rdfs:range    am-maint:ActivityType .
+
+am-core:designUcl  a   owl:DatatypeProperty ;
+        rdfs:comment   "The designed upstream crest level"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Design Upstream Crest Level"@en ;
+        rdfs:range     xsd:decimal ;
+        skos:notation  "Design UCL" .
+
+am-maint:actualFinishMonth
+        a             owl:DatatypeProperty ;
+        rdfs:comment  "The month in which an activity actually finished."@en ;
+        rdfs:domain   am-maint:Activity ;
+        rdfs:label    "actual finish month."@en ;
+        rdfs:range    xsd:gYearMonth .
+
+am-core:GeneralSite  a  am-core:AssetType , skos:Concept ;
+        rdfs:comment    "General grouping of assets that need to be considered as a single site."@en ;
+        rdfs:label      "General Site"@en ;
+        skos:broader    am-core:Site ;
+        skos:notation   "general_site" ;
+        skos:prefLabel  "General Site"@en .
+
+am-core-condition:scheme
+        a                   skos:ConceptScheme ;
+        rdfs:comment        "A SKOS Concept Scheme for asset condition levels."@en ;
+        rdfs:isDefinedBy    <http://environment.data.gov.uk/asset-management/source/def/condition.ttl> ;
+        rdfs:label          "Asset condition levels concept scheme"@en ;
+        skos:hasTopConcept  am-core-condition:level_2 , am-core-condition:level_4 , am-core-condition:level_9 , am-core-condition:level_1 , am-core-condition:level_3 , am-core-condition:level_0 , am-core-condition:level_5 ;
+        skos:prefLabel      "Asset condition levels concept scheme"@en .
+
+am-core:Hydrobrake  a   am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A fixed structure that controls the flow of water using a vortex."@en ;
+        rdfs:label      "Hydrobrake"@en ;
+        skos:broader    am-core:Structure ;
+        skos:notation   "hydrobrake" ;
+        skos:prefLabel  "Hydrobrake"@en .
+
+am-core:bank  a        owl:ObjectProperty ;
+        rdfs:comment   "The bank that the asset is on when looking downstream for fluvial assets. For coastal assets use coastal"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Bank of water body on which Asset lies"@en ;
+        rdfs:range     am-core:Bank ;
+        skos:notation  "Bank" .
+
+am-core:urgency  a     owl:ObjectProperty ;
+        rdfs:comment   "The urgency of the action required following the asset inspection"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Urgency of Action"@en ;
+        rdfs:range     am-core:Urgency ;
+        skos:notation  "Urgency" .
+
+am-core-crest-dq:scheme
+        a                   skos:ConceptScheme ;
+        rdfs:comment        "A SKOS Concept Scheme for data quality levels."@en ;
+        rdfs:label          "Crest Level data quality levels concept scheme"@en ;
+        skos:hasTopConcept  am-core-crest-dq:level_1 , am-core-crest-dq:level_2 , am-core-crest-dq:level_3 , am-core-crest-dq:level_4 ;
+        skos:prefLabel      "Crest Level data quality levels concept scheme"@en .
+
+am-core-sq:level_4  a      am-core-sq:SpatialQuality , skos:Concept ;
+        rdfs:label         "Poor"@en ;
+        skos:inScheme      am-core-sq:scheme ;
+        skos:notation      4 ;
+        skos:topConceptOf  am-core-sq:scheme .
+
+am-core-condition:level_2
+        a                  am-core-condition:Condition , skos:Concept ;
+        rdfs:comment       "Minor defects that will not reduce the overall performance of the asset"@en ;
+        rdfs:isDefinedBy   <http://environment.data.gov.uk/asset-management/source/def/condition.ttl> ;
+        rdfs:label         "Good"@en ;
+        skos:inScheme      am-core-condition:scheme ;
+        skos:notation      "2" ;
+        skos:prefLabel     "Good"@en ;
+        skos:topConceptOf  am-core-condition:scheme .
+
+am-core:designSopDqf  a  owl:ObjectProperty ;
+        rdfs:comment   "The data quality flag for the design Standard of Protection. Refer to OI 57_06"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Design Standard of Protection Data Quality Indicator"@en ;
+        rdfs:range     am-core-crest-dq:CrestLevelDataQuality ;
+        skos:notation  "Design SoP DQF" .
+
+am-core:Promenade  a    am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Promenades found along the coast can perform a flood defence and/or erosion protection function."@en ;
+        rdfs:label      "Promenade"@en ;
+        skos:broader    am-core:Defence ;
+        skos:notation   "promenade" ;
+        skos:prefLabel  "Promenade"@en .
+
+am-core:MajorCivils  a     skos:Concept , am-core:AssetType ;
+        rdfs:comment       "Assets that are large structures, such as the Thames Barrier"@en ;
+        rdfs:label         "Major Civils"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:narrower      am-core:Abutment , am-core:CentralPier ;
+        skos:notation      "major_civils" ;
+        skos:prefLabel     "Major Civils"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core:waterManagementArea
+        a              owl:ObjectProperty ;
+        rdfs:comment   "The EA Area responsible for the Asset"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "The EA Operational Area"@en ;
+        skos:notation  "Water Management Area" .
+
+am-core:InspectionChamber
+        a               am-core:AssetType , skos:Concept ;
+        rdfs:comment    "A means of inspecting a structure."@en ;
+        rdfs:label      "Inspection Chamber"@en ;
+        skos:broader    am-core:Structure ;
+        skos:notation   "inspection_chamber" ;
+        skos:prefLabel  "Inspection Chamber"@en .
+
+am-core-inspection-dq:level_4
+        a                  am-core-inspection-dq:InspectionDataQuality , skos:Concept ;
+        rdfs:label         "Poor"@en ;
+        skos:inScheme      am-core-inspection-dq:scheme ;
+        skos:notation      4 ;
+        skos:prefLabel     "Poor"@en ;
+        skos:topConceptOf  am-core-inspection-dq:scheme .
+
+am-core:AidToNavigation
+        a                  am-core:AssetType , skos:Concept ;
+        rdfs:comment       "Assets that are used to aid navigation in the marine and fluvial environment."@en ;
+        rdfs:label         "Aid to Navigation"@en ;
+        skos:inScheme      am-core:AssetType-type-scheme ;
+        skos:narrower      am-core:Dolphin , am-core:Signage , am-core:Buoy , am-core:Signal , am-core:Beacon ;
+        skos:notation      "aid_to_navigation" ;
+        skos:prefLabel     "Aid to Navigation"@en ;
+        skos:topConceptOf  am-core:AssetType-type-scheme .
+
+am-core:Signage  a      am-core:AssetType , skos:Concept ;
+        rdfs:comment    "Signage in the marine and fluvial environment provides information to aid navigation."@en ;
+        rdfs:label      "Signage"@en ;
+        skos:broader    am-core:AidToNavigation ;
+        skos:notation   "signage" ;
+        skos:prefLabel  "Signage"@en .
+
+am-core-sop-dq:level_4
+        a                  am-core-sop-dq:SopDataQuality , skos:Concept ;
+        rdfs:label         "Poor"@en ;
+        skos:inScheme      am-core-sop-dq:scheme ;
+        skos:notation      4 ;
+        skos:prefLabel     "Poor"@en ;
+        skos:topConceptOf  am-core-sop-dq:scheme .
+
+am-core:dataOwnerAssetRef
+        a              owl:DatatypeProperty ;
+        rdfs:comment   "Asset reference used by the management group, for example: EA NFCDD Reference"@en ;
+        rdfs:domain    am-core:Asset ;
+        rdfs:label     "Asset Reference from Legacy System"@en ;
+        rdfs:range     xsd:string ;
+        skos:notation  "Data Owner Asset Ref" .

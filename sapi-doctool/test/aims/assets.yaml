@@ -1,0 +1,13 @@
+name       : assetsEndpoint
+type       : list
+url        : /asset-management/id/asset
+query      : "?id a am-core:Asset."
+textSearch: true
+softLimit : 100
+views     :
+  default : "asset-csv-view"
+#    class:      "am-core:Asset"
+#    projection: "label,notation,assetType.prefLabel,assetSubType.prefLabel,area.label,primaryPurpose.prefLabel,secondaryPurpose.prefLabel,bank.prefLabel,protectionType.label,assetStartDate,managementUnit.label,targetCondition.prefLabel,actualCondition.prefLabel,calculatedCondition.prefLabel,worstCondition.prefLabel,manualOverrideCondition.prefLabel,recommendation,urgency.prefLabel,lastInspectionDate,yearLastRefurbished,assetLength,currentSop,designSop,designUcl,actualUcl,designDcl,actualDcl,effectiveCl,toeLevel,invertLevel,structureHeight,geometry"
+  full :
+    class:      "am-core:Asset"
+    projection: "*,assetType.prefLabel,assetSubType.prefLabel,area.label,primaryPurpose.prefLabel,secondaryPurpose.prefLabel,bank.prefLabel,protectionType.label,managementUnit.label,targetCondition.prefLabel,actualCondition.prefLabel,calculatedCondition.prefLabel,worstCondition.prefLabel,manualOverrideCondition.prefLabel,urgency.prefLabel,westminsterConstituency.label,maintenanceActivity(activityType,activitySubType,activityDetail,plannedStartMonth,plannedFinishMonth,actualStartMonth,actualFinishMonth)"
