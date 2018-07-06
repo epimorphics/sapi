@@ -1,0 +1,9 @@
+name       : maintenancePlansEndpoint
+type       : list
+url        : /asset-management/id/maintenance-plan
+query      : "?id a am-maint:PlannedMaintenance."
+textSearch: true
+unionStyle: true
+view:
+  class:      "am-maint:PlannedMaintenance"
+  projection: "*,maintainedAsset(label,assetType,assetSubType),planStatus.prefLabel,activityType.prefLabel,activitySubType.prefLabel,hasRfcc.prefLabel,area.label,assetPerformanceTeam.label"

@@ -73,8 +73,9 @@ classes:
       - { prop: "am-core:effectiveClDqf", optional: true, type: "skos:Concept" }
       - { prop: "am-core:dataOwnerAssetRef", optional: true }
       - { prop: "am-core:managementGroup", optional: true }
-#      - { prop: "am-maint:maintenanceActivity", optional: true, type: "am-maint:Activity", multi: true }
-      - { prop: "am-maint:maintenanceActivity", optional: true, type: "local:SimplifiedActivity", multi: true }
+      - { prop: "am-maint:maintenanceActivity", optional: true, type: "am-maint:Activity", multi: true }
+      - { prop: "am-maint:maintenanceTask", optional: true, type: "local:SimplifiedTask", multi: true }
+      - { prop: "am-core:hasRfcc", optional: true, type: "skos:Concept" }
       - prop: "admingeo:westminsterConstituency"
         optional: true
         nested:
@@ -88,8 +89,9 @@ classes:
       - { prop: "am-core:frmsId", optiona: true }
       - { prop: "def-eaorg:area", optional: true, type: "skos:Concept" }
 
-  - class: "local:SimplifiedActivity"
+  - class: "local:SimplifiedTask"
     properties:
+      - { prop: "am-maint:status", type: "skos:Concept", optional: true }
       - { prop: "am-maint:activityType", type: "skos:Concept", valueBase: "http://environment.data.gov.uk/asset-management/def/maintenance/activity-type/" }
       - { prop: "am-maint:activitySubType", type: "skos:Concept", optional: true, valueBase: "http://environment.data.gov.uk/asset-management/def/maintenance/activity-type/" }
       - { prop: "am-maint:activityDetail" }
@@ -98,9 +100,10 @@ classes:
       - { prop: "am-maint:actualStartMonth", optional: true, type: "xsd:gYearMonth" }
       - { prop: "am-maint:actualFinishMonth", optional: true, type: "xsd:gYearMonth" }
 
-  - class: "am-maint:Activity"
+  - class: "am-maint:Task"
     properties:
-      - { prop: "am-maint:programme", optional: true, type:  "am-maint:Programme" }
+      - { prop: "am-maint:maintenanceActivity", type: "am-maint:Activity" }
+
       - { prop: "skos:notation", optional: true }
       - { prop: "am-maint:maintainedAsset", multi: true, type: "am-core:Asset", valueBase: "http://environment.data.gov.uk/asset-management/id/asset/" }
       - { prop: "am-maint:status", type: "skos:Concept", optional: true }
@@ -123,6 +126,42 @@ classes:
         optional: true
         nested:
           - "rdfs:label"
+
+  - class: "am-maint:Activity"
+    properties:
+      - { prop: "am-maint:programme", optional: true, type:  "am-maint:Programme" }
+      - { prop: "skos:notation", optional: true }
+      - { prop: "am-maint:maintainedAsset", multi: true, type: "am-core:Asset", valueBase: "http://environment.data.gov.uk/asset-management/id/asset/" }
+      - { prop: "am-maint:maintenanceTask", optional: true, type: "local:SimplifiedTask", multi: true }
+      - { prop: "am-maint:hasRfcc", optional: true, type: "skos:Concept" }
+      - { prop: "def-eaorg:area", optional: true, type: "skos:Concept" }
+      - prop: "admingeo:westminsterConstituency"
+        optional: true
+        nested:
+          - "rdfs:label"
+
+  - class: "am-maint:PlannedMaintenance"
+    properties:
+      - { prop: "skos:notation" }
+      - { prop: "am-maint:maintainedAsset", multi: true, type: "am-core:Asset", valueBase: "http://environment.data.gov.uk/asset-management/id/asset/" }
+      - { prop: "am-maint:activityType", type: "skos:Concept", valueBase: "http://environment.data.gov.uk/asset-management/def/maintenance/activity-type/" }
+      - { prop: "am-maint:activitySubType", type: "skos:Concept", optional: true, valueBase: "http://environment.data.gov.uk/asset-management/def/maintenance/activity-type/" }
+      - { prop: "am-maint:plannedFinishMonth", optional: true, type: "xsd:gYearMonth" }
+      - { prop: "am-maint:plannedFinishQuarter", optional: true }
+      - { prop: "am-maint:plannedFinishYear", optional: true, type: "xsd:gYear" }
+      - { prop: "am-maint:programmeMonth", optional: true, type: "xsd:int" }
+      - { prop: "am-maint:programmeYear",  optional: true, type: "xsd:int" }
+
+      - { prop: "am-maint:planStatus", optional: true, valueBase: "http://environment.data.gov.uk/asset-management/def/maintenance/plan-status/", type: "skos:Concept" }
+      - { prop: "am-maint:hasRfcc", optional: true, type: "skos:Concept" }
+      - { prop: "def-eaorg:area", optional: true, type: "skos:Concept" }
+      - { prop: "am-maint:assetPerformanceTeam", optional: true, type: "am-maint:FieldTeam" }
+
+  - class: "am-maint:FieldTeam"
+    properties:
+      - "rdfs:label"
+      - "skos:notation"
+      - { prop: "def-eaorg:area", optional: true, type: "skos:Concept" }
 
   - class: "am-maint:Programme"
     properties:

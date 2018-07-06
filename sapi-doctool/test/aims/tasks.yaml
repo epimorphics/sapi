@@ -1,0 +1,10 @@
+name       : tasksEndpoint
+type       : list
+url        : /asset-management/id/maintenance-task
+query      : "?id a am-maint:Task."
+textSearch: true
+unionStyle: true
+view:
+  class:      "am-maint:Task"
+  projection: "*,maintainedAsset(label,assetType,assetSubType),status.prefLabel,maintenanceActivity.programme.label,activityType.prefLabel,activitySubType.prefLabel,hasRfcc.prefLabel,area.label,westminsterConstituency.label"
+
