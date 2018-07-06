@@ -93,6 +93,10 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         checkGet("basetest/listNestedSelect?filter=test&_sort=@id", EXPECTED + "listNestedSelect-filter.json");
         checkGet("basetest/listNestedSelect?_limit=2&_sort=@id", EXPECTED + "listNestedSelect-limit2.json");
         checkGet("basetest/listNestedSelect?narrower.notation=3&_sort=@id", EXPECTED + "listNestedSelect-filterGeneric.json");
+        
+        // Nested view patters with underscores in the property name
+        checkGet("basetest/listUS?_sort=@id", EXPECTED + "list-underscores.ttl");
+        
     }
     
     protected void checkGet(String url, String expectedF) {

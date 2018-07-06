@@ -122,7 +122,8 @@ public class ResultStreamSparqlSelect extends ResultStreamBase implements Result
     private void addTree(TreeResult result, ViewTree tree, QuerySolution row, String path) {
         for (ViewEntry ve : tree) {
             String key = ve.getJsonName();
-            String npath = path.isEmpty() ? key : path + "_" + key;
+            String varname = ve.getVariableName();
+            String npath = path.isEmpty() ? varname : path + "_" + varname;
             RDFNode value = row.get( npath );
             if (value != null) {
                 if (ve.isNested()) {

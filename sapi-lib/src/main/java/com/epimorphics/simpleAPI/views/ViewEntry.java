@@ -61,6 +61,10 @@ public class ViewEntry {
         return name;
     }
     
+    public String getVariableName() {
+        return jsonname.replace("_", "__");
+    }
+    
     public URI getProperty() {
         return property;
     }
@@ -143,8 +147,6 @@ public class ViewEntry {
         this.hide = hide;
     }
 
-
-
     public static class PV {
     	public final URI property;
     	public final Var var;
@@ -156,7 +158,7 @@ public class ViewEntry {
     }
     
     public PV asQueryRow(String parent) {
-        String varname = parent.isEmpty() ? jsonname : parent + "_" + jsonname;
+        String varname = (parent.isEmpty() ? "" : parent + "_") + getVariableName();
         Var var = new Var(varname);
         return new PV(property, var);  
     }

@@ -84,7 +84,7 @@ public class ViewTree implements Iterable<ViewEntry> {
     	List<GraphPattern> patterns = new ArrayList<GraphPattern>();
     	
     	for (ViewEntry map : children.values()) {
-            String jname = map.getJsonName();
+            String jname = map.getVariableName();
             String npath = addToPath(path, jname);
         	PV pv = map.asQueryRow(path);
         	Triple t = new Triple(new Var(var), pv.property, pv.var);
@@ -153,9 +153,9 @@ public class ViewTree implements Iterable<ViewEntry> {
     
     private String addToPath(String path, String jname) {
         if (path.isEmpty()) {
-            return jname.replace("_", "__");
+            return jname; //.replace("_", "__");
         } else {
-            return path + "_" + jname.replace("_", "__");
+            return path + "_" + jname; //.replace("_", "__");
         }
     }
 
