@@ -36,7 +36,11 @@ public class LimitRequestProcessor extends RequestProcessorBase {
                     limit = lspec.getSoftLimit();
                 }
                 if (lspec.getHardLimit() != null) {
-                    limit = Math.min(limit, lspec.getHardLimit());
+                    if (limit < 0) {
+                        limit = lspec.getHardLimit();
+                    } else {
+                        limit = Math.min(limit, lspec.getHardLimit());
+                    }
                 }
                 long offset = 0;
                 if (request.hasParameter(OFFSET)) {
