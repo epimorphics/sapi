@@ -113,6 +113,8 @@ public class JsonWriterUtil {
                 // writer.pair("@id", n.asResource().getURI());
                 // }
                 // writer.finishObject();
+            } else if (n.isAnon()) {
+                // Do nothing - no nested values since it's not a TreeResult so nothing we can usefully serialize
             } else {
                 Literal l = n.asLiteral();
                 String lex = l.getLexicalForm();
