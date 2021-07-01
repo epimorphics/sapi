@@ -11,6 +11,7 @@ package com.epimorphics.simpleAPI.writers;
 
 import java.util.List;
 
+import com.epimorphics.simpleAPI.webapi.EndpointsBase;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.RDF;
@@ -23,6 +24,8 @@ import com.epimorphics.simpleAPI.results.TreeResult;
 import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewTree;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Serialize a result as JSON. Assumes that the shape of the result matches the
@@ -38,6 +41,7 @@ public class JsonWriterUtil {
     public static final String LABEL_FIELD = "label";
     public static final String[] LABEL_FIELDS = new String[]{"prefLabel", "label", "name"};
 
+    static final Logger log = LoggerFactory.getLogger( JsonWriterUtil.class );
 
     public static void writeResult(TreeResult result, JSFullWriter out) {
         EndpointSpec spec = result.getCall().getEndpoint();
@@ -115,6 +119,7 @@ public class JsonWriterUtil {
                 // writer.finishObject();
             } else if (n.isAnon()) {
                 // Do nothing - no nested values since it's not a TreeResult so nothing we can usefully serialize
+                log.warn("Unexpected bNode found in result tree");
             } else {
                 Literal l = n.asLiteral();
                 String lex = l.getLexicalForm();
