@@ -46,7 +46,8 @@ public class WJSONObject {
     }
     
     public void put(String key, Object value) {
-        properties.put(key, value);
+    	if(value!=null)
+          properties.put(key, value);
     }
     
     public boolean isObject() {
