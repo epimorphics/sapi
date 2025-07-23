@@ -78,7 +78,8 @@ public class TestRequestBasics {
         assertNotNull(ts);
         SimpleDateFormat fmt = new SimpleDateFormat("dd MMM yyyy HH:mm:ss z", Locale.UK);
         fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
-        assertEquals("22 Sep 2016 20:05:05 GMT", fmt.format( new Date(ts) ) );
+        // Java 17 and beyond use Sept instead of Sep as the three letter month, bizarre but true
+        assertEquals("22 Sep 2016 20:05:05 GMT", fmt.format( new Date(ts) ).replace("Sept", "Sep") );
         Long lastChecked = lm.lastFetched();
         assertNotNull(lastChecked);
         

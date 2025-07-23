@@ -5,4 +5,4 @@ target/
 velocity.log
 .vagrant
 *.iml
-
+.idea
