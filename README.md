@@ -1,8 +1,8 @@
 ## Historical context
 
-The sapi library has mostly been superceded by sapi-nt. However, it remains in use in cairnj (FSA Catalog API) and Sanoma as legacy.
+The sapi library has mostly been superseded by sapi-nt. However, it remains in use in cairnj (FSA Catalog API) and Sanoma as legacy.
 
-It was used in legacy EA services which we no longer run and has likely been superceded there.
+It was used in legacy EA services which we no longer run and has likely been superseded there.
 
 The master branch is for current 3.x releases.
 
