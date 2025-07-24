@@ -97,7 +97,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
   </filter-mapping>
  
   <welcome-file-list>
-    <welcome-file>ui/index.html</welcome-file>
+    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
   
   <context-param>

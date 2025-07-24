@@ -14,7 +14,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <appbase.version>3.1.5-SNAPSHOT</appbase.version>
+      <appbase.version>3.1.6</appbase.version>
   </properties>
 
   <repositories>

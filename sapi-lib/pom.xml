@@ -6,7 +6,7 @@
   <description>Simple API library</description>
 
   <properties>
-    <tomcat.version>8.5.100</tomcat.version>
+    <tomcat.version>9.0.107</tomcat.version>
   </properties>
 
   <dependencies>
