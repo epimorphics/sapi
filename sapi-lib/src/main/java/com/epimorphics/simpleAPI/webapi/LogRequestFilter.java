@@ -55,9 +55,12 @@ public class LogRequestFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest)request;
         HttpServletResponse httpResponse = (HttpServletResponse)response;
         String path = httpRequest.getRequestURI();
-        String requestID = httpRequest.getHeader("x-request-id");
         String query = httpRequest.getQueryString();
         long transaction = transactionCount.incrementAndGet();
+        String requestID = httpRequest.getHeader("x-request-id");
+        if (requestID == null) {
+            requestID = Long.toString(transaction);
+        }
         long start = System.currentTimeMillis();
 
         MDC.put("method", "GET");
@@ -73,7 +76,7 @@ public class LogRequestFilter implements Filter {
         Long durationMS = System.currentTimeMillis() - start;
         MDC.put("request_status", "completed");
         MDC.put("status", Integer.toString(httpResponse.getStatus()));
-        MDC.put("request_time", Double.toString(1000.0/durationMS));
+        MDC.put("request_time", String.format("%.3f", durationMS/1000.0));
         log.info( String.format("Response [%d] : %d (%s)", transaction, httpResponse.getStatus(),
                 NameUtils.formatDuration(durationMS) ) );
         MDC.clear();
