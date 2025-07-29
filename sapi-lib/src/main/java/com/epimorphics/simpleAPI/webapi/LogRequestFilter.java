@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.util.NameUtils;
+import org.slf4j.MDC;
 
 /**
  * A Filter that can be added to filter chain to log all incoming requests and
@@ -56,13 +57,29 @@ public class LogRequestFilter implements Filter {
         String path = httpRequest.getRequestURI();
         String query = httpRequest.getQueryString();
         long transaction = transactionCount.incrementAndGet();
+        String requestID = httpRequest.getHeader("x-request-id");
+        if (requestID == null) {
+            requestID = Long.toString(transaction);
+        }
         long start = System.currentTimeMillis();
-        
+
+        MDC.put("method", "GET");
+        MDC.put("path", path);
+        if (requestID != null) {
+            MDC.put("request_id", requestID);
+        }
+        MDC.put("request_status", "received");
         log.info( String.format("Request  [%d] : %s", transaction, path) + (query == null ? "" : ("?" + query)) );
+        MDC.put("request_status", "processing");
         httpResponse.addHeader(REQUEST_ID_HEADER, Long.toString(transaction));
-        chain.doFilter(request, response);        
+        chain.doFilter(request, response);
+        Long durationMS = System.currentTimeMillis() - start;
+        MDC.put("request_status", "completed");
+        MDC.put("status", Integer.toString(httpResponse.getStatus()));
+        MDC.put("request_time", String.format("%.3f", durationMS/1000.0));
         log.info( String.format("Response [%d] : %d (%s)", transaction, httpResponse.getStatus(),
-                NameUtils.formatDuration(System.currentTimeMillis() - start) ) );
+                NameUtils.formatDuration(durationMS) ) );
+        MDC.clear();
     }
 
     @Override
