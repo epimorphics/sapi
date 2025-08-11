@@ -63,7 +63,7 @@ public class LogRequestFilter implements Filter {
         }
         long start = System.currentTimeMillis();
 
-        MDC.put("method", "GET");
+        MDC.put("method", ((HttpServletRequest) request).getMethod());
         MDC.put("path", path);
         if (requestID != null) {
             MDC.put("request_id", requestID);
