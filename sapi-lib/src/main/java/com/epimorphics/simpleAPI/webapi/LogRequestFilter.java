@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response.Status;
 
+import com.epimorphics.simpleAPI.metrics.ResponseMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,10 +77,20 @@ public class LogRequestFilter implements Filter {
         Long durationMS = System.currentTimeMillis() - start;
         MDC.put("request_status", "completed");
         MDC.put("status", Integer.toString(httpResponse.getStatus()));
+        updateMetrics(httpResponse.getStatus());
         MDC.put("request_time", String.format("%.3f", durationMS/1000.0));
         log.info( String.format("Response [%d] : %d (%s)", transaction, httpResponse.getStatus(),
                 NameUtils.formatDuration(durationMS) ) );
         MDC.clear();
+    }
+
+    private void updateMetrics(int status) {
+        ResponseMetrics metrics = ResponseMetrics.getInstance();
+        if (status > 400 && status != 404) {
+            metrics.incResponseFailed();
+        } else {
+            metrics.incResponseSucceeded();
+        }
     }
 
     @Override
