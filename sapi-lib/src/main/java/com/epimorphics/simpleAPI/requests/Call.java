@@ -9,34 +9,28 @@
 
 package com.epimorphics.simpleAPI.requests;
 
-import java.util.List;
-import java.util.function.Function;
-
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response.Status;
-
+import com.epimorphics.appbase.webapi.ExtensionFilter;
+import com.epimorphics.appbase.webapi.WebApiException;
+import com.epimorphics.rdfutil.TypeUtil;
+import com.epimorphics.simpleAPI.core.API;
+import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
+import com.epimorphics.simpleAPI.query.*;
+import com.epimorphics.simpleAPI.results.ResultOrStream;
+import com.epimorphics.simpleAPI.views.ViewEntry;
+import com.epimorphics.simpleAPI.views.ViewMap;
+import com.epimorphics.simpleAPI.views.ViewPath;
+import com.epimorphics.util.NameUtils;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
 import org.apache.jena.sparql.resultset.ResultSetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.epimorphics.appbase.webapi.ExtensionFilter;
-import com.epimorphics.appbase.webapi.WebApiException;
-import com.epimorphics.rdfutil.TypeUtil;
-import com.epimorphics.simpleAPI.core.API;
-import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
-import com.epimorphics.simpleAPI.query.DataSource;
-import com.epimorphics.simpleAPI.query.ItemQuery;
-import com.epimorphics.simpleAPI.query.ListQuery;
-import com.epimorphics.simpleAPI.query.Query;
-import com.epimorphics.simpleAPI.query.QueryBuilder;
-import com.epimorphics.simpleAPI.results.ResultOrStream;
-import com.epimorphics.simpleAPI.views.ViewEntry;
-import com.epimorphics.simpleAPI.views.ViewMap;
-import com.epimorphics.simpleAPI.views.ViewPath;
-import com.epimorphics.util.NameUtils;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response.Status;
+import java.util.List;
+import java.util.function.Function;
 
 /**
  * Represents all the information involved in invoking a single API call.
@@ -216,6 +210,7 @@ public class Call {
      * Return the results for this call using a built (and possible modified) query. 
      */
     public ResultOrStream getResults(Query query) {
+        log.info("Issuing query: " + query);
         if (query instanceof ListQuery) {
             return getDataSource().query((ListQuery)query, this);
         } else {

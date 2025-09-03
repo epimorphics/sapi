@@ -39,7 +39,8 @@ import org.slf4j.MDC;
 public class LogRequestFilter implements Filter {
     public static final String TRANSACTION_ATTRIBUTE = "transaction";
     public static final String START_TIME_ATTRIBUTE  = "startTime";
-    public static final String REQUEST_ID_HEADER  = "x-response-id";
+    public static final String RESPONSE_ID_HEADER = "x-response-id";
+    public static final String REQUEST_ID_HEADER = "x-request-id";
     
     static final Logger log = LoggerFactory.getLogger( LogRequestFilter.class );
     
@@ -58,10 +59,7 @@ public class LogRequestFilter implements Filter {
         String path = httpRequest.getRequestURI();
         String query = httpRequest.getQueryString();
         long transaction = transactionCount.incrementAndGet();
-        String requestID = httpRequest.getHeader("x-request-id");
-        if (requestID == null) {
-            requestID = Long.toString(transaction);
-        }
+        String requestID = httpRequest.getHeader(REQUEST_ID_HEADER);
         long start = System.currentTimeMillis();
 
         MDC.put("method", ((HttpServletRequest) request).getMethod());
@@ -72,7 +70,7 @@ public class LogRequestFilter implements Filter {
         MDC.put("request_status", "received");
         log.info( String.format("Request  [%d] : %s", transaction, path) + (query == null ? "" : ("?" + query)) );
         MDC.put("request_status", "processing");
-        httpResponse.addHeader(REQUEST_ID_HEADER, Long.toString(transaction));
+        httpResponse.addHeader(RESPONSE_ID_HEADER, Long.toString(transaction));
         chain.doFilter(request, response);
         Long durationMS = System.currentTimeMillis() - start;
         MDC.put("request_status", "completed");

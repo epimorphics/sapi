@@ -30,6 +30,7 @@ import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.ResultStream;
 import com.epimorphics.simpleAPI.results.TreeResult;
 import com.epimorphics.simpleAPI.writers.CSVWriter;
+import org.slf4j.MDC;
 
 @Provider
 @Produces("text/csv")
@@ -78,7 +79,8 @@ public class ResultStreamCSV implements MessageBodyWriter<ResultStream> {
             results.close();
             writer.close();
         }
-        log.info("Returned " + count + " coalesced rows");
+        MDC.put("returned_rows", Long.toString(count));
+        log.info("Found " + count + " coalesced rows");
     }
 
 }

@@ -32,6 +32,7 @@ import com.epimorphics.simpleAPI.views.ViewEntry;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.util.EpiException;
+import org.slf4j.MDC;
 
 /**
  * Support for writing Results and ResultStreams out as CSV file streams.
@@ -91,7 +92,8 @@ public class CSVWriter {
                 }
                 count++;
             }
-            log.info("Returned " + count + " coalesced rows");
+            MDC.put("returned_rows", Long.toString(count));
+            log.info("Found " + count + " coalesced rows");
         } finally {
             out.close();
         }

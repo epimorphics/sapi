@@ -81,9 +81,8 @@ public class ResultStreamJSON implements MessageBodyWriter<ResultStream> {
             out.finishObject();
             out.finishOutput();
         }
-        MDC.put("rows", Long.toString(count));
-        log.info("Returned " + count + " coalesced rows");
-        MDC.remove("rows");
+        MDC.put("returned_rows", Long.toString(count));
+        log.info("Found " + count + " coalesced rows");
     }
     
     public static void writeMetadata(ResultOrStream results, JSFullWriter out) {

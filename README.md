@@ -20,3 +20,9 @@ Endpoints can be manually created and customized in Java (e.g. using Jersey) or 
 ```
 mvn clean deploy
 ```
+
+## Changelog
+
+`2.3.7` - improve logging (log query, MDC.retured_rows)
+`2.3.6` - drop `request_id` logging unless incoming `x-request-id` header
+`2.3.5` - updated tomcat to 9.0, MDC logging fields, metrics support
