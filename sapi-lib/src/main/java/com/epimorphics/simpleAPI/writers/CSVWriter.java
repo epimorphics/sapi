@@ -93,7 +93,7 @@ public class CSVWriter {
                 count++;
             }
             MDC.put("returned_rows", Long.toString(count));
-            log.info("Found " + count + " coalesced rows");
+            log.info("Query return [" +  MDC.get("transaction_id") + "] " + count + " coalesced rows");
         } finally {
             out.close();
         }

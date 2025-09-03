@@ -25,6 +25,7 @@ import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
 import org.apache.jena.sparql.resultset.ResultSetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
@@ -163,6 +164,7 @@ public class Call {
      */
     public ResultOrStream getResults() {
         Query query = finalizeQueryBuilder().build();
+        log.info("Query [" +  MDC.get("transaction_id") + "] " + query);
         checkRequestRecognized();
         try {
             if (query instanceof ListQuery) {
@@ -180,14 +182,14 @@ public class Call {
             if (e.getResponseCode() == 503) {
                 throw new WebApiException(e.getResponseCode(), "Query timed out");
             } else {
-                log.error("Odd query reponse: " + e.getMessage());
+                log.error("Query failed [{}] Unexpected response: {}", MDC.get("transaction_id"), e.getMessage());
                 throw new WebApiException(Status.INTERNAL_SERVER_ERROR, e.getMessage());
             }
         } catch (ResultSetException e2) {
             throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Bad response from data server, probably query timeout in mid flight");
         } catch (Exception e3) {
             if ( !(e3 instanceof WebApplicationException) ) {
-                log.error("Query problem: " + e3.getMessage());
+                log.error("Query failed [{}] : {}", MDC.get("transaction_id"), e3.getMessage());
                 throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Problem with query processing: " + e3);
             } else {
                 throw e3;
@@ -210,7 +212,7 @@ public class Call {
      * Return the results for this call using a built (and possible modified) query. 
      */
     public ResultOrStream getResults(Query query) {
-        log.info("Issuing query: " + query);
+        log.info("Query [" +  MDC.get("transaction_id") + "] " + query);
         if (query instanceof ListQuery) {
             return getDataSource().query((ListQuery)query, this);
         } else {

@@ -71,6 +71,7 @@ public class LogRequestFilter implements Filter {
         log.info( String.format("Request  [%d] : %s", transaction, path) + (query == null ? "" : ("?" + query)) );
         MDC.put("request_status", "processing");
         httpResponse.addHeader(RESPONSE_ID_HEADER, Long.toString(transaction));
+        MDC.put("transaction_id", Long.toString(transaction));
         chain.doFilter(request, response);
         Long durationMS = System.currentTimeMillis() - start;
         MDC.put("request_status", "completed");
