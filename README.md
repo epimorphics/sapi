@@ -24,6 +24,9 @@ mvn clean deploy
 ## Changelog
 
 `2.3.8` - added query logging and MDC.transaction_id
+
 `2.3.7` - improve logging (log query, MDC.returned_rows)
+
 `2.3.6` - drop `request_id` logging unless incoming `x-request-id` header
+
 `2.3.5` - updated tomcat to 9.0, MDC logging fields, metrics support
