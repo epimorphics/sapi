@@ -72,14 +72,21 @@ public class LogRequestFilter implements Filter {
         MDC.put("request_status", "processing");
         httpResponse.addHeader(RESPONSE_ID_HEADER, Long.toString(transaction));
         MDC.put("transaction_id", Long.toString(transaction));
+
         chain.doFilter(request, response);
+
         Long durationMS = System.currentTimeMillis() - start;
-        MDC.put("request_status", "completed");
-        MDC.put("status", Integer.toString(httpResponse.getStatus()));
-        updateMetrics(httpResponse.getStatus());
+        int status = httpResponse.getStatus();
+        boolean failed = status > 400 && status != 404;
+        MDC.put("request_status", failed ? "error" : "completed");
+        MDC.put("status", Integer.toString(status));
+        updateMetrics(status);
         MDC.put("request_time", String.format("%.3f", durationMS/1000.0));
-        log.info( String.format("Response [%d] : %d (%s)", transaction, httpResponse.getStatus(),
-                NameUtils.formatDuration(durationMS) ) );
+        if (failed) {
+            log.error(String.format("Response [%d] : %d (%s)", transaction, status, NameUtils.formatDuration(durationMS)));
+        } else {
+            log.info( String.format("Response [%d] : %d (%s)", transaction, status, NameUtils.formatDuration(durationMS)));
+        }
         MDC.clear();
     }
 
