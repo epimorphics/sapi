@@ -69,6 +69,13 @@ public class SimpleList extends EndpointsBase {
         return listResponse( getRequest(), "listGeo");
     }
 
+    @GET
+    @Path("listUS")
+    @Produces({MediaType.APPLICATION_JSON, TURTLE, CSV, MediaType.TEXT_HTML})
+    public Response listTestUS() {
+        return listResponse( getRequest(), "listTestUS");
+    }
+
     @POST
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)

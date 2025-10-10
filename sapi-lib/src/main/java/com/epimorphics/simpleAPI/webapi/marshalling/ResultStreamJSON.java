@@ -31,6 +31,7 @@ import com.epimorphics.simpleAPI.requests.LimitRequestProcessor;
 import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.ResultOrStream;
 import com.epimorphics.simpleAPI.results.ResultStream;
+import org.slf4j.MDC;
 
 @Provider
 @Produces("application/json")
@@ -80,7 +81,8 @@ public class ResultStreamJSON implements MessageBodyWriter<ResultStream> {
             out.finishObject();
             out.finishOutput();
         }
-        log.info("Returned " + count + " coalesced rows");
+        MDC.put("returned_rows", Long.toString(count));
+        log.info("Query return [" +  MDC.get("transaction_id") + "] " + count + " coalesced rows");
     }
     
     public static void writeMetadata(ResultOrStream results, JSFullWriter out) {
