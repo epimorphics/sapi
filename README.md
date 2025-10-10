@@ -18,6 +18,8 @@ This is managed here on branch `sapi3`.
 
 Security fixes to `main` should be ported `sapi3` as well.
 
+Branch `sapi3-orig` is a preserved version of the initial sapi3 development to support archeology.
+
 # Simple API
 
 Library and starter application for providing simple JSON APIs onto published Linked Data.
@@ -25,6 +27,8 @@ Library and starter application for providing simple JSON APIs onto published Li
 Endpoints can be manually created and customized in Java (e.g. using Jersey) or can be configured simple yaml files.
 
 ## Release
+
+Update version numbers as appropriate then:
 
 ```
 mvn clean deploy
