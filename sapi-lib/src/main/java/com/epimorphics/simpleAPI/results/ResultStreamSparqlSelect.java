@@ -122,8 +122,7 @@ public class ResultStreamSparqlSelect extends ResultStreamBase implements Result
     private void addTree(TreeResult result, ClassSpec tree, QuerySolution row, String path) {
         for (PropertySpec ve : tree) {
             String key = ve.getJsonName();
-            String varname = ve.getVariableName();
-            String npath = path.isEmpty() ? varname : path + "_" + varname;
+            String npath = path.isEmpty() ? key : path + "_" + key;
             RDFNode value = row.get( npath );
             if (value != null) {
                 if (ve.isNested()) {

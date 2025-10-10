@@ -11,6 +11,7 @@ package com.epimorphics.simpleAPI.writers;
 
 import java.util.List;
 
+import com.epimorphics.simpleAPI.views.ClassSpec;
 import com.epimorphics.simpleAPI.webapi.EndpointsBase;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
@@ -23,7 +24,6 @@ import com.epimorphics.simpleAPI.results.Result;
 import com.epimorphics.simpleAPI.results.TreeResult;
 import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
-import com.epimorphics.simpleAPI.views.ViewTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

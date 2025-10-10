@@ -1,13 +1,22 @@
 ## Historical context
 
-The sapi library has mostly been superseded by sapi-nt. However, it remains in use in cairnj (FSA Catalog API) and Sanoma as legacy.
+This sapi library has (mostly) been superseded by sapi-nt. 
 
-It was used in legacy EA services which we no longer run and has likely been superseded there.
+There are two versions of it which remain in use in legacy services - sapi 2.x and sapi 3.x.
 
-The master branch is for current 3.x releases.
+### sapi 2.x
 
-Cairnj, and thus FSA catalog, depend on the 2.x family. Hot fixes and security fixes this family are maintained on the sapi2-fix branch.
+This version is used in fsa-cat-api and standard-reports-manager. 
 
+This is managed on the `main` branch.
+
+### sapi 3.x
+
+This version only used in one private legacy API.
+
+This is managed here on branch `sapi3`.
+
+Security fixes to `main` should be ported `sapi3` as well.
 
 # Simple API
 
@@ -22,6 +31,8 @@ mvn clean deploy
 ```
 
 ## Changelog
+
+`3.2.0` - merged sapi2 improvements to sapi3 branch
 
 `2.3.9` - improve logging of error responses, bump appbase for improved RunShell logging
 `2.3.8` - added query logging and MDC.transaction_id
