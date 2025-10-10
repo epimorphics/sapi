@@ -1,0 +1,11 @@
+name      : listTestUS
+type      : list
+baseQuery : "?id a eg:US_Item ."
+view      :
+    - "rdfs:label"
+    - prop: "eg:p_p"
+      nested:
+        - prop: "eg:r_r"
+          nested:
+            - "skos:notation"
+

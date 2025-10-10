@@ -9,35 +9,30 @@
 
 package com.epimorphics.simpleAPI.requests;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response.Status;
-
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
-import org.apache.jena.sparql.resultset.ResultSetException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.epimorphics.appbase.webapi.ExtensionFilter;
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.rdfutil.TypeUtil;
 import com.epimorphics.simpleAPI.core.API;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;
-import com.epimorphics.simpleAPI.query.DataSource;
-import com.epimorphics.simpleAPI.query.ItemQuery;
-import com.epimorphics.simpleAPI.query.ListQuery;
-import com.epimorphics.simpleAPI.query.Query;
-import com.epimorphics.simpleAPI.query.QueryBuilder;
+import com.epimorphics.simpleAPI.query.*;
 import com.epimorphics.simpleAPI.results.ResultOrStream;
 import com.epimorphics.simpleAPI.views.PropertySpec;
 import com.epimorphics.simpleAPI.views.ViewMap;
 import com.epimorphics.simpleAPI.views.ViewPath;
 import com.epimorphics.util.NameUtils;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
+import org.apache.jena.sparql.resultset.ResultSetException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response.Status;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Represents all the information involved in invoking a single API call.
@@ -69,7 +64,7 @@ public class Call {
         this.request = request;
         initBindings();
     }
-    
+
     protected void initBindings() {
         for( Map.Entry<String, String> binding : endpoint.getBindings().entrySet() ) {
             if ( ! request.hasParameter(binding.getKey()) ) {
@@ -180,6 +175,7 @@ public class Call {
      */
     public ResultOrStream getResults() {
         Query query = finalizeQueryBuilder().build();
+        log.info("Query [" +  MDC.get("transaction_id") + "] " + query);
         checkRequestRecognized();
         try {
             if (query instanceof ListQuery) {
@@ -197,14 +193,14 @@ public class Call {
             if (e.getResponseCode() == 503) {
                 throw new WebApiException(e.getResponseCode(), "Query timed out");
             } else {
-                log.error("Odd query reponse: " + e.getMessage());
+                log.error("Query failed [{}] Unexpected response: {}", MDC.get("transaction_id"), e.getMessage());
                 throw new WebApiException(Status.INTERNAL_SERVER_ERROR, e.getMessage());
             }
         } catch (ResultSetException e2) {
             throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Bad response from data server, probably query timeout in mid flight");
         } catch (Exception e3) {
             if ( !(e3 instanceof WebApplicationException) ) {
-                log.error("Query problem: " + e3.getMessage());
+                log.error("Query failed [{}] : {}", MDC.get("transaction_id"), e3.getMessage());
                 throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Problem with query processing: " + e3);
             } else {
                 throw e3;
@@ -227,6 +223,7 @@ public class Call {
      * Return the results for this call using a built (and possible modified) query. 
      */
     public ResultOrStream getResults(Query query) {
+        log.info("Query [" +  MDC.get("transaction_id") + "] " + query);
         if (query instanceof ListQuery) {
             return getDataSource().query((ListQuery)query, this);
         } else {

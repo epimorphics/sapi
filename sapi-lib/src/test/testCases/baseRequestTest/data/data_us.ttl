@@ -1,0 +1,34 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix eg:   <http://localhost/example/> .
+
+eg:AA1 a eg:US_Item;
+    rdfs:label "A1";
+    eg:p_p eg:AA2 .
+
+eg:AA2 
+    rdfs:label "A2";
+    eg:r_r eg:AA3 .
+
+eg:AA3    
+    rdfs:label "A3";
+    skos:notation "A";
+    .
+    
+eg:BB1 a eg:US_Item;
+    rdfs:label "B1";
+    eg:p_p eg:BB2 .
+
+eg:BB2 
+    rdfs:label "B2";
+    eg:r_r eg:BB3 .
+
+eg:BB3    
+    rdfs:label "B3";
+    skos:notation "B";
+    .
+    
