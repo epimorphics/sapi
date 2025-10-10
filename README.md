@@ -1,13 +1,24 @@
 ## Historical context
 
-The sapi library has mostly been superseded by sapi-nt. However, it remains in use in cairnj (FSA Catalog API) and Sanoma as legacy.
+This sapi library has (mostly) been superseded by sapi-nt.
 
-It was used in legacy EA services which we no longer run and has likely been superseded there.
+There are two versions of it which remain in use in legacy services - sapi 2.x and sapi 3.x.
 
-The master branch is for current 3.x releases.
+### sapi 2.x
 
-Cairnj, and thus FSA catalog, depend on the 2.x family. Hot fixes and security fixes this family are maintained on the sapi2-fix branch.
+This version is used in fsa-cat-api and standard-reports-manager.
 
+This is managed on the `main` branch (this branch).
+
+### sapi 3.x
+
+This version only used in one private legacy API.
+
+This is managed on branch `sapi3`.
+
+Security fixes to `main` should be ported `sapi3` as well.
+
+Branch `sapi3-orig` is a preserved version of the initial sapi3 development to support archeology.
 
 # Simple API
 
@@ -16,6 +27,8 @@ Library and starter application for providing simple JSON APIs onto published Li
 Endpoints can be manually created and customized in Java (e.g. using Jersey) or can be configured simple yaml files.
 
 ## Release
+
+Update version numbers as appropriate then:
 
 ```
 mvn clean deploy
