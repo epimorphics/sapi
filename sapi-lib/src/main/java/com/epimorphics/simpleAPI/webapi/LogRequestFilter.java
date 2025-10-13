@@ -68,10 +68,10 @@ public class LogRequestFilter implements Filter {
             MDC.put("request_id", requestID);
         }
         MDC.put("request_status", "received");
+        MDC.put("transaction_id", Long.toString(transaction));
         log.info( String.format("Request  [%d] : %s", transaction, path) + (query == null ? "" : ("?" + query)) );
         MDC.put("request_status", "processing");
         httpResponse.addHeader(RESPONSE_ID_HEADER, Long.toString(transaction));
-        MDC.put("transaction_id", Long.toString(transaction));
 
         chain.doFilter(request, response);
 

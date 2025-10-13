@@ -36,6 +36,7 @@ mvn clean deploy
 
 ## Changelog
 
+`2.3.10` - fix missing transaction id in requests
 `2.3.9` - improve logging of error responses, bump appbase for improved RunShell logging
 `2.3.8` - added query logging and MDC.transaction_id
 
