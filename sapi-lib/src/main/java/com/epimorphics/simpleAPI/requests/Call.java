@@ -167,23 +167,24 @@ public class Call {
         log.info("Query [" +  MDC.get("transaction_id") + "] " + query);
         checkRequestRecognized();
         try {
-            if (query instanceof ListQuery) {
-                if (getTemplateName() == null) {
-                    templateName = getAPI().getDefaultListTemplate();
-                }
-                return getDataSource().query((ListQuery)query, this);
-            } else {
-                if (getTemplateName() == null) {
-                    templateName = getAPI().getDefaultItemTemplate();
-                }
-                return getDataSource().query((ItemQuery)query, this);
-            }
+            return getResults(query);
         } catch (QueryExceptionHTTP e) {
-            if (e.getResponseCode() == 503) {
-                throw new WebApiException(e.getResponseCode(), "Query timed out");
-            } else {
-                log.error("Query failed [{}] Unexpected response: {}", MDC.get("transaction_id"), e.getMessage());
-                throw new WebApiException(Status.INTERNAL_SERVER_ERROR, e.getMessage());
+            // Retry before reporting error
+            try {
+                Thread.sleep(3000);  // TODO make configurable
+            } catch (InterruptedException ex) { }
+            try {
+                return getResults(query);
+            } catch (QueryExceptionHTTP er) {
+                if (er.getResponseCode() == 503) {
+                    throw new WebApiException(er.getResponseCode(), "Query timed out");
+                } else {
+                    log.error("Query failed [{}] Unexpected response: {}", MDC.get("transaction_id"), er.getMessage());
+                    throw new WebApiException(Status.INTERNAL_SERVER_ERROR, er.getMessage());
+                }
+            } catch (Exception eo) {
+                log.error("Query failed [{}] : {}", MDC.get("transaction_id"), eo.getMessage());
+                throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Problem with query processing: " + eo);
             }
         } catch (ResultSetException e2) {
             throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Bad response from data server, probably query timeout in mid flight");
@@ -212,10 +213,15 @@ public class Call {
      * Return the results for this call using a built (and possible modified) query. 
      */
     public ResultOrStream getResults(Query query) {
-        log.info("Query [" +  MDC.get("transaction_id") + "] " + query);
         if (query instanceof ListQuery) {
+            if (getTemplateName() == null) {
+                templateName = getAPI().getDefaultListTemplate();
+            }
             return getDataSource().query((ListQuery)query, this);
         } else {
+            if (getTemplateName() == null) {
+                templateName = getAPI().getDefaultItemTemplate();
+            }
             return getDataSource().query((ItemQuery)query, this);
         }
     }
