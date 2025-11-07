@@ -170,6 +170,7 @@ public class Call {
             return getResults(query);
         } catch (QueryExceptionHTTP e) {
             // Retry before reporting error
+            log.warn("Sparql query failed, retrying");
             try {
                 Thread.sleep(3000);  // TODO make configurable
             } catch (InterruptedException ex) { }
