@@ -46,6 +46,9 @@ public class TestBaseEndToEnd extends TomcatTestBase {
         return "src/test/testCases/baseEndToEndTest";
     }
 
+    @Override
+    public String getTestURL() { return BASE_URL + "basetest/list"; }
+
     @Test
     public void testEndToEnd() throws IOException {
         checkGet("basetest/list?_limit=2&_sort=label", EXPECTED + "list-limit2.json");

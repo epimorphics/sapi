@@ -162,41 +162,59 @@ public class Call {
      * runs it on the configured data source. Suitable for simple
      * cases where no custom processing of request or query is needed.
      */
-    public ResultOrStream getResults() {
+    public ResultOrStream getResults() throws WebApiException {
         Query query = finalizeQueryBuilder().build();
         log.info("Query [" +  MDC.get("transaction_id") + "] " + query);
         checkRequestRecognized();
         try {
             return getResults(query);
         } catch (QueryExceptionHTTP e) {
-            // Retry before reporting error
-            log.warn("Sparql query failed, retrying");
-            try {
-                Thread.sleep(3000);  // TODO make configurable
-            } catch (InterruptedException ex) { }
-            try {
-                return getResults(query);
-            } catch (QueryExceptionHTTP er) {
-                if (er.getResponseCode() == 503) {
-                    throw new WebApiException(er.getResponseCode(), "Query timed out");
-                } else {
-                    log.error("Query failed [{}] Unexpected response: {}", MDC.get("transaction_id"), er.getMessage());
-                    throw new WebApiException(Status.INTERNAL_SERVER_ERROR, er.getMessage());
+            // Retry before reporting error?
+            if (e.getResponseCode() >= 500) {
+                log.warn("Sparql query execution failed, retrying");
+                try {
+                    Thread.sleep(3000);  // TODO make configurable
+                } catch (InterruptedException ex) {
                 }
-            } catch (Exception eo) {
-                log.error("Query failed [{}] : {}", MDC.get("transaction_id"), eo.getMessage());
-                throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Problem with query processing: " + eo);
+                try {
+                    return getResults(query);
+                } catch (Exception er) {
+                    returnError(er);
+                }
             }
-        } catch (ResultSetException e2) {
-            throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Bad response from data server, probably query timeout in mid flight");
-        } catch (Exception e3) {
-            if ( !(e3 instanceof WebApplicationException) ) {
-                log.error("Query failed [{}] : {}", MDC.get("transaction_id"), e3.getMessage());
-                throw new WebApiException(Status.INTERNAL_SERVER_ERROR, "Problem with query processing: " + e3);
-            } else {
-                throw e3;
-            }
+            returnError(e);
+        }  catch (Exception e2) {
+            returnError(e2);
         }
+        return null;
+    }
+
+    public void returnError(Exception e) throws WebApiException, WebApplicationException {
+        if (e instanceof QueryExceptionHTTP) {
+            // Maybe a bad query, a timeout, or dead fuseki
+            int status = ((QueryExceptionHTTP)e).getResponseCode();
+            if (status == 503) {
+                // Fuseki returns 503 when queries time out
+                returnError(status, "Query timed out");
+            }
+            returnError(status, e.getMessage());
+        } else if (e instanceof ResultSetException) {
+            returnError(504, "Bad response from data server, probably query timeout in mid flight");
+        } else if (e instanceof WebApplicationException) {
+            // 404 etc handled directly in jax and doesn't need separate logging
+            throw (WebApplicationException) e;
+        } else {
+            returnError(500, e.getMessage());
+        }
+    }
+
+    public void returnError(int status, String message) throws WebApiException {
+        if (status >= 500) {
+            log.error("Query failed [{}]: {}", MDC.get("transaction_id"), message);
+        } else {
+            log.warn("Query failed [{}]: {}", MDC.get("transaction_id"), message);
+        }
+        throw new WebApiException(status, message);
     }
     
     /**

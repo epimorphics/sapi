@@ -36,6 +36,7 @@ mvn clean deploy
 
 ## Changelog
 
+`2.3.13` - improve return status codes, only retry on 50X errors
 `2.3.12` - find missing logging for query retry
 `2.3.11` - add query retry (3s, not yet configurable)
 `2.3.10` - fix missing transaction id in requests
