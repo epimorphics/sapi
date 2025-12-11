@@ -36,6 +36,7 @@ mvn clean deploy
 
 ## Changelog
 
+`2.3.14` - allow use of CONSTRUCT in item queries
 `2.3.13` - improve return status codes, only retry on 50X errors
 `2.3.12` - find missing logging for query retry
 `2.3.11` - add query retry (3s, not yet configurable)

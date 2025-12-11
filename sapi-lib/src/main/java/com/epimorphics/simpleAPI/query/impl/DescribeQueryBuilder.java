@@ -51,7 +51,12 @@ public class DescribeQueryBuilder implements QueryBuilder {
         for (Map.Entry<String, String> e: es) {
             s.setPrefix(e.getKey(), e.getValue());
         }
-    	String queryString = query.toSparqlDescribe(s);
+    	String queryString = null;
+        try {
+            queryString = query.toSparqlDescribe(s);
+        } catch (IllegalArgumentException e) {
+            queryString = query.toSparqlConstruct(s);
+        }
         return new SparqlDescribeQuery
         	( prefixes == null 
         	? queryString 
