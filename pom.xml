@@ -3,7 +3,7 @@
   <groupId>com.epimorphics</groupId>
   <artifactId>sapi</artifactId>
   <packaging>pom</packaging>
-  <version>2.3.15-SNAPSHOT</version>
+  <version>2.3.16-SNAPSHOT</version>
   <name>sapi</name>
   <description>Simple API</description>
   
