@@ -3,7 +3,7 @@
   <groupId>com.epimorphics</groupId>
   <artifactId>sapi</artifactId>
   <packaging>pom</packaging>
-  <version>2.3.14</version>
+  <version>2.3.15-SNAPSHOT</version>
   <name>sapi</name>
   <description>Simple API</description>
   
@@ -14,7 +14,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <appbase.version>3.1.12</appbase.version>
+      <appbase.version>3.1.14</appbase.version>
       <jersey.version>2.25.1</jersey.version>
   </properties>
 
@@ -47,7 +47,7 @@
       </snapshots>
       <id>epi-public-repo</id>
       <name>Epimorphics Public Repository</name>
-      <url>http://repository.epimorphics.com</url>
+      <url>https://repository.epimorphics.com</url>
     </repository>
  
     <repository>  
@@ -143,7 +143,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.14.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -153,7 +153,7 @@
      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
-        <version>1.9.5</version>
+        <version>2.2.1</version>
         <configuration>
           <connectionType>developerConnection</connectionType>
         </configuration>
@@ -162,13 +162,13 @@
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-war-plugin</artifactId>
-            <version>3.3.1</version>
+            <version>3.4.0</version>
         </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
+        <version>3.1.1</version>
       </plugin>
     </plugins>
 
@@ -176,7 +176,7 @@
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ftp</artifactId>
-        <version>2.6</version>
+        <version>3.5.3</version>
       </extension>
       
       <extension>
