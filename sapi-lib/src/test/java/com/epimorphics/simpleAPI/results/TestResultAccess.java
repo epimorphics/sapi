@@ -13,13 +13,13 @@ import static com.epimorphics.simpleAPI.util.TreeTestUtil.lit;
 import static com.epimorphics.simpleAPI.util.TreeTestUtil.res;
 import static com.epimorphics.simpleAPI.util.TreeTestUtil.set;
 import static com.epimorphics.simpleAPI.util.TreeTestUtil.tree;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collection;
 import java.util.Set;
 
 import org.apache.jena.rdf.model.RDFNode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.epimorphics.simpleAPI.views.ViewPath;
 

@@ -14,8 +14,9 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <appbase.version>3.1.14</appbase.version>
-      <jersey.version>2.25.1</jersey.version>
+      <appbase.version>4.0.0</appbase.version>
+      <jersey.version>3.1.11</jersey.version>
+    <tomcat.version>11.0.12</tomcat.version>
   </properties>
 
   <repositories>
@@ -79,10 +80,9 @@
   <dependencies>
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.1</version>
-      <type>jar</type>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.13.2</version>
       <scope>test</scope>
     </dependency>
 
@@ -105,7 +105,17 @@
         <version>${jersey.version}</version>
     </dependency>
 
-    
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.activation</groupId>
+      <artifactId>jakarta.activation-api</artifactId>
+      <version>2.1.4</version>
+    </dependency>
   </dependencies>
 
   <modules>
@@ -145,6 +155,17 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <version>3.1.1</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.4</version>
+        <configuration>
+          <properties>
+            <excludeTags>slow</excludeTags>
+          </properties>
+        </configuration>
       </plugin>
     </plugins>
 

@@ -9,7 +9,7 @@
 
 package com.epimorphics.simpleAPI.requests;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,8 +19,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import org.apache.jena.rdf.model.Literal;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
@@ -35,7 +35,7 @@ public class TestRequestBasics {
     API api;
     DataSource source;
     
-    @Before
+    @BeforeEach
     public void setUP() throws IOException {
         app = new App("test", new File("src/test/testCases/baseRequestTest/app.conf"));
         api = app.getA(API.class);

@@ -9,10 +9,10 @@
 
 package com.epimorphics.simpleAPI.results;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,8 +28,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.util.FileManager;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
@@ -59,8 +59,9 @@ public class TestResultBasics {
     API api;
     DataSource source;
     
-    @Before
-    public void setUP() throws IOException {
+    @BeforeEach
+    public void setUp() throws IOException {
+        System.out.println("Starting test setup");
         app = new App("test", new File("src/test/testCases/baseResultTest/app.conf"));
         api = app.getA(API.class);
 //        app.startup();

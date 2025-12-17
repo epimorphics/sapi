@@ -9,7 +9,7 @@
 
 package com.epimorphics.simpleAPI.requests;
 
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response.Status;
 
 import com.epimorphics.appbase.webapi.WebApiException;
 import com.epimorphics.simpleAPI.endpoints.EndpointSpec;

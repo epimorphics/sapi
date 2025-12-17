@@ -9,9 +9,9 @@
 
 package com.epimorphics.simpleAPI.requests;
 
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.apache.jena.atlas.json.JSON;
 import org.apache.jena.atlas.json.JsonObject;
@@ -29,7 +29,7 @@ public class TestRequestChecker {
     protected RequestCheck checks = new RequestCheck();
     protected API api = new API();
     
-    @Before
+    @BeforeEach
     public void setUp() {
         api.setBaseURI("http://localhost/");
         checks.addParameterCheck( new ParameterCheck("foo", true) );

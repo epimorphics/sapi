@@ -11,9 +11,9 @@ package com.epimorphics.simpleAPI.webapi;
 
 import java.util.Date;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 public class NotModifiedException extends WebApplicationException {
     private static final long serialVersionUID = 6895043905741087825L;

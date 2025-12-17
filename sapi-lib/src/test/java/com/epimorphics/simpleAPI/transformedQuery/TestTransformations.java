@@ -7,14 +7,14 @@
 package com.epimorphics.simpleAPI.transformedQuery;
 
 import static com.epimorphics.util.Asserts.assertContains;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.jena.shared.PrefixMapping;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
@@ -31,7 +31,8 @@ public class TestTransformations {
 	App app;
 	API api;
 	    
-	@Before	public void setUP() throws IOException {
+	@BeforeEach
+	public void setUP() throws IOException {
 		app = new App("test", new File("src/test/testCases/testTransforms/WEB-INF/app.conf"));
 	    api = app.getA(API.class);
 	    app.startup();

@@ -9,7 +9,7 @@
 
 package com.epimorphics.simpleAPI.query.impl;
 
-import javax.ws.rs.NotFoundException;
+import jakarta.ws.rs.NotFoundException;
 
 import org.apache.jena.graph.Graph;
 import org.apache.jena.rdf.model.Model;
