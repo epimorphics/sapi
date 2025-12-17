@@ -1,0 +1,9 @@
+name: Build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: epimorphics/github-actions/maven-build@v17
+        with:
+          java-version: '21'
