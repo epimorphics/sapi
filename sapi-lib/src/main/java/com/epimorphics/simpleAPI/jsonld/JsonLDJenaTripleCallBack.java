@@ -68,7 +68,7 @@ public class JsonLDJenaTripleCallBack implements JsonLdTripleCallback {
                     Node s = createNode(t, "subject") ;
                     Node p = createNode(t, "predicate") ;
                     Node o = createNode(t, "object") ;
-                    model.getGraph().add( new Triple(s,p,o) );
+                    model.getGraph().add( Triple.create(s,p,o) );
                 }
             } 
         }

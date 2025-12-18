@@ -5,15 +5,17 @@
   <name>sapi-lib</name>
   <description>Simple API library</description>
 
-  <properties>
-    <tomcat.version>9.0.113</tomcat.version>
-  </properties>
+  <parent>
+    <groupId>com.epimorphics</groupId>
+    <artifactId>sapi</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
+  </parent>
 
   <dependencies>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>3.1.0</version>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
       <scope>provided</scope>
     </dependency>
 
@@ -30,12 +32,31 @@
       <scope>provided</scope>
     </dependency>
 
-  </dependencies>
+    <dependency>
+      <groupId>com.github.jsonld-java</groupId>
+      <artifactId>jsonld-java</artifactId>
+      <version>0.13.6</version>
+    </dependency>
 
-  <parent>
-    <groupId>com.epimorphics</groupId>
-    <artifactId>sapi</artifactId>
-    <version>2.3.16-SNAPSHOT</version>
-  </parent>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.19.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.5.21</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.17</version>
+    </dependency>
+
+  </dependencies>
 
 </project>

@@ -20,18 +20,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Cookie;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.appbase.data.impl.DatasetSparqlSource;
@@ -48,7 +48,7 @@ public class TestContainers {
     Container dsContainer;
     Container eltContainer;
 
-    @Before
+    @BeforeEach
     public void setUP() throws IOException {
         app = new App("test", new File("src/test/testCases/containerTests/app.conf"));
         api = app.getA(API.class);

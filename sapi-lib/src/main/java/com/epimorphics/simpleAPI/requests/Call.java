@@ -27,9 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response.Status;
 import java.util.List;
 import java.util.function.Function;
 
@@ -170,7 +170,7 @@ public class Call {
             return getResults(query);
         } catch (QueryExceptionHTTP e) {
             // Retry before reporting error?
-            if (e.getResponseCode() >= 500) {
+            if (e.getStatusCode() >= 500) {
                 log.warn("Sparql query execution failed, retrying");
                 try {
                     Thread.sleep(3000);  // TODO make configurable
@@ -192,7 +192,7 @@ public class Call {
     public void returnError(Exception e) throws WebApiException, WebApplicationException {
         if (e instanceof QueryExceptionHTTP) {
             // Maybe a bad query, a timeout, or dead fuseki
-            int status = ((QueryExceptionHTTP)e).getResponseCode();
+            int status = ((QueryExceptionHTTP)e).getStatusCode();
             if (status == 503) {
                 // Fuseki returns 503 when queries time out
                 returnError(status, "Query timed out");

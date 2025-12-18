@@ -10,16 +10,17 @@
 package com.epimorphics.simpleAPI.query;
 
 import static com.epimorphics.util.Asserts.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.shared.PrefixMapping;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.epimorphics.appbase.core.App;
 import com.epimorphics.simpleAPI.core.API;
@@ -36,7 +37,7 @@ public class TestQueryStrings {
     App app;
     API api;
     
-    @Before
+    @BeforeEach
     public void setUP() throws IOException {
         app = new App("test", new File("src/test/testCases/testQueries/WEB-INF/app.conf"));
         api = app.getA(API.class);
