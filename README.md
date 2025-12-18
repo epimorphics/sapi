@@ -4,11 +4,11 @@ This sapi library has (mostly) been superseded by sapi-nt.
 
 There are two versions of it which remain in use in legacy services - sapi 2.x and sapi 3.x.
 
-### sapi 2.x
+### sapi 2.x/4.x
 
 This version is used in fsa-cat-api and standard-reports-manager.
 
-This is managed on the `main` branch (this branch).
+This is managed on the `main` branch (this branch). The 2.x release is also maintained on the `maintenance/2.x` branch.
 
 ### sapi 3.x
 
@@ -36,6 +36,8 @@ mvn clean deploy
 
 ## Changelog
 
+`4.0.0`  - major new release of sapi from the 2.x line. Addresses multiple CVEs and moves to Java 21 and Jena 5
+`2.3.15` - minor update of dependencies to address CVEs
 `2.3.14` - allow use of CONSTRUCT in item queries
 `2.3.13` - improve return status codes, only retry on 50X errors
 `2.3.12` - find missing logging for query retry
