@@ -74,10 +74,17 @@ public class FilterRequestProcessor implements RequestProcessor {
     
     private static RDFNode asValue(String value, String type, String valueBase) {
         if (valueBase != null && ! NameUtils.isURI(value)) {
-            value = NameUtils.ensureLastSlash(valueBase) + value;
+            value = NameUtils.ensureLastSlash(valueBase) + sanitiseURI(value);
         }
         // TODO have a configurable default language, currently this will default to "@en"
         return TypeUtil.asTypedValue(value, type);
+    }
+
+    // Remove characters in URI stub that Jena fails to escape in Sparql serialisation
+    private static String sanitiseURI(String value) {
+        return value.replace("<", "%36")
+                .replace(">", "%3E")
+                .replace("'", "%27");
     }
     
 }
