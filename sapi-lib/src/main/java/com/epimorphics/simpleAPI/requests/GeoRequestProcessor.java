@@ -21,11 +21,11 @@ import com.epimorphics.sparql.terms.Var;
 /**
  * Handles requests of the form:
  * <pre>
- *   ?lat={x} &long={y} &dist={d}
+ *   "?lat={x} &long={y} &dist={d}"
  * </pre>
  * or
  * <pre>
- *   ?easting={x} &northing={y} &dist={d}
+ *   "?easting={x} &northing={y} &dist={d}"
  * </pre>
   */
 // TODO add support for configuration per-endpoint - id, box/circle, distance
