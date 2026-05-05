@@ -16,7 +16,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <appbase.version>4.0.1</appbase.version>
       <jersey.version>3.1.11</jersey.version>
-    <tomcat.version>11.0.20</tomcat.version>
+    <tomcat.version>11.0.21</tomcat.version>
   </properties>
 
   <repositories>
