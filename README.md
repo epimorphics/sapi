@@ -36,6 +36,7 @@ mvn clean deploy
 
 ## Changelog
 
+`4.0.3`  - minor dependency updates
 `4.0.2`  - minor dependency updates
 `4.0.1`  - minor patches to dependencies to remove CVEs
 `4.0.0`  - major new release of sapi from the 2.x line. Addresses multiple CVEs and moves to Java 21 and Jena 5
