@@ -49,6 +49,10 @@
                 <artifactId>commons-io</artifactId>
                 <groupId>commons-io</groupId>
             </exclusion>
+          <exclusion>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+          </exclusion>
         </exclusions>
     </dependency>
 
@@ -61,7 +65,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.5.21</version>
+      <version>1.5.25</version>
       <scope>test</scope>
     </dependency>
 
