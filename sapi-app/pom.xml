@@ -8,14 +8,14 @@
   <parent>
     <groupId>com.epimorphics</groupId>
     <artifactId>sapi</artifactId>
-    <version>4.0.3-SNAPSHOT</version>
+    <version>4.0.3</version>
   </parent>
 
   <dependencies>
     <dependency>
     	<groupId>com.epimorphics</groupId>
       <artifactId>sapi-lib</artifactId>
-      <version>4.0.3-SNAPSHOT</version>
+      <version>4.0.3</version>
     </dependency>
 
     <dependency>
