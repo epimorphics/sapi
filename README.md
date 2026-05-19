@@ -36,17 +36,30 @@ mvn clean deploy
 
 ## Changelog
 
+Changes since 4.0.3 now recorded in [CHANGELOG.md](CHANGELOG.md).
+
 `4.0.3`  - minor dependency updates
+
 `4.0.2`  - minor dependency updates
+
 `4.0.1`  - minor patches to dependencies to remove CVEs
+
 `4.0.0`  - major new release of sapi from the 2.x line. Addresses multiple CVEs and moves to Java 21 and Jena 5
+
 `2.3.15` - minor update of dependencies to address CVEs
+
 `2.3.14` - allow use of CONSTRUCT in item queries
+
 `2.3.13` - improve return status codes, only retry on 50X errors
+
 `2.3.12` - find missing logging for query retry
+
 `2.3.11` - add query retry (3s, not yet configurable)
+
 `2.3.10` - fix missing transaction id in requests
+
 `2.3.9` - improve logging of error responses, bump appbase for improved RunShell logging
+
 `2.3.8` - added query logging and MDC.transaction_id
 
 `2.3.7` - improve logging (log query, MDC.returned_rows)
