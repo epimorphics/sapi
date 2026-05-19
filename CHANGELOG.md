@@ -12,4 +12,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 * Update appbase (4.0.4), appbase-security (5.0.2) and armlib (1.0.4) stack to fix transitive vulns
-
+* Update tomcat to 11.0.22 for vulns
