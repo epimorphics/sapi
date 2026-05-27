@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [4.0.5] - 2026-05-27
+
+* bump appbase version in order to pass incoming x-request-id header to remote sparql source
+
 ## [4.0.4] - 2026-05-19
 
 ### Security
