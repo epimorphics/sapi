@@ -335,6 +335,7 @@ public class Request {
      * Construct a request object from the URI, query and path parameters in a jersey call
      */
     public static Request from(API api, UriInfo uriInfo, HttpServletRequest servletRequest) {
+        // Do not decode URI path - we must ensure describe queries match the requested resource exactly to prevent syntax errors.
         String requestedURI = api.getBaseURI() + uriInfo.getPath(false);
         Request request = new Request(requestedURI, uriInfo.getQueryParameters());
         request.addAll(uriInfo.getPathParameters());
