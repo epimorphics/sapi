@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-## [4.0.6] - 2026-06-09
+## [4.0.7] - 2026-07-20
+
+* bump logback-core for vulnerabilities
+
+## [4.0.6] - 2026-07-09
 
 * bump dependencies for transitive CVEs, appbase -> 4.0.6, tomcat -> 11.0.24
 
