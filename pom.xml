@@ -14,9 +14,9 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <appbase.version>4.0.9</appbase.version>
+      <appbase.version>4.0.11</appbase.version>
       <jersey.version>3.1.11</jersey.version>
-    <tomcat.version>11.0.25</tomcat.version>
+    <tomcat.version>11.0.27</tomcat.version>
   </properties>
 
   <repositories>
@@ -103,6 +103,17 @@
         <groupId>org.glassfish.jersey.media</groupId>
         <artifactId>jersey-media-json-processing</artifactId>
         <version>${jersey.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.eclipse.parsson</groupId>
+          <artifactId>parsson</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.parsson</groupId>
+      <artifactId>parsson</artifactId>
+      <version>1.1.9</version>
     </dependency>
 
     <dependency>
