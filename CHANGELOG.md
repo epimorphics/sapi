@@ -7,13 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [4.0.11] - 2026-11-05
+
 * Update appbase to 4.0.11 to address transitive vulnerabilities
 * Update tomcat to 11.0.27 to address CVEs
 * Update logback-core to 1.6.6 to address CVEs
 * Override transitive dependency on org.eclipse.parsson:parsson to address CVEs
 * Add jackson-core and jackson-databind dependencies that are no longer provided by appbase.
 
-# [4.0.10] - 2026-09-21
+## [4.0.10] - 2026-09-21
 
 * Bump appbase to 4.0.9 to address transitive vulnerabilities
 
